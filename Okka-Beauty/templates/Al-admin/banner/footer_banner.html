@@ -58,14 +58,14 @@
                         <li class="collapsed-nav-item-title d-none">Banner Management
                         </li>
                         {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
-                        <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <li class="nav-item"><a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
                           <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
                           </div>
                         </a>
                         <!-- more inner pages-->
                       </li>  
                       {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
-                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <li class="nav-item"><a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
                         </div>
                       </a>
@@ -595,6 +595,10 @@
               </ul>
             </div>
           </nav>
+
+
+
+
           <div class="content">
             <div id="popup-message">
               <span class="icon">✔</span> <!-- Green success icon -->
@@ -607,7 +611,7 @@
                     <h2 class="mb-0">Footer Banner</h2>
                   </div>
                 </div>
-                <div id="products" data-list='{"valueNames":["banner","banner_url","Slot_Position", "Active"],"page":10,"pagination":true}'>
+                <div id="products" data-list='{"valueNames":["banner","url","slot_position", "Active"],"page":10,"pagination":true}'>
                   <div class="mb-4">
                     <div class="row g-3">
                       <div class="col-auto">
@@ -630,92 +634,58 @@
                   </div>
                   <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                   <div class="row g-6 mt-3">
-                    {% if request.user.is_authenticated %} {% if perms.banners.add_mainbanner %} <div class="col-12 col-xl-6">
-                      <!-- {% if form.errors %}
-                                            <ul class="text-danger list-unstyled">
-                                                {% for field, errors in form.errors.items %}
-                                                    {% for error in errors %}
-                                                        <li>{{ field }}: {{ error }}</li>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                            </ul>
-                                        {% endif %} -->
-                      <form method="post" id="footerbanner-form" action="{% url 'footerbanner' %}" enctype="multipart/form-data"> {% csrf_token %} {{ form.non_field_errors }}
+                    {% if request.user.is_authenticated %} {% if perms.banners.add_mainbanner  %} <div class="col-12 col-xl-6">
+                      <form method="post" id="footerbanner-form" action="{% url 'footerbanner' %}" enctype="multipart/form-data"> {% csrf_token %} 
+                        <!-- <div class="mb-6">
+                          <h4 class="mb-3">Url</h4>
+                          <input class="form-control mb-5" name="url" type="text" placeholder="Write Name here..." />
+                        </div> -->
                         <div class="mb-6">
                           <h4 class="mb-3">Banner image</h4>
-                          <input class="form-control" type="file" id="img" name="banner" accept="image/*"> {% for error in form.banner.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                          <input class="form-control" type="file" id="img" name="banner_image" accept="image/*">
                         </div>
                         <div class="mb-6">
-                          <h4 class="mb-3">Banner head</h4>
-                          <input class="form-control" name="banner_head" type="text" placeholder="Write Name here..." /> {% for error in form.banner_head.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                        </div>
-                        <div class="mb-6">
-                          <h4 class="mb-3">Banner content</h4>
-                          <input class="form-control mb-5" name="banner_para" type="text" placeholder="Write Name here..." /> {% for error in form.banner_para.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                        </div>
-                        <div class="mb-6">
-                          <h4 class="mb-3">Categories</h4>
-                          <select class="form-select mb-3" id="categorySelect" name="categories" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
-                            <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.id}}">{{Categorys.name}}</option> {% endfor %}
-                          </select> {% for error in form.categories.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                          <h4 class="mb-3">Alt text</h4>
+                          <input class="form-control mb-5" name="alt_text" type="text" placeholder="Write Name here..." />
                         </div>
                         <div class="mb-6">
                           <h4 class="mb-3">Slot Position</h4>
-                          <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" /> {% for error in form.Slot_Position.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                          <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="0" />
                         </div>
                         <div class="form-check mb-6">
                           <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label>
-                          <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" />
+                          <input class="form-check-input" id="Activestatus" name="active" type="checkbox" />
                         </div>
                         <div class="mb-6">
-                          <button class="btn btn-primary text-sm-start" id="add_offerbanner" type="submit">Save</button>
+                          <button class="btn btn-primary text-sm-start" id="add-buyprmo" type="submit">Save</button>
                           <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
                         </div>
                       </form>
-                    </div> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_mainbanner %} <div class="col-12 col-xl-6">
-                      <!-- {% if form.errors %}
-                                            <ul class="text-danger list-unstyled">
-                                                {% for field, errors in form.errors.items %}
-                                                    {% for error in errors %}
-                                                        <li>{{ field }}: {{ error }}</li>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                            </ul>
-                                        {% endif %} -->
-                      <form method="post" id="footerbanner-form" action="{% url 'footerbanner' %}" enctype="multipart/form-data"> {% csrf_token %} {{ form.non_field_errors }}
+                    </div> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_mainbanner  %} <div class="col-12 col-xl-6">
+                      <form method="post" id="footerbanner-form" action="{% url 'footerbanner' %}" enctype="multipart/form-data"> {% csrf_token %} 
+                        <!-- <div class="mb-6">
+                          <h4 class="mb-3">Url</h4>
+                          <input class="form-control mb-5" name="url" type="text" placeholder="Write Name here..." />
+                        </div> -->
                         <div class="mb-6">
                           <h4 class="mb-3">Banner image</h4>
-                          <input class="form-control" type="file" id="img" name="banner" accept="image/*"> {% for error in form.banner.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                        </div>
-                        <div class="mb-6">
-                          <h4 class="mb-3">Banner head</h4>
-                          <input class="form-control" name="banner_head" type="text" placeholder="Write Name here..." /> {% for error in form.banner_head.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                        </div>
-                        <div class="mb-6">
-                          <h4 class="mb-3">Banner content</h4>
-                          <input class="form-control mb-5" name="banner_para" type="text" placeholder="Write Name here..." /> {% for error in form.banner_para.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                        </div>
-                        <div class="mb-6">
-                          <h4 class="mb-3">Categories</h4>
-                          <select class="form-select mb-3" id="categorySelect" name="categories" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
-                            <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.id}}">{{Categorys.name}}</option> {% endfor %}
-                          </select> {% for error in form.categories.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                          <input class="form-control" type="file" id="img" name="banner" accept="image/*">
                         </div>
                         <div class="mb-6">
                           <h4 class="mb-3">Slot Position</h4>
-                          <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" /> {% for error in form.Slot_Position.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                          <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="0" />
                         </div>
                         <div class="form-check mb-6">
                           <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label>
-                          <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" />
+                          <input class="form-check-input" id="Activestatus" name="active" type="checkbox" />
                         </div>
                         <div class="mb-6">
-                          <button class="btn btn-primary text-sm-start" id="add_offerbanner" type="submit">Save</button>
+                          <button class="btn btn-primary text-sm-start" id="add-buyprmo" type="submit">Save</button>
                           <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
                         </div>
                       </form>
                     </div> {% endif %} {% endfor %} {% endif %} {% endif %}
-                    {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <div class="col-12 col-xl-6">
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %} <div class="col-12 col-xl-6">
                       <div class="table-responsive scrollbar mx-n1 px-1">
                         <table class="table fs--1 mb-0">
                           <thead>
@@ -727,10 +697,8 @@
                               </th>
                               <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;">Image</th>
                               <!-- <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="Main category">Main category</th> -->
-                              <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Offer Title">Banner Head</th>
-                              <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Offer discount">Banner Content</th>
-                              <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Offer discount">Category</th>
-                              <th class="sort align-middle text-middle ps-4" scope="col" data-sort="Slot_Position" style="width:150px;">Slot_Position</th>
+                              <!-- <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Url">Url</th> -->
+                              <th class="sort align-middle text-middle ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th>
                               <th class="sort align-middle text-middle ps-4" scope="col" data-sort="Status" style="width:150px;">Status</th>
                               <th class="sort align-middle text-middle ps-4" scope="col" data-sort="Action" style="width:150px;">Action</th>
                             </tr>
@@ -743,17 +711,17 @@
                               </td>
                               <td class="align-middle white-space-nowrap py-0">
                                 <div class="">
-                                  <img src="{{ MEDIA_PREFIX }}{{banners.banner}}" alt="{{banners.banner.name}}" width="50px" />
+                                  <img src="{{ MEDIA_PREFIX }}{{ banners.banner_image}}" alt="{{banners.url}}" width="50px" />
                                 </div>
                               </td>
-                              <!-- <td class="product align-middle ps-4"><a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.categories}}</a></td> -->
-                              <td class="brand align-middle ps-4">{{banners.banner_head}}</td>
-                              <td class="brand align-middle ps-4">{{banners.banner_para}}</td>
-                              <td class="brand align-middle ps-4">{{banners.categories}}</td>
-                              <td class="brand align-middle ps-4">{{banners.Slot_Position}}</td>
-                              <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{% if banners.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td>
+                              <!-- <td class="product align-middle ps-4"><a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.main_Category}}</a></td> -->
+                              <!-- <td class="brand align-middle ps-4">
+                                <a class="fw-semi-bold line-clamp-3 mb-0" href="{{banners.url}}">{{banners.url}}</a>
+                              </td> -->
+                              <td class="brand align-middle ps-4">{{banners.slot_position}}</td>
+                              <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{% if banners.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td>
                               <td class="align-middle white-space-nowrap py-0">
-                                {% if request.user.is_authenticated %} {% if perms.banners.add_mainbanner %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_omainbanner %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.banners.delete_mainbanner %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_mainbanner %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                                {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.banners.delete_mainbanner  %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_mainbanner  %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                 <div class="modal fade" id="verticallyCentered{{banners.id}}" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" style="display: none;" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -767,34 +735,28 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        <form method="post" id="update_footerbanner-form" action="{% url 'footerbanner' banner_id=banners.id %}" enctype="multipart/form-data"> {% csrf_token %} {{ form.non_field_errors }}
+                                        <form method="post" id="footerbanner-form" action="{% url 'footerbanner' banner_id=banners.id %}" enctype="multipart/form-data"> {% csrf_token %}
+                                           <!-- <div class="mb-6">
+                                            <h4 class="mb-3">Url</h4>
+                                            <input class="form-control mb-5" name="url" type="text" placeholder="Write Name here..." value="{{banners.url}}" />
+                                          </div> -->
                                           <div class="mb-6">
-                                            <h4 class="mb-3">Banner image</h4> {% if banners.banner %} <img src="{{ MEDIA_URL }}{{ banners.banner.url}}" alt="Banner Image" width="50px" />
-                                            <p>Current image: {{ banners.banner.name }}</p> {% endif %} <input class="form-control" type="file" id="img" name="banner" accept="image/*" value="{{banners.banner}}"> {% for error in form.banner.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                                            <h4 class="mb-3">Banner image</h4> {% if banners.banner_image %} <img src="{{ MEDIA_URL }}{{ banners.banner_image.url}}" alt="Banner Image" width="50px" />
+                                            <p>Current image: {{ banners.banner_image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="banner" accept="image/*" value="{{banners.banner_image.name}}">
                                           </div>
                                           <div class="mb-6">
-                                            <h4 class="mb-3">Banner head</h4>
-                                            <input class="form-control" name="banner_head" type="text" placeholder="Write Name here..." value="{{banners.banner_head}}" /> {% for error in form.banner_head.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                                          </div>
-                                          <div class="mb-6">
-                                            <h4 class="mb-3">Banner content</h4>
-                                            <input class="form-control" name="banner_para" type="text" placeholder="Write Name here..." value="{{banners.banner_para}}" /> {% for error in form.banner_para.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                                          </div>
-                                          <div class="mb-6">
-                                            <h4 class="mb-3">Categories</h4>
-                                            <select class="form-select mb-3" id="categorySelect" name="categories" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
-                                              <option value="" {% if not banners.categories %}selected{% endif %} disabled>select category</option> {% for category in Categorys %} <option value="{{ category.id }}" {% if banners.categories and banners.categories.id == category.id %}selected{% endif %}>{{ category.name }}</option> {% endfor %}
-                                            </select> {% for error in form.categories.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                                            <h4 class="mb-3">Alt text</h4>
+                                            <input class="form-control mb-5" name="alt_text" type="text" placeholder="Write Name here..." value="{{banners.alt_text}}" />
                                           </div>
                                           <div class="mb-6">
                                             <h4 class="mb-3">Slot Position</h4>
-                                            <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{banners.Slot_Position}}" /> {% for error in form.Slot_Position.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                                            <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="{{banners.slot_position}}" />
                                           </div>
                                           <div class="form-check mb-6">
-                                            <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label> {% if banners.Active == True %} <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" /> {% endif %}
+                                            <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label> {% if banners.active == True %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" /> {% endif %}
                                           </div>
                                           <div class="mb-6">
-                                            {% if request.user.is_authenticated %} {% if perms.banners.change_mainbanner %} <button class="btn btn-primary text-sm-start" id="add_offerbanner" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_mainbanner %} <button class="btn btn-primary text-sm-start" id="add_offerbanner" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                                            {% if request.user.is_authenticated %} {% if perms.banners.change_mainbanner  %} <button class="btn btn-primary text-sm-start" id="add-buyprmo" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_mainbanner  %} <button class="btn btn-primary text-sm-start" id="add-buyprmo" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                             <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
                                           </div>
                                         </form>
@@ -827,7 +789,7 @@
                           </button>
                         </div>
                       </div>
-                    </div> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <div class="col-12 col-xl-6">
+                    </div> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %} <div class="col-12 col-xl-6">
                       <div class="table-responsive scrollbar mx-n1 px-1">
                         <table class="table fs--1 mb-0">
                           <thead>
@@ -839,10 +801,8 @@
                               </th>
                               <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;">Image</th>
                               <!-- <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="Main category">Main category</th> -->
-                              <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Offer Title">Banner Head</th>
-                              <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Offer discount">Banner Content</th>
-                              <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Offer discount">Category</th>
-                              <th class="sort align-middle text-middle ps-4" scope="col" data-sort="Slot_Position" style="width:150px;">Slot_Position</th>
+                              <!-- <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="Url">Url</th> -->
+                              <th class="sort align-middle text-middle ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th>
                               <th class="sort align-middle text-middle ps-4" scope="col" data-sort="Status" style="width:150px;">Status</th>
                               <th class="sort align-middle text-middle ps-4" scope="col" data-sort="Action" style="width:150px;">Action</th>
                             </tr>
@@ -855,17 +815,17 @@
                               </td>
                               <td class="align-middle white-space-nowrap py-0">
                                 <div class="">
-                                  <img src="{{ MEDIA_PREFIX }}{{banners.banner}}" alt="{{banners.banner.name}}" width="50px" />
+                                  <img src="{{ MEDIA_PREFIX }}{{ banners.banner_image}}" alt="{{banners.url}}" width="50px" />
                                 </div>
                               </td>
-                              <!-- <td class="product align-middle ps-4"><a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.categories}}</a></td> -->
-                              <td class="brand align-middle ps-4">{{banners.banner_head}}</td>
-                              <td class="brand align-middle ps-4">{{banners.banner_para}}</td>
-                              <td class="brand align-middle ps-4">{{banners.categories}}</td>
-                              <td class="brand align-middle ps-4">{{banners.Slot_Position}}</td>
-                              <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{% if banners.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td>
+                              <!-- <td class="product align-middle ps-4"><a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.main_Category}}</a></td> -->
+                              <!-- <td class="brand align-middle ps-4">
+                                <a class="fw-semi-bold line-clamp-3 mb-0" href="{{banners.url}}">{{banners.url}}</a>
+                              </td> -->
+                              <td class="brand align-middle ps-4">{{banners.slot_position}}</td>
+                              <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{% if banners.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td>
                               <td class="align-middle white-space-nowrap py-0">
-                                {% if request.user.is_authenticated %} {% if perms.banners.add_mainbanner %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_omainbanner %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.banners.delete_mainbanner %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_mainbanner %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                                {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{banners.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.banners.delete_mainbanner  %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_mainbanner  %} <button class="btn btn-danger delete-banner" data-banner-id="{{ banners.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                 <div class="modal fade" id="verticallyCentered{{banners.id}}" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" style="display: none;" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -879,34 +839,28 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        <form method="post" id="update_footerbanner-form" action="{% url 'footerbanner' banner_id=banners.id %}" enctype="multipart/form-data"> {% csrf_token %} {{ form.non_field_errors }}
+                                        <form method="post" id="footerbanner-form" action="{% url 'footerbanner' banner_id=banners.id %}" enctype="multipart/form-data"> {% csrf_token %}
+                                           <!-- <div class="mb-6">
+                                            <h4 class="mb-3">Url</h4>
+                                            <input class="form-control mb-5" name="url" type="text" placeholder="Write Name here..." value="{{banners.url}}" />
+                                          </div> -->
                                           <div class="mb-6">
-                                            <h4 class="mb-3">Banner image</h4> {% if banners.banner %} <img src="{{ MEDIA_URL }}{{ banners.banner.url}}" alt="Banner Image" width="50px" />
-                                            <p>Current image: {{ banners.banner.name }}</p> {% endif %} <input class="form-control" type="file" id="img" name="banner" accept="image/*" value="{{banners.banner}}"> {% for error in form.banner.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                                            <h4 class="mb-3">Banner image</h4> {% if banners.banner_image %} <img src="{{ MEDIA_URL }}{{ banners.banner_image.url}}" alt="Banner Image" width="50px" />
+                                            <p>Current image: {{ banners.banner_image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="banner" accept="image/*" value="{{banners.banner_image.name}}">
                                           </div>
                                           <div class="mb-6">
-                                            <h4 class="mb-3">Banner head</h4>
-                                            <input class="form-control" name="banner_head" type="text" placeholder="Write Name here..." value="{{banners.banner_head}}" /> {% for error in form.banner_head.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                                          </div>
-                                          <div class="mb-6">
-                                            <h4 class="mb-3">Banner content</h4>
-                                            <input class="form-control" name="banner_para" type="text" placeholder="Write Name here..." value="{{banners.banner_para}}" /> {% for error in form.banner_para.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
-                                          </div>
-                                          <div class="mb-6">
-                                            <h4 class="mb-3">Categories</h4>
-                                            <select class="form-select mb-3" id="categorySelect" name="categories" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
-                                              <option value="" {% if not banners.categories %}selected{% endif %} disabled>select category</option> {% for category in Categorys %} <option value="{{ category.id }}" {% if banners.categories and banners.categories.id == category.id %}selected{% endif %}>{{ category.name }}</option> {% endfor %}
-                                            </select> {% for error in form.categories.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                                            <h4 class="mb-3">Alt text</h4>
+                                            <input class="form-control mb-5" name="alt_text" type="text" placeholder="Write Name here..." value="{{banners.alt_text}}" />
                                           </div>
                                           <div class="mb-6">
                                             <h4 class="mb-3">Slot Position</h4>
-                                            <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{banners.Slot_Position}}" /> {% for error in form.Slot_Position.errors %} <p class="text-danger mt-3">{{ error }}</p> {% endfor %}
+                                            <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="{{banners.slot_position}}" />
                                           </div>
                                           <div class="form-check mb-6">
-                                            <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label> {% if banners.Active == True %} <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" /> {% endif %}
+                                            <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label> {% if banners.active == True %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" /> {% endif %}
                                           </div>
                                           <div class="mb-6">
-                                            {% if request.user.is_authenticated %} {% if perms.banners.change_mainbanner %} <button class="btn btn-primary text-sm-start" id="add_offerbanner" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_mainbanner %} <button class="btn btn-primary text-sm-start" id="add_offerbanner" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                                            {% if request.user.is_authenticated %} {% if perms.banners.change_mainbanner  %} <button class="btn btn-primary text-sm-start" id="add-buyprmo" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_mainbanner  %} <button class="btn btn-primary text-sm-start" id="add-buyprmo" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                             <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
                                           </div>
                                         </form>
@@ -945,6 +899,8 @@
                 </div>
               </div>
           </div>
+
+ 
         </div>
         <script>
 

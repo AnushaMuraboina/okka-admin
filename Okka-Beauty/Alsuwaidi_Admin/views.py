@@ -147,7 +147,7 @@ def product_adding(request):
         print(category)
         subcategory = request.POST.get('subcategories')
         print(subcategory)
-        childsubcategories= request.POST.get(' childsubcategories')
+        childsubcategories= request.POST.get('childsubcategories')
         print(childsubcategories )
         brand = request.POST.get('brands')
         print(brand)
@@ -394,7 +394,7 @@ def upsell_selection(request):
         selected_values = data.get('selectedValues')
         print(selected_values)
         
-        upsell_product = Product.objects.values('pk','product_name', 'product_sku', 'image', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock', 'regular_price', 'active').filter(id__in=selected_values)
+        upsell_product = Product.objects.values('pk','name', 'sku', 'image', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock', 'regular_price',' sale_price', 'active').filter(id__in=selected_values)
         product_data = list(upsell_product)
         print(product_data)
         
@@ -806,13 +806,13 @@ def filter_data(request):
         product = Product.objects.all()
 
         if filter_type == 'category':
-            product = product.values('pk','product_name', 'product_sku',  'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price',  'active').filter(category__name=filter_value)
+            product = product.values('pk','name', 'sku',  'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price',  'active').filter(category__name=filter_value)
         elif filter_type == 'subcategory':
-            product = product.values('pk','product_name', 'product_sku', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price',  'active').filter(sub_category__name=filter_value)
+            product = product.values('pk','name', 'sku', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price',  'active').filter(sub_category__name=filter_value)
         elif filter_type == 'brand':
-            product = product.values('pk','product_name', 'product_sku', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price', 'active').filter(brand__name=filter_value)
+            product = product.values('pk','name', 'sku', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price', 'active').filter(brand__name=filter_value)
         else:
-           product = product.values('pk','product_name', 'product_sku', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price',  'active').filter(in_stock=filter_value)
+           product = product.values('pk','name', 'sku', 'category__name', 'sub_category__name', 'brand__name', 'stock','in_stock',  'regular_price',  'active').filter(in_stock=filter_value)
         
         print(product)
         # Convert the QuerySet to a list
@@ -2198,7 +2198,7 @@ def import_product(request):
                                     product=product,
                                     image=image_path
                                 )
-                                print(f'New image added for product {product.product_name}: {image_path}')
+                                print(f'New image added for product {product.name}: {image_path}')
 
                     # Delete extra images not present in the updated CSV
                     extra_images = existing_images - set(images)
@@ -4339,7 +4339,7 @@ class ProductListView(LoginRequiredMixin, ListView):
     paginate_by = 10  # Adjust the number of items per page as needed
 
     def get_queryset(self):
-        queryset = Product.objects.all()
+        queryset = Product.objects.all().order_by('id')
         filter = ProductFilter(self.request.GET, queryset=queryset)
         return filter.qs
 
@@ -4689,13 +4689,13 @@ def Price_Banner(request, banner_id=None):
         banners = banners.filter(offer_title__icontains=search_query)
 
 
-    user_has_permission = request.user.has_perm('banners.view_price_banner')
+    user_has_permission = request.user.has_perm('banners.view_Price_Banner')
 
     # Check group permissions
     if not user_has_permission:
         user_groups = request.user.groups.all()
         for group in user_groups:
-            if group.permissions.filter(codename='view_price_banner').exists():
+            if group.permissions.filter(codename='view_Price_Banner').exists():
                 user_has_permission = True
                 break
 
@@ -4709,7 +4709,8 @@ def Price_Banner(request, banner_id=None):
         'form': form,
         'search_query': search_query,
     }
-    return render(request, "Al-admin/banner/offer_banner.html", context)
+    return render(request, "Al-admin/banner/price_banner.html", context)
+    # return render(request, "Al-admin/banner/offer_banner.html", context)
 
 @login_required
 def delete_pricebanner(request, banner_id):
@@ -4726,6 +4727,86 @@ def delete_pricebanner(request, banner_id):
     else:
         return JsonResponse({'message': 'Invalid request'}, status=400)  
     
+
+#     # craeting
+# @login_required
+# def footer_Banner(request, banner_id=None):
+#     # Check if banner_id is provided, if so, get the instance of the banner
+#     if banner_id:
+#         banner_instance = get_object_or_404(FooterBanner, pk=banner_id)
+#     else:
+#         banner_instance = None
+
+#     if request.method == 'POST':
+#         # If banner_instance exists, pass it to the form to update the existing banner
+#         form = FooterBannerForm(data=request.POST, files=request.FILES, instance=banner_instance)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('footerbanner'))
+#     else:
+#         # If banner_instance exists, initialize the form with its instance
+#         form = FooterBannerForm(instance=banner_instance)
+
+
+#     banners = FooterBanner.objects.all()
+    
+#     # Retrieve search query from request GET parameters
+#     search_query = request.GET.get('search', '')
+
+#     # Apply search
+#     if search_query:
+#         banners = banners.filter(
+#             # models.Q(banner_head__icontains=search_query) |
+#             # models.Q(banner_para__icontains=search_query) |
+#             # models.Q(categories__name__icontains=search_query)
+#             models.Q(alt_text__icontains=search_query) |
+#             models.Q(slot_position__icontains=search_query) 
+#             # models.Q(categories__name__icontains=search_query)
+#         )
+
+
+#     Categorys = ParentCategory.objects.all()
+
+
+#     user_has_permission = request.user.has_perm('banners.view_footerbanner')
+
+#     # Check group permissions
+#     if not user_has_permission:
+#         user_groups = request.user.groups.all()
+#         for group in user_groups:
+#             if group.permissions.filter(codename='view_footerbanner').exists():
+#                 user_has_permission = True
+#                 break
+
+#     if not user_has_permission:
+#         # Return some error or handle permission denial
+#         return render(request, 'Al-admin/permission/permission_denied.html')    
+
+#     context = {
+#         'banners': banners,
+#         'form': form,
+#         'search_query': search_query,
+#         'Categorys': Categorys,
+#     }
+#     return render(request, "Al-admin/banner/footer_banner.html", context)
+
+# @login_required
+# def delete_footerbanner(request, banner_id):
+#     if request.method == 'POST':
+#         try:
+#             footerbanner = FooterBanner.objects.get(id=banner_id)
+#             print(footerbanner)
+#             footerbanner.delete()
+#             return JsonResponse({'message': 'footer banner deleted successfully'})
+#         except Coupon.DoesNotExist:
+#             return JsonResponse({'message': 'footer banner not found'}, status=404)
+#         except Exception as e:
+#             return JsonResponse({'message': str(e)}, status=400)
+#     else:
+#         return JsonResponse({'message': 'Invalid request'}, status=400)  
+    
+
+
 @login_required
 def footer_Banner(request, banner_id=None):
     # Check if banner_id is provided, if so, get the instance of the banner
@@ -4736,14 +4817,14 @@ def footer_Banner(request, banner_id=None):
 
     if request.method == 'POST':
         # If banner_instance exists, pass it to the form to update the existing banner
-        form = FooterBannerForm(data=request.POST, files=request.FILES, instance=banner_instance)
+        form =FooterBannerForm(data=request.POST, files=request.FILES, instance=banner_instance)
+        print(form)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('footerbanner'))
+            return HttpResponseRedirect(reverse('Buy-Promo-Banner'))
     else:
         # If banner_instance exists, initialize the form with its instance
         form = FooterBannerForm(instance=banner_instance)
-
 
     banners = FooterBanner.objects.all()
     
@@ -4752,26 +4833,16 @@ def footer_Banner(request, banner_id=None):
 
     # Apply search
     if search_query:
-        banners = banners.filter(
-            # models.Q(banner_head__icontains=search_query) |
-            # models.Q(banner_para__icontains=search_query) |
-            # models.Q(categories__name__icontains=search_query)
-            models.Q(alt_text__icontains=search_query) |
-            models.Q(slot_position__icontains=search_query) 
-            # models.Q(categories__name__icontains=search_query)
-        )
+        banners = banners.filter(url__icontains=search_query)
 
 
-    Categorys = ParentCategory.objects.all()
-
-
-    user_has_permission = request.user.has_perm('banners.view_footerbanner')
+    user_has_permission = request.user.has_perm('banners.view_FooterBanner')
 
     # Check group permissions
     if not user_has_permission:
         user_groups = request.user.groups.all()
         for group in user_groups:
-            if group.permissions.filter(codename='view_footerbanner').exists():
+            if group.permissions.filter(codename='view_FooterBanner').exists():
                 user_has_permission = True
                 break
 
@@ -4781,9 +4852,8 @@ def footer_Banner(request, banner_id=None):
 
     context = {
         'banners': banners,
-        'form': form,
+        # 'form': form,
         'search_query': search_query,
-        'Categorys': Categorys,
     }
     return render(request, "Al-admin/banner/footer_banner.html", context)
 
@@ -4791,17 +4861,44 @@ def footer_Banner(request, banner_id=None):
 def delete_footerbanner(request, banner_id):
     if request.method == 'POST':
         try:
-            footerbanner = FooterBanner.objects.get(id=banner_id)
-            print(footerbanner)
-            footerbanner.delete()
-            return JsonResponse({'message': 'footer banner deleted successfully'})
+            buypromo = FooterBanner.objects.get(id=banner_id)
+            print(buypromo)
+            buypromo.delete()
+            return JsonResponse({'message': 'FooterBanner deleted successfully'})
         except Coupon.DoesNotExist:
-            return JsonResponse({'message': 'footer banner not found'}, status=404)
+            return JsonResponse({'message': 'FooterBanner  not found'}, status=404)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=400)
     else:
-        return JsonResponse({'message': 'Invalid request'}, status=400)  
+        return JsonResponse({'message': 'Invalid request'}, status=400)
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required

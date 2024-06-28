@@ -117,7 +117,7 @@ urlpatterns = [
 
    path('pricebanners', views.Price_Banner, name='pricebanner'),
    path('pricebanners/<int:banner_id>/', views.Price_Banner, name='pricebanner'),
-   path('pricebanners/<int:banner_id>/delete/', views.delete_pricebanner, name='delete_offerbanner'),
+   path('deletepricebanner/<int:banner_id>/delete/', views.delete_pricebanner, name='delete_offerbanner'),
 
    path('footerbanners', views.footer_Banner, name='footerbanner'),
    path('footerbanners/<int:banner_id>/', views.footer_Banner, name='footerbanner'),

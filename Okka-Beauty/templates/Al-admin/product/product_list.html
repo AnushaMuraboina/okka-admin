@@ -577,7 +577,7 @@
               </div>
   
               
-              <div id="products" data-list='{"valueNames":["product","price","category","tags","vendor","time"],"page":15,"pagination":true}'>
+              <div id="products" data-list='{"valueNames":["product","regular_price","category","tags","vendor","time"],"page":15,"pagination":true}'>
                 <div class="mb-4">
                   <div class="row g-3">
                     <!-- <div class="col-auto">
@@ -603,16 +603,16 @@
                                 </div>
                             </div> -->
                             <div class="col-auto">
-                                {{ filter.form.category }}          
+                                {{ filter.form.categories }}          
                             </div> 
                             <div class="col-auto">
-                                {{ filter.form.sub_category }}          
+                                {{ filter.form.subcategories  }}          
                             </div>  
                             <div class="col-auto">
-                                {{ filter.form.brand }}          
+                                {{ filter.form.brands }}          
                             </div>  
                             <div class="col-auto">
-                                {{ filter.form.stock_status }}          
+                                {{ filter.form.in_stock }}          
                             </div>  
                             <div class="col-auto">
                                 <button class="btn btn-primary border-300 px-3" type="submit">Filter</button>
@@ -663,15 +663,15 @@
                               <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
                             </div>
                           </th>
-                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;"></th>
+                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">PRODUCT IMAGE</th>
                           <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="product">PRODUCT NAME</th>
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="price" style="width:150px;">PRODUCT SKU</th>
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="model" style="width:200px;">PRODUCT MODEL</th>
+                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="regular_price" style="width:150px;">PRODUCT SKU</th>
+                          <!-- <th class="sort align-middle text-end ps-4" scope="col" data-sort="model" style="width:200px;">PRODUCT MODEL</th> -->
                           <th class="sort align-middle ps-4" scope="col" data-sort="category" style="width:150px;">CATEGORY</th>
                           <th class="sort align-middle ps-3" scope="col" data-sort="tags" style="width:250px;">SUB CATEGORY</th>
                           <th class="sort align-middle fs-0 text-center ps-4" scope="col" style="width:125px;">BRAND</th>
                           <th class="sort align-middle ps-4" scope="col" data-sort="vendor" style="width:200px;">NO STOCK IN</th>
-                          <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:50px;">NO STOCK OUT</th>
+                          <!-- <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:50px;">NO STOCK OUT</th> -->
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">PRICE</th>
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">STOCK STATUS</th>
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
@@ -686,24 +686,31 @@
                           </td>
                           <td class="align-middle white-space-nowrap py-0">
                             <div class="border rounded-2">
-                              <img src="{{ MEDIA_PREFIX }}{{product.product_Image1}}" alt="" width="53" />
+                              <!-- <img src="{{ MEDIA_PREFIX }}{{product.image }}" alt="" width="53" /> -->
+                              {% if product.images.all %}
+                                {% for image in product.images.all|slice:":1" %}
+                              <img src="{{ MEDIA_PREFIX }}{{ image.image}}" alt="" width="53" />
+                              {% endfor %}{% endif %}
                             </div>
                           </td>
                           <td class="product align-middle ps-4">
-                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.product_name}}</a>
+                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.name}}</a>
                           </td>
-                          <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.product_sku}}</td>
-                          <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td>
-                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.category}}</td>
-                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.sub_category}}</td>
+                          <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.sku}}</td>
+                          <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
+                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.categories}}</td>
+                          
+                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.subcategories }}</td>
                           </td>
-                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brand}}</td>
-                          <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_in}}</td>
-                          <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td>
-                          <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.price}}</td>
-                          <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock_status}}</td>
+                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brands}}</td>
+                          <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock }}</td>
+                          <!-- <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td> -->
+                          <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.regular_price}}</td>
+                          <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.in_stock}}</td>
                           <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
-                            <!-- {{product.active}} --> {% if product.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                            <!-- {{product.active}} -->
+                              {% if product.published == True %} <i class="fas fa-check-circle text-success"></i> {% else %} 
+                              <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                           </td>
                           <td class="align-middle white-space-nowrap py-0"> {% if request.user.is_authenticated %} {% if perms.products.view_products %} <a href="{% url 'product_update' product.id %}">
                               <span data-feather="edit"></span>
@@ -730,15 +737,15 @@
                               <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
                             </div>
                           </th>
-                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;"></th>
+                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">PRODUCT IMAGE</th>
                           <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="product">PRODUCT NAME</th>
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="price" style="width:150px;">PRODUCT SKU</th>
+                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="regular_price" style="width:150px;">PRODUCT SKU</th>
                           <th class="sort align-middle text-end ps-4" scope="col" data-sort="model" style="width:200px;">PRODUCT MODEL</th>
                           <th class="sort align-middle ps-4" scope="col" data-sort="category" style="width:150px;">CATEGORY</th>
                           <th class="sort align-middle ps-3" scope="col" data-sort="tags" style="width:250px;">SUB CATEGORY</th>
                           <th class="sort align-middle fs-0 text-center ps-4" scope="col" style="width:125px;">BRAND</th>
                           <th class="sort align-middle ps-4" scope="col" data-sort="vendor" style="width:200px;">NO STOCK IN</th>
-                          <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:50px;">NO STOCK OUT</th>
+                          <!-- <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:50px;">NO STOCK OUT</th> -->
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">PRICE</th>
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">STOCK STATUS</th>
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
@@ -753,24 +760,27 @@
                           </td>
                           <td class="align-middle white-space-nowrap py-0">
                             <div class="border rounded-2">
-                              <img src="{{ MEDIA_PREFIX }}{{product.product_Image1}}" alt="" width="53" />
+                              {% if product.images.all %}
+                                {% for image in product.images.all|slice:":1" %}
+                              <img src="{{ MEDIA_PREFIX }}{{ image.image}}" alt="" width="53" />
+                              {% endfor %}{% endif %}
                             </div>
                           </td>
                           <td class="product align-middle ps-4">
-                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.product_name}}</a>
+                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.name}}</a>
                           </td>
-                          <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.product_sku}}</td>
-                          <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td>
-                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.category}}</td>
-                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.sub_category}}</td>
+                          <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.sku}}</td>
+                          <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
+                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.categories}}</td>
+                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.subcategories }}</td>
                           </td>
-                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brand}}</td>
-                          <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_in}}</td>
-                          <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td>
-                          <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.price}}</td>
-                          <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock_status}}</td>
+                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brands}}</td>
+                          <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock }}</td>
+                          <!-- <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td> -->
+                          <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.regular_price}}</td>
+                          <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.in_stock}}</td>
                           <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
-                            <!-- {{product.active}} --> {% if product.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                            <!-- {{product.active}} --> {% if product.published == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                           </td>
                           <td class="align-middle white-space-nowrap py-0"> {% if request.user.is_authenticated %} {% if perms.products.view_products %} <a href="{% url 'product_update' product.id %}">
                               <span data-feather="edit"></span>

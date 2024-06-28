@@ -25,8 +25,8 @@ class TrendingBrand(models.Model):
     
 
 class PriceBanner(models.Model):
-    Category = models.ForeignKey(ParentCategory, on_delete=models.CASCADE) 
-    image = models.ImageField(upload_to='price_banners/')
+    # Category = models.ForeignKey(ParentCategory, on_delete=models.CASCADE) 
+    image = models.ImageField(upload_to='media/')
     alt_text = models.CharField(max_length=255, blank=True, null=True)
     slot_position = models.IntegerField(null=True, blank=True)
     active = models.BooleanField(default=True)
@@ -37,7 +37,7 @@ class PriceBanner(models.Model):
 
 class FooterBanner(models.Model):
     # category = models.ForeignKey(ChildSubCategory, on_delete=models.CASCADE)
-    banner_image = models.ImageField(upload_to='Foot_banners/')
+    banner_image = models.ImageField(upload_to='media/')
     alt_text = models.CharField(max_length=255, blank=True, null=True)
     url = models.URLField()
     slot_position = models.IntegerField(null=True, blank=True)

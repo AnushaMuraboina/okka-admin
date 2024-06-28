@@ -12,7 +12,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
-
+from product.models import *
 User = get_user_model()
 
 class CustomUserCreationForm(forms.ModelForm):
@@ -139,14 +139,40 @@ class mainBannerForm(forms.ModelForm):
 #         fields = ['brand ', 'url ','alt_text','Slot_Position', 'active ']
 
 class PriceBannerForm(forms.ModelForm):
+    Category = forms.ModelChoiceField(
+        queryset=ParentCategory.objects.all(),
+        required=False,
+        label="Parent Category"
+        )
     class Meta:
         model = PriceBanner
-        fields = ['Category','alt_text' ]
+        # Category=ParentCategory.name
+
+        fields = ['Category','alt_text','image','slot_position' ,'active']
 
 class FooterBannerForm(forms.ModelForm):
     class Meta:
         model = FooterBanner
-        fields = ['alt_text']
+        fields = ['banner_image','alt_text','slot_position','active']
+
+
+# # forms.py
+# from django import forms
+# from .models import Category
+
+# class CategoryForm(forms.Form):
+#     parent_category = forms.ModelChoiceField(queryset=Category.objects.filter(parent__isnull=True), required=False)
+#     child_category = forms.ModelChoiceField(queryset=Category.objects.none(), required=False)
+
+#     def __init__(self, *args, **kwargs):
+#         parent_category_id = kwargs.pop('parent_category_id', None)
+#         super(CategoryForm, self).__init__(*args, **kwargs)
+        
+#         if parent_category_id:
+#             self.fields['child_category'].queryset = Category.objects.filter(parent_id=parent_category_id)
+#         else:
+#             self.fields['child_category'].queryset = Category.objects.none()
+
 
 
 

@@ -276,3 +276,32 @@ $(document).ready(function () {
 // }
 
 
+// show function
+
+$(document).ready(function () {
+  // Initially show all products
+  //   $('.grid-display-column').show();
+  $('.grid-display-column').show().removeClass('hidden-column');
+
+  // Handle click events on show count links
+  $('.show-images-counting').on('click', function (e) {
+      e.preventDefault();
+
+      // Get the number of products to show
+      var countToShow = parseInt($(this).data('count'));
+
+      // Hide all products and remove empty column styling
+      $('.product.item').hide().removeClass('empty-product-column');
+
+      // Show the selected number of products
+      $('.product.item:lt(' + countToShow + ')').each(function (index) {
+          $(this).show();
+      });
+      // Add empty column styling to columns beyond countToShow
+      $('.grid-display-column:lt(' + countToShow + ')').each(function (index) {
+          if ($(this).find('.product.item').length === 0) {
+              $(this).addClass('empty-product-column');
+          }
+      });
+  });
+});
