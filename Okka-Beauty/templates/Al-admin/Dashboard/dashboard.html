@@ -1,0 +1,1319 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+<main class="main" id="top">
+    <div class="container-fluid px-0">
+      <nav class="navbar navbar-vertical navbar-expand-lg">
+        <script>
+          var navbarStyle = window.config.config.phoenixNavbarStyle;
+          if (navbarStyle && navbarStyle !== 'transparent') {
+            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+          }
+        </script>
+        <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+          <!-- scrollbar removed-->
+          <div class="navbar-vertical-content">
+            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+            
+              <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                </div>
+              </a>
+              <!-- more inner pages-->
+            </li>
+
+            <li class="nav-item">
+            
+              <div class="nav-item-wrapper">
+                <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                  <div class="d-flex align-items-center">
+                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                    <li class="collapsed-nav-item-title d-none">Banner Management
+                    </li>
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>  
+                  {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                  <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li>  
+                {% endif %} {% endfor %} {% endif %} {% endif %}
+
+                {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Price Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Price Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                   
+                {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Footer Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Footer Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="nav-item">
+            
+              <div class="nav-item-wrapper">
+                <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                  <div class="d-flex align-items-center">
+                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                    <li class="collapsed-nav-item-title d-none">Customer Management
+                    </li>
+                    {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Customer</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Customer</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="nav-item">
+            
+              <div class="nav-item-wrapper">
+                <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                  <div class="d-flex align-items-center">
+                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                    <li class="collapsed-nav-item-title d-none">Product Management
+                    </li>
+                    {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Products</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Products</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Add Product</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Add Product</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Sub Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Sub Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Brand</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Brand</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Attribute</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Attribute</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                      <li class="collapsed-nav-item-title d-none">Order Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Delivery Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Delivery Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Replacement Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Replacement Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Re-Collection Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Re-Collection Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+                  <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                      <li class="collapsed-nav-item-title d-none">Coupon
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Coupon Useage</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Coupon Useage</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                      <li class="collapsed-nav-item-title d-none">CSV Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                        <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Csv Data</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                        <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Csv Data</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                      <li class="collapsed-nav-item-title d-none">User Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">User Role</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">User Role</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                      <li class="collapsed-nav-item-title d-none">Report
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center"><span class="nav-link-text">Order</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                      <li class="nav-item"><a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Invoice</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Shipping</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Coupon</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                  <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned Cart</span>
+                  </div>
+                </a>
+                <!-- more inner pages-->
+              </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="navbar-vertical-footer">
+          <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+        </div>
+      </nav>
+      {% include 'Al-admin/base/nav.html' %}
+      <div class="content">
+        <div class="pb-5">
+          <!-- <div class="row g-4"> -->
+            <!-- <div class="col-12"> -->
+              <div class="mb-8">
+                <h2 class="mb-2">Dashboard</h2>                
+              </div>
+              <div class="row align-items-center g-4">
+                <div class="card col me-3  p-5 text-white" style="background-color: #0694A2;">
+                  <div class="align-items-center">
+                    <div class="text-center">
+                        <!-- <span class="fas fa-layer-group fs-1"></span> -->
+                        <span class="text-white mb-2" data-feather="layers" style="height: 30px; width: 30px;"></span>
+                    </div>
+                    <div class="text-center">
+                        <p class="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">Today Orders</p>
+                        <p class="text-800 text-white fs-1 fw-bold mb-0">AED {{today_total}}</p>
+                    </div>   
+                    <div class="d-flex justify-content-between text-center text-xs font-normal text-gray-50 dark:text-gray-100">
+                        <div class="px-1 mt-3">Cash : AED {{day_cash_on_delivery_total}}</div>
+                        <div class="px-1 mt-3">Card : AED {{day_payment_total}}</div>
+                        <!-- <div class="px-1 mt-3">Credit : AED 0.00</div> -->
+                    </div>          
+                  </div>
+                </div>
+                <div class="card col me-3  p-5 text-white" style="background-color: #FF8A4C;">
+                    <div class="align-items-center">
+                      <div class="text-center">
+                          <!-- <span class="fas fa-layer-group fs-1"></span> -->
+                          <span class="text-white mb-2" data-feather="layers" style="height: 30px; width: 30px;"></span>
+                      </div>
+                      <div class="text-center">
+                          <p class="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">Week Orders</p>
+                          <p class="text-800 text-white fs-1 fw-bold mb-0">AED {{weekly_total}}</p>
+                      </div>   
+                      <div class="d-flex justify-content-between text-center text-xs font-normal text-gray-50 dark:text-gray-100">
+                          <div class="px-1 mt-3">Cash : AED {{week_cash_on_delivery_total}}</div>
+                          <div class="px-1 mt-3">Card : AED {{week_payment_total}}</div>
+                          <!-- <div class="px-1 mt-3">Credit : AED 0.00</div> -->
+                          
+                      </div>          
+                    </div>
+                  </div>
+                  <div class="card col me-3  p-5 text-white" style="background-color: #3F83F8; max-height: 217px;">
+                    <div class="align-items-center p-5">
+                      <div class="text-center">
+                          <!-- <span class="fas fa-layer-group fs-1"></span> -->
+                          <span class="text-white mb-2" data-feather="shopping-cart" style="height: 30px; width: 30px;"></span>
+                      </div>
+                      <div class="text-center">
+                          <p class="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">This Month</p>
+                          <p class="text-800 text-white fs-1 fw-bold mb-0">AED {{month_total}}</p>
+                      </div>   
+                      <!-- <div class="d-flex text-center text-xs font-normal text-gray-50 dark:text-gray-100">
+                          <div class="px-1 mt-3">Cash : AED991.93</div>
+                          <div class="px-1 mt-3">Card : AED0.00</div>
+                          <div class="px-1 mt-3">Credit : AED0.00</div>
+                      </div>           -->
+                    </div>
+                  </div>
+                  <div class="card col   p-5 text-white" style="background-color: #0E9F6E; max-height: 217px;">
+                    <div class="align-items-center p-5">
+                      <div class="text-center">
+                          <!-- <span class="fas fa-layer-group fs-1"></span> -->
+                          <span class="text-white mb-2" data-feather="credit-card" style="height: 30px; width: 30px;"></span>
+                      </div>
+                      <div class="text-center">
+                          <p class="mb-3 text-base font-medium text-gray-50 dark:text-gray-100">All-Time Sales</p>
+                          <p class="text-800 text-white fs-1 fw-bold mb-0">AED {{all_Time_total}}</p>
+                      </div>   
+                      <!-- <div class="d-flex text-center text-xs font-normal text-gray-50 dark:text-gray-100">
+                          <div class="px-1 mt-3">Cash : AED991.93</div>
+                          <div class="px-1 mt-3">Card : AED0.00</div>
+                          <div class="px-1 mt-3">Credit : AED0.00</div>
+                      </div>           -->
+                    </div>
+                  </div>
+                  <hr class="bg-200  mt-4" />
+              <div class="card mt-0 p-3 col me-3">
+                <div class="d-flex align-items-center">
+                    <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #FEECDC; border-radius: 50%; text-align: center;">
+                        <i class="fs-3" data-feather="shopping-cart" style="color: #D03801;"></i>
+                    </span>
+                    
+                  <div class="ms-3">
+                    <h4 class="mb-0">Total Order</h4>
+                    <p class="text-800 fs-2  fw-bold mb-0">{{total_order}}</p>
+                    <a href="{% url 'admin-order' %}" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mt-0 p-3 col me-3 clickable-card" id="newOrders" data-category="Confirmed">
+                <div class="d-flex align-items-center">
+                    <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #E1EFFE; border-radius: 50%; text-align: center; ">
+                        <i data-feather="bell" style="color: #3173F3;"></i>
+                    </span>
+                  <div class="ms-3">
+                    <h4 class="mb-0">New Orders</h4>
+                    <p class="text-800 fs-2  fw-bold mb-0">{{new_order}}</p>
+                    <a href="" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-0 p-3 col me-3 clickable-card" id="processingOrders" data-category="Shipped">
+                <div class="d-flex align-items-center">
+                    <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #D5F5F6; border-radius: 50%; text-align: center; ">
+                        <i data-feather="truck" style="color: #117C88;"></i>
+                    </span>
+                  <div class="ms-3">
+                    <h4 class="mb-0">Orders Processing</h4>
+                    <p class="text-800 fs-2  fw-bold mb-0">{{order_process}}</p>
+                    <a href="" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-0 p-3 col me-3 clickable-card" id="deliveredOrders" data-category="Delivered">
+                <div class="d-flex align-items-center">
+                    <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #DEF7EC; border-radius: 50%; text-align: center; ">
+                        <i data-feather="check" style="color: #1C8765;"></i>
+                    </span>
+                  <div class="ms-3">
+                    <h4 class="mb-0">Orders Delivered</h4>
+                    <p class="text-800 fs-2 mb-0  fw-bold">{{order_delivered}}</p>
+                    <a href="" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-0 p-3 col me-3" id="replacementOrder" data-category="Replacement">
+                <div class="d-flex align-items-center">
+                    <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #c5ffec; border-radius: 50%; text-align: center; ">
+                        <i data-feather="repeat" style="color: #12bd6d;"></i>
+                    </span>
+                  <div class="ms-3">
+                    <h4 class="mb-0">Order Replacement</h4>
+                    <p class="text-800 fs-2 mb-0  fw-bold">{{order_replacement}}</p>
+                    <a href="{% url 'order-replace-page' %}" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="card mt-0 p-3 col me-3 clickable-out" id="outOfStock" data-category="Out of Stock">
+                <div class="d-flex align-items-center">
+                    <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #ffcccc; border-radius: 50%; text-align: center; ">
+                        <i data-feather="x" style="color: #ff0000;"></i>
+                    </span>
+                  <div class="ms-3">
+                    <h4 class="mb-0">Out of stock</h4>
+                    <p class="text-800 fs-2 mb-0  fw-bold">{{outof_stock}}</p>
+                    <a href="" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div> -->
+              </div>
+              
+
+              <div class="row align-items-center g-4 mt-3">
+                <div class="col-6">
+                    <ul class="nav nav-underline" id="myTab" role="tablist">
+                        <li class="nav-item"><a class="nav-link active" id="Sales-tab" data-bs-toggle="tab" href="#tab-Sales" role="tab" aria-controls="tab-Sales" aria-selected="true">Sales</a></li>
+                        <li class="nav-item"><a class="nav-link" id="Orders-tab" data-bs-toggle="tab" href="#tab-Orders" role="tab" aria-controls="tab-Orders" aria-selected="false">Orders</a></li>
+                    </ul>
+                    <div class="tab-content mt-3" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab-Sales" role="tabpanel" aria-labelledby="Sales-tab">
+                            <div class="row flex-between-center mb-4 g-3">
+                                <div class="col-auto">
+                                  <p class="mb-4 fw-semi-bold text-gray-800">Total sells</p>
+                                  <!-- <p class="text-700 lh-sm mb-0">Payment received across all channels</p> -->
+                                </div>
+                                <!-- <div class="col-8 col-sm-4">
+                                  <select class="form-select form-select-sm mt-2" id="select-gross-revenue-month">
+                                    <option>Mar 1 - 31, 2022</option>
+                                    <option>April 1 - 30, 2022</option>
+                                    <option>May 1 - 31, 2022</option>
+                                  </select>
+                                </div> -->
+                              </div>
+                              <canvas id="salesChart" style="width:100%;" data-echart-responsive="data-echart-responsive"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="tab-Orders" role="tabpanel" aria-labelledby="Orders-tab">
+                            <div class="row flex-between-center mb-4 g-3">
+                                <div class="col-auto">
+                                  <p class="mb-4 fw-semi-bold text-gray-800">Total order</p>
+                                  <!-- <p class="text-700 lh-sm mb-0">Payment received across all channels</p> -->
+                                </div>
+                                <!-- <div class="col-8 col-sm-4">
+                                  <select class="form-select form-select-sm mt-2" id="select-gross-revenue-month">
+                                    <option>Mar 1 - 31, 2022</option>
+                                    <option>April 1 - 30, 2022</option>
+                                    <option>May 1 - 31, 2022</option>
+                                  </select>
+                                </div> -->
+                              </div>
+                              <canvas id="orderChart" style="width:100%;" data-echart-responsive="data-echart-responsive"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 ">
+                    
+                  <ul class="nav nav-underline" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation"><a class="nav-link active" id="seller-tab" data-bs-toggle="tab" href="#tab-seller" role="tab" aria-controls="tab-seller" aria-selected="false" tabindex="-1">Best Sellers</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="view-tab" data-bs-toggle="tab" href="#tab-view" role="tab" aria-controls="tab-view" aria-selected="false" tabindex="-1">Most Viewed Product</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="new-tab" data-bs-toggle="tab" href="#tab-new" role="tab" aria-controls="tab-new" aria-selected="true">New Customer</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="customer-tab" data-bs-toggle="tab" href="#tab-customer" role="tab" aria-controls="tab-customer" aria-selected="true">Customer</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" id="abandoned-tab" data-bs-toggle="tab" href="#tab-abandoned" role="tab" aria-controls="tab-abandoned" aria-selected="true">abandoned Cart</a></li>
+                  </ul>
+                  <div class="tab-content mt-3" id="myTabContent">
+                    <div class="tab-pane fade active show" id="tab-seller" role="tabpanel" aria-labelledby="seller-tab">
+                      <div class="bg-white p-5 border-y border-300">
+                        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":4}'>
+                          
+                          <div class="table-responsive mx-n1 px-1 scrollbar">
+                            <table class="table fs--1 mb-0 border-top border-200">
+                              <thead>
+                                <tr>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" style="max-width:350px;">Product Name</th>
+                                  <th class="sort align-middle" scope="col" data-sort="customer" style="max-width:350px;">Product Sku</th>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" data-sort="method" style="max-width:350px;">Product Price</th>                                  
+                                  <th class="sort align-middle" scope="col" data-sort="amount" style="max-width:350px;">Selled Count</th>                                  
+                                  <!-- <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status" style="max-width:350px;">STATUS</th>
+                                  <th class="sort align-middle" scope="col"  data-sort="action" style="max-width:350px;">Action</th>
+                                  <th class="sort text-end align-middle" scope="col" data-sort="time">TIME</th>
+                                  <th class="sort text-end pe-0 align-middle" scope="col"></th> -->
+                                </tr>
+                              </thead>
+                              <tbody class="list" id="table-latest-review-body">
+                                {% for bestseller in best_selling_product %}
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                  <td class="align-middle product white-space-nowrap py-0">
+                                    {{bestseller.product_name|slice:":50" }}
+                                  </td>
+                                  <td class="align-middle customer white-space-nowrap">
+                                    <h6 class="mb-0 ms-3 text-900">{{bestseller.product_sku}}</h6>
+                                  </td>
+                                  <td class="align-middle method white-space-nowrap">
+                                    {{bestseller.price}}
+                                  </td>
+                                  
+                                  <td class="align-middle amount white-space-nowrap fs--2">
+                                    {{bestseller.number_of_stock_out}}
+                                  </td>                                 
+                                  
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row align-items-center py-1">
+                            <div class="pagination d-none"></div>
+                            <div class="col d-flex fs--1">
+                              <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less</a>
+                            </div>
+                            <div class="col-auto d-flex">
+            
+                              <button class="btn btn-link px-1 me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left me-2"></span>Previous</button>
+                              <button class="btn btn-link px-1 ms-1" type="button" title="Next" data-list-pagination="next">Next<span class="fas fa-chevron-right ms-2"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-view" role="tabpanel" aria-labelledby="view-tab">
+                      <div class="bg-white p-5 border-y border-300">
+                        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":4}'>
+                          
+                          <div class="table-responsive mx-n1 px-1 scrollbar">
+                            <table class="table fs--1 mb-0 border-top border-200">
+                              <thead>
+                                <tr>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" style="max-width:350px;">Product Name</th>
+                                  <th class="sort align-middle" scope="col" data-sort="customer" style="max-width:350px;">Product Sku</th>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" data-sort="method" style="max-width:350px;">Product Price</th>                                  
+                                  <th class="sort align-middle" scope="col" data-sort="amount" style="max-width:350px;">View Count</th> 
+                                </tr>
+                              </thead>
+                              <tbody class="list" id="table-latest-review-body">
+                                {% for viewed in top_viewed_products %}
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                  <td class="align-middle product white-space-nowrap py-0">
+                                    {{viewed.product__product_name|slice:":50" }}
+                                  </td>
+                                  <td class="align-middle customer white-space-nowrap">
+                                    <h6 class="mb-0 ms-3 text-900">{{viewed.product__product_sku}}</h6>
+                                  </td>
+                                  <td class="align-middle method white-space-nowrap">
+                                    {{viewed.product__price}}
+                                  </td>
+                                  
+                                  <td class="align-middle amount white-space-nowrap fs--2">
+                                    {{viewed.view_count}}
+                                  </td>                                 
+                                  
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row align-items-center py-1">
+                            <div class="pagination d-none"></div>
+                            <div class="col d-flex fs--1">
+                              <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less</a>
+                            </div>
+                            <div class="col-auto d-flex">
+            
+                              <button class="btn btn-link px-1 me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left me-2"></span>Previous</button>
+                              <button class="btn btn-link px-1 ms-1" type="button" title="Next" data-list-pagination="next">Next<span class="fas fa-chevron-right ms-2"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-new" role="tabpanel" aria-labelledby="new-tab">
+                      <div class="bg-white p-5 border-y border-300">
+                        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":4}'>
+                          
+                          <div class="table-responsive mx-n1 px-1 scrollbar">
+                            <table class="table fs--1 mb-0 border-top border-200">
+                              <thead>
+                                <tr>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" style="max-width:350px;">Customer Name</th>
+                                  <th class="sort align-middle" scope="col" data-sort="customer" style="max-width:350px;">Customer E-mail</th>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" data-sort="method" style="max-width:350px;">Order</th>                                  
+                                  <th class="sort align-middle" scope="col" data-sort="amount" style="max-width:350px;">Amount</th> 
+                                </tr>
+                              </thead>
+                              <tbody class="list" id="table-latest-review-body">
+                                {% for newuser in new_users_data %}
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                  <td class="align-middle product white-space-nowrap py-0">
+                                    {{newuser.username}}
+                                  </td>
+                                  <td class="align-middle customer white-space-nowrap">
+                                    <h6 class="mb-0 ms-3 text-900">{{newuser.email}}</h6>
+                                  </td>
+                                  <td class="align-middle method white-space-nowrap">
+                                    {{newuser.order_count}}
+                                  </td>
+                                  
+                                  <td class="align-middle amount white-space-nowrap fs--2">
+                                    {% if alluser.total_order_amount  != "None" %}
+                                    {{newuser.total_order_amount}}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                  </td>                                 
+                                  
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row align-items-center py-1">
+                            <div class="pagination d-none"></div>
+                            <div class="col d-flex fs--1">
+                              <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less</a>
+                            </div>
+                            <div class="col-auto d-flex">
+            
+                              <button class="btn btn-link px-1 me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left me-2"></span>Previous</button>
+                              <button class="btn btn-link px-1 ms-1" type="button" title="Next" data-list-pagination="next">Next<span class="fas fa-chevron-right ms-2"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade " id="tab-customer" role="tabpanel" aria-labelledby="customer-tab">
+                      <div class="bg-white p-5 border-y border-300">
+                        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":4}'>
+                          
+                          <div class="table-responsive mx-n1 px-1 scrollbar">
+                            <table class="table fs--1 mb-0 border-top border-200">
+                              <thead>
+                                <tr>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" style="max-width:350px;">Customer Name</th>
+                                  <th class="sort align-middle" scope="col" data-sort="customer" style="max-width:350px;">Customer E-mail</th>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" data-sort="method" style="max-width:350px;">Order</th>                                  
+                                  <th class="sort align-middle" scope="col" data-sort="amount" style="max-width:350px;">Amount</th> 
+                                </tr>
+                              </thead>
+                              <tbody class="list" id="table-latest-review-body">
+                                {% for alluser in all_users_data %}
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                  <td class="align-middle product white-space-nowrap py-0">
+                                    {{alluser.username}}
+                                  </td>
+                                  <td class="align-middle customer white-space-nowrap">
+                                    <h6 class="mb-0 ms-3 text-900">{{alluser.email}}</h6>
+                                  </td>
+                                  <td class="align-middle method white-space-nowrap">
+                                    {{alluser.order_count}}
+                                  </td>
+                                  
+                                  <td class="align-middle amount white-space-nowrap fs--2">
+                                    {% if alluser.total_order_amount %}
+                                    {{alluser.total_order_amount}}
+                                    {% else %}
+                                    0
+                                    {% endif %}
+                                  </td>                                 
+                                  
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row align-items-center py-1">
+                            <div class="pagination d-none"></div>
+                            <div class="col d-flex fs--1">
+                              <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less</a>
+                            </div>
+                            <div class="col-auto d-flex">
+            
+                              <button class="btn btn-link px-1 me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left me-2"></span>Previous</button>
+                              <button class="btn btn-link px-1 ms-1" type="button" title="Next" data-list-pagination="next">Next<span class="fas fa-chevron-right ms-2"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade " id="tab-abandoned" role="tabpanel" aria-labelledby="abandoned-tab">
+                      
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+
+              <div class="row ">
+                <div class="col-12">
+                    <!-- <p class="mb-4 fw-semi-bold text-gray-800">Recent Order</p> -->
+                    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white pt-7 border-y border-300">
+                        <div data-list='{"valueNames":["product","customer","rating","review","time"],"page":6}'>
+                          <div class="row align-items-end justify-content-between pb-5 g-3">
+                            <div class="col-auto">
+                              <!-- <h3>Latest reviews</h3> -->
+                              <p class="mb-4 fw-semi-bold text-gray-800">Recent Order</p>
+                            </div>
+                            
+                          </div>
+                          <div class="table-responsive mx-n1 px-1 scrollbar">
+                            <table class="table fs--1 mb-0 border-top border-200">
+                              <thead>
+                                <tr>
+                                  <!-- <th class="white-space-nowrap fs--1 ps-0 align-middle">
+                                    <div class="form-check mb-0 fs-0">
+                                      <input class="form-check-input" id="checkbox-bulk-reviews-select" type="checkbox" data-bulk-select='{"body":"table-latest-review-body"}' />
+                                    </div>
+                                  </th> -->
+                                  <th class="sort white-space-nowrap align-middle" scope="col" style="max-width:350px;">Order Id</th>
+                                  <th class="sort align-middle" scope="col" data-sort="customer" style="max-width:350px;">Customer Name</th>
+                                  <th class="sort white-space-nowrap align-middle" scope="col" data-sort="method" style="max-width:350px;">Method</th>                                  
+                                  <th class="sort align-middle" scope="col" data-sort="amount" style="max-width:350px;">Amount</th>                                  
+                                  <th class="sort text-start ps-5 align-middle" scope="col" data-sort="status" style="max-width:350px;">STATUS</th>
+                                  <th class="sort align-middle" scope="col"  data-sort="action" style="max-width:350px;">Action</th>
+                                  <th class="sort text-end align-middle" scope="col" data-sort="time">TIME</th>
+                                  <th class="sort text-end pe-0 align-middle" scope="col"></th>
+                                </tr>
+                              </thead>
+                              <tbody class="list" id="table-latest-review-body">
+                                {% for order in orders %}
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                  <!-- <td class="fs--1 align-middle ps-0">
+                                    <div class="form-check mb-0 fs-0">
+                                      <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Echo Dot (4th Gen) _ Smart speaker with Alexa _ Glacier White","productImage":"/products/60x60/11.png","customer":{"name":"Jennifer Schramm","avatar":"/team/40x40/8.webp"},"rating":4.5,"review":"The theme is really beautiful and the support answer very quickly and is friendly. Buy it, you will not regret it.","status":{"title":"Pending","badge":"warning","icon":"clock"},"time":"Nov 05, 4:00 AM"}' />
+                                    </div>
+                                  </td> -->
+                                  <td class="align-middle product white-space-nowrap py-0">
+                                    {{order.order_id}}
+                                  </td>
+                                  <td class="align-middle customer white-space-nowrap">
+                                    <a class="d-flex align-items-center" href="#!">                                      
+                                      <h6 class="mb-0 ms-3 text-900">{{order.user__username}}</h6>
+                                    </a>
+                                  </td>
+                                  <td class="align-middle method white-space-nowrap">
+                                    {{order.payment_method__payment_name}}
+                                  </td>
+                                  
+                                  <td class="align-middle amount white-space-nowrap fs--2">
+                                    {{order.bill_amount}}
+                                  </td>                                 
+                                  <td class="align-middle text-start ps-5 status">
+                                    <span class="badge badge-phoenix fs--2 badge-phoenix-warning">
+                                      <span class="badge-label">{{order.order_status__status}}</span>
+                                      <span class="ms-1" data-feather="clock" style="height:12.8px;width:12.8px;"></span>
+                                    </span>
+                                  </td>
+                                  <td class="align-middle action" style="min-width:350px;">
+                                    <!-- <select class="form-select" id="inlineFormSelectPref">
+                                      <option disabled>Choose...</option>
+                                      {% for status in order_status %}
+                                      <option value="{{ status.status }}" {% if status.status == order.order_status.status %}selected{% endif %}>
+                                        {{ status.status }}
+                                    </option>
+                                      {% endfor %}
+                                    </select> -->
+                                    <select class="form-select mb-4 order-status-select" aria-label="order status" name="order_status" id="order_status" data-order-id="{{ order.order_id }}">
+                                      <option selected disabled>Choose...</option>
+                                      {%for status in order_status %}
+                                      <option value="{{status.status}}"{% if status.status|lower == order.order_status|lower %}selected{% endif %}>{{status.status}}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </td>
+                                  <td class="align-middle text-end time white-space-nowrap">
+                                    <div class="hover-hide">
+                                      <h6 class="text-1000 mb-0">{{order.order_date}}</h6>
+                                    </div>
+                                  </td>
+                                  <td class="align-middle white-space-nowrap text-end pe-0">
+                                    <!-- <div class="position-relative">
+                                      <div class="hover-actions">
+                                        <button class="btn btn-sm btn-phoenix-secondary me-1 fs--2"><span class="fas fa-check"></span></button>
+                                        <button class="btn btn-sm btn-phoenix-secondary fs--2"><span class="fas fa-trash"></span></button>
+                                      </div>
+                                    </div> -->
+                                    <div class="font-sans-serif btn-reveal-trigger position-static">
+                                      <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--2"></span></button>
+                                      <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item stretched-link" href="{% url 'order-details' order_id=order.order_id %}">View</a><a class="dropdown-item" href="#!">Export</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="#!">Remove</a>
+                                      </div>
+                                    </div>
+                                    
+                                  </td>
+                                  
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="row align-items-center py-1">
+                            <div class="pagination d-none"></div>
+                            <div class="col d-flex fs--1">
+                              <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less</a>
+                            </div>
+                            <div class="col-auto d-flex">
+            
+                              <button class="btn btn-link px-1 me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left me-2"></span>Previous</button>
+                              <button class="btn btn-link px-1 ms-1" type="button" title="Next" data-list-pagination="next">Next<span class="fas fa-chevron-right ms-2"></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>                
+              </div>
+        </div>
+      </div>
+    </div>
+    
+  </main>
+  <script>
+    // const xValues = [50,60,70,80,90,100,110,120,130,140,150];
+    // const yValues = [7,8,8,9,9,9,10,11,14,14,15];
+    
+    // new Chart("salesChart", {
+    //   type: "line",
+    //   data: {
+    //     labels: xValues,
+    //     datasets: [{
+    //       fill: false,
+    //       lineTension: 0,
+    //       backgroundColor: "rgba(0,0,255,1.0)",
+    //       borderColor: "rgba(0,0,255,0.1)",
+    //       data: yValues
+    //     }]
+    //   },
+    //   options: {
+    //     legend: {display: false},
+    //     scales: {
+    //       yAxes: [{ticks: {min: 6, max:16}}],
+    //     }
+    //   }
+    // });
+
+
+
+    var ctx = document.getElementById('orderChart').getContext('2d');
+        var chartData = {{ chart_data|safe }}; // Pass chart data from Django
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Order Count',
+                    data: chartData.order_counts,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+
+    // const aValues = [50,60,70,80,90,100,110,120,130,140,150];
+    // const bValues = [7,8,8,9,9,9,10,11,14,14,15];
+    
+    // new Chart("orderChart", {
+    //   type: "line",
+    //   data: {
+    //     labels: aValues,
+    //     datasets: [{
+    //       fill: false,
+    //       lineTension: 0,
+    //       backgroundColor: "rgba(0,0,255,1.0)",
+    //       borderColor: "rgba(0,0,255,0.1)",
+    //       data: bValues
+    //     }]
+    //   },
+    //   options: {
+    //     legend: {display: false},
+    //     scales: {
+    //       yAxes: [{ticks: {min: 6, max:16}}],
+    //     }
+    //   }
+    // });
+
+
+
+     // Get the data from your Django view
+     var dailySalesData = {{ daily_sales_data|safe }};
+
+      // Get the canvas element
+      var ctx = document.getElementById('salesChart').getContext('2d');
+
+      // Create the chart
+      var salesChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: dailySalesData.labels,
+              datasets: [{
+                  label: 'Daily Sales',
+                  data: dailySalesData.daily_sales_counts,
+                  fill: false,
+                  borderColor: 'rgb(75, 192, 192)',
+                  tension: 0.1
+              }]
+          },
+          options: {
+              scales: {
+                  x: {
+                      type: 'time',
+                      time: {
+                          unit: 'day',
+                          tooltipFormat: 'MMM D, YYYY'
+                      },
+                      title: {
+                          display: true,
+                          text: 'Date'
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Sales Amount'
+                      }
+                  }
+              },
+              plugins: {
+                  tooltip: {
+                      callbacks: {
+                          label: function (context) {
+                              var label = context.dataset.label || '';
+                              if (label) {
+                                  label += ': ';
+                              }
+                              if (context.parsed.y !== null) {
+                                  label += context.parsed.y.toFixed(2);
+                              }
+                              return label;
+                          }
+                      }
+                  }
+              }
+          }
+      });
+
+
+    var x1Values = ["Italy", "France", "Spain", "USA", "Argentina"];
+    var y1Values = [55, 49, 44, 24, 15];
+    var barColors = [
+    "#b91d47",
+    "#00aba9",
+    "#2b5797",
+    "#e8c3b9",
+    "#1e7145"
+    ];
+
+    new Chart("bestChart", {
+    type: "pie",
+    data: {
+        labels: x1Values,
+        datasets: [{
+        backgroundColor: barColors,
+        data: y1Values
+        }]
+    },
+    options: {
+        title: {
+        display: true,
+        text: "World Wide Wine Production 2018"
+        }
+    }
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const orderStatusSelects = document.querySelectorAll('.order-status-select');
+
+      orderStatusSelects.forEach(function(orderStatusSelect) {
+        orderStatusSelect.addEventListener('change', function() {
+          const order_id = orderStatusSelect.dataset.orderId;
+          const order_status = orderStatusSelect.value;
+          console.log(`Order ID: ${order_id}, Status: ${order_status}`);
+
+          const csrfToken = "{{ csrf_token }}";
+
+          // Here, you can make an axios post request with the 'order_status' and 'order_id' values
+          // Replace 'your_endpoint_url' with the actual URL where you want to send the request
+          axios.post('/Al-admin/order-status-update', {
+              order_status: order_status,
+              order_id: order_id,
+            }, {
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            })
+            .then(function(response) {
+              console.log(response.data);
+              // Handle the response as needed
+              location.reload();
+            })
+            .catch(function(error) {
+              console.error(error);
+              // Handle errors if necessary
+            });
+        });
+      });
+    });
+
+
+    // Get all the clickable cards
+    var clickableCards = document.querySelectorAll(".clickable-card");
+
+    // Add a click event listener to each card
+    clickableCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            // Get the category from the data attribute
+            var order_data = card.getAttribute("data-category");
+
+            const csrfToken = "{{ csrf_token }}";
+
+            // Make a request to the server with the category
+            axios.post('/Al-admin/order_data_get', {
+              order_data: order_data
+            }, {
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            })
+            .then(function (response) {
+                // Handle the response from the server here
+                var category = response.data.order_data;
+                console.log(category)
+
+                window.location=`/Al-admin/sales/order-filter/${category}/`
+
+                // You can update your UI with the orders data as needed
+                // console.log(orders);
+            })
+            .catch(function (error) {
+                // Handle any errors that occur during the request
+                console.error(error);
+            });
+        });
+    });
+
+
+
+    // Get all the clickable cards
+    var clickableCards = document.querySelectorAll(".clickable-out");
+
+    // Add a click event listener to each card
+    clickableCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            // Get the category from the data attribute
+            var order_data = card.getAttribute("data-category");
+
+            const csrfToken = "{{ csrf_token }}";
+
+
+            // Encode the order_data for the URL
+            var encodedCategory = encodeURIComponent(order_data);
+            console.log(encodedCategory)
+
+            // Construct the URL with the encoded category data
+            var url = `/Al-admin/product-filter/${encodedCategory}/`;
+            console.log(url)
+
+
+            // Make a request to the server with the category
+            axios.post('/Al-admin/product_data_get', {
+              order_data: order_data
+            }, {
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            })
+            .then(function (response) {
+                // Handle the response from the server here
+                var category = response.data.order_data;
+                console.log(category)
+
+                var encodedCategory = encodeURIComponent(category);
+
+                // window.location=`/Al-admin/product-filter/${encodedCategory}/`
+                window.location = '/Al-admin/product_data_get'
+
+                // You can update your UI with the orders data as needed
+                // console.log(orders);
+            })
+            .catch(function (error) {
+                // Handle any errors that occur during the request
+                console.error(error);
+            });
+        });
+    });
+
+
+
+
+    </script>
+{% endblock %}

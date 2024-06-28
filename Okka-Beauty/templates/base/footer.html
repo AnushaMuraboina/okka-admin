@@ -1,0 +1,110 @@
+{% load static %}
+
+<!-- footer -->
+<footer class="footer pt-5 ">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-3">
+        <a class="navbar-brand fw-bold" href="{% url 'home' %}"><img src="../images/black-logo.jpeg" alt="" width="100px" height="80px"></a>
+        <p class="footer-link1-head">Lorem ipsum dolor sit amet.</p>
+        <div class="footer-icon d-flex">
+          <i class="fa fa-search pt-2" aria-hidden="true"></i>
+          <p class="ps-4 footer-link1-subhead">Lorem ipsum dolor sit amet consectetur adipisicing tempore ut culpa.
+          </p>
+        </div>
+        <div class="footer-icon d-flex">
+          <i class="fa fa-search pt-2" aria-hidden="true"></i>
+          <p class="ps-4 footer-link1-subhead">Lorem ipsum dolor sit amet consectetur tempore ut culpa.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="footer-link-img-2 text-center">
+          <a href="https://www.vogue.co.uk/gallery/vogue-retail-beauty-wellness" target="_blank"><img src="../images/black-logo.jpeg" alt="" width="100px" height="80px"></a>
+        </div>
+        <h6 class="footer-link2-subhead">Lorem ipsum dolor sit amet consec adipisicing elit. Optio, quas.</h6>
+        <form id="footer-contactForm" action="#" method="post">
+          <div class="mb-3">
+            <label for="name" class="form-label footer-label">Name (required)</label>
+            <input type="text" class="form-control footer-input" id="name" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label footer-label">Phone (required)</label>
+            <input type="phone" class="form-control footer-input" id="phone" name="phone" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label footer-label">Email (required)</label>
+            <input type="email" class="form-control footer-input" id="email" name="email" required>
+          </div>
+          <div class="mb-3">
+            <div class="g-recaptcha" data-sitekey="6Lel4Z4UAAAAAOa8LO1Q9mqKRUiMYl_00o5mXJrR"></div>
+          </div>
+          <button type="submit" class="footer-submit btn btn-primary px-4 py-2">SIGNUP</button>
+        </form>
+      </div>
+      <div class="col-md-4 col-lg-2">
+        <h5 class="footer-heading">Contact Us</h5>
+        <ul class="list-unstyled">
+          <li class="footer-link-text">BEAUTY</li>
+          <li class="footer-link-text">CLOTHING</li>
+          <li class="footer-link-text">BEAUTY</li>
+          <li class="footer-link-text">CLOTHING</li>
+          <li class="footer-link-text">BEAUTY</li>
+          <li class="footer-link-text">CLOTHING</li>
+        </ul>
+      </div>
+      <div class="col-md-4 col-lg-2">
+        <h5 class="footer-heading">Follow Us</h5>
+        <ul class="list-unstyled">
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+        </ul>
+      </div>
+      <div class="col-md-4 col-lg-2">
+        <h5 class="footer-heading">Follow Us</h5>
+        <ul class="list-unstyled">
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+          <li class="footer-link-text">Lorem ipsum dolor</li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-12 text-center">
+        <p>All Rights Reserved Okka Beauty Trading Co. LLC 2020</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    document.getElementById('footer-contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+
+        axios.post('/newsletter/', {
+            name: name,
+            phone: phone,
+            email: email
+        })
+        .then(function (response) {
+            console.log(response.data);
+            if (response.data.status === 'success') {
+                alert('Signup successful');
+            } else {
+                alert('There was an error: ' + response.data.errors);
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+</script>

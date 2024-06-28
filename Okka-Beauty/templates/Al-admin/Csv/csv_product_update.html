@@ -1,0 +1,1009 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<style>
+  #popup-message {
+      display: none;
+      position: fixed;
+      top: 20px; /* Updated to display at the top */
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #333; /* Updated to dark background color */
+      color: #fff;
+      border-radius: 5px;
+      z-index: 9999;
+  }
+
+  #popup-message.success {
+      background-color: #28a745; /* Green color for success */
+  }
+
+  #popup-message .icon {
+      margin-right: 10px;
+  }
+</style>
+<main class="main" id="top">
+    <section class="py-0 mb-5">
+    <div class="container-fluid px-0">
+      <nav class="navbar navbar-vertical navbar-expand-lg">
+        <script>
+          var navbarStyle = window.config.config.phoenixNavbarStyle;
+          if (navbarStyle && navbarStyle !== 'transparent') {
+            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+          }
+        </script>
+        <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+          <!-- scrollbar removed-->
+          <div class="navbar-vertical-content">
+            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+            
+              <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                </div>
+              </a>
+              <!-- more inner pages-->
+            </li>
+
+            <li class="nav-item">
+            
+              <div class="nav-item-wrapper">
+                <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                  <div class="d-flex align-items-center">
+                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                    <li class="collapsed-nav-item-title d-none">Banner Management
+                    </li>
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>  
+                  {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                  <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li>  
+                {% endif %} {% endfor %} {% endif %} {% endif %}
+
+                {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Price Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Price Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                   
+                {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Footer Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                  <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-text">Footer Banner</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="nav-item">
+            
+              <div class="nav-item-wrapper">
+                <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                  <div class="d-flex align-items-center">
+                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                    <li class="collapsed-nav-item-title d-none">Customer Management
+                    </li>
+                    {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Customer</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Customer</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+            <li class="nav-item">
+            
+              <div class="nav-item-wrapper">
+                <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                  <div class="d-flex align-items-center">
+                    <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                  </div>
+                </a>
+                <div class="parent-wrapper label-1">
+                  <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                    <li class="collapsed-nav-item-title d-none">Product Management
+                    </li>
+                    {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Products</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">All Products</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Add Product</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Add Product</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Sub Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Sub Categories</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Brand</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Brand</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Attribute</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                      <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Attribute</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                  </ul>
+                </div>
+              </div>
+            </li>
+
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                      <li class="collapsed-nav-item-title d-none">Order Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Delivery Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Delivery Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Replacement Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Replacement Orders</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+
+                      {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Re-Collection Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Re-Collection Person</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                  <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                      <li class="collapsed-nav-item-title d-none">Coupon
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Coupon Useage</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Coupon Useage</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                      <li class="collapsed-nav-item-title d-none">CSV Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                        <a class="nav-link active" href="3" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Csv Data</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                        <a class="nav-link active" href="3" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Csv Data</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                      <li class="collapsed-nav-item-title d-none">User Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">User Role</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">User Role</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+
+              <li class="nav-item">
+            
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                      <li class="collapsed-nav-item-title d-none">Report
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Order</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Invoice</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Shipping</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Abandoned Cart</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="navbar-vertical-footer">
+          <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+        </div>
+      </nav>
+      {% include 'Al-admin/base/nav.html' %}
+      <div class="content">
+        <div id="popup-message">
+          <span class="icon">✔</span> <!-- Green success icon -->
+          <span id="popup-message-text"></span>
+        </div>
+      <form class="mb-9" id="{% if product_data %}product-update{% else %}product-adding{% endif %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" id="product-id" value="{{ product_id }}">
+        <div class="row g-3 flex-between-end mb-5">
+          <div class="col-auto">
+            <h2 class="mb-2">Update a product</h2>
+            <!-- <h5 class="text-700 fw-semi-bold">Orders placed across your store</h5> -->
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button>
+            <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" type="button">Save draft</button>
+            
+            {% if request.user.is_authenticated %} {% if perms.csvdata.change_csv_creation %} <button class="btn btn-primary mb-2 mb-sm-0" id="update-product" type="submit">Update product</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_csv_creation %} <button class="btn btn-primary mb-2 mb-sm-0" id="update-product" type="submit">Update product</button> {% endif %} {% endfor %} {% endif %} {% endif %}           
+          </div>
+        </div>
+        <h4 class="mb-3">Product Name</h4>
+        <div class="row g-5">
+          <div class="col-12 col-xl-8">
+            <input class="form-control mb-5" name="product_name" type="text" placeholder="Write Name here..." data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Name." value="{{product_data.product_name}}"/>
+            <div class="mb-6">
+              <h4 class="mb-3"> Product Description</h4>
+              <textarea class="tinymce" id="description" name="description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' >{{product_data.description}}</textarea>
+            </div>
+            <div class="mb-6">
+              <h4 class="mb-3"> Product Short Description</h4>
+              <textarea class="tinymce" id="short_description" name="short_description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'>{{product_data.short_description}}</textarea>
+            </div>
+            <h4 class="mb-3">Product images</h4>
+            <input class="form-control mb-5" name="product_image" type="text" placeholder="Write Name here..." data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Name." value="{{product_data.images}}"/>
+       
+
+            <h4 class="mb-3">Inventory</h4>
+            <div class="row g-0 border-top border-bottom border-300">
+              <div class="col-sm-4">
+                <div class="nav flex-sm-column border-bottom border-bottom-sm-0 border-end-sm border-300 fs--1 vertical-tab h-100 justify-content-between" role="tablist" aria-orientation="vertical">
+                  <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center active" id="pricingTab" data-bs-toggle="tab" data-bs-target="#pricingTabContent" role="tab" aria-controls="pricingTabContent" aria-selected="true">
+                    <span class="me-sm-2 fs-4 nav-icons" data-feather="tag"></span>
+                    <span class="d-none d-sm-inline">Pricing</span>
+                  </a>
+                  <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="restockTab" data-bs-toggle="tab" data-bs-target="#restockTabContent" role="tab" aria-controls="restockTabContent" aria-selected="false">
+                    <span class="me-sm-2 fs-4 nav-icons" data-feather="package"></span>
+                    <span class="d-none d-sm-inline">Restock</span>
+                  </a>
+                  <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
+                    <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
+                    <span class="d-none d-sm-inline">Product Number</span>
+                  </a>
+                  <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="csvTab" data-bs-toggle="tab" data-bs-target="#csvTabContent" role="tab" aria-controls="csvTabContent" aria-selected="false">
+                    <span class="me-sm-2 fs-4 nav-icons" data-feather="sliders"></span>
+                    <span class="d-none d-sm-inline">CSV Number</span>
+                  </a>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="tab-content py-3 ps-sm-4 h-100">
+                  <div class="tab-pane fade show active" id="pricingTabContent" role="tabpanel">
+                    <h4 class="mb-3 d-sm-none">Pricing</h4>
+                    <div class="row g-3">
+                      <div class="col-12 col-lg-6">
+                        <h5 class="mb-2 text-1000">Special price</h5>
+                        <input class="form-control" type="text" name="special_price" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Special Price." placeholder="AED" value="{% if product_data.special_price %}{{product_data.special_price}}{% endif %}" />
+                      </div>
+                      <div class="col-12 col-lg-6">
+                        <h5 class="mb-2 text-1000">price</h5>
+                        <input class="form-control" type="text" name="price" placeholder="AED" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Price." value="{{product_data.price}}"/>
+                      </div>
+                      <div class="col-12 col-lg-6">
+                        <h5 class="mb-2 text-1000">Warranty conditions</h5>
+                        <input class="form-control" type="text" name="Warranty" placeholder="Warranty" value="{% if product_data.warranty_conditions %}{{product_data.warranty_conditions}}{% endif %}" />
+                      </div>
+                      <div class="col-12 col-lg-6">
+                        <h5 class="mb-2 text-1000">Weight</h5>
+                        <input class="form-control" type="text" name="Weight" placeholder="Weight" value="{% if product_data.weight %}{{ product_data.weight }}{% endif %}" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade h-100" id="restockTabContent" role="tabpanel" aria-labelledby="restockTab">
+                    <div class="d-flex flex-column h-100">
+                      <h5 class="mb-3 text-1000">Add to Stock</h5>
+                      <div class="row g-3 flex-1 mb-4">
+                        <div class="col-sm-7">
+                          <input class="form-control" type="number" name="stock" placeholder="Quantity" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Available Stock." value="{{product_data.number_of_stock_in}}"/>
+                        </div>
+                        <div class="col-sm-7">
+                          <div class="mb-4">
+                            <div class="d-flex flex-wrap mb-2">
+                              <h5 class="mb-0 text-1000 me-2">Stock Status</h5>
+                            </div>
+                            <select class="form-select mb-3" name="stock_status" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please Select Stock Status.">
+                              <option value="Instock">Instock</option>
+                              <option value="Out of Stock">Out of Stock</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="productsTabContent" role="tabpanel" aria-labelledby="productsTab">
+                    
+                    <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                      <h5 class="mb-2 text-1000">product Sku</h5>
+                      <input class="form-control" type="text" name="sku" placeholder="SKU" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product SKU." value="{{product_data.product_sku}}"/>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                      <h5 class="mb-2 text-1000">Model Number</h5>
+                      <input class="form-control" type="text" name="model" placeholder="Model" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Model Number." value="{{product_data.model_number}}"/>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="tab-pane fade" id="csvTabContent" role="tabpanel" aria-labelledby="csvTab">
+                    
+                    <div class="row g-3">
+                      <div class="col-12 col-lg-6">
+                        <h5 class="mb-2 text-1000">Badge Number</h5>
+                        <input class="form-control" type="text" name="badge_no" placeholder="SKU" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product SKU." value="{{product_data.badge_no}}"/>
+                      </div>
+                      <div class="col-12 col-lg-6">
+                        <h5 class="mb-2 text-1000">Item Number</h5>
+                        <input class="form-control" type="text" name="item_no" placeholder="Model" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Model Number." value="{{product_data.item_no}}"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-xl-4">
+            <div class="row g-2">
+              <div class="col-12 col-xl-12">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h4 class="card-title mb-4">Organize</h4>
+                    <div class="row g-3">
+                      <div class="col-12 col-sm-6 col-xl-12">
+                        <div class="mb-4">
+                          <div class="d-flex justify-content-between flex-wrap mb-4">
+                            <h5 class="mb-0 text-1000 me-2 align-self-center">Category</h5>
+                            <!-- <a class="fw-bold fs--1" href="#!">Add new category</a> -->
+                            <a class="fw-bold fs--1" href="" data-bs-toggle="modal" data-bs-target="#Category">Add category</a>
+                            <div class="modal fade" id="Category" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="scrollingLongModalLabel2">Add Category</h5>
+                                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <!-- subcategory_form.html -->
+                                      <form method="post" id="cate-form">
+                                        {% csrf_token %}
+                                        {{ form3.as_p }}
+                                        <button class="btn btn-primary" id="add-cate" type="button">Save</button>
+                                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                      </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <select class="form-select mb-3" id="categorySelect" name="category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                            <option value="" disabled>select category</option>
+                            {% for Categorys in Categorys %}
+                                <option value="{{ Categorys.name }}" {% if Categorys.name == product_data.category_name %}selected{% endif %}>{{ Categorys.name }}</option>
+                            {% endfor %}
+                        </select>                        
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-xl-12">
+                        <div class="mb-4">
+                          <div class="d-flex justify-content-between flex-wrap mb-2">
+                            <h5 class="mb-0 text-1000 me-2">Sub Category</h5>
+                            <a class="fw-bold fs--1" href="" data-bs-toggle="modal" data-bs-target="#subcategory">Add Sub Category</a>
+                            <div class="modal fade" id="subcategory" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="scrollingLongModalLabel2">Add Sub Category</h5>
+                                    <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <!-- subcategory_form.html -->
+                                      <form method="post" id="subcategory-form">
+                                        {% csrf_token %}
+                                        {{ form1.as_p }}
+                                        <button class="btn btn-primary" id="add-subcat" type="button">Save</button>
+                                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                      </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <select class="form-select mb-3" id="subcategorySelect" name="subcategory" aria-label="subcategory" data-parsley-group="product" required data-parsley-required-message="☒ Please select SubCategory.">                            
+                            <option value=""selected disabled>select subcategory</option> 
+                            {% for subCategory in subCategories %}
+                              <option value="{{ subCategory.name }}" {% if subCategory.name == product_data.sub_category_name %}selected{% endif %}>{{ subCategory.name }}</option>
+                            {% endfor %}      
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-6 col-xl-12">
+                        <div class="d-flex justify-content-between flex-wrap mb-2">
+                          <h5 class="mb-0 text-1000 me-2">Brand</h5>
+                          <a class="fw-bold fs--1 lh-sm" href="" data-bs-toggle="modal" data-bs-target="#Brand">Add Brand</a>
+                          <div class="modal fade" id="Brand" tabindex="-1" aria-labelledby="scrollingLongModalLabel2" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="scrollingLongModalLabel2">Add Brand</h5>
+                                  <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+                                </div>
+                                <div class="modal-body">
+                                  <!-- brand_form.html -->
+                                    <form method="post" id="brand-form">
+                                      {% csrf_token %}
+                                      {{ form2.as_p }}
+                                      <button class="btn btn-primary" id="add-brand" type="button">Save</button>
+                                      <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                    </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <select class="form-select" aria-label="Brand" name="brand" id="brand" data-parsley-group="product" required data-parsley-required-message="☒ Please select Brand.">
+                          <option value="" disabled>select Brand</option>
+                          {% for brand in brand_list %}
+                            <option value="{{ brand.brand__name }}" {% if brand.brand__name == product_data.brand_name %}selected{% endif %}>{{ brand.brand__name }}</option>
+                          {% endfor %}
+                        </select>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+    </div>
+    <script>
+      $(function () {
+        var form = $('#product-adding');
+        form.parsley();
+
+        form.on('keyup change click', 'input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]', function () {
+          $(this).parsley().validate();
+
+          console.log("Field validation status:", $(this).parsley().isValid());
+
+          var isValid = form.parsley().isValid({ group: 'product' }); // Validate only fields in the "product" group
+          // Validate dropzone
+          var dropzoneValid = $('[data-parsley-dropzone]').parsley().validate();
+          console.log("Dropzone validation status:", dropzoneValid);
+
+          var allFieldsFilled = form.find('input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]').toArray().every(function (field) {
+            var $field = $(field);
+            var fieldValue = $field.val().trim();
+
+            if ($field.is('select')) {
+              return fieldValue !== '' && fieldValue !== 'default';
+            }
+
+            return fieldValue !== '';
+          });
+
+          console.log("Form validation status:", isValid);
+          console.log("All fields filled:", allFieldsFilled);
+
+          // Enable the submit button only if all validations pass and at least one image is selected
+          $('#add-product').prop('disabled', !(isValid && allFieldsFilled && dropzoneValid) || !dropzoneValid);
+        });
+      });
+
+
+      // $(function () {
+      //   var form = $('#product-update');
+      //   form.parsley();
+
+      //   form.on('keyup change click', 'input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]', function () {
+      //     $(this).parsley().validate();
+
+      //     console.log("Field validation status:", $(this).parsley().isValid());
+
+      //     var isValid = form.parsley().isValid({ group: 'product' }); // Validate only fields in the "product" group
+      //     // Validate dropzone
+      //     var dropzoneValid = $('[data-parsley-dropzone]').parsley().validate();
+      //     console.log("Dropzone validation status:", dropzoneValid);
+
+      //     var allFieldsFilled = form.find('input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]').toArray().every(function (field) {
+      //       var $field = $(field);
+      //       var fieldValue = $field.val().trim();
+
+      //       if ($field.is('select')) {
+      //         return fieldValue !== '' && fieldValue !== 'default';
+      //       }
+
+      //       return fieldValue !== '';
+      //     });
+
+      //     console.log("Form validation status:", isValid);
+      //     console.log("All fields filled:", allFieldsFilled);
+
+      //     // Enable the submit button only if all validations pass and at least one image is selected
+      //     $('#update-product').prop('disabled', !(isValid && allFieldsFilled && dropzoneValid) || !dropzoneValid);
+      //   });
+      // });
+
+
+    </script>
+</section>
+
+    <script>
+
+
+          function displayPopupMessage(message, duration, success) {
+              const popup = document.getElementById('popup-message');
+              const popupText = document.getElementById('popup-message-text');
+              popupText.textContent = message;
+              if (success) {
+                  popup.classList.add('success');
+              }
+              popup.style.display = 'block';
+
+              setTimeout(function() {
+                  popup.style.display = 'none';
+                  popup.classList.remove('success');
+              }, duration);
+          }
+
+
+      document.addEventListener("DOMContentLoaded", function() {
+      // Function to submit a form using Axios
+      function submitForm(formId, endpoint) {
+          console.log("Form ID:", formId);
+          const form = document.getElementById(formId);
+          console.log("Form Element:", form);
+          // Debugging: Log the form and its fields to the console
+          console.log("Form:", form);
+          // console.log("Form Fields:", form.elements);
+          const formData = new FormData(form);
+
+          axios.post(endpoint, formData)
+              .then(response => {
+                  // Handle successful response (e.g., display a success message)
+                  console.log(response.data);
+              })
+              .catch(error => {
+                  // Handle error (e.g., display an error message)
+                  console.error(error);
+              });
+      }
+
+      // Attach event listeners to form submissions
+      document.getElementById("add-cate").addEventListener("click", function() {
+          submitForm("cate-form", "{% url 'create_category' %}");
+      });
+
+      document.getElementById("add-subcat").addEventListener("click", function() {
+          submitForm("subcategory-form", "{% url 'create_subcategory' %}");
+      });
+
+      document.getElementById("add-brand").addEventListener("click", function() {
+          submitForm("brand-form", "{% url 'create_brand' %}");
+      });
+    });
+
+
+    function fetchSubcategories() {
+      const selectedCategory = document.getElementById('categorySelect').value;
+      console.log(selectedCategory)
+      axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+      axios.post('/Al-admin/get-subcategories', data={ selectedCategory: selectedCategory })
+      .then(function (response) {
+      // Handle the response and update the UI with the retrieved subcategories
+      const subcategories = response.data.subcategories;
+      console.log(subcategories)
+      const subcategorySelect = document.getElementById('subcategorySelect');
+    
+      // Clear previous options
+      subcategorySelect.innerHTML = '';
+      // Add new options based on the retrieved subcategories
+      subcategories.forEach(function (subcategory) {
+      const option = document.createElement('option');
+      option.value = subcategory.name;
+      option.textContent = subcategory.name;
+      subcategorySelect.appendChild(option);
+      });
+      })
+      .catch(function (error) {
+      console.error(error);
+      });
+    }
+    
+    // Call the fetchSubcategories function when the category selection changes
+    document.getElementById('categorySelect').addEventListener('change', fetchSubcategories);
+
+
+    // fetchAttributes  function
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+    function fetchbrand() {
+      const selectedCategory = document.getElementById('categorySelect').value;
+      console.log(selectedCategory)
+      const selectedsubCategory = document.getElementById('subcategorySelect').value;
+      console.log(selectedsubCategory)
+      axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+      axios.post('/Al-admin/get-brand', data={ selectedsubCategory: selectedsubCategory, selectedCategory:selectedCategory })
+      .then(function (response) {
+      // Handle the response and update the UI with the retrieved subcategories
+      const brand = response.data.brand;
+      console.log(brand)
+
+      const brand_list = document.getElementById('brand');
+    
+      // Clear previous options
+      brand_list.innerHTML = '';
+      // Add new options based on the retrieved subcategories
+      brand.forEach(function (brand) {
+      const option = document.createElement('option');
+      option.value = brand.name;
+      option.textContent = brand.name;
+      brand_list.appendChild(option);
+      });
+
+     })
+      .catch(function (error) {
+      console.error(error);
+      });
+    }
+    
+    // Call the fetchSubcategories function when the category selection changes
+    document.getElementById('subcategorySelect').addEventListener('change', fetchbrand);
+
+  });
+
+
+    const updateform = document.getElementById('product-update');
+    const updateButton = document.getElementById('update-product');
+
+    updateButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Gather form data
+        const formData = new FormData(updateform);
+        console.log(formData)
+
+        
+        // Get the content of the TinyMCE editor
+        // var shortDescriptionContent = tinymce.get('short_description').getContent();
+        var description = tinymce.get('description').getContent();
+        console.log(description)
+        var short_description = tinymce.get('short_description').getContent();
+        console.log(short_description)
+        
+
+        // Append description and short_description to the FormData
+        formData.append('description', description);
+        formData.append('short_description', short_description);
+
+        const product_id = document.getElementById('product-id').value;
+        console.log(product_id)
+              
+        // Make a POST request using Axios
+        axios.post(`/Al-admin/csv-product-update/${product_id}/`, formData)
+          .then(response => {
+            // Handle success (e.g., show a success message)
+            console.log('Product added successfully!', response.data);
+            displayPopupMessage('Product added successfully!', 5000, true);
+            // Reload the page
+            window.location.reload();
+          })
+          .catch(error => {
+            // Handle error (e.g., show an error message)
+            console.error('Error adding product:', error);
+          });
+      });
+
+
+
+
+    </script>
+
+
+
+</main>
+
+{% endblock %}

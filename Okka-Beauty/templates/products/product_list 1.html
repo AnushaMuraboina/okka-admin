@@ -1,0 +1,207 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+
+
+<div class="container">
+    <div class="row">
+        <nav class="navbar navbar-expand-lg  ">
+            <div class="container">
+                <!-- Navbar brand -->
+                <!-- <p class="navbar-brand "> -->
+
+                <nav aria-label="breadcrumb ">
+                    <ol class="breadcrumb pt-3">
+                        {% for crumb in breadcrumbs %}
+                          {% if forloop.last %}
+                            <li class="breadcrumb-item active"><a href="{{ crumb.url }}" class="text-dark">{{ crumb.text }}</a></li>
+                          {% else %}
+                            <li class="breadcrumb-item"><a href="{{ crumb.url }}" class="text-muted">{{ crumb.text }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                    </ol>
+                </nav>
+                <!-- <nav class="mb-3" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      {% for crumb in breadcrumbs %}
+                          {% if forloop.last %}
+                              <li class="breadcrumb-item active text-dark" aria-current="page"><a class="text-dark" href="{{ crumb.url }}">{{ crumb.text }}</a></li>
+                          {% else %}
+                              <li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.text }}</a></li>
+                          {% endif %}
+                      {% endfor %}
+                  </ol>            
+                  </nav> -->
+                <!-- </p> -->
+
+                <!-- Navbar toggle button for mobile -->
+                <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-arrows-up-down"></i>
+                </button>
+
+                <!-- Navbar links -->
+                <div class="collapse navbar-collapse   ms-auto" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item show-images-numbers ">
+                            <ul class="d-flex pb-2">
+                                <p class="pt-2">show:</p>
+                                <li>
+
+                                    <a class="nav-link text-dark" href="#">
+                                        <span class="show-images-counting">9</span>
+                                        <span class="show-images-verti-line"></span></a>
+                                </li>
+                                <li><a class="nav-link text-dark" href="#">
+
+                                        <span class="show-images-counting">9</span>
+                                        <span class="show-images-verti-line"></span>
+                                    </a></li>
+                                <li><a class="nav-link text-dark" href="#">
+                                        <span class="show-images-counting">9</span>
+                                        <span class="show-images-verti-line"></span>
+                                    </a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item d-flex show-image-grid px-3">
+                            <a class="nav-link text-dark mb-2" href="#"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewBox="0 0 16 16">
+                                <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z"/>
+                              </svg></a>
+              
+                            <a class="nav-link text-dark mb-2" href="#"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-3x3-gap" viewBox="0 0 16 16">
+                                <path d="M4 2v2H2V2zm1 12v-2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m5 10v-2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1M9 2v2H7V2zm5 0v2h-2V2zM4 7v2H2V7zm5 0v2H7V7zm5 0h-2v2h2zM4 12v2H2v-2zm5 0v2H7v-2zm5 0v2h-2v-2zM12 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm-1 6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z"/>
+                              </svg></i></a>
+                              <a class="nav-link text-dark mb-2" href="#"> <i class="fa-solid fa-table-cells text-secondary"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- <a class="nav-link " href="#"> -->
+                            <select class="form-select show-form-select"
+                                aria-label="Default select example" id="sort">
+                                <option data-subcategory-id="{{category}}" value="Alphabetical" selected> sort by name:Alphabetical order</option>
+                                <option data-subcategory-id="{{category}}" value="Popularity">Sort by Popularity</option>
+                                <option data-subcategory-id="{{category}}" value="average rating">Sort by average rating</option>
+                                <option data-subcategory-id="{{category}}" value="latest">Sort by latest</option>
+                                <option data-subcategory-id="{{category}}" value="Low to High">Sort by price: Low To High </option>
+                                <option data-subcategory-id="{{category}}" value="High to Low">Sort by price: High To Low </option>
+                            </select>
+                            <!-- </a> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+
+<!-- ========================== -->
+
+<div class="container ">
+    <div class="my-slider-cart">
+        {% for product in products %}
+        {% if forloop.counter0|divisibleby:4 %}
+        <div class="row">
+        {% endif %}
+        <div class="col-12 col-sm-6 col-lg-3 border">
+            <div class="product item product-item-details  ">
+                <div class="product-image">
+                    <a href="" class="image">
+                        {% if product.images.all %}
+                            {% for image in product.images.all|slice:":2" %}
+                                {% if forloop.counter == 1 %}
+                                <a href="{% url 'product_detail' product.slug %}" class="image">
+                                    <img src="{{ image.image.url }}" class="pic-1">
+                                </a>
+                                {% endif %}
+                                {% if forloop.counter == 2 %}
+                                <a href="{% url 'product_detail' product.slug %}" class="image">
+                                    <img src="{{ image.image.url }}" class="pic-2">
+                                </a>
+                                {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        <!-- <img src="../images/3.jpg" class="pic-1">
+                        <img src="../images/4.jpg" class="pic-2"> -->
+                    </a>
+                    {% if product.in_stock == 'Outofstock' %}
+                        <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                            out</span></div>
+                        {% endif %}
+                        {% if product.in_stock == 'Instock' %}
+                        {% if product.sale_price %}
+                        <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+                        {% endif %}
+                        {% endif %}
+                    <ul class="links">
+                        <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left"
+                                title="Tooltip on left"><i class="fa fa-search" aria-hidden="true"></i> </a>
+                        </li>
+                        <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left"
+                                title="Tooltip on left"><i class="fa fa-heart-o" aria-hidden="true"></i> </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content">
+                    <h3 class="title"><a href="{% url 'product_detail' product.slug %}">{{product.name}}</a></h3>
+                    <div class="price">{% if product.sale_price %}<span><s>{{product.regular_price}} AED</s></span>{{product.sale_price}} AED{% else %}{{product.regular_price}} AED{% endif %}</div>
+                    <!-- <button class="carting " data-bs-toggle="offcanvas" data-bs-target="#demo"><a href="#">SELECT
+                        OPTIONS</a> </button> -->
+                        {% if product.in_stock == 'Instock' %}
+                            <button id="{{product.id}}" class="btn-add_cart ">
+                            <p class="mb-0">ADD TO CART</p>
+                            <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+                            </button>
+                            {% else %}
+                            <button class="btn-add_cart ">
+                            <p class="mb-0">READ MORE</p>
+                            <i class="fa-regular fa-eye addcart-icon text-dark"></i>
+                            </button>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:4 or forloop.last %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    </div>
+</div>
+
+<div class="container py-5">
+<div class="row">
+  <div class="col-12 col-md-6 col-lg-3 mx-auto">
+    <div class="d-grid gap-2 show-load-more-btn-head">
+      <button class="btn border show-load-more-button" type="button">LOAD MORE PRODUCTS</button>
+    </div>
+  </div>
+</div>
+</div>
+
+      <script>
+        // Assuming you have Axios library already imported
+        const sortDropdown = document.getElementById('sort');
+        // Event listener for when the dropdown value changes
+        sortDropdown.addEventListener('change', () => {
+        const selectedValue = sortDropdown.value;
+        console.log(selectedValue)
+        const selectedOption = sortDropdown.options[sortDropdown.selectedIndex];
+        // const subcategory_id = this.dataset.subcategoryId;
+        const subcategory_id = selectedOption.getAttribute('data-subcategory-id');
+
+        console.log(subcategory_id)
+        // Make a POST request to the server
+        axios.post('/product/sort-value', { sortValue: selectedValue, subcategory_id:subcategory_id, })
+            .then(response => {
+            // Handle the response from the server
+            // You can update your UI or perform further actions based on the filtered products received
+            console.log(response.data)
+            updateProductList(response.data.products);
+            updatePagination(response.data.pagination_data);  
+            })
+            .catch(error => {
+            // Handle any errors that occurred during the request
+            });
+        });
+      </script>
+
+{% endblock %}

@@ -1,0 +1,2289 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+  
+{% load custom_filters %}
+
+
+  <!-- carousel -->
+
+  <div class="container-fluid banner-carousel-full">
+    <div class="row">
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                {% for mainbanner in main_banner %}
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for mainbanner in main_banner %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %} carousel-image-container">
+                      <a href="{{mainbanner.url}}" target="_blank">  
+                        <img src="{{ mainbanner.banner_image.url }}" class="d-block w-100 carousel-image-container-link" alt="{{ banner.alt_text }}">
+                      </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+  <!-- <div class="container-fluid banner-carousel-full">
+    <div class="row">
+      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active carousel-image-container">
+            <img src="{% static 'images/carousel-1.jpeg' %}" class="d-block w-100 carousel-image-container-link" alt="...">
+          </div>
+          <div class="carousel-item carousel-image-container">
+            <img src="{% static 'images/carousel-1.jpeg' %}" class="d-block w-100 carousel-image-container-link" alt="...">
+          </div>
+          <div class="carousel-item carousel-image-container">
+            <img src="{% static 'images/carousel-1.jpeg' %}" class="d-block w-100 carousel-image-container-link" alt="...">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </div> -->
+
+
+
+
+  <!-- beauty products -->
+
+  <div class="container py-5">
+    <div class="row ">
+      <h1 class="text-center skin-routine-head">SKIN ROUTINE</h1>
+      <div class="my-slider-1">
+        {% for skinroutine in skin_routine %}
+          <img src="{{skinroutine.image.url}}" alt="" class="slider-image-link1" onclick="window.location.href='{% url 'product-subcategory' skinroutine.parent_category.slug skinroutine.slug %}'" />
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div class="container py-5">
+    <h1 class="text-center trending-head">TRENDING BRANDS</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="img-container">
+          <img src="{% static 'images/cards-1.jpeg' %}" class="img-fluid" alt="">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="img-container">
+          <img src="{% static 'images/cards-1.jpeg' %}" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="img-container">
+          <img src="{% static 'images/cards-1.jpeg' %}" class="img-fluid" alt="">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="img-container">
+          <img src="{% static 'images/cards-1.jpeg' %}" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- TRENDING BRANDS -->
+
+  <div class="container py-5">
+    <h1 class="text-center trending-head">TRENDING BRANDS</h1>
+    <div class="row">
+        {% for brand in trending_banner %}
+            <div class="col-md-6">
+                <div class="img-container">
+                  <a href="{{brand.url}}">
+                    <img src="{{ brand.brand_image.url }}" class="img-fluid" alt="{{ brand.alt_text }}">
+                  </a>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:2 and not forloop.last %}
+                </div><div class="row">
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+  <!-- BEAUTY NEW ARRIVALS -->
+
+
+
+  <div class="container py-5">
+    <div class="row">
+      <h1 class="text-center trending-head">BEAUTY NEW ARRIVALS</h1>
+      <div class="my-slider">
+      {% for beautynew in latest_beauty_product %}
+        <div class="product item">
+          
+          <div class="product-image">
+            <a href="" class="image">
+              {% if beautynew.images.all %}
+              {% for image in beautynew.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="{% url 'product_detail' beautynew.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="{% url 'product_detail' beautynew.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="{% static 'images/3.jpg' %}" class="pic-1">
+              <img src="{% static 'images/4.jpg' %}" class="pic-2"> -->
+            </a>
+            {% if beautynew.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if beautynew.in_stock == 'Instock' %}
+              {% if beautynew.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}
+              <div class="product-labels-new labels-rounded-new">
+                <span class="new-product-sale product-label-new ">NEW</span>
+              </div>
+            {% endif %}
+            <ul class="links">
+              <li>
+                <span>
+                  <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left" onclick="showProductModal({{ beautynew.id }})">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </a>
+                </span>
+              </li>
+              
+              <li><button id="{{ beautynew.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button>
+              </li>
+              <!-- <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-search" aria-hidden="true"></i> </a></li>
+          <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-heart-o" aria-hidden="true"></i> </a></li> -->
+            </ul>
+          </div>
+          <div class="content">
+            <h3 class="title"><a href="{% url 'product_detail' beautynew.slug %}">{{beautynew.name}}</a></h3>
+            <div class="price">{% if beautynew.sale_price %}<span><s>Rs.{{beautynew.regular_price}}</s></span>Rs.{{beautynew.sale_price}}{% else %}Rs.{{beautynew.regular_price}}{% endif %}</div>
+            <!-- <a href="" class="cart ">Add to Cart</a> -->
+            <!-- <button class="carting "><a href="#">SELECT OPTIONS</a> </button> -->
+            {% if beautynew.in_stock == 'Instock' %}
+            <button id="{{beautynew.id}}" class="btn-add_cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        <div class="modal fade" id="productModal-{{beautynew.id}}" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+          <!-- Modal content -->
+        </div>
+        
+        {% endfor %}
+      </div>
+      <!-- </div> -->
+
+    </div>
+  </div>
+
+
+
+
+
+  <!-- ===============fashion new arrivals -->
+
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center trending-head">FASHION NEW ARRIVALS</h1>
+      <div class="my-slider">
+        {% for fashionnew in latest_fashion_product %}
+        <div class="product item">
+
+          <div class="product-image">
+            <a href="" class="image">
+              {% if fashionnew.images.all %}
+              {% for image in fashionnew.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="{% url 'product_detail' fashionnew.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="{% url 'product_detail' fashionnew.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="{% static 'images/3.jpg' %}" class="pic-1">
+              <img src="{% static 'images/4.jpg' %}" class="pic-2"> -->
+            </a>
+            {% if fashionnew.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if fashionnew.in_stock == 'Instock' %}
+              {% if fashionnew.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}
+              <div class="product-labels-new labels-rounded-new">
+                <span class="new-product-sale product-label-new ">NEW</span>
+              </div>
+            {% endif %}
+            <ul class="links">
+              <li><span data-bs-toggle="modal" data-bs-target="#productModal-{{fashionnew.id}}">
+                <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+              </span>
+            </li>
+              <li><button id="{{ fashionnew.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button></li>
+            </ul>
+          </div>
+          <div class="content">
+            <h3 class="title"><a href="{% url 'product_detail' fashionnew.slug %}">{{fashionnew.name}}</a></h3>
+            <div class="price">{% if fashionnew.sale_price %}<span><s>Rs.{{fashionnew.regular_price}}</s></span>Rs.{{fashionnew.sale_price}}{% else %}Rs.{{fashionnew.regular_price}}{% endif %}</div>
+            <!-- <a href="" class="cart ">Add to Cart</a> -->
+            <!-- <button class="carting "><a href="#">SELECT OPTIONS</a> </button> -->
+            {% if fashionnew.in_stock == 'Instock' %}
+            <button id="{{fashionnew.id}}" class="btn-add_cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- </div> -->
+
+    </div>
+  </div>
+
+
+
+  {% for fashionnew in latest_fashion_product %}
+  <div class="modal fade" id="productModal-{{fashionnew.id}}" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex ">
+          <!-- <div class="container">
+          <div class="row  "> -->
+          <!-- <div class="col-md-5"> -->
+          <div class="col-md-5 my-slider-6 text-center  model-slider-box me-5 ">
+            <!-- <img src="{% static 'images/carousel-3.jpeg" alt="" class="slider-image-link1 p-5" /> -->
+            {% for image in fashionnew.images.all %}
+            <img src="{{ image.image.url }}" alt="" class="slider-image-link1  p-5" />
+            {% endfor %}
+            <!-- <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" /> -->
+          </div>
+
+          <div class="col-md-5">
+            <!-- Product details -->
+            <h2 class="product-details-heading">{{fashionnew.name}}</h2>
+            <p class="product-details-subhead">eve <span class="text-dark">solo</span></p>
+            <p class="product-details-amount">{% if fashionnew.sale_price %}<span><s>Rs.{{fashionnew.regular_price}}</s></span>Rs.{{fashionnew.sale_price}}{% else %}Rs.{{fashionnew.regular_price}}{% endif %}</p>
+            <p class="product-details-para">{{fashionnew.description}}.</p>
+            <div class="d-flex">
+              <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ fashionnew.id }}, -1)">-</button>
+              <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ fashionnew.id }}" data-product-id="{{ fashionnew.id }}" />
+              <input type="hidden" id="stock_value-{{ fashionnew.id }}" value="{{fashionnew.stock}}">
+              <button class="btn cartpage_plusicon" type="button" id="{{ fashionnew.id }}" data-type="plus" onclick="updateQuantity({{ fashionnew.id }}, 1)">+</button>
+            </div>
+            <!-- Product colors -->
+            <div class="product-colors">colors:
+              <!-- <p>Colors:</p> -->
+              <span class="product-colors-black bg-dark active" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="black"></span>
+              <span class="product-colors-red bg-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="red"></span>
+              <span class="product-colors-grey bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="grey"></span>
+            </div>
+            <!-- SKU and Categories -->
+            <div class="product-details-sku d-flex pb-2">
+              <p class="product-details-sku-1">SKU :</p>
+              <p class="product-details-sku-2">{{fashionnew.sku}}</p>
+            </div>
+            <div class="product-details-cat d-flex pb-2">
+              <p class="product-details-sku-1">Categories:</p>
+              <p class="product-details-sku-2">Accessories, clocks</p>
+            </div>
+            <div class="product-details-icons d-flex">
+              <p>share :</p>
+              <div class="product-details-icons-links ">
+                <a href="#" class=""><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class=""><i class="fa-regular fa-envelope"></i></a>
+                <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- </div>
+        </div> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+
+  <!-- =========================== -->
+
+
+
+
+
+  <!-- <div class="container py-5">
+    <div class="row mb-5">
+      {% for price in price_banner %}
+      <div class="col-md-6">
+        <div class="img-container">
+          <img src="{{ price.image.url }}" class="img-fluid image-container-1" alt="{{ price.alt_text }}">
+        </div>
+      </div>
+      {% if forloop.counter|divisibleby:2 and not forloop.last %}
+        </div><div class="row">
+      {% endif %}
+      {% endfor %}
+  </div> -->
+
+
+  <div class="container py-5">
+    <div class="row mb-5">
+        {% for price in price_banner %}
+        <div class="col-md-6">
+            <div class="img-container">
+                <a href="{% url 'filter_by_category' price.Category.name %}" class="category-filter-link">
+                    <img src="{{ price.image.url }}" class="img-fluid image-container-1" alt="{{ price.alt_text }}">
+                </a>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:2 and not forloop.last %}
+            </div><div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+  <!-- BEAUTY BEST SELLER -->
+
+  <div class="container py-4">
+    <div class="row">
+      <h1 class="text-center trending-head">BEAUTY BEST SELLER</h1>
+      <div class="my-slider">
+        {% for beautybestseller in beauty_bestseller %}
+        <div class="product item">
+          <div class="product-image">
+            <a href="" class="image">
+              {% if beautybestseller.images.all %}
+              {% for image in beautybestseller.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="{% url 'product_detail' beautybestseller.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="{% url 'product_detail' beautybestseller.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="{% static 'images/3.jpg' %}" class="pic-1">
+              <img src="{% static 'images/4.jpg' %}" class="pic-2"> -->
+            </a>
+            {% if beautybestseller.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if beautybestseller.in_stock == 'Instock' %}
+              {% if beautybestseller.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}              
+            {% endif %}
+            <ul class="links">
+              <li><span data-bs-toggle="modal" data-bs-target="#productModal-{{beautybestseller.id}}">
+                <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+              </span>
+            </li>
+              <li><button id="{{ beautybestseller.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button>
+                </span>
+              </li>
+              <!-- <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-search" aria-hidden="true"></i> </a></li>
+          <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-heart-o" aria-hidden="true"></i> </a></li> -->
+            </ul>
+          </div>
+          <div class="content">
+            <h3 class="title"><a href="{% url 'product_detail' beautybestseller.slug %}">{{beautybestseller.name}}</a></h3>
+            <div class="price">{% if beautybestseller.sale_price %}<span><s>Rs.{{beautybestseller.regular_price}}</s></span>Rs.{{beautybestseller.sale_price}}{% else %}Rs.{{beautybestseller.regular_price}}{% endif %}</div>
+            <!-- <a href="" class="cart ">Add to Cart</a> -->
+            <!-- <button class="carting "><a href="#">SELECT OPTIONS</a> </button> -->
+            {% if beautybestseller.in_stock == 'Instock' %}
+            <button id="{{beautybestseller.id}}" class="btn-add_cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- </div> -->
+
+    </div>
+  </div>
+
+
+  {% for beautybestseller in beauty_bestseller %}
+  <div class="modal fade" id="productModal-{{beautybestseller.id}}" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex ">
+          <!-- <div class="container">
+          <div class="row  "> -->
+          <!-- <div class="col-md-5"> -->
+          <div class="col-md-5 my-slider-6 text-center  model-slider-box me-5 ">
+            <!-- <img src="{% static 'images/carousel-3.jpeg" alt="" class="slider-image-link1 p-5" /> -->
+            {% for image in beautybestseller.images.all %}
+            <img src="{{ image.image.url }}" alt="" class="slider-image-link1  p-5" />
+            {% endfor %}
+            <!-- <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" /> -->
+          </div>
+
+          <div class="col-md-5">
+            <!-- Product details -->
+            <h2 class="product-details-heading">{{beautybestseller.name}}</h2>
+            <p class="product-details-subhead">eve <span class="text-dark">solo</span></p>
+            <p class="product-details-amount">{% if beautybestseller.sale_price %}<span><s>Rs.{{beautybestseller.regular_price}}</s></span>Rs.{{beautybestseller.sale_price}}{% else %}Rs.{{beautybestseller.regular_price}}{% endif %}</p>
+            <p class="product-details-para">{{beautybestseller.description}}.</p>
+            <div class="d-flex">
+              <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ beautybestseller.id }}, -1)">-</button>
+              <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ beautybestseller.id }}" data-product-id="{{ beautybestseller.id }}" />
+              <input type="hidden" id="stock_value-{{ beautybestseller.id }}" value="{{beautybestseller.stock}}">
+              <button class="btn cartpage_plusicon" type="button" id="{{ beautybestseller.id }}" data-type="plus" onclick="updateQuantity({{ beautybestseller.id }}, 1)">+</button>
+            </div>
+            <!-- Product colors -->
+            <div class="product-colors">colors:
+              <!-- <p>Colors:</p> -->
+              <span class="product-colors-black bg-dark active" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="black"></span>
+              <span class="product-colors-red bg-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="red"></span>
+              <span class="product-colors-grey bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="grey"></span>
+            </div>
+            <!-- SKU and Categories -->
+            <div class="product-details-sku d-flex pb-2">
+              <p class="product-details-sku-1">SKU :</p>
+              <p class="product-details-sku-2">{{beautybestseller.sku}}</p>
+            </div>
+            <div class="product-details-cat d-flex pb-2">
+              <p class="product-details-sku-1">Categories:</p>
+              <p class="product-details-sku-2">Accessories, clocks</p>
+            </div>
+            <div class="product-details-icons d-flex">
+              <p>share :</p>
+              <div class="product-details-icons-links ">
+                <a href="#" class=""><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class=""><i class="fa-regular fa-envelope"></i></a>
+                <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- </div>
+        </div> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+  <!-- ===============fashion new arrivals -->
+
+  <div class="container py-5">
+    <div class="row">
+      <h1 class="text-center trending-head">FASHION BEST SELLER</h1>
+      <div class="my-slider">
+
+        {% for fashionbestseller in fashion_bestseller %}
+        <div class="product item">
+
+          <div class="product-image">
+            <a href="" class="image">
+              {% if fashionbestseller.images.all %}
+              {% for image in fashionbestseller.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="{% url 'product_detail' fashionbestseller.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="{% url 'product_detail' fashionbestseller.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="{% static 'images/3.jpg' %}" class="pic-1">
+              <img src="{% static 'images/4.jpg' %}" class="pic-2"> -->
+            </a>
+            {% if fashionbestseller.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if fashionbestseller.in_stock == 'Instock' %}
+              {% if fashionbestseller.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}
+            {% endif %}
+            <ul class="links">
+              <li><span data-bs-toggle="modal" data-bs-target="#productModal-{{fashionbestseller.id}}">
+                <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+              </span>
+            </li>
+              <li><button id="{{ fashionbestseller.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button></li>
+            </ul>
+          </div>
+          <div class="content">
+            <h3 class="title"><a href="{% url 'product_detail' fashionbestseller.slug %}">{{fashionbestseller.name}}</a></h3>
+            <div class="price">{% if fashionbestseller.sale_price %}<span><s>Rs.{{fashionbestseller.regular_price}}</s></span>Rs.{{fashionbestseller.sale_price}}{% else %}Rs.{{fashionbestseller.regular_price}}{% endif %}</div>
+            <!-- <a href="" class="cart ">Add to Cart</a> -->
+            <!-- <button class="carting "><a href="#">SELECT OPTIONS</a> </button> -->
+            {% if fashionbestseller.in_stock == 'Instock' %}
+            <button id="{{fashionbestseller.id}}" class="btn-add_cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}        
+      </div>
+      <!-- </div> -->
+
+    </div>
+  </div>
+
+
+
+  {% for fashionbestseller in fashion_bestseller %}
+  <div class="modal fade" id="productModal-{{fashionbestseller.id}}" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex ">
+          <!-- <div class="container">
+          <div class="row  "> -->
+          <!-- <div class="col-md-5"> -->
+          <div class="col-md-5 my-slider-6 text-center  model-slider-box me-5 ">
+            <!-- <img src="{% static 'images/carousel-3.jpeg" alt="" class="slider-image-link1 p-5" /> -->
+            {% for image in fashionbestseller.images.all %}
+            <img src="{{ image.image.url }}" alt="" class="slider-image-link1  p-5" />
+            {% endfor %}
+            <!-- <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" /> -->
+          </div>
+
+          <div class="col-md-5">
+            <!-- Product details -->
+            <h2 class="product-details-heading">{{fashionbestseller.name}}</h2>
+            <p class="product-details-subhead">eve <span class="text-dark">solo</span></p>
+            <p class="product-details-amount">{% if fashionbestseller.sale_price %}<span><s>Rs.{{fashionbestseller.regular_price}}</s></span>Rs.{{fashionbestseller.sale_price}}{% else %}Rs.{{fashionbestseller.regular_price}}{% endif %}</p>
+            <p class="product-details-para">{{fashionbestseller.description}}.</p>
+            <div class="d-flex">
+              <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ fashionbestseller.id }}, -1)">-</button>
+              <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ fashionbestseller.id }}" data-product-id="{{ fashionbestseller.id }}" />
+              <input type="hidden" id="stock_value-{{ fashionbestseller.id }}" value="{{fashionbestseller.stock}}">
+              <button class="btn cartpage_plusicon" type="button" id="{{ fashionbestseller.id }}" data-type="plus" onclick="updateQuantity({{ fashionbestseller.id }}, 1)">+</button>
+            </div>
+            <!-- Product colors -->
+            <div class="product-colors">colors:
+              <!-- <p>Colors:</p> -->
+              <span class="product-colors-black bg-dark active" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="black"></span>
+              <span class="product-colors-red bg-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="red"></span>
+              <span class="product-colors-grey bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="grey"></span>
+            </div>
+            <!-- SKU and Categories -->
+            <div class="product-details-sku d-flex pb-2">
+              <p class="product-details-sku-1">SKU :</p>
+              <p class="product-details-sku-2">{{fashionbestseller.sku}}</p>
+            </div>
+            <div class="product-details-cat d-flex pb-2">
+              <p class="product-details-sku-1">Categories:</p>
+              <p class="product-details-sku-2">Accessories, clocks</p>
+            </div>
+            <div class="product-details-icons d-flex">
+              <p>share :</p>
+              <div class="product-details-icons-links ">
+                <a href="#" class=""><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class=""><i class="fa-regular fa-envelope"></i></a>
+                <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- </div>
+        </div> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+  <!-- =========================== -->
+
+
+
+
+  <!-- =======================FASHION BEST SELLER=============== -->
+
+
+
+
+  <!-- image only -->
+  {% for footbanner in foot_banner %}
+  <div class="container py-5">
+    <div class="row">
+      <a href="{{footbanner.url}}" target="_blank">
+        <img src="{{footbanner.banner_image.url}}" alt="{{footbanner.alt_text}}">
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+  <!-- deals -->
+
+
+
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center trending-head">DEALS</h1>
+      <div class="my-slider">
+        {% for deal in deal %}
+        <div class="product item">
+
+          <div class="product-image">
+            <a href="{% url 'product_detail' deal.slug %}" class="image">
+              {% if deal.images.all %}
+              {% for image in deal.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="{% url 'product_detail' deal.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="{% url 'product_detail' deal.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="{% static 'images/3.jpg' %}" class="pic-1">
+              <img src="{% static 'images/4.jpg' %}" class="pic-2"> -->
+            </a>
+            {% if deal.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if deal.in_stock == 'Instock' %}
+              {% if deal.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}
+            {% endif %}
+            <ul class="links">
+              <li><span data-bs-toggle="modal" data-bs-target="#productModal-{{deal.id}}">
+                <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+              </span>
+            </li>
+              <li><button id="{{ deal.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button></li>
+            </ul>
+          </div>
+          <div class="content">
+            <h3 class="title"><a href="{% url 'product_detail' deal.slug %}">{{deal.name}}</a></h3>
+            <div class="price">{% if deal.sale_price %}<span><s>Rs.{{deal.regular_price}}</s></span>Rs.{{deal.sale_price}}{% else %}Rs.{{deal.regular_price}}{% endif %}</div>
+            <!-- <a href="" class="cart ">Add to Cart</a> -->
+            <!-- <button class="carting "><a href="#">SELECT OPTIONS</a> </button> -->
+            {% if deal.in_stock == 'Instock' %}
+            <button id="{{deal.id}}" class="btn-add_cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}        
+      </div>
+      <!-- </div> -->
+
+    </div>
+  </div>
+
+
+  <!-- SELF CARE KITS -->
+
+
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center explore-brands-head ">SELFCARE KITS</h1>
+      <div class="my-slider-8">
+        {% for selfcarekit in selfcare_kit %}
+        <div class="image-overlay-container">
+          {% for image in selfcarekit.product.images.all %}
+            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="image-overlay">
+          {% endfor %}
+          {% if selfcarekit.product.in_stock == 'Outofstock' %}
+          <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+              out</span></div>
+          {% endif %}
+          
+          <div class="overlay">
+            <ul class="icons">
+              <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i
+                    class="fa fa-search" aria-hidden="true"></i></a>
+              </li>
+              <li><button id="{{ selfcarekit.product.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button>
+              </li>
+            </ul>
+            <div class="selfcare-text ">
+              <a href="{% url 'product_detail' selfcarekit.product.slug %}" class="selfcare-text-head text-reset">{{selfcarekit.product.name}}</a>
+              <p class="selfcare-text-subhead">{{selfcarekit.product.regular_price}}<span>AED</span></p>
+              {% if selfcarekit.product.in_stock == 'Instock' %}
+              <button id="{{selfcarekit.product.id}}" class="btn-add_cart ">
+                <p class="mb-0">ADD TO CART</p>
+                <a href="#"> <i class="fa-solid fa-cart-shopping addcart-icon text-light"></i></a>
+              </button>
+              {% else %}
+              <button class="btn-add_cart ">
+                <p class="mb-0">READ MORE</p>
+                <i class="fa-regular fa-eye addcart-icon text-light"></i>
+              </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+
+  {% for deal in deal %}
+  <div class="modal fade" id="productModal-{{deal.id}}" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex ">
+          <!-- <div class="container">
+          <div class="row  "> -->
+          <!-- <div class="col-md-5"> -->
+          <div class="col-md-5 my-slider-6 text-center  model-slider-box me-5 ">
+            <!-- <img src="{% static 'images/carousel-3.jpeg" alt="" class="slider-image-link1 p-5" /> -->
+            {% for image in deal.images.all %}
+            <img src="{{ image.image.url }}" alt="" class="slider-image-link1  p-5" />
+            {% endfor %}
+            <!-- <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" /> -->
+          </div>
+
+          <div class="col-md-5">
+            <!-- Product details -->
+            <h2 class="product-details-heading">{{deal.name}}</h2>
+            <p class="product-details-subhead">eve <span class="text-dark">solo</span></p>
+            <p class="product-details-amount">{% if deal.sale_price %}<span><s>Rs.{{deal.regular_price}}</s></span>Rs.{{deal.sale_price}}{% else %}Rs.{{deal.regular_price}}{% endif %}</p>
+            <p class="product-details-para">{{deal.description}}.</p>
+            <div class="d-flex">
+              <button class="btn cartpage_minuicon" type="button" data-type="minus">-</button>
+                <input type="text" class="form-control text-center pb-2  cartpage-counting quantity-input" value="1" id="quantity-input1" >
+                <button class="btn cartpage_plusicon" type="button" data-type="plus">+</button>
+              <!-- <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ deal.id }}, -1)">-</button>
+              <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ deal.id }}" data-product-id="{{ deal.id }}" />
+              <input type="hidden" id="stock_value-{{ deal.id }}" value="{{deal.stock}}">
+              <button class="btn cartpage_plusicon" type="button" id="{{ deal.id }}" data-type="plus" onclick="updateQuantity({{ deal.id }}, 1)">+</button> -->
+            </div>
+            <!-- Product colors -->
+            <div class="product-colors">colors:
+              <!-- <p>Colors:</p> -->
+              <span class="product-colors-black bg-dark active" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="black"></span>
+              <span class="product-colors-red bg-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="red"></span>
+              <span class="product-colors-grey bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="grey"></span>
+            </div>
+            <!-- SKU and Categories -->
+            <div class="product-details-sku d-flex pb-2">
+              <p class="product-details-sku-1">SKU :</p>
+              <p class="product-details-sku-2">{{deal.sku}}</p>
+            </div>
+            <div class="product-details-cat d-flex pb-2">
+              <p class="product-details-sku-1">Categories:</p>
+              <p class="product-details-sku-2">Accessories, clocks</p>
+            </div>
+            <div class="product-details-icons d-flex">
+              <p>share :</p>
+              <div class="product-details-icons-links ">
+                <a href="#" class=""><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-twitter"></i></a>
+                <a href="#" class=""><i class="fa-regular fa-envelope"></i></a>
+                <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class=""> <i class="fa-brands fa-whatsapp"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- </div>
+        </div> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+
+
+  <!-- ============================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- image only -->
+  <div class="container py-5">
+    <div class="row">
+      <img src="{% static 'images/carousel-1.jpeg' %}" alt="img-fluid">
+    </div>
+  </div>
+
+
+
+
+  <!-- skincare -->
+
+
+
+
+  <div class="container">
+    <div class="row">
+      <h1 class=" text-center skin-type-heading">YOUR SKIN TYPE</h1>
+      <div class="col-sm-6">
+        <div class="card skincare-card">
+          <div class="skincare-card">
+            <img src="{% static 'images/skin care.jpeg' %}" class="card-img-top skincare-image img-fluid" alt="...">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title skincare-card-title">Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Maiores
+            doloribus inventore suscipit nemo et illo animi veniam, recusandae neque vel. Fugit vitae
+            ratione cumque
+            illo.</h5>
+
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card skincare-card">
+          <div class="skincare-card">
+            <img src="{% static 'images/skin care.jpeg' %}" class="card-img-top skincare-image img-fluid" alt="...">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title skincare-card-title">Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Maiores
+            doloribus inventore suscipit nemo et illo animi veniam, recusandae neque vel. Fugit vitae
+            ratione cumque
+            illo.</h5>
+
+        </div>
+      </div>
+    </div>
+    <!-- row2 -->
+    <div class="row mt-5">
+      <div class="col-sm-6">
+        <div class="card skincare-card">
+          <div class="skincare-card">
+            <img src="{% static 'images/skin care.jpeg' %}" class="card-img-top skincare-image img-fluid" alt="...">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title skincare-card-title">Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Maiores
+            doloribus inventore suscipit nemo et illo animi veniam, recusandae neque vel. Fugit vitae
+            ratione cumque
+            illo.</h5>
+
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card skincare-card">
+          <div class="skincare-card">
+            <img src="{% static 'images/skin care.jpeg' %}" class="card-img-top skincare-image img-fluid" alt="...">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title skincare-card-title">Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Maiores
+            doloribus inventore suscipit nemo et illo animi veniam, recusandae neque vel. Fugit vitae
+            ratione cumque
+            illo.</h5>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ============================== -->
+
+  <div class="container">
+    <div class="row">
+      <h1 class=" text-center skin-type-heading">OKKA MAGAZINE</h1>
+      <div class="my-slider-4 pb-3">
+        <div class="card me-2  magazine-image-card ">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+          </a> 
+ 
+          <div class="loading-magazine ">
+               <span class="loading__dot_maz"></span> 
+                  <span class="loading__dot_maz"></span>   
+                   <span class="loading__dot_maz"></span>
+          </div>
+
+          <div class="card-body px-3 py-4 ">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!" >
+        <p class="cards-links text-center">
+           <i class="fa-solid fa-link"></i>
+          </p>
+      </a> -->
+            <div class="magazines text-center">
+              <div class="magazine-hover-text ">
+                <i class="fa-solid fa-link magazine-icons"></i>
+                <span class="magazine-tooltip-text" id="magazine-top">
+                  <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                  <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                  <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                  <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                  <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                  <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+
+              </div>
+            </div>
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4  magazine-image-card">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2 magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4 ">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4  magazine-image-card">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4  ">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top " alt="img-fluid" width="100%"
+              height="auto">
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+        <div class="card me-2  magazine-image-card">
+          <a href="#"> <img src="{% static 'images/card-7.jpeg' %}" class="card-img-top magazine-image" alt="img-fluid" width="100%"
+              height="auto">
+
+            <div class="product-labels-f labels-rounded-f">
+              <span class="onsale-f product-label-f pt-2">
+                <p>JUL</p>
+                <p>7</p>
+              </span>
+            </div>
+            <div class="loading-magazine">
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+              <span class="loading__dot_maz"></span>
+            </div>
+          </a>
+          <div class="card-body px-3 py-4">
+            <h5 class="card-title magazine-title">Lorem ipsum dolor sit amet elit. Assumenda,
+              Assumenda, est?</h5>
+              <div class="magazines text-center">
+                <div class="magazine-hover-text ">
+                  <i class="fa-solid fa-link magazine-icons"></i>
+                  <span class="magazine-tooltip-text" id="magazine-top">
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-regular fa-envelope"></i></a>
+                    <a href="#" class="magazine-icons-links "><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="magazine-icons-links "> <i class="fa-brands fa-whatsapp"></i></a>
+  
+                </div>
+              </div>
+            <!-- <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="horry!">
+              <p class="cards-links text-center"> <i class="fa-solid fa-link"></i></p>
+            </a> -->
+            <p class="card-text magazine-sub-title">This is a wider card with supporting text below as a natural
+              numquam. Lorem ipsum dolor sit amet.</p>
+            <p class="magazine-reading"><a href="#">CONTINUE READING</a></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================== -->
+
+  <!-- brands -->
+  <!-- beauty products -->
+
+
+
+
+
+
+
+
+
+  <!-- ========================= -->
+
+
+  <!-- reviews  -->
+
+
+
+
+  <!-- carousel cards -->
+  <div class="container-fluid">
+    <div class="row">
+      <a href="#">
+        <h1 class="text-center explore-brands-head ">LET THE CUSTOMER SPEAK ON OUR BEHALF</h1>
+      </a>
+
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="cards-wrapper connect-us-wrapper">
+              {% for rating in rating %}
+              <div class="card   connect-card p-3 ms-2 me-2 ">
+                <div class="image-container d-flex">
+                  <div class="customer_image ">
+                    <img src="{% static 'images/card-2.jpeg' %}" class="img-fluid" alt="..." class="review-images">
+                    <div class="cr-avatar-check">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="m10 16.4l-4-4L7.4 11l2.6 2.6L16.6 7L18 8.4Z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="customer-text">
+                    <p class="customer_name">{{rating.user}}</p>
+                    <div class="customer_status">
+                      <div class="customer_bage">
+                        <img
+                          src="https://cdn.shopify.com/s/files/1/0566/8241/4246/t/11/assets/icon-verified-1662629893290.png?v=1662629894"
+                          alt="">
+                      </div>
+                      <div class="customer_status_content">Verified Customer</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title d-flex">
+                    <div class="customer_review">
+                      {{ rating.stars|stars|safe }}
+                    </div>
+                    <p class="customer-rating">{{rating.stars}}/5</p>
+                  </h5>
+                  <div class=" card-footer ">
+                    <div class="middle-row">
+                      <div class="review-content">
+                        <div class="review-text">
+                          <p>{{rating.review}}</p>
+                        </div>
+                      </div>
+                      <div class="datetime">
+                        {{ rating.review_date|time_since_review }} </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="card-footer d-flex ">
+                  {% if rating.product.images.all %}{% for image in rating.product.images.all|slice:":1" %}<img src="{{image.image.url}}" alt="" width="50px " height="50px">{% endfor %}{% endif %}
+                  <div class="ps-5">
+                    <small class="customer-footer-text ">{{rating.product}}</small>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev corousel-connect-prev" type="button"
+          data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon corousel-connect-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next corousel-connect-next" type="button"
+          data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon corousel-connect-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ================== -->
+
+
+
+  <!-- connect with okka beauty -->
+
+  <div class="container-fluid ">
+    <a href="#">
+      <h1 class="text-center explore-brands-head ">Connect with us @okkabeautyuae</h1>
+    </a>
+    <div class="row  image-item-overlay-1">
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p class="">0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col image-item-overlay">
+        <div class="item-overlay animated wow fadeIn">
+          <a href="#"><img src="{% static 'images/card-2.jpeg' %}" alt="img-fluid" class="overlay-image"></a>
+
+          <div class="overlay-text title-overlay d-flex">
+            <div class="text-overlay-link  d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+            <div class="text-overlay-link1 d-flex">
+              <i class="fa-regular fa-comment"></i>
+              <p>0</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ==================================== -->
+
+
+
+  <!-- EXPLORE BRANDS -->
+
+
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center explore-brands-head ">EXPLORE BRANDS</h1>
+      <div class="my-slider-3">
+        {% for brand in brands %}
+        {% if brand.image %}
+        <a href="#"> <img src="{{brand.image.url}}" alt="" class="slider-image-link1" /></a>
+        {% endif %}
+        {% endfor %}       
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- ============== -->
+
+
+
+  <!-- why us-->
+  <div class="container pt-5">
+    <div class="row">
+      <h1 class=" why-us-heading text-center">WHY US</h1>
+      <div class="card-group text-center pt-5 why-us-card-group ">
+        <div class="col me-2 why-us-card-main-top">
+          <div class="card why-us-card-main pb-3">
+            <div class="why-us-card">
+              <img src="{% static 'images/card-2.jpeg' %}" class="mx-auto" alt="..." style="border-radius: 50%;" height="100px"
+                width="100px">
+
+            </div>
+            <div class="card-body pt-5">
+              <h5 class="card-title" style="font-size: 18px; font-weight: 600;">Card 1</h5>
+              <p class="card-text">This is a wider card.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col me-2 why-us-card-main-top">
+          <div class="card why-us-card-main pb-3">
+            <div class="why-us-card">
+              <img src="{% static 'images/card-2.jpeg' %}" class="mx-auto" alt="..." style="border-radius: 50%;" height="100px"
+                width="100px">
+            </div>
+            <div class="card-body pt-5">
+              <h5 class="card-title" style="font-size: 18px; font-weight: 600;">Card 2</h5>
+              <p class="card-text">This is a wider card.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col me-2 why-us-card-main-top">
+          <div class="card why-us-card-main pb-3">
+            <div class="why-us-card">
+              <img src="{% static 'images/card-2.jpeg' %}" class="mx-auto" alt="..." style="border-radius: 50%;" height="100px"
+                width="100px">
+            </div>
+            <div class="card-body pt-5">
+              <h5 class="card-title" style="font-size: 18px; font-weight: 600;">Card 3</h5>
+              <p class="card-text">This is a wider card.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col me-2 why-us-card-main-top">
+          <div class="card why-us-card-main pb-3">
+            <div class="why-us-card">
+              <img src="{% static 'images/card-2.jpeg' %}" class="mx-auto" alt="..." style="border-radius: 50%;" height="100px"
+                width="100px">
+            </div>
+            <div class="card-body pt-5">
+              <h5 class="card-title" style="font-size: 18px; font-weight: 600;">Card 4</h5>
+              <p class="card-text">This is a wider card.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col why-us-card-main-top">
+          <div class="card why-us-card-main pb-3">
+            <div class="why-us-card">
+              <img src="{% static 'images/card-2.jpeg' %}" class="mx-auto" alt="..." style="border-radius: 50%;" height="100px"
+                width="100px">
+            </div>
+            <div class="card-body pt-5">
+              <h5 class="card-title" style="font-size: 18px; font-weight: 600;">Card 5</h5>
+              <p class="card-text">This is a wider card.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  {% include 'base/offcanvas.html' %}
+
+
+
+
+
+  
+
+
+  <!-- script function -->
+
+  <script>
+
+
+
+     // get all quantity input fields and corresponding plus/minus buttons
+const quantityInputs = document.querySelectorAll('.quantity-input');
+const plusButtons = document.querySelectorAll('[data-type="plus"]');
+const minusButtons = document.querySelectorAll('[data-type="minus"]');
+
+// assume the available quantities of the products are stored in an array called availableQuantities
+const availableQuantities = '{{product.stock}}';
+
+// add event listeners for plus buttons
+plusButtons.forEach((plusButton, index) => {
+    plusButton.addEventListener('click', () => {
+        let newQuantity = parseInt(quantityInputs[index].value) + 1;
+
+        // Update all quantity inputs
+        quantityInputs.forEach((input, idx) => {
+            input.value = newQuantity;
+
+            // Update button states based on new quantity
+            if (newQuantity >= availableQuantities) {
+                plusButtons[idx].disabled = true;
+                plusButtons[idx].style.opacity = 0.4;
+            } else {
+                plusButtons[idx].disabled = false;
+                plusButtons[idx].style.opacity = 1;
+            }
+
+            if (newQuantity <= 1) {
+                minusButtons[idx].disabled = true;
+                minusButtons[idx].style.opacity = 0.4;
+            } else {
+                minusButtons[idx].disabled = false;
+                minusButtons[idx].style.opacity = 1;
+            }
+        });
+    });
+});
+
+// add event listeners for minus buttons
+minusButtons.forEach((minusButton, index) => {
+    minusButton.addEventListener('click', () => {
+        let newQuantity = parseInt(quantityInputs[index].value) - 1;
+
+        if (newQuantity < 1) {
+            newQuantity = 1;
+        }
+
+        // Update all quantity inputs
+        quantityInputs.forEach((input, idx) => {
+            input.value = newQuantity;
+
+            // Update button states based on new quantity
+            if (newQuantity >= availableQuantities) {
+                plusButtons[idx].disabled = true;
+                plusButtons[idx].style.opacity = 0.4;
+            } else {
+                plusButtons[idx].disabled = false;
+                plusButtons[idx].style.opacity = 1;
+            }
+
+            if (newQuantity <= 1) {
+                minusButtons[idx].disabled = true;
+                minusButtons[idx].style.opacity = 0.4;
+            } else {
+                minusButtons[idx].disabled = false;
+                minusButtons[idx].style.opacity = 1;
+            }
+        });
+    });
+});
+
+// add event listeners for quantity input fields
+quantityInputs.forEach((input, index) => {
+    input.addEventListener('change', () => {
+        let currentQuantity = parseInt(input.value);
+
+        // Update button states based on current quantity
+        if (currentQuantity >= availableQuantities) {
+            plusButtons[index].disabled = true;
+            plusButtons[index].style.opacity = 0.4;
+        } else {
+            plusButtons[index].disabled = false;
+            plusButtons[index].style.opacity = 1;
+        }
+
+        if (currentQuantity <= 1) {
+            minusButtons[index].disabled = true;
+            minusButtons[index].style.opacity = 0.4;
+        } else {
+            minusButtons[index].disabled = false;
+            minusButtons[index].style.opacity = 1;
+        }
+    });
+});
+
+        
+
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('btn-add_cart')) {
+            event.preventDefault();
+            
+            const id = event.target.id;
+            const quantity = 1;
+    
+            // Assuming you have a CSRF token available in a variable named csrfToken
+            axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+            
+            // Declare demoElement outside the axios call
+            const demoElement = document.getElementById('demo');
+            
+            axios.post('cart/add-to-cart/' + id + '/', { quantity: quantity })
+                .then(function(response) {
+                    console.log(response.data);
+                    // Assuming response.data contains information about the added item
+                    // You can trigger the display of the off-canvas cart here
+                    demoElement.classList.add('show');
+                    demoElement.setAttribute('aria-modal', 'true');
+                    demoElement.setAttribute('role', 'dialog');
+                    demoElement.style.visibility = 'visible';
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        }
+    });
+
+    // Wishlist Function
+
+    const buttons = document.querySelectorAll('.wishlist');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const product_id = button.id;
+                console.log(product_id);
+
+                axios.post(`/wishlist/add/${product_id}/`)
+                    .then(function (response) {
+                        console.log(response.data);
+
+                        // Assuming the response has a 'added_to_wishlist' field
+                        const addedToWishlist = response.data.added_to_wishlist;
+
+                        // Update the wishlist count in the HTML
+                        // const wishlistCountSpan = document.querySelector('.wish-count');
+                        // wishlistCountSpan.textContent = response.data.wishlist_count;
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            });
+        });
+
+
+</script>
+
+<script>
+  function showProductModal(productId) {
+    // Send POST request to the server with the product ID
+    axios.post('/get-product-data/', {
+      id: productId
+    })
+    .then(response => {
+      // Handle the response data and update the modal content
+      const productData = response.data;
+      updateModalContent(productData, productId);
+      
+      // Show the modal
+      const modalElement = document.getElementById('productModal-' + productId);
+      if (modalElement) {
+        const productModal = new bootstrap.Modal(modalElement);
+        productModal.show();
+      } else {
+        console.error('Modal element not found for product ID:', productId);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching product data:', error);
+    });
+  }
+
+  function updateModalContent(product, productId) {
+    // Update modal elements with the product data
+    const modalElement = document.getElementById('productModal-'+ productId);
+    if (modalElement) {
+      modalElement.querySelector('.product-details-heading').textContent = product.name;
+      modalElement.querySelector('.product-details-amount').innerHTML = product.sale_price ? 
+        `<span><s>Rs.${product.regular_price}</s></span>Rs.${product.sale_price}` : 
+        `Rs.${product.regular_price}`;
+      modalElement.querySelector('.product-details-para').textContent = product.description;
+      modalElement.querySelector('.product-details-sku-2').textContent = product.sku;
+
+      // Update the images
+      const imageContainer = modalElement.querySelector('.model-slider-box');
+      imageContainer.innerHTML = '';
+      product.images.forEach(image => {
+        const imgElement = document.createElement('img');
+        imgElement.src = image.image_url;
+        imgElement.alt = '';
+        imgElement.className = 'slider-image-link1 p-5';
+        imageContainer.appendChild(imgElement);
+      });
+    } else {
+      console.error('Modal element not found for product ID:', productId);
+    }
+  }
+</script>
+
+
+// Include jQuery in your template if not already included
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+// JavaScript to handle category filter link clicks
+<script>
+$(document).ready(function() {
+    $('.category-filter-link').click(function(event) {
+        event.preventDefault();
+        var url = $(this).attr('href');
+        console.log(url)
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                $('.product-list-container').html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+</script>
+    
+
+
+  {% endblock %}

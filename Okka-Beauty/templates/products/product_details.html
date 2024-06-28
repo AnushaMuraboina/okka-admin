@@ -1,0 +1,917 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+
+<div class="container product-details-headpage">
+    <div class="row">
+      <div class="col-md-6 pt-5">
+        <div class="product__carousel">
+          <div class="swiper-container gallery-top">
+            <div class="swiper-wrapper">
+                {% if product.images.all %}
+                {% for image in product.images.all%}
+              <div class="swiper-slide easyzoom easyzoom--overlay">
+                <div class="product-labels-care-2 labels-rounded-care-2"><span
+                    class="out-of-stock-care-2 product-label-2">
+                  </span></div>
+                <a href='#'>
+                  <img src="{{ image.image.url }}" alt="" />
+                </a>
+              </div>
+              {% endfor %}
+              {% endif %}
+            </div>
+            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-white"></div>
+          </div>
+          <div class="swiper-container gallery-thumbs">
+            <div class="swiper-wrapper">
+              {% if product.images.all %}
+                {% for image in product.images.all%}
+              <div class="swiper-slide">
+                <img src="{{ image.image.url }}" alt="">
+              </div>
+              {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <div class="product-detail-page-sec2 mt-5  py-4 px-4">
+          <div class="product-nav-sec d-flex justify-content-between">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item pro-detail-bread-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item pro-detail-bread-item"><a href="#">SALE</a></li>
+                <li class="breadcrumb-item pro-detail-bread-item"><a href="#">50%</a></li>
+                <li class="breadcrumb-item  pro-detail-bread-item-active text-dark active" aria-current="page">
+                  <strong>Okka
+                    Sweet Garden Linen Dress Peach
+                    Pink</strong>
+                </li>
+              </ol>
+            </nav>
+            <div class="image-prev-next d-flex ">
+              <span>
+                    <div class="tooltip-container-pro_down">
+                      <i class="info-icon material-icons-pro">  <i class="fas fa-chevron-left"></i>  </i>
+                      <div class="tooltip-content-pro_down">
+                        <div class="pro-drop-detail-list d-flex ">
+                          <a href="{% url 'product_detail' previous_product.slug %}">
+                            {% if previous_product.images.all %}{% for image in previous_product.images.all|slice:":1" %}
+                              <img src="{{image.image.url}}" alt="Dress" width="90" height="135" class="align-items-center">
+                              {% endfor %}
+                              {% endif %}
+                            </a>
+                          <div class="pro-detail-list-text">
+                              <a href="{% url 'product_detail' previous_product.slug %}" class="pro-detail-list-txt1">{{previous_product.name}}. </a>
+                              <p class="pe-4 cart-down-amount">{% if previous_product.sale_price %}<s>{{previous_product.regular_price}} AED </s>  {{previous_product.sale_price}} AED {% else %} <strong>{{previous_product.regular_price}} AED</strong>{% endif %}</p>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                  </span>
+                  <a class=" px-2 text-dark " href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+                  title="Back To Products">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" fill="currentColor" class="bi bi-grid"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z" />
+                </svg>
+              </a>
+               <span>
+                    <div class="tooltip-container-pro_down">
+                      <i class="info-icon material-icons-pro"> <i class="fas fa-chevron-right"></i></i>
+                      <div class="tooltip-content-pro_down">
+                          <div class="pro-drop-detail-list d-flex">
+                              <a href="{% url 'product_detail' next_product.slug %}">
+                                {% if next_product.images.all %}{% for image in next_product.images.all|slice:":1" %}
+                                  <img src="{{image.image.url}}" alt="Dress" width="90" height="135">
+                                  {% endfor %}
+                                  {% endif %}
+                                </a>
+                              <div class="pro-detail-list-text">
+                                  <a href="{% url 'product_detail' next_product.slug %}" class="pro-detail-list-txt1">{{next_product.name}}. </a>
+                                      <p class="pe-4 cart-down-amount">{% if next_product.sale_price %}<s>{{next_product.regular_price}} AED </s>  {{next_product.sale_price}} AED {% else %} <strong>{{next_product.regular_price}} AED</strong>{% endif %}</p>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+              </span>
+          </div>
+          </div>
+          <h1 class="pro-detail-header">{{product.name}}</h1>
+          <div class="pro-detail-amount py-2">
+            <span>{% if product.sale_price %}<s>{{product.regular_price}} AED </s></span>{{product.sale_price}} AED {% else %}<span class="pro-detail-amt-link"> {{product.regular_price}} AED</span>{% endif %}
+          </div>
+          {% if combo_product %}
+          {% for combo_detail in combo_product_details %}
+        <div class="product-details-display d-flex {% if forloop.last %}last-product{% endif %}">
+            <div class="col-md-2 prod-detail-image text-center">
+                {% for image in combo_detail.images|slice:":1" %}
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" width="50px" height="50px" class="img-fluid">
+                {% endfor %}
+            </div>
+            <div class="col-md-7 pro-detail-content">
+                1 * <a href="{% url 'product_detail' combo_detail.product.slug %}">{{ combo_detail.product.name }}</a>
+                <p class="pro-detail-check">
+                    <i class="fa-solid fa-check pe-2"></i> 
+                    {% if combo_detail.product.stock > 0 %}
+                        <strong class="pro-detail-instock">In Stock</strong>
+                    {% else %}
+                        <strong class="pro-detail-out-stock">Out of Stock</strong>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-md-3 text-center pro-details-amount-links">
+                <p><s>{{ combo_detail.product.regular_price }} AED</s></p>
+                <strong class="pro-current">{{ combo_detail.product.sale_price }} AED</strong>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+          <div class="pro-detail-size d-flex py-3">
+            <h6 class="pt-2">size:</h6>
+            <button type="button" class="btn border pro-detail-sizs-btn px-2 py-1 ms-4">M</button>
+          </div>
+
+          <form action="#" class="product-detail-count d-flex">
+            <button class="btn  product-minus" type="button" data-type="minus">-</button>
+            <input type="text" class="form-control pro-qty bg-white quantity-input" min="1" value="1" id="quantity-input" style="width:50px;">
+            <button class="btn product-plus" type="button" data-type="plus">+</button>
+            <!-- <a href="#"><button type="button" class="product-detail-button">Add to Cart</button></a> -->
+            {% if product.in_stock == 'Instock' %}
+                <button id="{{product.id}}" class="btn-add_cart product-detail-button mt-0">ADD TO CART</button>
+            {% endif %}
+          </form>
+          
+          <div class="pro-details-wishlist d-flex align-items-baseline">
+            <!-- <a href=""> <i class="fa fa-heart-o" aria-hidden="true"></i></a> -->
+            <button id="{{product.id }}" class="btn wishlist p-0 m-0 ">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button>
+            <p class="ps-3 ">Add to wishlist</p>
+          </div>
+          <hr>
+          {% if product.sku %}
+          <div class="product-details-sku d-flex pb-2">
+            <p class="product-details-sku-1">SKU :</p>
+            <p class="product-details-sku-2">{{product.sku}}</p>
+          </div>
+          {% endif %}
+          <div class="product-details-cat pb-2">
+            <p class="product-details-sku-3"><span class="product-details-sku-1">Categories:</span>101-200, 50%,
+              BEAUTY OF JOSEON, BRANDS, CRUELTY-FREE, PRICE, SALE, SENSITIVE/ REDNESS, SERUMS/ ESSENCES/
+              AMPOULES, SKIN CONCERNS, SKINCARE</p>
+          </div>
+          <div class="product-details-icons d-flex">
+            <p>Fallow:</p>
+            <div class="product-details-icons-links ">
+              <a href="#" class=""><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" class=""> <i class="fa-brands fa-twitter"></i></a>
+              <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="tabs--underline-top">
+  <div class="container d-lg-none accordations-tabs-details border-none">
+    <div class="row">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button accord-small-detail" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              DESCRIPTION
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p class="pro-des-text"> BEAUTY OF JOSEON Glow Serum Propolis + Niacinamide is a glow serum,
+                specially formulated for
+                dry, acne-prone skin. It is enriched with Propolis, a very popular anti-inflammatory ingredient,
+                which doesn’t irritate your skin and gives a soothing and calming effect. Another essential
+                ingredient Niacinamide, helps in minimizing the size of pores, balances the oil production, and
+                keeps your skin firm and healthy.</p>
+              <p class="pro-des-text">Power up lackluster skin with this potent serum infused with 60% propolis
+                and 2% niacinamide to
+                fight inflammation, control sebum production and treat hyperpigmentation while keeping moisture
+                levels high. The rich, honey-like texture absorbs swiftly into skin without leaving a sticky
+                after-feel. Formulated using only EWG-certified ingredients, this serum is suitable for
+                sensitive skin.
+    
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button accord-small-detail collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              HOW
+              TO USE
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <h2 class="pro-tab-sub-head pb-3">How TO Use</h2>
+              <ul>
+                <li class="pro-des-text">Apply a proper amount onto face and pat gently for further
+                  absorption.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button accord-small-detail collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              BENEFITS
+            </button>
+          </h2>
+          <div id="collapseThree" class=" accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <h2 class="pro-tab-sub-head pb-3">Benefits</h2>
+              <ul class="pro-benefit-text">
+                <li>Glow Serum is enriched with 60% propolis extract and 2% niacinamide.</li>
+                <li>Formulated with the brand’s Comfort Fixing technology to provide long-lasting color and
+                  steady hydration.</li>
+                <li>Contains hyaluronic acid in a small molecular size as well as patented aqua ceramide to
+                  moisturize lips and to improve skin elasticity.</li>
+                <li>The creamy texture glides easily onto lips, smoothing lip wrinkles in the process. </li>
+                <li>Offers vibrant yet natural-looking color.</li>
+                <li>Product is certified vegan by France Eve Vegan.</li>
+                <li>Fragrance contains no allergens.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFour">
+            <button class="accordion-button accord-small-detail collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              INGREDIENTS
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <h2 class="pro-tab-sub-head pb-3">Ingredients</h2>
+              <p class="pro-des-text">Water, Diphenyl Dimethicone, Diisostearyl Malate, Bis-Diglyceryl
+                Polyacyladipate-2, Hydrogenated
+                Polyisobutene, Diglycerin, Cetyl PEG/PPG-10/1 Dimethicone, Dipropylene Glycol, Sorbitan
+                Isostearate, Polysorbate 60, Octyldodecanol, Pentylene Glycol, Glycerine, Titanium Dioxide,
+                Ceteareth-20, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Phenoxyethanol,
+                Squalane, Polyglycerin-3, Fragrance, Stevioside, Tartrazine, Ethylhexylglycerin, Fast Acid
+                Magenta, Caprylic/Capric Triglyceride, Phloxine B, Tocopheryl Acetate, Sunset Yellow FCF,
+                Brilliant Blue FCF, Mangifera Indica (Mango) Fruit Extract, Malus Domestica Fruit Extract</p>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFive">
+            <button class="accordion-button accord-small-detail collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+              SHIPPING &
+              DELIVERY
+            </button>
+          </h2>
+          <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <div class="tab-pane" id="simple-tabpanel-4" role="tabpanel" aria-labelledby="simple-tab-4">
+                <p class="pro-des-text pt-3">Free shipping on orders AED200+ | Regular shipping fee AED20+ UAE Only.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="row pro-nav-tabs-content">
+      <ul class="nav nav-tabs pro-detail-tabs bg-white justify-content-center " role="tablist">
+        <li class="nav-item " role="presentation">
+          <a class="nav-link pro-detail-link active pro-tabs-header" id="simple-tab-0" data-bs-toggle="tab"
+            href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">DESCRIPTION</a>
+        </li>
+        <li class="nav-item  " role="presentation ">
+          <a class="nav-link  pro-detail-link pro-tabs-header" id="simple-tab-1" data-bs-toggle="tab"
+            href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">HOW
+            TO USE</a>
+        </li>
+        <li class="nav-item " role="presentation">
+          <a class="nav-link  pro-detail-link pro-tabs-header" id="simple-tab-2" data-bs-toggle="tab"
+            href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">BENEFITS</a>
+        </li>
+        <li class="nav-item " role="presentation">
+          <a class="nav-link pro-detail-link  pro-tabs-header " id="simple-tab-3" data-bs-toggle="tab"
+            href="#simple-tabpanel-3" role="tab" aria-controls="simple-tabpanel-3" aria-selected="false">INGREDIENTS</a>
+        </li>
+        <li class="nav-item " role="presentation">
+          <a class="nav-link  pro-detail-link pro-detail-link pro-tabs-header" id="simple-tab-4" data-bs-toggle="tab"
+            href="#simple-tabpanel-4" role="tab" aria-controls="simple-tabpanel-4" aria-selected="false">SHIPPING &
+            DELIVERY</a>
+        </li>
+      </ul>
+
+      <div class="tab-content pt-5" id="tab-content">
+        <div class="tab-pane active" id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+          <p class="pro-des-text"> BEAUTY OF JOSEON Glow Serum Propolis + Niacinamide is a glow serum,
+            specially formulated for
+            dry, acne-prone skin. It is enriched with Propolis, a very popular anti-inflammatory ingredient,
+            which doesn’t irritate your skin and gives a soothing and calming effect. Another essential
+            ingredient Niacinamide, helps in minimizing the size of pores, balances the oil production, and
+            keeps your skin firm and healthy.</p>
+          <p class="pro-des-text">Power up lackluster skin with this potent serum infused with 60% propolis
+            and 2% niacinamide to
+            fight inflammation, control sebum production and treat hyperpigmentation while keeping moisture
+            levels high. The rich, honey-like texture absorbs swiftly into skin without leaving a sticky
+            after-feel. Formulated using only EWG-certified ingredients, this serum is suitable for
+            sensitive skin.
+
+          </p>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+          <h2 class="pro-tab-sub-head pb-3">How TO Use</h2>
+          <ul>
+            <li class="pro-des-text">Apply a proper amount onto face and pat gently for further
+              absorption.</li>
+          </ul>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+          <h2 class="pro-tab-sub-head pb-3">Benefits</h2>
+          <ul class="pro-benefit-text">
+            <li>Glow Serum is enriched with 60% propolis extract and 2% niacinamide.</li>
+            <li>Formulated with the brand’s Comfort Fixing technology to provide long-lasting color and
+              steady hydration.</li>
+            <li>Contains hyaluronic acid in a small molecular size as well as patented aqua ceramide to
+              moisturize lips and to improve skin elasticity.</li>
+            <li>The creamy texture glides easily onto lips, smoothing lip wrinkles in the process. </li>
+            <li>Offers vibrant yet natural-looking color.</li>
+            <li>Product is certified vegan by France Eve Vegan.</li>
+            <li>Fragrance contains no allergens.</li>
+          </ul>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-3" role="tabpanel" aria-labelledby="simple-tab-3">
+          <h2 class="pro-tab-sub-head pb-3">Ingredients</h2>
+          <p class="pro-des-text">Water, Diphenyl Dimethicone, Diisostearyl Malate, Bis-Diglyceryl
+            Polyacyladipate-2, Hydrogenated
+            Polyisobutene, Diglycerin, Cetyl PEG/PPG-10/1 Dimethicone, Dipropylene Glycol, Sorbitan
+            Isostearate, Polysorbate 60, Octyldodecanol, Pentylene Glycol, Glycerine, Titanium Dioxide,
+            Ceteareth-20, Hydroxyethyl Acrylate/Sodium Acryloyldimethyl Taurate Copolymer, Phenoxyethanol,
+            Squalane, Polyglycerin-3, Fragrance, Stevioside, Tartrazine, Ethylhexylglycerin, Fast Acid
+            Magenta, Caprylic/Capric Triglyceride, Phloxine B, Tocopheryl Acetate, Sunset Yellow FCF,
+            Brilliant Blue FCF, Mangifera Indica (Mango) Fruit Extract, Malus Domestica Fruit Extract</p>
+        </div>
+        <div class="tab-pane" id="simple-tabpanel-4" role="tabpanel" aria-labelledby="simple-tab-4">
+          <p class="pro-des-text pt-3">Free shipping on orders AED200+ | Regular shipping fee AED20+ UAE Only.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="tabs-section-hr">
+    <div class="row reviews-detail-section">
+      <div class="col-md-6  profile-review-text-sec  py-5 pe-3">
+        {% if ratings %}
+          <h5 class="profile-rev-sec1">{{rating_count}} {{product.name}}</h5>
+          {% for rating in ratings %}
+          <div class="pro-profile-sec d-flex justify-content-between border-bottom py-4">
+            <img src="../images/download.svg" alt="" class="profile-rating-image">
+            <div class="pro-profile-sec-sub d-flex justify-content-between w-100">
+              <p class="ps-4 profile-person-detail m-0">
+                <strong class="text-dark">{{rating.user}} </strong>(verified owner) - <i>12-02-2024</i>
+              </p>
+              <div class="customer_review-detail">
+                {{ rating.display_stars }}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+        <h5 class="profile-rev-sec1">REVIEWS</h5>
+        <p class="profile-person-detail mt-3">There are no reviews yet.</p>
+        {% endif %}        
+      </div>
+      <div class="col-md-6 profile-review-texting py-5 ps-5">
+        {% if user.is_authenticated %}
+        <h4 class="profile-rev-sec1 pb-3">ADD A REVIEW</h4>
+        <div class="form">
+          <form id="rating-form" method="post">
+            {% csrf_token %}
+            <input type="text" name="product_id" value="{{ product.id }}" hidden>
+            <div class="pro-detail-ratings d-flex pb-2">
+                <label for="" class="pro-detail-rating">Your Rating <span class="text-danger">*</span>:</label>
+                <div class="ps-3 product-rating-stars">
+                    <i class="fa-regular fa-star" id="star1" onclick="rate(1)"></i>
+                    <i class="fa-regular fa-star" id="star2" onclick="rate(2)"></i>
+                    <i class="fa-regular fa-star" id="star3" onclick="rate(3)"></i>
+                    <i class="fa-regular fa-star" id="star4" onclick="rate(4)"></i>
+                    <i class="fa-regular fa-star" id="star5" onclick="rate(5)"></i>
+                </div>
+            </div>
+            <label for="details-review" class="details-review pb-2">Your Review <span class="text-danger">*</span></label><br>
+            <textarea name="detail-area" id="details-review" rows="7" class="w-100"></textarea>
+            <div class="clicking-images my-3">
+                <a href="#" class="clicking-text" onclick="document.getElementById('fileInput').click(); return false;">Click to add images</a>
+                <input type="file" id="fileInput" style="display:none;" accept="image/*" multiple>
+                <a href="#" class="ps-3" data-bs-toggle="tooltip" data-bs-placement="top" title="The maximum file size is 2MB and you can upload up to 3 images">
+                    <i class="fa-brands fa-facebook-f slick-image-tool-icon"></i>
+                </a>
+            </div>
+            <button type="button" class="product-detail-submit">Submit</button>
+        </form>
+        
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <!-- ============================= -->
+  <hr>
+  {% if you_may_like%}
+  <div class="container pb-5">
+    <div class="row ">
+      <p class="py-2 related-products ">YOU MAY ALSO LIKE…</p>
+      <div class="my-slider-details">
+        {% for youmaylike in you_may_like %}
+        <div class="m-0 product item border">
+          <div class="product-image">
+            <a href="" class="image">
+              {% if youmaylike.images.all %}
+              {% for image in youmaylike.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="{% url 'product_detail' youmaylike.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="{% url 'product_detail' youmaylike.slug %}" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="../images/dress.webp" class="pic-1">
+              <img src="../images/dress1.webp" class="pic-2"> -->
+            </a>
+            {% if youmaylike.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if youmaylike.in_stock == 'Instock' %}
+              {% if youmaylike.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}
+              <div class="product-labels-new labels-rounded-new">
+                <span class="new-product-sale product-label-new ">NEW</span>
+              </div>
+            {% endif %}
+            <ul class="links">
+              <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i
+                    class="fa fa-search" aria-hidden="true"></i> </a></li>
+              <li><button id="{{ youmaylike.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button></li>
+            </ul>
+          </div>
+          <div class="content" >
+            <h3 class="title"><a href="{% url 'product_detail' youmaylike.slug %}">{{youmaylike.name}}</a></h3>
+            <div class="price">{% if youmaylike.sale_price %}<span><s>{{youmaylike.regular_price}} AED</s></span>{{youmaylike.sale_price}} AED{% else %}{{youmaylike.regular_price}} AED{% endif %}</div>
+            {% if youmaylike.in_stock == 'Instock' %}
+            <button id="{{youmaylike.id}}" class="add-to-cart">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="container pb-5">
+    <div class="row ">
+      <p class="py-2 related-products ">RELATED PRODUCTS</p>
+      <div class="my-slider-details">
+        {% for relatedproduct in related_products %}
+        <div class="m-0 product item border">
+          <div class="product-image">
+            <a href="" class="image">
+              {% if relatedproduct.images.all %}
+              {% for image in relatedproduct.images.all|slice:":2" %}
+                  {% if forloop.counter == 1 %}
+                  <a href="" class="image">
+                      <img src="{{ image.image.url }}" class="pic-1">
+                  </a>
+                  {% endif %}
+                  {% if forloop.counter == 2 %}
+                  <a href="" class="image">
+                      <img src="{{ image.image.url }}" class="pic-2">
+                  </a>
+                  {% endif %}
+              {% endfor %}
+              {% endif %}
+              <!-- <img src="../images/dress.webp" class="pic-1">
+              <img src="../images/dress1.webp" class="pic-2"> -->
+            </a>
+            {% if relatedproduct.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if relatedproduct.in_stock == 'Instock' %}
+              {% if relatedproduct.sale_price %}
+              <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+              {% endif %}
+              <div class="product-labels-new labels-rounded-new">
+                <span class="new-product-sale product-label-new ">NEW</span>
+              </div>
+            {% endif %}
+            <ul class="links">
+              <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i
+                    class="fa fa-search" aria-hidden="true"></i> </a></li>
+              <li><button id="{{ relatedproduct.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button></li>
+            </ul>
+          </div>
+          <div class="content" >
+            <h3 class="title"><a href="#">{{relatedproduct.name}}</a></h3>
+            <div class="price">{% if relatedproduct.sale_price %}<span><s>{{relatedproduct.regular_price}} AED</s></span>{{relatedproduct.sale_price}} AED{% else %}{{relatedproduct.regular_price}} AED{% endif %}</div>
+            {% if relatedproduct.in_stock == 'Instock' %}
+            <button id="{{relatedproduct.id}}" class="add-to-cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-light"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="scrolling-element  ">
+    <div class="foo-product-display pt-4 pb-3">
+      <div class="container  ">
+        <div class="row d-flex">
+          <div class="col-md-4 d-flex ">
+            {% if product.images.all %}{% for image in product.images.all|slice:":1" %}
+            <img src="{{image.image.url}}" alt="" width="60px" height="50px">
+            {% endfor %}
+            {% endif %}
+            <h5 class="pt-3 ps-2 foo-details-text">{{product.name}}.</h5>
+          </div>
+          <div class="col-md-8 d-flex mr-0 d-flex justify-content-end align-items-center cart-scrolling-details">
+            <p class="pe-4 cart-down-amount">{% if product.sale_price %}<s>{{product.regular_price}} AED </s>  {{product.sale_price}} AED {% else %} <strong>{{product.regular_price}} AED</strong>{% endif %}</p>
+            {% if product.in_stock == 'Instock' %}<p  class="pro-detail-check" ><i class="fa-solid fa-check pe-2"></i> <strong class="text-dark">InStock</strong>{% endif %}
+
+              <div class="d-flex ps-3">
+                <button class="btn cartpage_minuicon" type="button" data-type="minus">-</button>
+                <input type="text" class="form-control text-center pb-2  cartpage-counting quantity-input" value="1" id="quantity-input1" >
+                <button class="btn cartpage_plusicon" type="button" data-type="plus">+</button>
+                {% if product.in_stock == 'Instock' %}
+                <button id="{{product.id}}" class="btn-add_cart product-detail-button mt-0">ADD TO CART</button>
+            {% endif %}
+              </div>
+              <button id="{{ product.id }}" class="btn wishlist pt-2 ps-3" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<!-- script section -->
+
+<script>
+
+     // get all quantity input fields and corresponding plus/minus buttons
+const quantityInputs = document.querySelectorAll('.quantity-input');
+const plusButtons = document.querySelectorAll('[data-type="plus"]');
+const minusButtons = document.querySelectorAll('[data-type="minus"]');
+
+// assume the available quantities of the products are stored in an array called availableQuantities
+const availableQuantities = '{{product.stock}}';
+
+// add event listeners for plus buttons
+plusButtons.forEach((plusButton, index) => {
+    plusButton.addEventListener('click', () => {
+        let newQuantity = parseInt(quantityInputs[index].value) + 1;
+
+        // Update all quantity inputs
+        quantityInputs.forEach((input, idx) => {
+            input.value = newQuantity;
+
+            // Update button states based on new quantity
+            if (newQuantity >= availableQuantities) {
+                plusButtons[idx].disabled = true;
+                plusButtons[idx].style.opacity = 0.4;
+            } else {
+                plusButtons[idx].disabled = false;
+                plusButtons[idx].style.opacity = 1;
+            }
+
+            if (newQuantity <= 1) {
+                minusButtons[idx].disabled = true;
+                minusButtons[idx].style.opacity = 0.4;
+            } else {
+                minusButtons[idx].disabled = false;
+                minusButtons[idx].style.opacity = 1;
+            }
+        });
+    });
+});
+
+// add event listeners for minus buttons
+minusButtons.forEach((minusButton, index) => {
+    minusButton.addEventListener('click', () => {
+        let newQuantity = parseInt(quantityInputs[index].value) - 1;
+
+        if (newQuantity < 1) {
+            newQuantity = 1;
+        }
+
+        // Update all quantity inputs
+        quantityInputs.forEach((input, idx) => {
+            input.value = newQuantity;
+
+            // Update button states based on new quantity
+            if (newQuantity >= availableQuantities) {
+                plusButtons[idx].disabled = true;
+                plusButtons[idx].style.opacity = 0.4;
+            } else {
+                plusButtons[idx].disabled = false;
+                plusButtons[idx].style.opacity = 1;
+            }
+
+            if (newQuantity <= 1) {
+                minusButtons[idx].disabled = true;
+                minusButtons[idx].style.opacity = 0.4;
+            } else {
+                minusButtons[idx].disabled = false;
+                minusButtons[idx].style.opacity = 1;
+            }
+        });
+    });
+});
+
+// add event listeners for quantity input fields
+quantityInputs.forEach((input, index) => {
+    input.addEventListener('change', () => {
+        let currentQuantity = parseInt(input.value);
+
+        // Update button states based on current quantity
+        if (currentQuantity >= availableQuantities) {
+            plusButtons[index].disabled = true;
+            plusButtons[index].style.opacity = 0.4;
+        } else {
+            plusButtons[index].disabled = false;
+            plusButtons[index].style.opacity = 1;
+        }
+
+        if (currentQuantity <= 1) {
+            minusButtons[index].disabled = true;
+            minusButtons[index].style.opacity = 0.4;
+        } else {
+            minusButtons[index].disabled = false;
+            minusButtons[index].style.opacity = 1;
+        }
+    });
+});
+
+
+
+
+
+
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('btn-add_cart')) {
+            event.preventDefault();
+            
+            const id = event.target.id;
+            var quantity = document.getElementById('quantity-input').value;
+            console.log(quantity);
+    
+            // Assuming you have a CSRF token available in a variable named csrfToken
+            axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+            
+            // Declare demoElement outside the axios call
+            const demoElement = document.getElementById('demo');
+            
+            axios.post('/cart/add-to-cart/' + id + '/', { quantity: quantity })
+                .then(function(response) {
+                    console.log(response.data);
+                    // Redirect to the cart page
+                    window.location.href = '/cart/';
+
+                    // Assuming response.data contains information about the added item
+                    // You can trigger the display of the off-canvas cart here
+                    // demoElement.classList.add('show');
+                    // demoElement.setAttribute('aria-modal', 'true');
+                    // demoElement.setAttribute('role', 'dialog');
+                    // demoElement.style.visibility = 'visible';
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        }
+    });
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('add-to-cart')) {
+            event.preventDefault();
+            
+            const id = event.target.id;
+            var quantity = 1;
+    
+            // Assuming you have a CSRF token available in a variable named csrfToken
+            axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+            
+            // Declare demoElement outside the axios call
+            const demoElement = document.getElementById('demo');
+            
+            axios.post('/cart/add-to-cart/' + id + '/', { quantity: quantity })
+                .then(function(response) {
+                    console.log(response.data);
+                    // Redirect to the cart page
+                    window.location.href = '/cart/';
+
+                    // Assuming response.data contains information about the added item
+                    // You can trigger the display of the off-canvas cart here
+                    // demoElement.classList.add('show');
+                    // demoElement.setAttribute('aria-modal', 'true');
+                    // demoElement.setAttribute('role', 'dialog');
+                    // demoElement.style.visibility = 'visible';
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        }
+    });
+
+    // Wishlist Function
+
+    const buttons = document.querySelectorAll('.wishlist');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const product_id = button.id;
+                console.log(product_id);
+
+                axios.post(`/wishlist/add/${product_id}/`)
+                    .then(function (response) {
+                        console.log(response.data);
+
+                        // Assuming the response has a 'added_to_wishlist' field
+                        const addedToWishlist = response.data.added_to_wishlist;
+
+                        // Update the wishlist count in the HTML
+                        // const wishlistCountSpan = document.querySelector('.wish-count');
+                        // wishlistCountSpan.textContent = response.data.wishlist_count;
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            });
+        });
+
+        
+</script>
+<script>
+  let selectedRating = 0;
+
+  function rate(stars) {
+    selectedRating = stars;
+    for (let i = 1; i <= 5; i++) {
+      const star = document.getElementById(`star${i}`);
+      if (i <= stars) {
+        star.classList.remove('fa-regular');
+        star.classList.add('fa-solid');
+      } else {
+        star.classList.remove('fa-solid');
+        star.classList.add('fa-regular');
+      }
+    }
+  }
+
+  document.querySelector('.product-detail-submit').addEventListener('click', function() {
+    const reviewText = document.getElementById('details-review').value;
+    const productId = document.querySelector('input[name="product_id"]').value;
+    const formData = new FormData();
+
+    formData.append('stars', selectedRating);
+    formData.append('review', reviewText);
+    formData.append('product_id', productId);
+
+    const fileInput = document.getElementById('fileInput');
+    for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append('images', fileInput.files[i]);
+    }
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    axios.post('/rating', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .then(function(response) {
+        console.log(response.data);
+        alert('Rating submitted successfully!');
+    })
+    .catch(function(error) {
+        console.error(error);
+        alert('An error occurred while submitting your rating.');
+    });
+});
+
+</script>
+
+  <script>
+
+    // product detail cambo
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+      spaceBetween: 5,
+      freeMode: true,
+      watchSlidesVisibility: true,
+      watchSlidesProgress: true,
+      breakpoints: {
+        0: {
+          slidesPerView: 3,
+        },
+        992: {
+          slidesPerView: 4,
+        },
+      }
+    });
+    var galleryTop = new Swiper('.gallery-top', {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      thumbs: {
+        swiper: galleryThumbs
+      },
+    });
+    // change carousel item height
+    // gallery-top
+    let productCarouselTopWidth = $('.gallery-top').outerWidth();
+    $('.gallery-top').css('height', productCarouselTopWidth);
+
+    // gallery-thumbs
+    let productCarouselThumbsItemWith = $('.gallery-thumbs .swiper-slide').outerWidth();
+    $('.gallery-thumbs').css('height', productCarouselThumbsItemWith);
+
+    // activation zoom plugin
+    // var $easyzoom = $('.easyzoom').easyZoom();
+
+
+//rating to the reviews
+    function rate(rating) {
+
+      for (let i = 1; i <= 5; i++) {
+        document.getElementById('star' + i).classList.remove('checked');
+      }
+      for (let i = 1; i <= rating; i++) {
+        document.getElementById('star' + i).classList.add('checked');
+      }
+    }
+
+//scrolling the product item at bottom
+    const scrollingElement = document.querySelector('.scrolling-element');
+    function handleScroll() {
+      if (window.scrollY > 100) {
+
+        scrollingElement.style.bottom = '0';
+      } else {
+        scrollingElement.style.bottom = '-100px';
+      }
+    }
+
+    // Add scroll event listener to window
+    window.addEventListener('scroll', handleScroll);
+  </script>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+{% load custom_filters %}
+<h1 class=" text-center skin-type-heading">Okka Journal</h1>
+<div class="container useful-links-container border my-3 ">
+    <!-- <div class="useful-powered-by d-flex justify-content-end pe-4  pt-4">
+        <p class="useful-links-powered pe-4">Powered By </p>
+        <img src="https://www.okkabeauty.com/wp-content/plugins/customer-reviews-woocommerce/img/logo-vs.svg" alt=""
+            height="16px" width="16px">
+    </div> -->
+    <div class="connect-userful-links d-flex flex-wrap justify-content-center ">
+        <div class="card-container-useful  ms-2">
+            <div class="row me-2">
+                {% for rating in rating %}
+                <div class="col-sm-12 col-lg-4 col-md-6">
+                    <div class="card  mb-3 ">
+                        <div class="image-container useful-image-container d-flex  p-3 ">
+                            <div class="customer_image ">
+                                <img src="../images/download.svg" class="img-fluid" alt="..." class="review-images">
+                            </div>
+                            <div class="customer-text">
+                                <p class="customer_name">{{rating.user}}</p>
+                                <div class="customer_status">
+                                    <div class="customer_bage d-flex">
+                                        <img src="https://cdn.shopify.com/s/files/1/0566/8241/4246/t/11/assets/icon-verified-1662629893290.png?v=1662629894"
+                                            alt="" class="me-2 mt-1">
+                                        <div class="customer_status_content-journal ">REVIEWER</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body useful-image-container  p-3 ">
+                            <h5 class="card-title d-flex">
+                                <div class="customer_review-journal ">
+                                    {{ rating.stars|stars|safe }}
+                                </div>
+                                <p class="customer-rating-useful">{{rating.stars}}/5</p>
+                            </h5>
+
+                            <div class="middle-row ps-3">
+                                <div class="review-content">
+                                    <div class="review-text">
+                                        <p>{{rating.review}}</p>
+                                    </div>
+                                </div>
+                                <div class="datetime-useful">
+                                    {{ rating.review_date|time_since_review }} 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex ">
+                            {% if rating.product.images.all %}{% for image in rating.product.images.all|slice:":1" %}<img src="{{image.image.url}}" alt="" width="50px " height="50px">{% endfor %}{% endif %}
+                            <div class="ps-3">
+                                <small class="customer-footer-text ">Last updated 3 mins ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

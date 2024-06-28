@@ -1,0 +1,233 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+<style>
+    table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.105);;
+}
+th, td {
+    vertical-align: middle;
+    text-align: left;
+}
+
+</style>
+<!-- {{is_empty}} -->
+{% if is_empty %} 
+<!-- cart empty -->
+<div class="container py-5">
+  <div class="row justify-content-center">
+      <div class="col-md-7 text-center empty-cart-page">
+          <img src="../images/card-2.jpeg" alt="" width="30%" height="auto">
+          <h1 class="py-3 cart-empty-text ">Your cart is currently empty.</h1>
+          <p class="pt-2 pb-3 cart-empty-subtext">Before proceeding to checkout, you must add some products to
+              your shopping cart. You will find a lot of interesting products on our "Shop" page.</p>
+          <!-- Removed text-center class from here -->
+          <button class="empty-cart-button m-0">
+            <p class="mb-0">RETURN TO SHOP</p>
+          </button>
+      </div>
+  </div>
+</div>
+{% else %}
+<div class="container pt-5 mb-5">
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table">
+
+            <thead>
+              <tr class="">
+                <th scope="col" class=""></th>
+                <th scope="col" class=""></th>
+                <th scope="col" class="">PRODUCT</th>
+                <th scope="col" class="">PRICE</th>
+                <th scope="col" class="">QUANTITY</th>
+                <th scope="col" class="">SUBTOTAL</th>
+              </tr>
+
+            </thead>
+            <tbody>
+            {% for item in items %}
+              <tr class="product-list-cart">
+                <td><a href="{% url 'remove_cart_item' cart_item_id=item.id %}"><button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-times"></span></button></a></td>
+                <td>{% if item.product.images.all %}{% for image in item.product.images.all|slice:":1" %}<img src="{{image.image.url}}" alt="Product Image" class="img-fluid" width="80px" height="80px">{% endfor %}{% endif %}</td>
+                <td><a class="text-dark" href="{% url 'product_detail' item.product.slug %}">{{ item.product.name }}</a></td>
+                <td> {{item.price}} <span>AED</span></td>
+                <td class="">
+                    <div class="d-flex">
+                    <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ item.product.id }}, -1)">-</button>
+                    <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="{{item.quantity}}" id="quantity-input-{{ item.product.id }}" data-product-id="{{ item.product.id }}" />
+                    <input type="hidden" id="stock_value-{{ item.product.id }}" value="{{item.product.stock}}">
+                    <button class="btn cartpage_plusicon" type="button" id="{{ item.product.id }}" data-type="plus" onclick="updateQuantity({{ item.product.id }}, 1)">+</button>
+                    </div>
+
+                </td>
+                <td><strong>{{item.total_amount}}<span>AED</span></strong> </td>
+
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mb-3 d-flex flex-column align-items-end">
+          <label for="gift_num" class="form-label checkout-form-label text-right">Gift Card?<span
+              class="text-danger">*</span></label>
+          <input type="text" class="form-control  checkout-form-input-1 text-right" id="gift_num" required
+            placeholder="Gift Card Number">
+          <a href="#"><button type="button" class="product-detail-button">APPLY GIFT CARD</button></a>
+        </div>
+
+        <hr>
+        <div class="row mt-5">
+          <div class="mb-3 d-flex flex-column flex-md-row justify-content-between">
+            <div class="d-flex mb-3 mb-md-0 ">
+              <input type="text" class="form-control me-2 w-100" placeholder="coupoon code">
+
+              <button type="button" class="btn product-detail-button-1 w-100"
+                style="border-radius: none !important;">APPLY COUPON</button>
+            </div>
+            <div class="">
+              <a href="#"><button type="button" class="product-detail-button-2 ">UPDATE CART</button></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-lg-4">
+        <div class="checkout-section">
+          <h5 class="mb-4"><strong>CART TOTALS</strong> </h5>
+          <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+            <h6 class="mb-0">Subtotal</h6>
+            <h6 class="mb-0"> <span id="sub_total">{{sub_total}} </span><span>AED</span></h6>
+          </div>
+          <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+            <h6 class="mb-0">Shipping</h6>
+            <button class="btn  cart-calculate-head" id="calculateShippingBtn">Calculate Shipping</button>
+          </div>
+          <div id="shippingDetails" style="display: none;">
+            <select class="form-select mt-2 mb-3" id="countrySelect">
+              <option value="">Select a country</option>
+              <option value="USA">United States</option>
+              <option value="UK">United Kingdom</option>
+              <option value="Canada">Canada</option>
+
+            </select>
+
+
+            <select class="form-select mt-2 mb-3" id="countrySelect">
+              <option value="">Select a country</option>
+              <option value="USA">United States</option>
+              <option value="UK">United Kingdom</option>
+              <option value="Canada">Canada</option>
+
+            </select>
+            <input type="text" class="form-control mb-3" placeholder="Address">
+            <input type="text" class="form-control mb-3" placeholder="City">
+            <input type="text" class="form-control mb-3" placeholder="postal/Zip">
+            <div class="d-flex justify-content-end">
+              <a href="#"><button class="btn mt-3 cart-upadte-btn ">Update</button></a>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center pt-4">
+            <h5 class="mb-0">Total</h5>
+            <h4 class="mb-0"><span id="total-amount">{{sub_total}} </span><span>AED</span></h4>
+          </div>
+          <button type="button" id="check-out-btn" class="btn mt-3 d-block w-100 mt-5 cart-procced-button">PROCEED TO CHECKOUT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+  <!-- script section -->
+
+  <script>
+    function updateQuantity(productId, quantityChange) {
+          console.log(productId)
+          const quantityInput = document.getElementById(`quantity-input-${productId}`);
+          console.log(updateQuantity)
+          const currentQuantity = parseInt(quantityInput.value);
+          console.log(currentQuantity)
+          const newQuantity = quantityChange;
+          console.log(newQuantity)
+
+  
+          // Send the quantity update to the server
+          axios.post('/update_quantity/', {
+              product_id: productId,
+              quantity: newQuantity,
+          })
+          .then(response => {
+            const response_data = response.data;
+            const success = response_data.success;
+            const newquantity = response_data.newquantity;
+            const plusButton = document.getElementById(`${productId}`);
+            console.log(plusButton)
+            const availableQuantity = document.getElementById(`stock_value-${productId}`).value;
+            console.log(availableQuantity)
+            // Get the available quantity from the product information
+            // const productInfo = response_data.product;
+            // const availableQuantity = productInfo.in_stack_in;
+            // console.log(availableQuantity);
+            // const availableQuantity = '{{item.product.in_stack_in}}';
+            // console.log(availableQuantity)
+            console.log(success);        // Output: true
+            console.log('newquantity', newquantity);    // Output: the value of cart_item.quantity returned by the API
+            if (newquantity >= availableQuantity){
+              // plusButton.style.display = 'none';
+              plusButton.disabled = true;
+              plusButton.style.opacity = (0.4);
+              plusButton.style.border =(0);
+
+              // Update the quantity in the UI
+              quantityInput.value = newquantity;
+            //   window.location.href = '/cart/'
+
+            }else{
+            //   plusButton.style.display = 'block';
+            //   quantityInput.style.color = '';  // Reset text color
+            //   quantityInput.style.animation = '';  // Remove animation
+              plusButton.disabled = false;
+              plusButton.style.opacity = (1);
+              plusButton.style.border ='';
+              
+              // Update the quantity in the UI
+              quantityInput.value = newquantity;
+              console.log(quantityInput.value)
+              console.log(newquantity)
+            //   window.location.href = '/cart/'
+            }
+          })
+          .catch(error => {
+              console.log(error);
+          });
+      }
+  </script>
+
+  <script>
+    var checkoutBtn = document.getElementById('check-out-btn');
+            checkoutBtn.addEventListener('click', function() {
+              // var address = document.querySelector('input[name="gridRadios2"]:checked').value;
+              const sub_total = document.getElementById('sub_total').textContent;
+              console.log(sub_total)
+              const total_amount =document.getElementById('total-amount').textContent;
+              console.log(total_amount)
+
+              axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+              axios.post('/cart_price_info', data={ 
+                sub_total: sub_total,
+                total_amount:total_amount,
+               })
+              .then(function(response) {
+                console.log(response.data)
+                window.location.href = '/checkout/';
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+            });
+
+  </script>
+
+{% endblock %}

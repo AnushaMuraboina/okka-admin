@@ -1,0 +1,1340 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<style>
+  #popup-message {
+      display: none;
+      position: fixed;
+      top: 20px; /* Updated to display at the top */
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #333; /* Updated to dark background color */
+      color: #fff;
+      border-radius: 5px;
+      z-index: 9999;
+  }
+
+  #popup-message.success {
+      background-color: #28a745; /* Green color for success */
+  }
+
+  #popup-message .icon {
+      margin-right: 10px;
+  }
+</style>
+<main class="main" id="top">
+   
+    <main class="main" id="top">
+        <div class="container-fluid px-0">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
+            <script>
+              var navbarStyle = window.config.config.phoenixNavbarStyle;
+              if (navbarStyle && navbarStyle !== 'transparent') {
+                document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+              }
+            </script>
+            <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+              <!-- scrollbar removed-->
+              <div class="navbar-vertical-content">
+                <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+                
+                  <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li>
+    
+                <li class="nav-item">
+                
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                        <li class="collapsed-nav-item-title d-none">Banner Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                        <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>  
+                      {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>  
+                    {% endif %} {% endfor %} {% endif %} {% endif %}
+    
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Price Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Price Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                       
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Footer Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Footer Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+    
+                <li class="nav-item">
+                
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                        <li class="collapsed-nav-item-title d-none">Customer Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Customer</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Customer</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+    
+                <li class="nav-item">
+                
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                        <li class="collapsed-nav-item-title d-none">Product Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Products</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Products</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Add Product</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Add Product</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Sub Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Sub Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Brand</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Brand</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Attribute</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Attribute</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+    
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                          <li class="collapsed-nav-item-title d-none">Order Management
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Delivery Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Delivery Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+    
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Replacement Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Replacement Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+    
+    
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Re-Collection Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Re-Collection Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                          <li class="collapsed-nav-item-title d-none">Coupon
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">All Coupon</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">All Coupon</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                          {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Coupon Useage</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Coupon Useage</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                          <li class="collapsed-nav-item-title d-none">CSV Management
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                            <a class="nav-link active" href="3" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Csv Data</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                            <a class="nav-link active" href="3" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Csv Data</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                          <li class="collapsed-nav-item-title d-none">User Management
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">User Role</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">User Role</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                          <li class="collapsed-nav-item-title d-none">Report
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Order</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Invoice</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Shipping</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Coupon</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Abandoned Cart</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="navbar-vertical-footer">
+              <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+            </div>
+          </nav>
+          {% include 'Al-admin/base/nav.html' %}
+          <div class="content">
+            <div id="popup-message">
+              <span class="icon">✔</span> <!-- Green success icon -->
+              <span id="popup-message-text"></span>
+            </div>
+            <div id="responseMessageDiv"></div>            
+            <div class="pb-5">
+                <div class="mb-8">
+                    <h2 class="mb-2">CSV Creation</h2>                
+                </div>
+                <div id="products" data-list='{"valueNames":["Main category","subcategory name","Description"],"page":10,"pagination":true}'>
+                    <div class="mb-4">
+                        <div class="row g-3">
+                            <div class="col-auto ms-auto">
+                                <button class="btn btn-primary mb-1" type="button" id="save-continue"><span class="fas fa-plus me-2"></span>Save & Continue</button>
+                                <button class="btn btn-danger mb-1" type="button" id="cancel" onclick="clearFormFields()"><span class="me-2" data-feather="x"></span>Cancel</button>
+                              </div>
+                              <div class="col-auto d-flex">
+                                <select class="form-select form-select-sm me-3 export-badge" aria-label=".form-select-sm example">
+                                  <option selected="" disabled>Select Badge To Export</option>
+                                  {% for Badge in Badge %} <option value="{{Badge.badge}}">{{Badge.badge}}</option> {% endfor %} 
+                                </select>
+                                <button class="btn btn-primary mb-1 w-100" type="button" id="export-table"><span class="fas fa-file-export me-2"></span>Export Products</button>
+                              </div>
+                            <!-- <div class="col-auto ms-auto">
+                                <button class="btn btn-primary mb-1" type="button" id="export-csv"><span class="fas fa-plus me-2"></span>Export CSV</button>
+                            </div> -->
+                        </div>
+                        
+                    </div>
+                    <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                    <div class="row g-6 mt-3">
+                      <div class="col-12">
+                      <div class="table-responsive scrollbar mx-n1 px-1">
+                        <table class="table fs--1 mb-0">
+                          <thead>
+                            <tr class="mb-3">         
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="Badge">Badge</th>
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="item">Item No</th>                     
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="product">product_name</th>
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col"  data-sort="model">model_number</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="sku" >product_sku</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="video" >product_Video</th>                              
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="category" >category</th>
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col"  data-sort="sub_category">sub_category</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="brand" >brand</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="description" >description</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="short_description" >short_description</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="warranty_conditions" >warranty_conditions</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="price" >price</th>
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="special_price" >special_price</th>
+                              <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="weight">weight</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="number_of_stock_in" >number_of_stock_in</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="stock_status" >stock_status</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="image" >image</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="image" >attributes</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="image" >attribute_values</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="image" >Eta</th>
+                              <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="image" >Remove</th>
+                            </tr>
+                          </thead>
+                          <tbody class="list" id="products-table-body">
+                            <tr class="position-static m-2">                
+                                <td class="align-middle text-center white-space-nowrap py-0">
+                                  <select name="badges" id="Badge"> <option value=""selected disabled>select Badge</option> {% for Badge in Badge %} <option value="{{Badge.badge}}">{{Badge.badge}}</option> {% endfor %} </select><span class="text-success uil-plus-circle fs-1" data-bs-toggle="modal" data-bs-target="#Badge-Model"></span>
+                                   <!-- <input type="text" name="badges" id="Badge"> -->
+                                   <div class="modal fade" id="Badge-Model" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="verticallyCenteredModalLabel">New Badge</h5>
+                                          <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="mb-2">
+                                            <label class="form-label text-900" for="bootstrap-wizard-wizard-name">Badge</label>
+                                            <input class="form-control" type="number" name="Badge"/>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button class="btn btn-primary" type="button" id="new_Badge" data-bs-dismiss="modal">Add</button>
+                                          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="item" id="item_no"></td>                
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="product_name" id="product"></td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="model_number" id="model"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="product_sku" id="sku"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="product_Video" id="video"> </td>
+                                
+                                <td class="align-middle align-items-center text-center white-space-nowrap py-0"> <select class="categorySelect" name="category" id="categorySelect"> <option value="" selected disabled>select category</option> {% for Categories in Categories %} <option value="{{Categories.name}}">{{Categories.name}}</option> {% endfor %} </select> <span class="text-success uil-plus-circle fs-1" data-bs-toggle="modal" data-bs-target="#category-Model"></span>
+                                  <div class="modal fade" id="category-Model" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="verticallyCenteredModalLabel">New Category</h5>
+                                          <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="mb-2">
+                                            <label class="form-label text-900" for="bootstrap-wizard-wizard-name">Category</label>
+                                            <input class="form-control" type="text" name="category"/>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button class="btn btn-primary" type="button" id="new_cat">Add</button>
+                                          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>                           
+                                
+                                
+                    
+                                
+                                
+                                <td class="align-middle text-center white-space-nowrap py-0"> <select name="sub_category" id="subcategorySelect"> <option value=""selected disabled>select subcategory</option></select> <span class="text-success uil-plus-circle fs-1" data-bs-toggle="modal" data-bs-target="#sub-category-Model"></span>
+                                  <div class="modal fade" id="sub-category-Model" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="verticallyCenteredModalLabel">New Sub-Category</h5>
+                                          <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="mb-2">
+                                            <label class="form-label text-900" for="bootstrap-wizard-wizard-name">Sub-Category</label>
+                                            <input class="form-control" type="text" name="sub-category"/>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button class="btn btn-primary" type="button" id="new_sub">Add</button>
+                                          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                
+                                <td class="align-middle text-center white-space-nowrap py-0"> <select name="brand" id="brand"> <option value=""selected disabled>select Brand</option>
+                                   <!-- {% for brand in brand %} <option value="{{brand.name}}">{{brand.name}}</option> {% endfor %} -->
+                                   </select><span class="text-success uil-plus-circle fs-1" data-bs-toggle="modal" data-bs-target="#Brand-Model"></span>
+                                  <div class="modal fade" id="Brand-Model" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="verticallyCenteredModalLabel">New Brand</h5>
+                                          <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close"><svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path></svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="mb-2">
+                                            <label class="form-label text-900" for="bootstrap-wizard-wizard-name">Brand</label>
+                                            <input class="form-control" type="text" name="Brand"/>
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button class="btn btn-primary" type="button" id="new_brand">Add</button>
+                                          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                
+                                <td class="align-middle text-center white-space-nowrap py-0">  <input type="text" name="description" id="description"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="short_description" id="short_description"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="warranty_conditions" id="warranty_conditions"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="price" id="price"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="special_price" id="special_price"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="weight" id="weight"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="number" name="number_of_stock_in" id="number_of_stock_in"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <select name="stock_status" id="stock_status"> <option value="Instock">Instock</option> <option value="Out of Stock">Out of Stock</option> </select> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="image" id="image"> </td>    
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="attributes" id="attributes"> </td> 
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="attribute_values" id="attribute_values"> </td> 
+                                <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="eta" id="eta"> </td>
+                                <td class="align-middle text-center white-space-nowrap py-0"><span class="text-dark" data-feather="trash-2" onclick="deleteRow(this)"></span></td>                             
+                                </tr>                              
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                        <div class="col-auto d-flex">
+                          <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                        </div>
+                        <div class="col-auto d-flex">
+                          <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                          <ul class="mb-0 pagination"></ul>
+                          <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                        </div>
+                      </div> -->
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+       <script>
+
+
+          function displayPopupMessage(message, duration, success) {
+              const popup = document.getElementById('popup-message');
+              const popupText = document.getElementById('popup-message-text');
+              popupText.textContent = message;
+              if (success) {
+                  popup.classList.add('success');
+              }
+              popup.style.display = 'block';
+
+              setTimeout(function() {
+                  popup.style.display = 'none';
+                  popup.classList.remove('success');
+              }, duration);
+          }
+
+
+
+
+          $(document).ready(function() {
+            $("#new_brand").click(function() {
+              // Get the value from the input field in the modal
+              var newBrandValue = $("input[name='Brand']").val();
+                      
+              // Append a new option to the select dropdown
+              if (newBrandValue) {
+                var newOption = $("<option>", { value: newBrandValue, text: newBrandValue });
+                $("#brand").append(newOption);
+              }
+              // Close the modal
+              $('#Brand-Model').modal('hide');
+            });
+
+            $("#new_cat").click(function() {
+              // Get the value from the input field in the "New Category" modal
+              var newCatValue = $("input[name='category']").val();
+
+              // Append a new option to the select dropdown
+              if (newCatValue) {
+                var newOption = $("<option>", { value: newCatValue, text: newCatValue });
+                $("#categorySelect").append(newOption);
+              }
+
+              // Close the "New Category" modal
+              $('#category-Model').modal('hide');
+            });
+
+            $("#new_sub").click(function() {
+              // Get the value from the input field in the "New Category" modal
+              var newCatValue = $("input[name='sub-category']").val();
+
+              // Append a new option to the select dropdown
+              if (newCatValue) {
+                var newOption = $("<option>", { value: newCatValue, text: newCatValue });
+                $("#subcategorySelect").append(newOption);
+              }
+
+              // Close the "New Category" modal
+              $('#sub-category-Model').modal('hide');
+            });
+
+          });
+
+
+            // Function to save the data to a CSV file using Axios
+            function savedataDB() {
+              Badge = document.getElementById('Badge').value
+              console.log(Badge)
+              item_no = document.getElementById('item_no').value
+              console.log(item_no)
+              product_name = document.getElementById('product').value
+              console.log(product_name)
+              product_model = document.getElementById('model').value
+              console.log(product_model)
+              product_sku = document.getElementById('sku').value
+              console.log(product_sku)
+              product_video = document.getElementById('video').value
+              console.log(product_video)
+              product_brand = document.getElementById('brand').value
+              console.log(product_brand)
+              product_category = document.getElementById('categorySelect').value
+              console.log(product_category)
+              product_subcategory = document.getElementById('subcategorySelect').value
+              console.log(product_subcategory)
+              product_description = document.getElementById('description').value
+              console.log(product_description)
+              product_short_description= document.getElementById('short_description').value
+              console.log(product_short_description)
+              product_warranty_conditions = document.getElementById('warranty_conditions').value
+              console.log(product_warranty_conditions)
+              product_price = document.getElementById('price').value
+              console.log(product_price)
+              product_special_price = document.getElementById('special_price').value
+              console.log(product_special_price)
+              product_weight = document.getElementById('weight').value
+              console.log(product_weight)
+              product_stock = document.getElementById('number_of_stock_in').value
+              console.log(product_stock)
+              product_stock_status = document.getElementById('stock_status').value
+              console.log(product_stock_status)
+              product_images = document.getElementById('image').value
+              console.log(product_images)
+              product_attributes = document.getElementById('attributes').value
+              console.log(product_attributes)
+              product_attribute_values = document.getElementById('attribute_values').value
+              console.log(product_attribute_values)
+              product_eta = document.getElementById('eta').value
+              console.log(product_eta)
+
+
+              data ={
+                Badge:Badge,
+                item_no:item_no,
+                product_name:product_name,
+                product_model:product_model,
+                product_sku:product_sku,
+                product_video:product_video,
+                product_brand:product_brand,
+                product_category:product_category,
+                product_subcategory:product_subcategory,
+                product_description:product_description,
+                product_short_description:product_short_description,
+                product_warranty_conditions:product_warranty_conditions,
+                product_price:product_price,
+                product_special_price:product_special_price,
+                product_weight:product_weight,
+                product_stock:product_stock,
+                product_stock_status:product_stock_status,
+                product_images:product_images,
+                product_attributes:product_attributes,
+                product_attribute_values:product_attribute_values,
+                product_eta:product_eta,
+              }
+
+              // Use Axios to send a POST request with the CSV data to your Django server
+              axios.post('save-csv-url', data, {
+                headers: {
+                  'Content-Type': 'text/csv', // Set the content type as CSV
+                }
+              })
+              .then(response => {
+                // Handle the server's response here, if needed.
+                console.log(response.data);
+                displayPopupMessage(response.data, 5000, true);
+                
+                // Clear the input field values
+                document.getElementById('Badge').value = '';
+                document.getElementById('item_no').value = '';
+                document.getElementById('product').value = '';
+                document.getElementById('model').value = '';
+                document.getElementById('sku').value = '';
+                document.getElementById('video').value = '';
+                document.getElementById('brand').value = '';
+                document.getElementById('categorySelect').value = '';
+                document.getElementById('subcategorySelect').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('short_description').value = '';
+                document.getElementById('warranty_conditions').value = '';
+                document.getElementById('price').value = '';
+                document.getElementById('special_price').value = '';
+                document.getElementById('weight').value = '';
+                document.getElementById('number_of_stock_in').value = '';
+                document.getElementById('image').value = '';
+              })              
+              .catch(error => {
+                console.error('Error:', error);
+              });
+            }
+
+
+            // Add an event listener to the "Save & Continue" button
+            document.getElementById('save-continue').addEventListener('click', savedataDB);
+
+
+
+
+            // Function to fetch and update subcategories for a specific row
+            function fetchSubcategories(categorySelect) {
+                const selectedCategory = categorySelect.value;
+                console.log(selectedCategory)
+                const subcategorySelect = categorySelect.parentElement.nextElementSibling.querySelector('select[name="sub_category"]');
+
+                axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+                axios.post('get-subcategories', { selectedCategory: selectedCategory })
+                .then(function (response) {
+                    // Handle the response and update the UI with the retrieved subcategories
+                    const subcategories = response.data.subcategories;
+                    subcategorySelect.innerHTML = ''; // Clear previous options
+
+                    // Add the dummy option
+                    const dummyOption = document.createElement('option');
+                    dummyOption.value = '';
+                    dummyOption.disabled = true;
+                    dummyOption.selected = true;
+                    dummyOption.textContent = 'Select subcategory';
+                    subcategorySelect.appendChild(dummyOption);
+
+                    subcategories.forEach(function (subcategory) {
+                        const option = document.createElement('option');
+                        option.value = subcategory.name;
+                        option.textContent = subcategory.name;
+                        subcategorySelect.appendChild(option);
+                    });
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+            }
+
+            // Add an event listener for category select elements with the class "categorySelect"
+            const categorySelects = document.querySelectorAll('.categorySelect');
+            categorySelects.forEach(function (categorySelect) {
+                categorySelect.addEventListener('change', function () {
+                    fetchSubcategories(categorySelect);
+                });
+            });
+
+
+        // fetch Brand function
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+          function fetchbrand() {
+            const selectedCategory = document.getElementById('categorySelect').value;
+            console.log(selectedCategory)
+            const selectedsubCategory = document.getElementById('subcategorySelect').value;
+            console.log(selectedsubCategory)
+            axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+            axios.post('/Al-admin/get-brand', data={ selectedsubCategory: selectedsubCategory, selectedCategory:selectedCategory })
+            .then(function (response) {
+            // Handle the response and update the UI with the retrieved subcategories
+            const brand = response.data.brand;
+            console.log(brand)
+
+            const brand_list = document.getElementById('brand');
+
+            // Clear previous options
+            brand_list.innerHTML = '';
+
+            // Add the dummy option
+            const dummyOption = document.createElement('option');
+            dummyOption.value = '';
+            dummyOption.disabled = true;
+            dummyOption.selected = true;
+            dummyOption.textContent = 'Select Brand';
+            brand_list.appendChild(dummyOption);
+
+
+            // Add new options based on the retrieved subcategories
+            brand.forEach(function (brand) {
+            const option = document.createElement('option');
+            option.value = brand.name;
+            option.textContent = brand.name;
+            brand_list.appendChild(option);
+            });
+
+          })
+            .catch(function (error) {
+            console.error(error);
+            });
+          }
+
+          // Call the fetchSubcategories function when the category selection changes
+          document.getElementById('subcategorySelect').addEventListener('change', fetchbrand);
+
+        });
+
+
+
+
+        // Table row delete function
+        function deleteRow(icon) {
+                // Get the row that contains the clicked icon
+                const row = icon.closest('tr');
+
+                // Check if the row exists
+                if (row) {
+                    // Remove the row from the table
+                    row.remove();
+                }
+          }
+
+
+
+
+          document.getElementById('export-table').addEventListener('click', function() {
+          // Get the selected badge value
+          const selectedBadge = document.querySelector('.export-badge').value;
+          console.log(selectedBadge);
+
+          // Check if a badge is selected
+          if (selectedBadge === 'Select Badge To Export') {
+            alert('Please select a badge before exporting.');
+            return;
+          }
+
+          // Set the CSRF token in the request header
+          axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+
+          // Make a POST request using Axios to download the CSV file
+          axios({
+            method: 'post',
+            url: 'export_csv_badge',
+            responseType: 'blob',  // Set the response type to blob
+            data: {
+              selectedBadge: selectedBadge
+            },
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken'), // You need to implement getCookie function
+            },
+          })
+          .then(function (response) {
+            // Create a Blob from the response data
+            const blob = new Blob([response.data], { type: 'application/csv' });
+
+            // Create a link element and set its attributes
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `${selectedBadge}_products.csv`;
+
+            // Append the link to the document and trigger the click event
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove the link from the document
+            document.body.removeChild(link);
+          })
+          .catch(function (error) {
+            console.error('Error downloading CSV file:', error);
+          });
+        });
+
+
+        // Function to get the CSRF token from cookies
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+
+        // // Add event listener to another button for saving the data to a CSV file
+        // document.getElementById('export-table').addEventListener('click', function () {
+        //     const tableBody = document.getElementById('products-table-body');
+        //     const rows = tableBody.querySelectorAll('tr');
+
+        //     // Create a CSV string from the input data
+        //     const csvData = Array.from(rows, row => {
+        //         const cells = row.querySelectorAll('input, select');
+        //         const cellValues = Array.from(cells, cell => {
+        //             if (cell.tagName === 'SELECT') {
+        //                 // For SELECT elements, get the selected option's value
+        //                 return `"${cell.options[cell.selectedIndex].value}"`;
+        //             }
+        //             // Wrap the value in double quotes to treat it as a single cell
+        //             return `"${cell.value}"`;
+        //         });
+        //         return cellValues.join(',');
+        //     }).join('\n');
+
+        //     // Create a Blob with the CSV data
+        //     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+
+        //     // Use FileSaver.js to trigger the download
+        //     saveAs(blob, 'products.csv');
+        // });
+
+
+        // // Add an event listener to the export button
+        // document.getElementById('export-table').addEventListener('click', function() {
+        //   // Get the selected badge value
+        //   const selectedBadge = document.querySelector('.export-badge').value;
+        //   console.log(selectedBadge)
+
+        //   // Check if a badge is selected
+        //   if (selectedBadge === 'Select Badge To Export') {
+        //     alert('Please select a badge before exporting.');
+        //     return;
+        //   }
+
+        //   // Set the CSRF token in the request header
+        //   axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+
+        //   // Make a GET request using Axios to check if data exists
+        //   axios.get(`check_data_availability/${selectedBadge}`, { headers: { 'Content-Type': 'application/json' } })
+        //     .then(function (response) {
+        //       console.log(response.data.dataAvailable)
+        //       console.log(response.data)
+        //       if (response.data.dataAvailable) {
+        //         console.log('if statement work')
+        //         // Data is available, proceed with CSV export
+        //         exportCSV(selectedBadge);
+        //       } else {
+        //         console.log('else statement work')
+        //         // No data available, show an alert message
+        //         alert('No data available for the selected badge.');
+        //       }
+        //     })
+        //     .catch(function (error) {
+        //       console.error('Error checking data availability:', error);
+        //     });
+        // });
+
+
+
+        // function exportCSV(selectedBadge) {
+        //   // Make a POST request using Axios to export the CSV file
+        //   axios.post(`download_csv/${selectedBadge}`, {}, { responseType: 'blob' })
+        //     .then(function (response) {
+        //       // Create a link element to initiate the file download
+        //       const blob = new Blob([response.data], { type: 'application/octet-stream' });
+        //       const url = window.URL.createObjectURL(blob);
+        //       const a = document.createElement('a');
+        //       a.href = url;
+        //       a.download = `badge_${selectedBadge}_data.csv`;
+        //       a.style.display = 'none';
+        //       document.body.appendChild(a);
+        //       a.click();
+        //       window.URL.revokeObjectURL(url);
+        //     })
+        //     .catch(function (error) {
+        //       console.error('Error exporting:', error);
+        //     });
+        // }
+
+
+      
+        document.getElementById('new_Badge').addEventListener('click', function() {
+          // Get the badge name from the input field
+          const badgeName = document.querySelector('input[name="Badge"]').value;
+        
+          // Log the badge name to the console
+          console.log(badgeName);
+        
+          // Set the CSRF token in the request header
+          axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+        
+          // Send a POST request to save the badge
+          axios.post('save-badge', { Badge: badgeName })
+            .then(function(response) {
+              console.log(response.data.message);
+              newBadge = response.data.Badge
+              console.log(newBadge)
+              // Append a new option to the select dropdown
+              if (newBadge) {
+                const newOption = document.createElement('option');
+                newOption.value = newBadge.badge;
+                newOption.text = newBadge.badge;
+                document.getElementById('Badge').appendChild(newOption);
+              }
+              
+              // Hide model function
+              // const model = document.getElementById('Badge-Model')
+              // model.classList.remove('show');
+        
+              // Display success message in an alert div
+              // const responseMessageDiv = document.getElementById('responseMessageDiv');
+              // responseMessageDiv.innerHTML = `
+              //   <div class="alert bg-black text-success text-center alert-dismissible fade show custom-alert w-25 mx-auto" role="alert" data-bs-autohide="true" data-bs-delay="3000" style="height:10px">
+              //     <p>${response.data.message}</p>                  
+              //   </div>`;
+        
+              // Handle success, e.g., close the modal or perform any additional actions
+            })
+            .catch(function(error) {
+              console.error(error.response.data.message);
+        
+              // Display error message in an alert div
+              // const responseMessageDiv = document.getElementById('responseMessageDiv');
+              // responseMessageDiv.innerHTML = `
+              //   <div class="alert bg-black text-success text-center alert-dismissible fade show custom-alert w-25 mx-auto" role="alert" data-bs-autohide="true" data-bs-delay="3000" style="height:10px">
+              //     <p>${error.response.data.message}</p>               
+              //   </div>`;
+        
+              // Handle errors, e.g., display an error message or perform any additional actions
+            });
+        });
+        
+
+
+        function clearFormFields() {
+            // Clear the input field values
+            document.getElementById('Badge').value = '';
+            document.getElementById('item_no').value = '';
+            document.getElementById('product').value = '';
+            document.getElementById('model').value = '';
+            document.getElementById('sku').value = '';
+            document.getElementById('video').value = '';
+            document.getElementById('brand').value = '';
+            document.getElementById('categorySelect').value = '';
+            document.getElementById('subcategorySelect').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('short_description').value = '';
+            document.getElementById('warranty_conditions').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('special_price').value = '';
+            document.getElementById('weight').value = '';
+            document.getElementById('number_of_stock_in').value = '';
+            document.getElementById('image').value = '';
+        }
+
+        
+        
+
+            // // Function to save the data to a CSV file using Axios
+            // function saveDataToCSV() {
+            //       // Select the table body
+            //       const tableBody = document.getElementById('products-table-body');
+            //       const rows = tableBody.querySelectorAll('tr');
+
+            //       // Create a CSV string from the input data
+            //       const csvData = Array.from(rows, row => {
+            //           const cells = row.querySelectorAll('input, select');
+            //           const rowData = Array.from(cells, cell => {
+            //               let cellValue = cell.value;
+
+            //               // Replace multiple spaces with a single space
+            //               cellValue = cellValue.replace(/\s+/g, ' ');
+
+            //               // If the cell value contains a double quote, escape it by doubling it
+            //               if (cellValue.includes('"')) {
+            //                   cellValue = cellValue.replace(/"/g, '""');
+            //               }
+
+            //               // Enclose the cell value in double quotes if it contains a comma
+            //               if (cellValue.includes(',')) {
+            //                   cellValue = `"${cellValue}"`;
+            //               }
+
+            //               return cellValue;
+            //           });
+
+            //           // Join the row data with commas to separate cells
+            //           return rowData.join(',');
+            //       }).join('\n');
+
+            //       // Use Axios to send a POST request with the CSV data to your Django server
+            //       axios.post('save-csv-url', csvData, {
+            //           headers: {
+            //               'Content-Type': 'text/csv', // Set the content type as CSV
+            //           }
+            //       })
+            //       .then(response => {
+            //           // Handle the server's response here, if needed.
+            //           console.log(response.data);
+            //       })
+            //       .catch(error => {
+            //           console.error('Error:', error);
+            //       });
+
+
+            //       const newRow = document.createElement('tr');
+            //       newRow.innerHTML = `
+                          
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="product_name" id="product"></td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="model_number" id="model"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="product_sku" id="sku"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="product_Video" id="video"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0">
+            //               <select name="brand" id="brand">
+            //                   <option value=""selected disabled>select Brand</option>
+            //                   {% for brand in brand %} 
+            //                   <option value="{{brand.name}}">{{brand.name}}</option>
+            //                   {% endfor %} 
+            //               </select>
+            //               </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0">
+            //               <select class="categorySelect" name="category" id="categorySelect">
+            //                   <option value="" selected disabled>select category</option>
+            //                   {% for Categories in Categories %} 
+            //                   <option value="{{Categories.name}}">{{Categories.name}}</option>
+            //                   {% endfor %} 
+            //               </select>
+            //               </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0">
+            //               <select name="sub_category" id="subcategorySelect">
+            //                   <option value=""selected disabled>select subcategory</option>
+            //               </select>
+            //               </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0">  <input type="text" name="description" id="description"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="short_description" id="short_description"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="warranty_conditions" id="warranty_conditions"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="price" id="price"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="special_price" id="special_price"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="weight" id="weight"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="number" name="number_of_stock_in" id="number_of_stock_in"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0">
+            //               <select name="stock_status" id="stock_status">
+            //                   <option value="Instock">Instock</option>
+            //                   <option value="Out of Stock">Out of Stock</option>
+            //               </select>
+            //               </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"> <input type="text" name="image" id="image"> </td>
+            //               <td class="align-middle text-center white-space-nowrap py-0"><span class="text-dark" data-feather="trash-2" style="width: 16px; height: 16px;" onclick="deleteRow(this)"></span></td>       
+            //       `;
+            //       tableBody.appendChild(newRow);
+            //       // After adding a new row, you might want to initialize Feather Icons library
+            //       // to ensure that the "trash" icons are displayed.
+            //       feather.replace();
+
+            //       // Attach event listeners to the category select in the new row
+            //       const categorySelect = newRow.querySelector('.categorySelect');
+            //       categorySelect.addEventListener('change', function () {
+            //           fetchSubcategories(categorySelect);
+            //       });
+
+            //   }
+
+
+            // // Add an event listener to the "Save & Continue" button
+            // document.getElementById('save-continue').addEventListener('click', saveDataToCSV);
+
+
+
+       </script> 
+          
+       
+      </main>   
+
+{% endblock %}

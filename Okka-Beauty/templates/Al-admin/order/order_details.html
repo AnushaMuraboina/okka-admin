@@ -1,0 +1,1193 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<style>
+  #popup-message {
+      display: none;
+      position: fixed;
+      top: 20px; /* Updated to display at the top */
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #333; /* Updated to dark background color */
+      color: #fff;
+      border-radius: 5px;
+      z-index: 9999;
+  }
+
+  #popup-message.success {
+      background-color: #28a745; /* Green color for success */
+  }
+
+  #popup-message .icon {
+      margin-right: 10px;
+  }
+</style>
+<main class="main" id="top">
+    
+      <div class="container-fluid px-0">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
+          <script>
+            var navbarStyle = window.config.config.phoenixNavbarStyle;
+            if (navbarStyle && navbarStyle !== 'transparent') {
+              document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+            }
+          </script>
+          <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+            <!-- scrollbar removed-->
+            <div class="navbar-vertical-content">
+              <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+              
+                <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                  <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                  </div>
+                </a>
+                <!-- more inner pages-->
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                      <li class="collapsed-nav-item-title d-none">Banner Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>  
+                    {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>  
+                  {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                     
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                      <li class="collapsed-nav-item-title d-none">Customer Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                      <li class="collapsed-nav-item-title d-none">Product Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                        <li class="collapsed-nav-item-title d-none">Order Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                        <li class="collapsed-nav-item-title d-none">Coupon
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                        <li class="collapsed-nav-item-title d-none">CSV Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                        <li class="collapsed-nav-item-title d-none">User Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                        <li class="collapsed-nav-item-title d-none">Report
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Order</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Invoice</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Shipping</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Abandoned Cart</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="navbar-vertical-footer">
+            <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+          </div>
+        </nav>
+        {% include 'Al-admin/base/nav.html' %}
+        <div class="content">
+          <div id="popup-message">
+            <span class="icon">✔</span> <!-- Green success icon -->
+            <span id="popup-message-text"></span>
+          </div>
+            <nav class="mb-2" aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="#!">Page 1</a></li>
+                <li class="breadcrumb-item"><a href="#!">Page 2</a></li>
+                <li class="breadcrumb-item active">Default</li>
+              </ol>
+            </nav>
+            <div class="mb-9">
+              <h2 class="mb-0">Order <span>#{{order_id}}</span></h2>
+              <!-- <h2 class="mb-0">Payment via <span>{{order.payment_method}}</span></h2> -->
+              <div class="d-flex flex-wrap flex-between-center mb-1">
+                <p class="text-800 lh-sm mb-0">Customer ID : <a class="fw-bold" href="#!"> {{order.user}}</a></p>
+                <p class="text-800 lh-sm mb-0">Payment via : <span>{{order.payment_method}}</span></p>
+                <div class="d-flex">
+                  <button class="btn pe-3 ps-0 text-900"><span class="fas fa-print me-2"></span>Print</button>
+                  <!-- <button class="btn px-3 text-900"><span class="fas fa-undo me-2"></span>Refund</button>
+                  <div class="dropdown">
+                    <button class="btn text-900 dropdown-toggle dropdown-caret-none ps-3 pe-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">More action<span class="fas fa-chevron-down ms-2"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </div> -->
+                </div>
+              </div>
+              <div class="row g-5 gy-7">
+                <div class="col-12 col-xl-8 col-xxl-9">
+                  <div id="orderTable" data-list='{"valueNames":["products","color","size","price","quantity","total"],"page":10}'>
+                    <div class="table-responsive scrollbar">
+                      <table class="table fs--1 mb-0 border-top border-200">
+                        <thead>
+                          <tr>
+                            <th class="sort white-space-nowrap align-middle fs--2" scope="col"></th>
+                            <th class="sort white-space-nowrap align-middle" scope="col" style="min-width:400px;" data-sort="products">PRODUCTS</th>
+                            <!-- <th class="sort align-middle ps-4" scope="col" data-sort="color" style="width:150px;">COLOR</th>
+                            <th class="sort align-middle ps-4" scope="col" data-sort="size" style="width:300px;">SIZE</th> -->
+                            <th class="sort align-middle text-end ps-4" scope="col" data-sort="price" style="width:150px;">PRICE</th>
+                            <th class="sort align-middle text-end ps-4" scope="col" data-sort="quantity" style="width:200px;">QUANTITY</th>
+                            <th class="sort align-middle text-end ps-4" scope="col" data-sort="total" style="width:250px;">TOTAL</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list" id="order-table-body">
+                          {% for item in order_items %}
+                          
+                          <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                            <td class="align-middle white-space-nowrap py-2">
+                              <div class="border rounded-2"> <a href="{% url 'product_details' id=item.product_id.id sl_category=item.product_id.category.name|slugify sl_sub_category=item.product_id.sub_category.name|slugify sl_product_details=item.product_id.product_name|slugify %}"> <img  src="{{item.product_id.product_Image1.url}}" alt="" width="53" /></a></div>
+                            </td>
+                            <td class="products align-middle py-0"><a class="fw-semi-bold line-clamp-2 mb-0" href="{% url 'product_details' id=item.product_id.id sl_category=item.product_id.category.name|slugify sl_sub_category=item.product_id.sub_category.name|slugify sl_product_details=item.product_id.product_name|slugify %}">{{item.product_name}}</a></td>
+                            <td class="price align-middle text-900 fw-semi-bold text-end py-0 ps-4">AED {{item.price}}</td>
+                            <td class="quantity align-middle text-end py-0 ps-4 text-700">{{item.quentity}}</td>
+                            <td class="total align-middle fw-bold text-1000 text-end py-0 ps-4">AED {{item.total}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-between-center py-3 border-bottom mb-7">
+                  <p class="text-1100 fw-semi-bold lh-sm mb-0">Items subtotal :</p>
+                  <p class="text-1100 fw-bold lh-sm mb-0">AED {{order.amount}}</p>
+                </div>
+                  <div class="row gx-4 gy-6 g-xl-7 justify-content-sm-center justify-content-xl-start">
+                    <div class="col-12 col-sm-6">
+                      {% for billingaddress in Billing_address %}
+                        
+                        <div class="d-flex justify-content-between">
+                          <h4 class="mb-5">Billing details</h4>
+                          {% if request.user.is_authenticated %} {% if perms.checkout.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseTwo{{billingaddress.id}}" aria-expanded="false" aria-controls="collapseTwo" href="#">
+  <span data-bs-toggle="collapse" data-bs-target="#collapseTwo{{billingaddress.id}}" aria-expanded="false" aria-controls="collapseTwo" class="uil-pen fs-1"></span>
+</a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseTwo{{billingaddress.id}}" aria-expanded="false" aria-controls="collapseTwo" href="#">
+  <span data-bs-toggle="collapse" data-bs-target="#collapseTwo{{billingaddress.id}}" aria-expanded="false" aria-controls="collapseTwo" class="uil-pen fs-1"></span>
+</a> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </div>
+
+                        <div class="accordion" id="accordionExample">
+                          <div class="accordion-item  border-300 border-bottom-0 p-0">
+                            <div class="accordion-collapse collapse" id="collapseTwo{{billingaddress.id}}" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                              <div class="accordion-body pt-0">
+                                <form method="post" action="" id="update-billingaddress-form">
+                                  {% csrf_token %}
+                                  <h3 class="mb-5">Load Billing Address</h3>
+                                  <div class="row g-4">
+                                    <input type="hidden" id="billing_id" name="billing_address_id" value="{{ billingaddress.id }}">
+                                    <div class="col-12">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputName">Full name</label>
+                                      <input class="form-control" id="inputName" name="name" type="text" placeholder="Full name" value="{{billingaddress.name}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputEmail">Email</label>
+                                      <input class="form-control" id="inputEmail" name="email" type="email" placeholder="Email" value="{{billingaddress.email}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputPhone">Phone</label>
+                                      <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="+1234567890" value="{{billingaddress.phone}}">
+                                    </div>
+                                    <div class="col-12">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">Address</label>
+                                      <input class="form-control" id="inputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address}}">
+                                    </div>
+                                    <div class="col-12">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">Landmark</label>
+                                      <input class="form-control" id="inputAddress2" type="text" name="landmark" placeholder="Address line 2" value="{{billingaddress.landmark}}">
+                                    </div>
+                                    <div class="col-md-4">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCity">City</label>
+                                      <input class="form-control" id="inputCity" type="text" name="city" placeholder="city" value="{{billingaddress.city}}">
+                                      </div>
+                                    <div class="col-md-4">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputState">State</label>
+                                      <input class="form-control" id="inputState" type="text" name="state" placeholder="state" value="{{billingaddress.state}}">
+                                    </div>
+                                    <div class="col-md-4">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputZipCode">Zip code</label>
+                                      <input class="form-control number-arrows-none" id="inputZipCode" name="zipcode" type="number" placeholder="Zip code" value="{{billingaddress.zipcode}}">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCountry">Country</label>
+                                      <input class="form-control" id="inputCountry" type="text" name="country" placeholder="country" value="{{billingaddress.country}}">
+                                    </div>
+                                    <div class="col-12">
+                                      <button class="btn btn-primary px-8 px-sm-11 me-2" type="submit">load Billing Address</button>                                        
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>                    
+                        </div>
+                        
+                        <div class="row g-4 flex-sm-column">                          
+                          <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="user" style="stroke-width:2.5;"></span>
+                              <h6 class="mb-0">Customer</h6>
+                            </div><a class="fs--1 ms-4" href="#!">{{billingaddress.name}}</a>
+                          </div>
+                          <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="mail" style="stroke-width:2.5;"></span>
+                              <h6 class="mb-0">Email</h6>
+                            </div><a class="fs--1 ms-4" href="mailto:shatinon@jeemail.com:">{{billingaddress.email}}</a>
+                          </div>
+                          <div class="col-6 col-sm-12 order-sm-1">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="home" style="stroke-width:2.5;"></span>
+                              <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="ms-4">
+                              <!-- <p class="text-800 mb-0 fs--1">Shatinon Mekalan</p> -->
+                              <p class="text-800 mb-0 fs--1">{{billingaddress.address}}<br class="d-none d-sm-block" /></p>
+                            </div>
+                          </div>
+                          <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="phone" style="stroke-width:2.5;">  </span>
+                              <h6 class="mb-0">Phone</h6>
+                            </div><a class="fs--1 ms-4" href="tel:+1234567890">{{billingaddress.phone}}</a>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      {% for Shipping_address in Shipping_address %}
+                      <div class="d-flex justify-content-between">
+                        <h4 class="mb-5">Shipping details</h4>
+                        {% if request.user.is_authenticated %} {% if perms.checkout.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" href="#">
+  <span data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" class="uil-pen fs-1"></span>
+</a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" href="#">
+  <span data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" class="uil-pen fs-1"></span>
+</a> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </div>                        
+                        <div class="accordion" id="accordionExample">
+                          <div class="accordion-item  border-300 border-bottom-0  p-0">
+                            <div class="accordion-collapse collapse" id="collapseOne{{Shipping_address.id}}" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                              <div class="accordion-body pt-0">
+                                <form method="post" action="" id="update-Shipping_address-form">
+                                  {% csrf_token %}
+                                  <h3 class="mb-5">Update Shipping Address</h3>
+                                  <div class="row g-4">
+                                    <input type="hidden" id="Shippingaddress_id" name="Shipping_address_id" value="{{ Shipping_address.id }}">
+                                    <div class="col-12">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputName">Full name</label>
+                                      <input class="form-control" id="inputName" name="name" type="text" placeholder="Full name" value="{{Shipping_address.name}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputEmail">Email</label>
+                                      <input class="form-control" id="inputEmail" name="email" type="email" placeholder="Email" value="{{Shipping_address.email}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputPhone">Phone</label>
+                                      <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="+1234567890" value="{{Shipping_address.phone}}">
+                                    </div>
+                                    <div class="col-12">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">Address</label>
+                                      <input class="form-control" id="inputAddress1" name="address" type="text" placeholder="Address line 1" value="{{Shipping_address.address}}">
+                                    </div>
+                                    <div class="col-12">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">Landmark</label>
+                                      <input class="form-control" id="inputAddress2" type="text" name="landmark" placeholder="Address line 2" value="{{Shipping_address.landmark}}">
+                                    </div>
+                                    <div class="col-md-4">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCity">City</label>
+                                      <input class="form-control" id="inputCity" type="text" name="city" placeholder="city" value="{{Shipping_address.city}}">
+                                      </div>
+                                    <div class="col-md-4">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputState">State</label>
+                                      <input class="form-control" id="inputState" type="text" name="state" placeholder="state" value="{{Shipping_address.state}}">
+                                    </div>
+                                    <div class="col-md-4">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputZipCode">Zip code</label>
+                                      <input class="form-control number-arrows-none" id="inputZipCode" name="zipcode" type="number" placeholder="Zip code" value="{{Shipping_address.zipcode}}">
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                      <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCountry">Country</label>
+                                      <input class="form-control" id="inputCountry" type="text" name="country" placeholder="country" value="{{Shipping_address.country}}">
+                                    </div>
+                                    <div class="col-12">
+                                      <button class="btn btn-primary px-8 px-sm-11 me-2" type="submit">load Shipping Address</button>                                        
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>                    
+                        </div>
+                        
+                        <div class="row g-4 flex-sm-column">
+                          <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="mail" style="stroke-width:2.5;">  </span>
+                              <h6 class="mb-0">Email</h6>
+                            </div><a class="fs--1 ms-4" href="mailto:shatinon@jeemail.com:">{{Shipping_address.email}}</a>
+                          </div>
+                          <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="phone" style="stroke-width:2.5;">  </span>
+                              <h6 class="mb-0">Phone</h6>
+                            </div><a class="fs--1 ms-4" href="tel:+1234567890">{{Shipping_address.phone}}</a>
+                          </div>
+                          <div class="col-6 col-sm-12 order-sm-1">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="home" style="stroke-width:2.5;">  </span>
+                              <h6 class="mb-0">Address</h6>
+                            </div>
+                            <div class="ms-4">
+                              <!-- <p class="text-800 mb-0 fs--1">Shatinon Mekalan</p> -->
+                              <p class="text-800 mb-0 fs--1">{{Shipping_address.address}}</p>
+                            </div>
+                          </div>
+                          <div class="col-6 col-sm-12">
+                            <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="calendar" style="stroke-width:2.5;"></span>
+                              <h6 class="mb-0">Shipping Date</h6>
+                            </div>
+                            <p class="mb-0 text-800 fs--1 ms-4">{% if order.shipment_date %}{{order.shipment_date}}{% else %}-{% endif %}</p>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <!-- <div class="col-12 col-sm-4">
+                      <h4 class="mb-5">Other details</h4>
+                      <div class="row g-4 flex-sm-column">
+                        <div class="col-6 col-sm-12">
+                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="shopping-bag" style="stroke-width:2.5;"></span>
+                            <h6 class="mb-0">Gift order</h6>
+                          </div><a class="mb-0 text-800 fs--1 ms-4">Yes</a>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="package" style="stroke-width:2.5;">  </span>
+                            <h6 class="mb-0">Wraping</h6>
+                          </div>
+                          <p class="mb-0 text-800 fs--1 ms-4">Magic wrapper</p>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="file-text" style="stroke-width:2.5;">  </span>
+                            <h6 class="mb-0">Recipient</h6>
+                          </div>
+                          <p class="mb-0 text-800 fs--1 ms-4">Monjito Shiniga</p>
+                        </div>
+                        <div class="col-6 col-sm-12">
+                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="mail" style="stroke-width:2.5;">  </span>
+                            <h6 class="mb-0">Gift Meaasge</h6>
+                          </div>
+                          <div class="ms-4">
+                            <p class="text-800 fs--1 mb-0">Happy Birthday Shiniga <br />Lots of Love Buga Buga!!</p>
+                            <p class="mb-0 text-800 fs--1">Yours, <br />Mekalan</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                  {% if collect_person %}
+                  <div id="deliveryPersonDetails" class="row gx-4 gy-6 g-xl-7 justify-content-sm-center justify-content-xl-start mt-5">
+                  {% else %}
+                  <div id="deliveryPersonDetails" class="row gx-4 gy-6 g-xl-7 justify-content-sm-center justify-content-xl-start mt-5" style="display: none;">
+                    {% endif %}
+                    <div class="col-md-9 col-lg-8 col-xxl-6">
+                      <div class="card mt-3">
+                        <div class="card-body">
+                          <h3 class="card-title mb-4 text-primary">Delivery person Dtails</h3>
+
+                          <div class="mb-3">
+                            <label class="form-label" for="asign_name">Name</label>                          
+                            <input class="form-control" id="asign_name" type="text" placeholder="example" value="{{delivery_person_details.delivery_person_name}}" />
+                          </div>
+                          <div class="mb-3">
+                            <label class="form-label" for="asign_number">Mobile Number</label>                          
+                            <input class="form-control" id="asign_number" type="number" placeholder="+971-XX-1234567" value="{{delivery_person_details.contact}}" />
+                          </div>
+                          <!-- <div class="mb-3">
+                            <label class="form-label" for="asign_date">Inspection Date</label>
+                          <input class="form-control datetimepicker flatpickr-input" id="asign_date" type="text" placeholder="yyyy/mm/dd" value="{{collect_person.collect_Date}}"  data-options="{&quot;disableMobile&quot;:true,&quot;dateFormat&quot;:&quot;Y-m-d&quot;}" readonly="readonly">
+                          </div> -->
+                          {% if request.user.is_authenticated %} {% if perms.checkout.add_orderdeliveryperson %} <button class="btn btn-primary w-100 mt-5" id="asign_delivery_person" type="submit">Asign Delivery Person</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_orderdeliveryperson %} <button class="btn btn-primary w-100 mt-5" id="asign_delivery_person" type="submit">Asign Delivery Person</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="col-12 col-xl-4 col-xxl-3">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <h3 class="card-title mb-4">Summary</h3>
+                          <div>
+                            <div class="d-flex justify-content-between">
+                              <p class="text-900 fw-semi-bold">Items subtotal :</p>
+                              <p class="text-1100 fw-semi-bold">AED {{order.amount}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                              <p class="text-900 fw-semi-bold">Discount :</p>
+                              <p class="text-danger fw-semi-bold">{{order.disc_price}}</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                              <p class="text-900 fw-semi-bold">Tax :</p>
+                              <p class="text-1100 fw-semi-bold">{{order.tax_amount}}</p>
+                            </div>
+                            <!-- <div class="d-flex justify-content-between">
+                              <p class="text-900 fw-semi-bold">Subtotal :</p>
+                              <p class="text-1100 fw-semi-bold">$665</p>
+                            </div> -->
+                            <div class="d-flex justify-content-between">
+                              <p class="text-900 fw-semi-bold">Shipping Cost :</p>
+                              <p class="text-1100 fw-semi-bold">{{order.shipping_cost}}</p>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-between border-top border-dashed pt-4">
+                            <h4 class="mb-0">Total :</h4>
+                            <h4 class="mb-0">AED {{order.bill_amount}}</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h3 class="card-title mb-4">Order Status</h3>
+                          <h6 class="mb-2">Order status</h6>
+                          <select class="form-select mb-4" aria-label="order status" name="order_status" id="order_status" onchange="toggleDeliveryPersonDetails()">
+                            {%for status in order_Status %}
+                            <option value="{{status.status}}"{% if status.status|lower == order.order_status|lower %}selected{% endif %}>{{status.status}}</option>
+                            <p>status.status: {{ status.status }} / order.order_status: {{ order.order_status }}</p>
+                            {% endfor %}
+                          </select>
+                          {% if order.order_status.status == 'Cancelled' %}
+                          <h6 class="mb-2">Cancel status</h6>
+                          <select class="form-select mb-4" aria-label="cancel status" name="cancel_status" id="cancel_status" onchange="toggleCancelComment()">
+                            <option value="" selected>Select Cancel Status</option>
+                            <option value="processing" {% if order.cancel_status == 'processing' %}selected{% endif %}>processing</option>
+                            <option value="Approved" {% if order.cancel_status == 'Approved' %}selected{% endif %}>Approved</option>
+                            <option value="NotApproved" {% if order.cancel_status == 'NotApproved' %}selected{% endif %}>NotApproved</option>
+                          </select>
+
+                          <div class="mb-2" id="cancelComment" style="display: none;">
+
+                            <h6 class="mb-2">NotApproved Comment</h6>
+                          
+                            <textarea class="form-control" id="NotApprovedComment" rows="3"> </textarea>
+                          </div>
+
+                          {% endif %}
+                          <h6 class="mb-2">Payment status</h6>
+                          <select class="form-select" aria-label="payment status" name="payment_status" disabled>
+                            <option value="Pending" {% if 'Pending' == order.payment_status %}selected{% endif %}>Pending</option>
+                            <option value="paid" {% if 'paid' == order.payment_status %}selected{% endif %}>Paid</option>
+                            <option value="decline" {% if 'decline' == order.payment_status %}selected{% endif %}>Decline</option>
+                            <option value="canceled" {% if 'canceled' == order.payment_status %}selected{% endif %}>Canceled</option>
+                          </select>
+                          {% if request.user.is_authenticated %} {% if perms.checkout.change_status %} <button class="btn btn-primary w-100 mt-5" id="status_update" type="submit">Update</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_status %} <button class="btn btn-primary w-100 mt-5" id="status_update" type="submit">Update</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+      
+      
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.filter-dropdown');
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('change', function() {
+                const selectedValue = this.value;
+                const filterType = this.getAttribute('data-filter');
+                const csrfToken = "{{ csrf_token }}";
+
+                axios.post('filter-data', {
+                    filter_type: filterType,
+                    filter_value: selectedValue
+                }, {
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                .then(response => {
+                  const responseData = JSON.parse(response.data);
+                const tableBody = document.querySelector('#products-table-body');
+
+                // Clear existing table rows
+                tableBody.innerHTML = '';
+
+                responseData.forEach(item => {
+                    console.log(item)
+                    const row = document.createElement('tr');
+                    row.classList.add('position-static');
+                    row.setAttribute('data-product-id', item.pk);
+
+                    // Create and append table cells to the row (similar to your HTML structure)
+                   // Adjust the property names based on your data structure
+                  row.innerHTML = `
+                      <td class="fs--1 align-middle">
+                        <div class="form-check mb-0 fs-0">
+                          <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                        </div>
+                      </td>
+                      <td><img src="{{ MEDIA_PREFIX }}${item.fields.product_Image1}" alt="${item.fields.product_name}" width="53" /></td>
+                      <td class="product"><a class="fw-semi-bold line-clamp-3 mb-0" href="#!">${item.fields.product_name}</a></td>
+                      <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">${item.fields.product_sku}</td>
+                      <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.category.name}</td>
+                      <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.sub_category}</td>
+                      <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.brand}</td>
+                      <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.number_of_stock_in}</td>
+                      <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.number_of_stock_out}</td>
+                      <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.price}</td>
+                      <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.fields.stock_status}</td>
+                  `;
+
+                    tableBody.appendChild(row);
+                });
+            })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+
+
+    document.getElementById('update-Shipping_address-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const shippingInfoId = formData.get('Shipping_address_id');
+      const id = document.getElementById('Shippingaddress_id').value;
+      console.log(id)
+            
+
+      axios.post('/shipping/update-address/' + id + '/', formData)
+      .then(function(response) {
+      console.log(response.data);
+      // window.location.href = '/shipping/shipping_info'
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+    });
+
+
+    document.getElementById('update-billingaddress-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const form = event.target;
+
+      const formData = new FormData(form);
+      const shippingInfoId = formData.get('billing_address_id');
+      const id = document.getElementById('billing_id').value;
+      console.log(id)
+            
+
+      axios.post('/shipping/update-address/' + id + '/', formData)
+      .then(function(response) {
+      console.log(response.data);
+      // window.location.href = '/shipping/shipping_info'
+      // Find the collapse element and close it
+      const collapseElement = document.querySelector('#collapseTwo' + id);
+      if (collapseElement) {
+        collapseElement.classList.remove('show');
+      }
+
+      // Optionally, you can also reset the form fields if needed
+      form.reset();
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+    });
+
+
+    // document.getElementById('update-billingaddress-form').addEventListener('submit', function(event) {
+    //   event.preventDefault();
+       
+    //   const formData = new FormData(event.target);
+    //   const checkbox = document.getElementById('default_address');
+    //   // Add the checked value of the checkbox to the form data
+    //   formData.append('default_address', checkbox.checked);
+      
+    //   axios.post('/shipping/billing_info_details', formData)
+    //   .then(function(response) {
+    //     console.log(response.data);
+    //     billingForm.style.display = 'none';
+    //     billingDetailsTable.style.display = 'block';
+    //     const billingInfo = response.data.billing_info;
+    //     console.log(billingInfo)
+    //     console.log(billingInfo.id)
+    //     document.getElementById('billingid').innerHTML =  billingInfo.id;
+    //     document.getElementById('billingName').innerHTML = billingInfo.name;
+    //     document.getElementById('billingAddress').innerHTML = billingInfo.address;
+    //     document.getElementById('billingPhone').innerHTML = billingInfo.phone;
+    //     // window.location.href = '/shipping/checkout'
+
+    //   })
+    //   .catch(function(error) {
+    //     console.error(error);
+    //   });
+    // });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('status_update').addEventListener('click', function(event){
+        event.preventDefault();
+
+        const order_status = document.getElementById('order_status').value;
+        console.log(order_status);
+        const cancel_status = document.getElementById('cancel_status')?.value;
+        console.log(cancel_status);
+        order_id ="{{order_id}}"
+        const name = document.getElementById('asign_name').value;
+        console.log(name);
+        const number = document.getElementById('asign_number').value;
+        console.log(number);
+        const Comment = document.getElementById('NotApprovedComment')?.value;
+        console.log(Comment)
+        const csrfToken = "{{ csrf_token }}";
+
+        // Here, you can make an axios post request with the 'order_status' value
+        // Replace 'your_endpoint_url' with the actual URL where you want to send the request
+        axios.post('/Al-admin/order-status-update', {
+          order_status: order_status,
+          cancel_status: cancel_status,
+          Comment:Comment,
+          order_id:order_id,
+          name:name,
+          number:number,
+         },
+          {
+          headers: {
+            'X-CSRFToken': csrfToken
+          }
+        })
+          .then(function(response) {
+            console.log(response.data);
+            displayPopupMessage("Order Status Updated successfully.", 5000, true);
+            // window.location.reload()
+            // Handle the response as needed
+          })
+          .catch(function(error) {
+            console.error(error);
+            // Handle errors if necessary
+          });
+      });
+    });
+
+
+    function displayPopupMessage(message, duration, success) {
+        const popup = document.getElementById('popup-message');
+        const popupText = document.getElementById('popup-message-text');
+        popupText.textContent = message;
+        if (success) {
+            popup.classList.add('success');
+        }
+        popup.style.display = 'block';
+
+        setTimeout(function() {
+            popup.style.display = 'none';
+            popup.classList.remove('success');
+        }, duration);
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('asign_delivery_person').addEventListener('click', function(event){
+        event.preventDefault();
+
+        const name = document.getElementById('asign_name').value;
+        console.log(name);
+        const number = document.getElementById('asign_number').value;
+        console.log(number);
+        order_id ="{{order_id}}"
+        const csrfToken = "{{ csrf_token }}";
+
+        // Here, you can make an axios post request with the 'order_status' value
+        // Replace 'your_endpoint_url' with the actual URL where you want to send the request
+        axios.post('/Al-admin/delivery_person_asign', {
+          name:name,
+          number:number,
+          order_id:order_id,
+         },
+          {
+          headers: {
+            'X-CSRFToken': csrfToken
+          }
+        })
+          .then(function(response) {
+            console.log(response.data);
+            displayPopupMessage("Delivery Person assigned successfully.", 5000, true);
+            // Handle the response as needed
+            // window.location.reload()
+          })
+          .catch(function(error) {
+            console.error(error);
+            // Handle errors if necessary
+          });
+      });
+    });
+
+
+    </script>
+
+<script>
+  function toggleDeliveryPersonDetails() {
+    var selectElement = document.getElementById('order_status');
+    var deliveryPersonDetails = document.getElementById('deliveryPersonDetails');
+
+    // Get the selected value
+    var selectedValue = selectElement.value;
+
+    // Check if the selected value is 'Shipped'
+    if (selectedValue.toLowerCase() === 'shipped') {
+      // Show the delivery person details section
+      deliveryPersonDetails.style.display = 'block';
+    } else {
+      // Hide the delivery person details section
+      deliveryPersonDetails.style.display = 'none';
+    }
+  }
+
+  function toggleCancelComment() {
+    var selectElement = document.getElementById('cancel_status');
+    var cancelComment = document.getElementById('cancelComment');
+
+    // Get the selected value
+    var selectedValue = selectElement.value;
+
+    // Check if the selected value is 'Shipped'
+    if (selectedValue.toLowerCase() === 'notapproved') {
+      // Show the delivery person details section
+      cancelComment.style.display = 'block';
+    } else {
+      // Hide the delivery person details section
+      cancelComment.style.display = 'none';
+    }
+  }
+</script>
+
+</main>
+
+{% endblock %}

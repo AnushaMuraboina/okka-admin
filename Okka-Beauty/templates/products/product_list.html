@@ -1,0 +1,490 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load
+static %}
+
+<div class="container">
+  <div class="row">
+    <nav class="navbar navbar-expand-lg  ">
+      <div class="container">
+
+        <!-- <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb pt-3">
+              <li class="breadcrumb-item pro-order-bread-item"><a href="#" class="">Home</a></li>
+              <li class="breadcrumb-item pro-order-bread-item"><a href="#" class="">Library</a></li>
+              <li class="breadcrumb-item pro-order-bread-item-active active pt-1" aria-current="page">Data</li>
+            </ol>
+          </nav> -->
+
+        <nav aria-label="breadcrumb ">
+          <ol class="breadcrumb pt-3">
+            {% for crumb in breadcrumbs %}
+            {% if forloop.last %}
+            <li class="breadcrumb-item active"><a href="{{ crumb.url }}" class="text-dark">{{ crumb.text }}</a></li>
+            {% else %}
+            <li class="breadcrumb-item"><a href="{{ crumb.url }}" class="text-muted">{{ crumb.text }}</a></li>
+            {% endif %}
+            {% endfor %}
+          </ol>
+        </nav>
+
+        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa-solid fa-arrows-up-down"></i>
+        </button>
+
+        <div class="collapse navbar-collapse   ms-auto" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item show-images-numbers ">
+              <ul class="d-flex pb-2">
+                <p class="pt-2">show:</p>
+                <li>
+                  <a class="nav-link text-dark" href="#">
+                    <span class="show-images-counting">9</span>
+                    <span class="show-images-verti-line"></span></a>
+                </li>
+                <li><a class="nav-link text-dark" href="#">
+                    <span class="show-images-counting">9</span>
+                    <span class="show-images-verti-line"></span>
+                  </a></li>
+                <li><a class="nav-link text-dark" href="#">
+                    <span class="show-images-counting">9</span>
+                    <span class="show-images-verti-line"></span>
+                  </a></li>
+              </ul>
+            </li>
+            <li class="nav-item d-flex show-image-grid   px-3" id="grid-btnContainer">
+              <button class="nav-link  mb-2  grid-image-btn " onclick="gridViewTwo()"><svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid"
+                  viewBox="0 0 16 16">
+                  <path
+                    d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5z" />
+                </svg></button>
+              <button class="nav-link mb-2  grid-image-btn " onclick="gridViewThree()"> <svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-grid-3x3-gap" viewBox="0 0 16 16">
+                  <path
+                    d="M4 2v2H2V2zm1 12v-2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m5 10v-2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1M9 2v2H7V2zm5 0v2h-2V2zM4 7v2H2V7zm5 0v2H7V7zm5 0h-2v2h2zM4 12v2H2v-2zm5 0v2H7v-2zm5 0v2h-2v-2zM12 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm-1 6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z" />
+                </svg></button>
+              <button class="nav-link  mb-2  grid-image-btn  " onclick="gridViewFour()">
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-grid-4x4-gap" viewBox="0 0 16 16">
+                  <path
+                    d="M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zm4 0h2v2h-2V1zM1 5h2v2H1V5zm4 0h2v2H5V5zm4 0h2v2H9V5zm4 0h2v2h-2V5zM1 9h2v2H1V9zm4 0h2v2H5V9zm4 0h2v2H9V9zm4 0h2v2h-2V9zM1 13h2v2H1v-2zm4 0h2v2H5v-2zm4 0h2v2H9v-2zm4 0h2v2h-2v-2z" />
+                </svg>
+
+              </button>
+            </li>
+            <li class="nav-item">
+              <select class="form-select show-form-select" aria-label="Default select example" id="sort">
+                <option data-id="{{data_id}}" value="Alphabetical" selected> sort by name:Alphabetical order</option>
+                <option data-id="{{data_id}}" value="Popularity">Sort by Popularity</option>
+                <option data-id="{{data_id}}" value="average rating">Sort by average rating</option>
+                <option data-id="{{data_id}}" value="latest">Sort by latest</option>
+                <option data-id="{{data_id}}" value="Low to High">Sort by price: Low To High </option>
+                <option data-id="{{data_id}}" value="High to Low">Sort by price: High To Low </option>
+              </select>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+  <div id="grid-btnContainer">
+    <button class="btn grid-image-btn " onclick="gridViewTwo()"><i class="fa fa-th-large"></i> Two</button>
+    <button class="btn grid-image-btn " onclick="gridViewThree()"><i class="fa fa-th-large"></i>THree</button>
+    <button class="btn grid-image-btn active" onclick="gridViewFour()"><i class="fa fa-bars"></i> four</button>
+  </div> -->
+
+<div class="container">
+  <div class="row   grid-display-row">
+    {% for product in products %}
+    <div class="grid-display-column ">
+
+      <div class="product item">
+
+        <div class="product-image">
+          <a href="" class="image">
+            <!-- <img src="../images/3.jpg" class="pic-1">
+              <img src="../images/4.jpg" class="pic-2"> -->
+            {% if product.images.all %}
+            {% for image in product.images.all|slice:":2" %}
+            {% if forloop.counter == 1 %}
+            <a href="{% url 'product_detail' product.slug %}" class="image">
+              <img src="{{ image.image.url }}" class="pic-1">
+            </a>
+            {% endif %}
+            {% if forloop.counter == 2 %}
+            <a href="{% url 'product_detail' product.slug %}" class="image">
+              <img src="{{ image.image.url }}" class="pic-2">
+            </a>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </a>
+          {% if product.in_stock == 'Outofstock' %}
+          <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+              out</span></div>
+          {% endif %}
+          {% if product.in_stock == 'Instock' %}
+          {% if product.sale_price %}
+          <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+          {% endif %}
+          {% endif %}
+          <ul class="links">
+            <li><span data-bs-toggle="modal" data-bs-target="#productModal-{{product.id}}">
+                <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+              </span>
+            </li>
+
+            <li><button id="{{ product.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left"
+                title="Add to wishlist">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+              </button>
+            </li>
+
+            <!-- <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i
+                    class="fa fa-heart-o" aria-hidden="true"></i> </a></li> -->
+          </ul>
+        </div>
+        <div class="content">
+          <h3 class="title"><a href="{% url 'product_detail' product.slug %}">{{product.name}}</a></h3>
+          <div class="price">{% if product.sale_price %}<span><s>{{product.regular_price}}
+                AED</s></span>{{product.sale_price}} AED{% else %}{{product.regular_price}} AED{% endif %}</div>
+          <!-- <button class="carting " data-bs-toggle="offcanvas" data-bs-target="#demo"><a href="#">SELECT
+                OPTIONS</a> </button> -->
+          {% if product.in_stock == 'Instock' %}
+          <button id="{{product.id}}" class="btn-add_cart ">
+            <p class="mb-0">ADD TO CART</p>
+            <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+          </button>
+          {% else %}
+          <button class="btn-add_cart ">
+            <p class="mb-0">READ MORE</p>
+            <i class="fa-regular fa-eye addcart-icon text-dark"></i>
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-3 mx-auto">
+          <div class="d-grid gap-2 show-load-more-btn-head">
+            <button class="btn border show-load-more-button" type="button">LOAD MORE PRODUCTS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% for product in products %}
+<div class="modal fade" id="productModal-{{product.id}}" tabindex="-1" aria-labelledby="productModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex ">
+        <!-- <div class="container">
+          <div class="row  "> -->
+        <!-- <div class="col-md-5"> -->
+        <div class="col-md-5 my-slider-6 text-center  model-slider-box me-5 ">
+          <!-- <img src="{% static 'images/carousel-3.jpeg" alt="" class="slider-image-link1 p-5" /> -->
+          {% for image in product.images.all %}
+          <img src="{{ image.image.url }}" alt="" class="slider-image-link1  p-5" />
+          {% endfor %}
+          <!-- <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" />
+            <img src="{% static 'images/carousel-3.jpeg' %}" alt="" class="slider-image-link1  p-5" /> -->
+        </div>
+
+        <div class="col-md-5">
+          <!-- Product details -->
+          <h2 class="product-details-heading">{{product.name}}</h2>
+          <p class="product-details-subhead">eve <span class="text-dark">solo</span></p>
+          <p class="product-details-amount">{% if product.sale_price
+            %}<span><s>Rs.{{product.regular_price}}</s></span>Rs.{{product.sale_price}}{% else
+            %}Rs.{{product.regular_price}}{% endif %}</p>
+          <p class="product-details-para">{{product.description}}.</p>
+          <div class="d-flex">
+            <button class="btn cartpage_minuicon" type="button" data-type="minus"
+              onclick="updateQuantity({{product.id}},-1)">-</button <input type="text" min="1"
+              class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ product.id }}"
+              data-product-id="{{ product.id }}" />
+            <input type="hidden" id="stock_value-{{ product.id }}" value="{{product.stock}}">
+            <button class="btn cartpage_plusicon" type="button" id="{{ product.id }}" data-type="plus"
+              onclick="updateQuantity({{product.id}}, 1)">+</button>
+          </div>
+          <!-- Product colors -->
+          <div class="product-colors">colors:
+            <!-- <p>Colors:</p> -->
+            <span class="product-colors-black bg-dark active" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="black"></span>
+            <span class="product-colors-red bg-danger" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="red"></span>
+            <span class="product-colors-grey bg-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="grey"></span>
+          </div>
+          <!-- SKU and Categories -->
+          <div class="product-details-sku d-flex pb-2">
+            <p class="product-details-sku-1">SKU :</p>
+            <p class="product-details-sku-2">{{product.sku}}</p>
+          </div>
+          <div class="product-details-cat d-flex pb-2">
+            <p class="product-details-sku-1">Categories:</p>
+            <p class="product-details-sku-2">Accessories, clocks</p>
+          </div>
+          <div class="product-details-icons d-flex">
+            <p>share :</p>
+            <div class="product-details-icons-links ">
+              <a href="#" class=""><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" class=""> <i class="fa-brands fa-twitter"></i></a>
+              <a href="#" class=""><i class="fa-regular fa-envelope"></i></a>
+              <a href="#" class=""><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" class=""> <i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- </div>
+        </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+{% include 'base/offcanvas.html' %}
+
+<!-- product slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script>
+  // Get the elements with class="grid-display-column"
+  var elements = document.getElementsByClassName("grid-display-column");
+
+  // Declare a loop variable
+  var i;
+  function gridViewFour() {
+    for (i = 0; i < elements.length; i++) {
+      elements[i].style.width = "25%";
+    }
+  }
+  function gridViewTwo() {
+    for (i = 0; i < elements.length; i++) {
+      elements[i].style.width = "50%";
+    }
+  }
+  function gridViewThree() {
+    for (i = 0; i < elements.length; i++) {
+      elements[i].style.width = "33.33%";
+    }
+  }
+
+  /* Optional: Add active class to the current button (highlight it) */
+  var container = document.getElementById("grid-btnContainer");
+  var btns = container.getElementsByClassName("grid-image-btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      this.className += " active";
+    });
+  }
+</script>
+
+<script>
+
+  // Function to update the product list
+  function updateProductList(products) {
+    console.log('Product Update function work');
+    const productListContainer = document.querySelector('.grid-display-row');
+
+    if (!productListContainer) {
+      console.error('Product list container not found');
+      return;
+    }
+
+    productListContainer.innerHTML = ''; // Clear the existing products
+
+    products.forEach(product => {
+      console.log('Processing product:', product);
+      const productElement = document.createElement('div');
+      productElement.classList.add('grid-display-column');
+
+      // Ensure product.images exists and is an array
+      const images = Array.isArray(product.images) ? product.images.slice(0, 2) : [];
+
+      // Construct the product images HTML
+      const imagesHTML = images.map((image, index) => `
+            <a href="/product/${product.slug}" class="image">
+                <img src="${image.url}" class="${index === 0 ? 'pic-1' : 'pic-2'}" alt="${image.alt_text}">
+            </a>
+        `).join('');
+
+      productElement.innerHTML = `
+            <div class="product item">
+                <div class="product-image">
+                    ${imagesHTML}
+                    ${product.in_stock === 'Outofstock' ? '<div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold out</span></div>' : ''}
+                    ${product.in_stock === 'Instock' && product.sale_price ? '<div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>' : ''}
+                    <ul class="links">
+                        <li><a href="#" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                        <li><button id="${product.id}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist">
+                            <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        </button></li>
+                    </ul>
+                </div>
+                <div class="content">
+                    <h3 class="title"><a href="/product/${product.slug}">${product.name}</a></h3>
+                    <div class="price">
+                        ${product.sale_price ? `<span><s>${product.regular_price} AED</s></span> ${product.sale_price} AED` : `${product.regular_price} AED`}
+                    </div>
+                    ${product.in_stock === 'Instock' ? `
+                        <button id="${product.id}" class="btn-add_cart">
+                            <p class="mb-0">ADD TO CART</p>
+                            <i class="fa fa-cart-shopping addcart-icon"></i>
+                        </button>` : `
+                        <button class="btn-add_cart">
+                            <p class="mb-0">READ MORE</p>
+                            <i class="fa fa-eye addcart-icon text-dark"></i>
+                        </button>`}
+                </div>
+            </div>
+        `;
+
+      productListContainer.appendChild(productElement);
+    });
+  }
+
+  // Assuming you have Axios library already imported
+  const sortDropdown = document.getElementById('sort');
+
+  // Event listener for when the dropdown value changes
+  sortDropdown.addEventListener('change', () => {
+    const selectedValue = sortDropdown.value;
+    console.log('Selected value:', selectedValue);
+    const selectedOption = sortDropdown.options[sortDropdown.selectedIndex];
+    const data_id = selectedOption.getAttribute('data-id');
+
+    console.log('data_id ID:', data_id);
+
+    // Make a POST request to the server
+    axios.post('/product/sort-value', { sortValue: selectedValue, data_id: data_id })
+      .then(response => {
+        // Handle the response from the server
+        console.log('Response data:', response.data);
+        updateProductList(response.data.products);
+        // updatePagination(response.data.pagination_data);  
+      })
+      .catch(error => {
+        console.error('Error during sorting:', error);
+      });
+  });
+
+
+
+
+
+  document.addEventListener('click', function (event) {
+    if (event.target.classList.contains('btn-add_cart')) {
+      event.preventDefault();
+
+      const id = event.target.id;
+      const quantity = 1;
+
+      // Assuming you have a CSRF token available in a variable named csrfToken
+      axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+
+      // Declare demoElement outside the axios call
+      const demoElement = document.getElementById('demo');
+
+      axios.post('/cart/add-to-cart/' + id + '/', { quantity: quantity })
+        .then(function (response) {
+          console.log(response.data);
+          // Assuming response.data contains information about the added item
+          // You can trigger the display of the off-canvas cart here
+          demoElement.classList.add('show');
+          demoElement.setAttribute('aria-modal', 'true');
+          demoElement.setAttribute('role', 'dialog');
+          demoElement.style.visibility = 'visible';
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  });
+
+  // Wishlist Function
+
+  const buttons = document.querySelectorAll('.wishlist');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const product_id = button.id;
+      console.log(product_id);
+
+      axios.post(`/wishlist/add/${product_id}/`)
+        .then(function (response) {
+          console.log(response.data);
+
+          // Assuming the response has a 'added_to_wishlist' field
+          const addedToWishlist = response.data.added_to_wishlist;
+
+          // Update the wishlist count in the HTML
+          // const wishlistCountSpan = document.querySelector('.wish-count');
+          // wishlistCountSpan.textContent = response.data.wishlist_count;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    });
+  });
+
+
+</script>
+
+{% endblock %}

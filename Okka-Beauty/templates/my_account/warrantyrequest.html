@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="tab profile-okka-tab ">
+            <h3 class="profile-account-head"> <strong>MY ACCOUNT</strong></h3>
+            <hr>
+
+            
+            <button class="tablinks profile-tab-link"  ><a href="#" > Dashboard</a></button> 
+            <button class="tablinks profile-tab-link "><a href="{% url 'user-order' %}">orders</a></button> 
+            <button class="tablinks profile-tab-link"  ><a href="{% url 'balance' %}"> Gift Card Balance </a></button> 
+ 
+
+            <button class="tablinks profile-tab-link " ><a href="{% url 'address' %}" >  Addressess</a></button> 
+
+            <button class="tablinks profile-tab-link  active" id="defaultOpen"  ><a href="{% url 'warranty_requests' %}" >  Request Return</a></button> 
+
+            <button class="tablinks profile-tab-link"><a href="{% url 'edit_account' %}" >Account Details</a></button> 
+            <button class="tablinks profile-tab-link " ><a  href="{% url 'wishlist' %}" >Wishlist</a></button> 
+            <button class="tablinks profile-tab-link " ><a href="" >Logout</a></button> 
+
+        </div>
+
+
+
+        <!-- tab-2 -->
+        <div id="tab-6" class="tabcontent profile-tab-content">
+            <div class="row">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Order ID</th>
+                            <th>Type</th>
+                            <th>Items</th>
+                            <th>Status</th>
+                            <th>Created Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr> 
+                            <td colspan="5" class="text-end pro-request_founds">No requests found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

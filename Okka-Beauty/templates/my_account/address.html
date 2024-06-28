@@ -1,0 +1,81 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+<div class="container pt-5">
+    <div class="row">
+        <div class="tab profile-okka-tab ">
+            <h3 class="profile-account-head"> <strong>MY ACCOUNT</strong></h3>
+            <hr>
+            <button class="tablinks profile-tab-link"  ><a href="../html/profile.html" > Dashboard</a></button> 
+            <button class="tablinks profile-tab-link "><a href="{% url 'user-order' %}">orders</a></button> 
+            <button class="tablinks profile-tab-link"  ><a href="{% url 'balance' %}"> Gift Card Balance </a></button> 
+ 
+
+            <button class="tablinks profile-tab-link active"  id="defaultOpen"><a href="{% url 'address' %}" >  Addressess</a></button> 
+
+            <button class="tablinks profile-tab-link " ><a href="{% url 'warranty_requests' %}" >  Request Return</a></button> 
+            <button class="tablinks profile-tab-link " ><a href="{% url 'edit_account' %}" >Account Details</a></button> 
+            <button class="tablinks profile-tab-link " ><a  href="{% url 'wishlist' %}" >Wishlist</a></button> 
+            <button class="tablinks profile-tab-link " ><a href="{% url 'logout' %}" >Logout</a></button> 
+        </div>
+        <div id="tab-5" class="tabcontent profile-tab-content">
+            <p  class="pt-3 profile-tab-para">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus fugit dolorum dolore,
+                consequatur
+                consectetur ratione dolorem mollitia voluptatem, recusandae, iusto totam quos. Eos, beatae!
+                Consectetur nesciunt repellat necessitatibus fuga saepe!</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pro-access-link1 d-flex pt-3">
+                        <h5 class="pe-3 pro-access-link1-add"> <strong>BILLING ADDRESS</strong> </h5>
+                        <P class="pro-access-link1-edit pt-1"> <a href="{% url 'billing_update' %}"> Edit</a></P>
+                    </div>
+                    {% if billing_address %}
+                    <address class="text-secondary">{{billing_address.first_name}}
+                        <br>
+                        {{billing_address.last_name}}
+                        <br>
+                        {{billing_address.address_1}}
+                        <br>
+                        {{billing_address.address_2}}
+                        <br>
+                        {{billing_address.city}}
+                        <br>
+                        {{billing_address.postcode}}
+                        <br>
+                        {{billing_address.phone}}
+                        <br>
+                        {{billing_address.email}}
+                        <br>
+                    </address>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div class="pro-access-link1 d-flex pt-3">
+                        <h5 class="pe-3 pro-access-link1-add"> <strong>SHIPPING ADDRESS</strong> </h5>
+                        <P class="pro-access-link1-edit pt-1"> <a href="{% url 'shipping_update' %}">Edit</a></P>
+                    </div>
+                    {% if shipping_address %}
+                    <address class="text-secondary">{{shipping_address.first_name}}
+                        <br>
+                        {{shipping_address.last_name}}
+                        <br>
+                        {{shipping_address.address_1}}
+                        <br>
+                        {{shipping_address.address_2}}
+                        <br>
+                        {{shipping_address.city}}
+                        <br>
+                        {{shipping_address.postcode}}
+                        <br>
+                        {{shipping_address.phone}}
+                        <br>
+                        {{shipping_address.email}}
+                        <br>
+                    </address>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

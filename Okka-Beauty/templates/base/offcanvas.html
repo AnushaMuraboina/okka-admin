@@ -1,0 +1,71 @@
+<!-- cart offcanvas  -->
+<div class="offcanvas offcanvas-end  cart-widget-side " id="demo">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title cart-off-title">shopping Cart</h5>
+        <button type="button" class="btn-close  " data-bs-dismiss="offcanvas"></button>
+    </div>
+    <hr>
+    <div class="offcanvas-body shopping-cart-widget-body ">
+       {% for items in cart_items %}
+        <div class="card off-cart-card mb-3">
+            <div class="row g-0">
+                <div class="d-flex justify-content-center col-md-4">
+                    <a href="#">
+                        {% if items.product.images.all %}{% for image in items.product.images.all|slice:":1" %}
+                        <img src="{{image.image.url}}" class="img-fluid rounded-start cart-offcanvas-image"
+                            alt="..." width="100px" height="100px">
+                        {% endfor %}{% endif %}
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="remove-product" data-id="{{ items.id }}" style="position: absolute; top: 0; right: 0;">
+                            <i class="fa-solid fa-xmark"></i>
+                        </p>
+                        
+                        <h5 class="card-title cart-off-card_title p-0">{{items.product.name}}</h5>
+
+                        <div class="card-text cart-product-amount d-flex align-items-center">
+                            <span class="cart-pro-qyt">{{items.quantity}}</span>
+                            <span class="cart-pro-text">{% if items.product.sale_price %}<span><s>AED  {{items.product.regular_price}}</s></span>  AED  {{items.product.sale_price}}{% else %}AED  {{items.product.regular_price}}{% endif %}</span>
+                            <!-- <span class="cart-pro-text">AED</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="cart-footer-button bottom-0 shopping-cart-widget-footer">
+        <div class="cart-sub-totals my-3 ">
+            <div class="cart-subtotal d-flex justify-content-between">
+                <span class="cart-sub-total-label">Subtotal:</span>
+                <a href="#"><span class="cart-sub-amount">AED  {{cart_total}}</span></a>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <a class="view-cart-button d-block btn mb-3" href="{% url 'cart' %}">Cart</a>
+            <a class="checkout-button d-block btn " href="#">Checkout</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.remove-product').forEach(button => {
+        button.addEventListener('click', function () {
+            const cartItemId = this.dataset.id; // Assuming you have the ID stored in a data attribute
+            axios.post(`remove_cart/${cartItemId}`)
+                .then(response => {
+                    if (response.data.status === 'success') {
+                        const card = this.closest('.off-cart-card');
+                        card.remove();
+                    } else {
+                        alert('Failed to remove item from cart.');
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        });
+    });
+</script>

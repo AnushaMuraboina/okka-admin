@@ -1,0 +1,936 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<main class="main" id="top">
+    
+      <div class="container-fluid px-0">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
+          <script>
+            var navbarStyle = window.config.config.phoenixNavbarStyle;
+            if (navbarStyle && navbarStyle !== 'transparent') {
+              document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+            }
+          </script>
+          <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+            <!-- scrollbar removed-->
+            <div class="navbar-vertical-content">
+              <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+              
+                <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                  <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                  </div>
+                </a>
+                <!-- more inner pages-->
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                      <li class="collapsed-nav-item-title d-none">Banner Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>  
+                    {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>  
+                  {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                     
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                      <li class="collapsed-nav-item-title d-none">Customer Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                      <li class="collapsed-nav-item-title d-none">Product Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                        <li class="collapsed-nav-item-title d-none">Order Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                        <li class="collapsed-nav-item-title d-none">Coupon
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                        <li class="collapsed-nav-item-title d-none">CSV Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                        <li class="collapsed-nav-item-title d-none">User Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                        <li class="collapsed-nav-item-title d-none">Report
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Order</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Invoice</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Shipping</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Abandoned Cart</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="navbar-vertical-footer">
+            <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+          </div>
+        </nav>
+        {% include 'Al-admin/base/nav.html' %}
+        <div class="content">
+         
+          <div class="mb-9">
+            <div class="row g-3 mb-4">
+              <div class="col-auto">
+                <h2 class="mb-0">Products</h2>
+              </div>
+            </div>
+            <!-- <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">All <span class="text-700 fw-semi-bold">()</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Published <span class="text-700 fw-semi-bold">()</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Drafts <span class="text-700 fw-semi-bold">()</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#">On discount <span class="text-700 fw-semi-bold">()</span></a></li>
+            </ul> -->
+
+            <div class="row">
+            <div class="card mt-0 p-3 col me-3">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #FEECDC; border-radius: 50%; text-align: center;">
+                      <i class="fs-3" data-feather="shopping-cart" style="color: #D03801;"></i>
+                  </span>
+                  
+                <div class="ms-3">
+                  <h4 class="mb-0">Total Products</h4>
+                  <p class="text-800 fs-2  fw-bold mb-0">{{all_count}}</p>
+                  <a href="{% url 'product-list' %}" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-0 p-3 col me-3 clickable-card" id="publish" data-category="True">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #E1EFFE; border-radius: 50%; text-align: center; ">
+                      <i data-feather="bell" style="color: #3173F3;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Published</h4>
+                  <p class="text-800 fs-2  fw-bold mb-0">{{publish_count}}</p>
+                  <a href="" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-0 p-3 col me-3 clickable-card" id="unpublish" data-category="False">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #D5F5F6; border-radius: 50%; text-align: center; ">
+                      <i data-feather="truck" style="color: #117C88;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">UnPublished</h4>
+                  <p class="text-800 fs-2  fw-bold mb-0">{{unpublish_count}}</p>
+                  <a href="" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="card mt-0 p-3 col me-3 clickable-card" id="deliveredOrders" data-category="Delivered">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #DEF7EC; border-radius: 50%; text-align: center; ">
+                      <i data-feather="check" style="color: #1C8765;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Orders Delivered</h4>
+                  <p class="text-800 fs-2 mb-0  fw-bold">{{order_delivered}}</p>
+                  <a href="" class="stretched-link"></a>
+                </div>
+              </div>
+            </div> -->
+            <div class="card mt-0 p-3 col me-3 clickable-out" id="outOfStock" data-category="Out of Stock">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #ffcccc; border-radius: 50%; text-align: center; ">
+                      <i data-feather="x" style="color: #ff0000;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Out of stock</h4>
+                  <p class="text-800 fs-2 mb-0  fw-bold">{{outofstock_count}}</p>
+                  <a href="" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
+
+            
+            <div id="products" data-list='{"valueNames":["product","price","category","tags","vendor","time"],"page":15,"pagination":true}'>
+              <div class="mb-4">
+                <div class="row g-3">
+                  <div class="col-auto">
+                    <div class="search-box">
+                      <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                        <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" />
+                        <span class="fas fa-search search-box-icon"></span>
+
+                      </form>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <select class="form-select filter-dropdown" data-filter="category" aria-label="Default select example">
+                      <option selected="" disabled>select category</option>
+                      {% for categories in categories %}
+                      <option value="{{categories.name}}">{{categories.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>  
+                  <div class="col-auto">
+                    <select class="form-select filter-dropdown" data-filter="subcategory" aria-label="Default select example">
+                      <option selected="" disabled>select Sub category</option>
+                      {% for subCategories in subCategories %}
+                      <option value="{{subCategories.name}}">{{subCategories.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>       
+                  <div class="col-auto">
+                    <select class="form-select filter-dropdown" data-filter="brand" aria-label="Default select example">
+                      <option selected="" disabled>select Brand</option>
+                      {% for brand in brand %}
+                      <option value="{{brand.name}}">{{brand.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>  
+                  <div class="col-auto">
+                    <select class="form-select filter-dropdown" data-filter="status" aria-label="Default select example">
+                      <option selected="" disabled>select Status</option>                      
+                      <option value="Instock">Instock</option>
+                      <option value="Out of Stock">Out of Stock</option>
+                    </select>
+                  </div>         
+                  <div class="col-auto">
+                    <a href="{% url 'download-sample-xls' %}" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fas fa-file-download fs--1 me-2"></span>Sample Download</a>
+                    <a href="{% url 'import-product' %}" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-import fs--1 me-2"></span>New Product Import</a>
+                    <a href="{% url 'update-product' %}" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-import fs--1 me-2"></span>Existing Product Update</a>
+                    <a href="{% url 'export-xls' %}" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</a>
+                    <a href="{% url 'export_out_of_stock_to_excel' %}" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-export fs--1 me-2"></span>Out of stock Product Export</a>
+                    <a href="{% url 'import-stock-data' %}" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-import fs--1 me-2"></span>stock Status Update</a>
+                    <a class="text-light text-decoration-none" href="{% url 'product-adding' %}"> <button class="btn btn-primary" id="addBtn"> <span class="fas fa-plus me-2"></span>Add product</button></a>
+                  </div>
+                </div>
+              </div>
+              <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                <div class="table-responsive scrollbar mx-n1 px-1">
+                  <table class="table fs--1 mb-0">
+                    <thead>
+                      <tr>
+                        <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
+                          </div>
+                        </th>
+                        <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;"></th>
+                        <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="product">PRODUCT NAME</th>
+                        <th class="sort align-middle text-end ps-4" scope="col" data-sort="price" style="width:150px;">PRODUCT SKU</th>
+                        <th class="sort align-middle text-end ps-4" scope="col" data-sort="model" style="width:200px;">PRODUCT MODEL</th>
+                        <th class="sort align-middle ps-4" scope="col" data-sort="category" style="width:150px;">CATEGORY</th>
+                        <th class="sort align-middle ps-3" scope="col" data-sort="tags" style="width:250px;">SUB CATEGORY</th>
+                        <th class="sort align-middle fs-0 text-center ps-4" scope="col" style="width:125px;">BRAND</th>
+                        <th class="sort align-middle ps-4" scope="col" data-sort="vendor" style="width:200px;">NO STOCK IN</th>
+                        <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:50px;">NO STOCK OUT</th>
+                        <th class="sort text-center align-middle pe-0 ps-4" scope="col">PRICE</th>
+                        <th class="sort text-center align-middle pe-0 ps-4" scope="col">STOCK STATUS</th>
+                        <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
+                        <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="list" id="products-table-body">
+                        {% for product in product %}
+                      <tr class="position-static" data-product-id="{{ product.id }}">
+                        <td class="fs--1 align-middle">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                          </div>
+                        </td>
+                        <td class="align-middle white-space-nowrap py-0">
+                          <div class="border rounded-2"><img src="{{ MEDIA_PREFIX }}{{product.product_Image1}}" alt="" width="53" /></div>
+                        </td>
+                        <td class="product align-middle ps-4"><a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.product_name}}</a></td>
+                        <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.product_sku}}</td>
+                        <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td>
+                        <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.category}}</td>
+                        <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.sub_category}}</td>
+                        </td>
+                        <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brand}}</td>
+                        <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_in}}</td>
+                        <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td>
+                        <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.price}}</td>
+                        <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock_status}}</td>
+                        <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                          <!-- {{product.active}} -->
+                          {% if product.active == True %}
+                          <i class="fas fa-check-circle text-success"></i>
+                          {% else %}
+                          <i class="fa-solid fa-circle-xmark text-danger"></i>
+                          {% endif %}
+                        </td>
+                        <td class="align-middle white-space-nowrap py-0">
+                          <a href="{% url 'product_update' product.id %}"> <span data-feather="edit"></span> </a> | <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                  <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                  </div>
+                  <div class="col-auto d-flex">
+                    <!-- <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button> -->
+                    {% if product.has_previous %}
+                    <a class="page-link" href="?page={{ product.previous_page_number }}">previous
+                      <span class="fas fa-chevron-left"></span>
+                    </a>
+                    {% endif %}
+                    <!-- {% for page_num in product.paginator.page_range %}
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                    {% endfor %} -->
+                    <ul class="mb-0 pagination d-none"></ul>
+                    <!-- <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button> -->
+                    {% if product.has_next %}
+                      <a class="page-link pe-0" href="?page={{ product.next_page_number }}">
+                        <span class="fas fa-chevron-right"></span>Next
+                      </a>
+                    {% endif %}
+                  </div>
+                  
+                </div>
+                <!-- Add the pagination links -->
+              <!-- <div class="d-flex justify-content-end">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination mb-0"> {% if product.has_previous %} <li class="page-item">
+                      <a class="page-link" href="?page={{ product.previous_page_number }}">
+                        <span class="fas fa-chevron-left"></span>
+                      </a>
+                    </li> {% endif %} {% for page_num in product.paginator.page_range %} <li class="page-item ">
+                      <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                    </li> {% endfor %} {% if product.has_next %} <li class="page-item">
+                      <a class="page-link pe-0" href="?page={{ product.next_page_number }}">
+                        <span class="fas fa-chevron-right"></span>
+                      </a>
+                    </li> {% endif %} </ul>
+                </nav>
+              </div> -->
+              
+              </div>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.filter-dropdown');
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('change', function() {
+                const selectedValue = this.value;
+                const filterType = this.getAttribute('data-filter');
+                const csrfToken = "{{ csrf_token }}";
+
+                axios.post('filter-data', {
+                    filter_type: filterType,
+                    filter_value: selectedValue
+                }, {
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                .then(response => {
+                  // const responseData = JSON.parse(response.data);
+                  const responseData = response.data;
+                  const tableBody = document.querySelector('#products-table-body');
+
+                  // Clear existing table rows
+                  tableBody.innerHTML = '';
+
+                  responseData.forEach(item => {
+                      console.log(item)
+                      const row = document.createElement('tr');
+                      row.classList.add('position-static');
+                      row.setAttribute('data-product-id', item.pk);
+
+                      // Create and append table cells to the row (similar to your HTML structure)
+                    // Adjust the property names based on your data structure
+                    row.innerHTML = `
+                        <td class="fs--1 align-middle">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                          </div>
+                        </td>
+                        <td><img src="{{ MEDIA_PREFIX }}${item.product_Image1}" alt="${item.product_name}" width="53" /></td>
+                        <td class="product"><a class="fw-semi-bold line-clamp-3 mb-0" href="/Al-admin/product-update/${item.pk}/">${item.product_name}</a></td>
+                        <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">${item.product_sku}</td>
+                        <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.category__name}</td>
+                        <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.sub_category__name}</td>
+                        <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.brand__name}</td>
+                        <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.number_of_stock_in}</td>
+                        <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.number_of_stock_out}</td>
+                        <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.price}</td>
+                        <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.stock_status}</td>
+                        <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            ${item.active ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fa-solid fa-circle-xmark text-danger"></i>'}
+                        </td>
+                        <td class="align-middle white-space-nowrap py-0">
+                          <a href="/Al-admin/product-update/${item.pk}/"> Edit </a> | 
+                            <button class="btn btn-danger delete-product" data-product-id="${item.pk}">Delete</button>
+                        </td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+            })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+
+
+
+    // Get all the clickable cards
+    var clickableCards = document.querySelectorAll(".clickable-out");
+
+    // Add a click event listener to each card
+    clickableCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            // Get the category from the data attribute
+            var order_data = card.getAttribute("data-category");
+
+            const csrfToken = "{{ csrf_token }}";
+
+
+            // Encode the order_data for the URL
+            var encodedCategory = encodeURIComponent(order_data);
+            console.log(encodedCategory)
+
+            // Construct the URL with the encoded category data
+            var url = `/Al-admin/product-filter/${encodedCategory}/`;
+            console.log(url)
+
+
+            // Make a request to the server with the category
+            axios.post('/Al-admin/product_data_get', {
+              order_data: order_data
+            }, {
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            })
+            .then(function (response) {
+                // Handle the response from the server here
+                var category = response.data.order_data;
+                console.log(category)
+
+                var encodedCategory = encodeURIComponent(category);
+
+                // window.location=`/Al-admin/product-filter/${encodedCategory}/`
+                window.location = '/Al-admin/product_data_get'
+
+                // You can update your UI with the orders data as needed
+                // console.log(orders);
+            })
+            .catch(function (error) {
+                // Handle any errors that occur during the request
+                console.error(error);
+            });
+        });
+    });
+
+
+    // Get all the clickable cards
+    var clickableCards = document.querySelectorAll(".clickable-card");
+
+    // Add a click event listener to each card
+    clickableCards.forEach(function(card) {
+        card.addEventListener("click", function() {
+            // Get the category from the data attribute
+            var order_data = card.getAttribute("data-category");
+
+            const csrfToken = "{{ csrf_token }}";
+
+            // Make a request to the server with the category
+            axios.post('/Al-admin/product-filter-data', {
+              order_data: order_data
+            }, {
+              headers: {
+                'X-CSRFToken': csrfToken
+              }
+            })
+            .then(function (response) {
+                // Handle the response from the server here
+                var category = response.data.order_data;
+                console.log(category)
+
+                window.location=`/Al-admin/product-filter-data/${category}/`
+
+                // You can update your UI with the orders data as needed
+                // console.log(orders);
+            })
+            .catch(function (error) {
+                // Handle any errors that occur during the request
+                console.error(error);
+            });
+        });
+    });
+
+
+
+    document.querySelectorAll('.delete-product').forEach(button => {
+            button.addEventListener('click', function () {
+                const ProductId = this.getAttribute('data-product-id');
+                console.log(ProductId)
+
+                if (confirm('Are you sure you want to delete this Product?')) {
+                    fetch(`product/${ProductId}/delete/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json',
+                        },
+                        // body: JSON.stringify({}),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        // You can also remove the coupon element from the page on success
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                }
+            });
+        });
+
+        // Function to get the CSRF token from cookies
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+
+
+
+    </script>
+</main>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+<div class="container pt-5 ">
+    <div class="row">
+        {% for contact in contacts %}
+      <div class="col-md-6 contacts_sections">
+        <p class="contact_info">{{ contact.stores_name }}</p>
+        <h5 class="contact_queries">{{ contact.contact_name}}</h5>
+        <div class="contact_det_info ">{{ contact.whatsapp_numbers }}</div>
+        <div class="contact_det_info">{{ contact.phone_number }}</div>
+        <div class="contact_det_info">{{ contact.email }}</div>
+
+        <p class="contact_partner pt-2">{{ contact.partnership_name }}</p>
+
+        <div class="contact_det_info py-2">{{ contact.email_another }}</div>
+        <div class="contact_det_info py-2">{{ contact.whatsapp_numbers }}</div>
+        <div class="contact_det_info ">{{ contact.address_local }}</div>
+        <div class="contact_det_info pb-2">{{ contact.address_country  }}</div>
+        <!-- <div class="contact_see_more"> -->
+          <a href="#" class=" contact_see_more">{{ contact.see_more }}</a>
+        <!-- </div> -->
+      </div>
+      {% endfor %}
+
+      <div class="col-md-6   contacts_sections-2">
+        <p class="contact_info">INFORMATION ABOUT US</p>
+        <h5 class="contact_queries">CONTACT US FOR ANY QUESTIONS</h5>
+        <form id="contactForm" action="" method="post">
+            <div class="mb-3">
+              <label for="name" class="form-label contact-label">Your Name (required)</label>
+              <input type="text" class="form-control contact-input" id="name" name="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label contact-label">Your Email (required)</label>
+              <input type="email" class="form-control contact-input" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="subject_text" class="form-label contact-label">Subject</label>
+              <input type="text" class="form-control contact-input" id="subject_text" name="subject_text" required>
+            </div>
+        
+            <div class="mb-3">
+              <label for="login_message" class="form-label contact-label">Your Message</label>
+              <textarea name="login_message" id="login_message" rows="7" class="w-100 contact-input"></textarea>
+            </div>
+            <div class="mb-3">
+              <div class="g-recaptcha" data-sitekey="6Lel4Z4UAAAAAOa8LO1Q9mqKRUiMYl_00o5mXJrR"></div>
+            </div>
+            <button type="submit" class="footer-submit btn  px-4 py-2" style="background-color: rgb(243,243,243);">SEND</button>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      console.log('axios post function work')
+      axios.post('/contact-us/', {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject_text'),
+        message: formData.get('login_message')
+      })
+      .then(response => {
+        if (response.data.status === 'success') {
+          alert('Signup successful');
+        } else {
+          alert('Error: ' + JSON.stringify(response.data.errors));
+        }
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
+    });
+  </script>
+
+{% endblock %}

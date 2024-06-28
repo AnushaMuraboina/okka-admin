@@ -1,0 +1,441 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+<hr>
+  <div class="container py-5">
+    <div class="row">
+      <p>Returning customer? &nbsp;<a href="#" class="check-cup-accou-link text-decoration-underline"> Click here to login</a></p>
+    </div>
+    <div class="row">
+      <div class="col-md-6 pt-4">
+        <h4><strong>BILLING DETAILS</strong></h4>
+        <form>
+
+          <div class="row">
+            <div class="col-md-6 checkoutsec-1">
+              <div class="mb-3">
+                <label for="first_name" class="form-label  checkout-form-label">First name <span
+                    class="text-danger">*</span></label>
+                <input type="text" class="form-control checkout-form-input" id="first_name" value="{{billing_address.first_name}}" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="last_name" class="form-label checkout-form-label">last name<span
+                    class="text-danger">*</span></label>
+                <input type="text" class="form-control checkout-form-input" id="last_name" value="{{billing_address.last_name}}" required>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="phone_num" class="form-label checkout-form-label">Phone<span class="text-danger">*</span></label>
+            <input type="number" class="form-control checkout-form-input" id="phone_num" value="{{billing_address.phone}}" required>
+          </div>
+
+          <div class="custom-dropdown mb-3" id="dropdown-1">
+            <label for="countrySelect" class="form-label checkout-form-label">State/Country<span class="text-danger">*</span></label>
+            <input type="text" class="form-control  dropdown-search-input" id="dropdown-search-input-1" onclick="toggleDropdown(1)" readonly>
+            <i class="fa-solid fa-chevron-down dropdown-search-icon"></i>
+    
+            <div class="dropdown-menu p-0" id="dropdown-menu-1">
+                <div class="dropdown-search">
+                    <input type="text" class="form-control inner-search-input" id="inner-search-input-1" onkeyup="filterDropdownItems(1)">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="list-group drop-list-group border-none">
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Adele</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Agnes</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+      
+                </div>
+            </div>
+        </div>
+        
+          <div class="mb-3">
+            <label for="street_address " class="form-label checkout-form-label">street Address<span
+                class="text-danger">*</span></label>
+            <input type="text" class="form-control checkout-form-input mb-3" id="street_address " value="{{billing_address.address_1}}" required
+              placeholder="House number and street name">
+            <input type="text" class="form-control checkout-form-input" id="street_num " value="{{billing_address.address_2}}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="city_town" class="form-label checkout-form-label">Town/city<span class="text-danger">*</span></label>
+            <input type="text" class="form-control checkout-form-input mb-3" id="city_town" value="{{billing_address.first_name}}" required>
+
+          </div>
+          <div class="custom-dropdown mb-3" id="dropdown-2">
+            <label for="countrySelect" class="form-label checkout-form-label">State/Country<span class="text-danger">*</span></label>
+            <input type="text" class="form-control  dropdown-search-input" id="dropdown-search-input-2" onclick="toggleDropdown(2)" readonly>
+            <i class="fa-solid fa-chevron-down dropdown-search-icon"></i>
+    
+            <div class="dropdown-menu p-0" id="dropdown-menu-2">
+                <div class="dropdown-search">
+                    <input type="text" class="form-control inner-search-input" id="inner-search-input-2" onkeyup="filterDropdownItems(2)">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="list-group drop-list-group border-none">
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                    <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                    <!-- Add more items as needed -->
+                </div>
+            </div>
+        </div>
+
+
+          <div class="mb-3">
+            <label for="zip_code" class="form-label checkout-form-label">Zip Code<span class="text-danger">*</span></label>
+            <input type="text" class="form-control checkout-form-input" id="zip_code" value="{{billing_address.postcode}}" required>
+          </div>
+          <div class="mb-3">
+            <label for="email_address" class="form-label checkout-form-label">Email<span class="text-danger">*</span></label>
+            <input type="email" class="form-control checkout-form-input" id="email_address" value="{{billing_address.email}}" required>
+          </div>
+        </form>
+        <form>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="sameAsbilling" value="{{billing_address.id}}" onclick="toggleForm()" >
+            <label class="form-check-label check-shipping-radio" for="sameAsbilling">Ship to a different address?</label>
+          </div>
+      
+          <div id="formElements" class="hidden-checkout">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="first_name-re" class="form-label checkout-form-label">First name<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control checkout-form-input" id="first_name-re" value="{{shipping_address.first_name}}" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="last_name-re" class="form-label checkout-form-label">Last name<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control checkout-form-input" id="last_name-re" value="{{shipping_address.last_name}}" required>
+                </div>
+              </div>
+            </div>
+      
+            <div class="mb-3">
+              <input type="text" class="form-control checkout-form-input" id="full_Name" required>
+            </div>
+      
+            <div class="mb-3">
+              <label for="street_address-re" class="form-label checkout-form-label">Street Address<span class="text-danger">*</span></label>
+              <input type="text" class="form-control checkout-form-input mb-3" id="street_address-re" value="{{shipping_address.address_1}}" required>
+              <input type="text" class="form-control checkout-form-input" id="street_address_num" value="{{shipping_address.address_2}}" required>
+            </div>
+      
+            <div class="custom-dropdown mb-3" id="dropdown-3">
+              <label for="countrySelect" class="form-label checkout-form-label">State/Country<span class="text-danger">*</span></label>
+              <input type="text" class="form-control dropdown-search-input" id="dropdown-search-input-3" onclick="toggleDropdown(3)" readonly>
+              <i class="fa-solid fa-chevron-down dropdown-search-icon"></i>
+              <div class="dropdown-menu p-0" id="dropdown-menu-3">
+                <div class="dropdown-search">
+                  <input type="text" class="form-control inner-search-input" id="inner-search-input-3" onkeyup="filterDropdownItems(3)">
+                  <i class="fas fa-search search-icon"></i>
+                </div>
+                <div class="list-group drop-list-group border-none">
+                  <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                  <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                  <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                  <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                  <a href="#" class="list-group-item list-group-item-action list-clicking items">Billy</a>
+                  <a href="#" class="list-group-item list-group-item-action list-clicking items">Bob</a>
+                </div>
+              </div>
+            </div>
+      
+            <div class="mb-3">
+              <label for="city_town_add-2" class="form-label checkout-form-label">Town/City<span class="text-danger">*</span></label>
+              <input type="text" class="form-control checkout-form-input mb-3" id="city_town_add-2" value="{{shipping_address.city}}" required>
+            </div>
+      
+            <div class="mb-3">
+              <label for="zip_code-re" class="form-label checkout-form-label">Zip Code<span class="text-danger">*</span></label>
+              <input type="text" class="form-control checkout-form-input" id="zip_code-re" value="{{shipping_address.postcode}}" required>
+            </div>
+          </div>
+      
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label checkout-form-label">Order Notes<span class="text-danger">*</span></label>
+            <textarea class="form-control checkout-form-input" id="exampleFormControlTextarea1" rows="5"></textarea>
+          </div>
+        </form>
+      
+
+      </div>
+      <div class="col-md-6  ">
+
+
+        <div class="checkout-card px-4  pt-4 pb-5">
+          <h4 class="mb-3 text-center pt-2"><strong>YOUR ORDER</strong></h4>
+          <ul class="list-group mb-3 checkout-list-group">
+            <li class="list-group-item p-3 d-flex justify-content-between align-items-center ">
+
+              <h6 class="my-0"><strong>PRODUCT</strong>  </h6>
+
+              <h6 class=""><strong>SUBTOTAL</strong>  </h6>
+            </li>
+            {% for items in items %}
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+              <p class="checkout_qut_text">{{items.product_name}}x <strong class="chckout-qytp">{{items.quantity}}</strong></p>
+              <p  class="checkout_qut_text">{{items.price}} <span>AED</span></p>
+            </li>
+            {% endfor %}
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+
+              <h6 class="my-0"> <strong>sub total</strong> </h6>
+
+              <h6 class=""><strong><span id="sub_total">{{sub_total}}</span><SPAN>AED</SPAN></strong></h6>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+
+              <h6 class="my-0"><strong>Total</strong> </h6>
+
+              <h4 class=""><strong><span id="total-amount">{{total_amount}}</span><SPAN>AED</SPAN></strong></h4>
+            </li>
+            <!-- <li> -->
+
+          <div class="accordion w-100 border-none" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item ">
+              <h2 class="w-100 accordion-header" id="panelsStayOpen-headingTwo">
+                <button class="collapsed accord-btn-collapse d-flex p-3 pt-4 align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                  <p class="check-cup-acct pe-3">Have a coupon?</p>
+                  <a href="# " class=" check-cup-accou-link text-decoration-underline">
+                    <p> Click here to enter your code</p>
+                  </a>
+                </button>
+              </h2>
+              <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                <div class="accordion-body">
+                  <div class="px-3 pb-3  check-coupon-box">
+                    <div class="pro-check-login p-3">
+                    <p class="profile-tab-para pb-2">If you have a coupon code, please apply it below.</p>
+                    <div class="input-group border-none check-cop-group">
+                      <input type="text" class="form-control me-3 check-copoun-input" placeholder="Coupon code">
+                      <span class="input-group-text check-copoun-button">APPLY COUPON</span>
+                    </div>
+                  </div>
+                  </div>
+               
+                </div>
+              </div>
+            </div>
+
+          </div>
+          </ul>
+
+
+          <div class="mb-3 form-check">
+            <input type="radio" class="form-check-input payment_method_ngenius" id="payCard" name="payment_method" checked>
+            <label class="form-check-label payment_method_ngenius" for="payCard">Pay for card</label>
+            <div class="payment_box payment_method_ngenius">
+                <p>You will be redirected to payment gateway for card payment.</p>
+            </div>
+        </div>
+        
+        <div class="mb-3 form-check">
+            <input type="radio" class="form-check-input payment_method_cash" id="cashDelivery" name="payment_method">
+            <label class="form-check-label payment_method_cash" for="cashDelivery">Cash on delivery</label>
+            <div class="payment_box payment_method_cash">
+                <p>You will pay cash on delivery.</p>
+            </div>
+        </div> 
+          <hr>
+          <p class="check-para-link">Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus tempore aliquam
+            quibusdam nobis molestias quod! Commodi dolorum sunt voluptatem tempora?</p>
+          <hr>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="saveInfo-pay-card">
+            <label class="form-check-label" for="saveInfo-pay-card">Pay for card</label>
+          </div>
+          <div class="mb-3">
+            <label for="gift_num" class="form-label checkout-form-label">Have a Gift Card?<span
+                class="text-danger">*</span></label>
+            <input type="text" class="form-control  checkout-form-input mb-2" id="gift_num" required>
+            <button type="button" class="btn check-gift-button px-3 py-2">APPLY GIFT CARD</button>
+        
+          </div>
+          <!-- Buttons for each payment method -->
+          <button type="button" class="btn w-100 checkout-main-btn p-2" id="payCardButton">PLACE ORDER (Card)</button>
+          <button type="button" class="btn w-100 checkout-main-btn p-2" id="confirm" style="display: none;">PLACE ORDER (Cash)</button>
+          <button class="btn w-100 spinner-loading-button p-2 " id="spin" style="display: none;">
+            <span class="spinner-border spinner-border-sm text-secondary "></span>
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <script>
+
+    // filter search dropdown script
+    function toggleDropdown(dropdownId) {
+        var dropdownMenu = document.getElementById("dropdown-menu-" + dropdownId);
+        dropdownMenu.classList.toggle("show");
+    }
+    function filterDropdownItems(dropdownId) {
+        var input, filter, listItems, listItem, textValue;
+        input = document.getElementById("inner-search-input-" + dropdownId);
+        filter = input.value.toUpperCase();
+        listItems = document.querySelectorAll("#dropdown-menu-" + dropdownId + " .list-clicking.items");
+        listItems.forEach(function (item) {
+            textValue = item.textContent || item.innerText;
+            if (textValue.toUpperCase().indexOf(filter) > -1) {
+                item.style.display = "";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    }
+
+    document.querySelectorAll('.list-clicking.items').forEach(item => {
+        item.addEventListener('click', function () {
+            var dropdownId = this.closest('.custom-dropdown').id.split("-")[1];
+            document.getElementById("dropdown-search-input-" + dropdownId).value = this.textContent.trim();
+            document.getElementById("dropdown-menu-" + dropdownId).classList.remove("show");
+        });
+    });
+
+
+
+// for the radio button disply input fields script
+  function toggleForm() {
+    var checkBox = document.getElementById('sameAsbilling');
+    var formElements = document.getElementById('formElements');
+
+    if (checkBox.checked) {
+      formElements.classList.remove('hidden-checkout');
+    } else {
+      formElements.classList.add('hidden-checkout');
+    }
+  }
+
+  
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Get references to the radio buttons and the buttons
+      const payCardRadio = document.getElementById('payCard');
+      const cashDeliveryRadio = document.getElementById('cashDelivery');
+      const payCardButton = document.getElementById('payCardButton');
+      const cashDeliveryButton = document.getElementById('confirm');
+
+      // Function to toggle buttons based on selected radio button
+      function toggleButtons() {
+          if (payCardRadio.checked) {
+              payCardButton.style.display = 'block';
+              cashDeliveryButton.style.display = 'none';
+          } else if (cashDeliveryRadio.checked) {
+              payCardButton.style.display = 'none';
+              cashDeliveryButton.style.display = 'block';
+          }
+      }
+
+      // Attach event listeners to radio buttons
+      payCardRadio.addEventListener('change', toggleButtons);
+      cashDeliveryRadio.addEventListener('change', toggleButtons);
+
+      // Initial toggle to set the correct button visibility on page load
+      toggleButtons();
+  });
+</script>
+
+
+<script>
+  const confirmBtn = document.getElementById('confirm');
+
+  if (confirmBtn){
+    document.getElementById('confirm').addEventListener('click', function(event) {
+    event.preventDefault();  // Prevent default form submission behavior
+
+    const confirmButton = document.getElementById('confirm');
+    const spin = document.getElementById('spin');
+
+    confirmButton.style.display = 'none';
+    spin.style.display = 'block';
+
+    const sameAsbillingCheckbox = document.getElementById('sameAsbilling');
+    const isChecked = sameAsbillingCheckbox.checked;
+    let valueToSend;
+
+    if (isChecked) {
+      // valueToSend = sameAsbillingCheckbox.value; // or any other value you want to send when it's checked
+      valueToSend = 'none'
+    } else {
+      valueToSend = sameAsbillingCheckbox.value;
+    }
+
+    const cartItems = [];
+    {% for item in items %}
+    cartItems.push({
+      id: "{{item.id}}",
+      name: "{{ item.product_name }}",
+      quantity: '{{ item.quantity }}',
+      total_amount: '{{ item.price }}',
+    });
+    {% endfor %}
+
+    console.log('order data')
+
+    const shipping_info = '{{billing_address.id}}';
+    // const total_amount = '{{ total_amount }}';
+    const total_amount = document.getElementById('total-amount').textContent;
+    console.log(total_amount)
+    const tax_amount = '{{tax}}';
+    console.log(tax_amount)
+    // const shipping_cost = '{{ship_cost}}';
+    // shipping_cost = document.getElementById('ship_cost').textContent;
+    // console.log(shipping_cost)
+    const amount = document.getElementById('sub_total').textContent;
+    console.log(amount)
+    // const discount = '{{coupon_status1}}';
+    // const discount = document.getElementById('coupon_status').textContent;
+    // console.log(discount)
+    // const coupon_code = '{{coupon_code}}';
+    // const coupon_code = document.getElementById('coupon_code').textContent;
+    // console.log(coupon_code)
+
+    console.log(cartItems);
+
+    // Send POST request using Axios
+    axios.post('/order', {
+      cartItems: cartItems,
+      shipping_info: shipping_info,
+      billing_info: valueToSend,
+      total_amount: total_amount,
+      tax_amount: tax_amount,
+      // shipping_cost: shipping_cost,
+      amount: amount,
+      // discount: discount,
+      // coupon_code: coupon_code,
+    })
+      .then(response => {
+        if (response.data.success) {
+          let order_id = response.data.order_id;
+          console.log(order_id);
+          window.location.href = '/shipping/order/order_sucess/' + order_id;
+        } else {
+          alert('Order failed');
+          window.location.reload();
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  });
+  }
+</script>
+
+{% endblock %}

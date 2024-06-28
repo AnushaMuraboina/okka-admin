@@ -1,0 +1,1134 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<main class="main" id="top">
+   
+    <main class="main" id="top">
+        <div class="container-fluid px-0">
+          <nav class="navbar navbar-vertical navbar-expand-lg">
+            <script>
+              var navbarStyle = window.config.config.phoenixNavbarStyle;
+              if (navbarStyle && navbarStyle !== 'transparent') {
+                document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+              }
+            </script>
+            <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+              <!-- scrollbar removed-->
+              <div class="navbar-vertical-content">
+                <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+                
+                  <li class="nav-item"><a class="nav-link " href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                    <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                    </div>
+                  </a>
+                  <!-- more inner pages-->
+                </li>
+    
+                <li class="nav-item">
+                
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                        <li class="collapsed-nav-item-title d-none">Banner Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                        <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>  
+                      {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>  
+                    {% endif %} {% endfor %} {% endif %} {% endif %}
+    
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Price Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Price Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                       
+                    {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Footer Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                      <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                          <span class="nav-link-text">Footer Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+    
+                <li class="nav-item">
+                
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                        <li class="collapsed-nav-item-title d-none">Customer Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Customer</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Customer</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+    
+                <li class="nav-item">
+                
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                        <li class="collapsed-nav-item-title d-none">Product Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Products</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                          <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Products</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Add Product</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Add Product</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Sub Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Sub Categories</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Brand</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Brand</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Attribute</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Attribute</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+    
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                          <li class="collapsed-nav-item-title d-none">Order Management
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Delivery Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Delivery Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+    
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Replacement Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Replacement Orders</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+    
+    
+                          {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Re-Collection Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Re-Collection Person</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                          <li class="collapsed-nav-item-title d-none">Coupon
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">All Coupon</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">All Coupon</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                          {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Coupon Useage</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Coupon Useage</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                          <li class="collapsed-nav-item-title d-none">CSV Management
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                            <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Csv Data</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                            <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Csv Data</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                          <li class="collapsed-nav-item-title d-none">User Management
+                          </li>
+                          {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">User Role</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                            <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">User Role</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+    
+                  <li class="nav-item">
+                
+                    <div class="nav-item-wrapper">
+                      <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                        </div>
+                      </a>
+                      <div class="parent-wrapper label-1">
+                        <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                          <li class="collapsed-nav-item-title d-none">Report
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Order</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Invoice</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Shipping</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Coupon</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                              <div class="d-flex align-items-center">
+                                <span class="nav-link-text">Abandoned Cart</span>
+                              </div>
+                            </a>
+                            <!-- more inner pages-->
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="navbar-vertical-footer">
+              <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+            </div>
+          </nav>
+          {% include 'Al-admin/base/nav.html' %}
+          <div class="content">
+            
+              <div class="mb-9">
+                <div class="row g-3 mb-4">
+                  <div class="col-auto">
+                    <h2 class="mb-0">Product Subcategories </h2>
+                  </div>
+                </div>
+                <!-- <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
+                  <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">All <span class="text-700 fw-semi-bold">()</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">Published <span class="text-700 fw-semi-bold">()</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">Drafts <span class="text-700 fw-semi-bold">()</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">On discount <span class="text-700 fw-semi-bold">()</span></a></li>
+                </ul> -->
+                <div id="products" data-list='{"valueNames":["Main category","subcategory name","Description"],"page":10,"pagination":true}'>
+                  <div class="mb-4">
+                    <div class="row g-3">
+                      <div class="col-auto">
+                        <!-- <div class="search-box"> -->
+                          <!-- <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                            <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" />
+                            <span class="fas fa-search search-box-icon"></span>    
+                          </form> -->
+                          <form method="GET" action="{% url 'subcategory-admin' %}">
+                            <div class="row g-3">
+                                <div class="col-auto">
+                                    <input class="form-control search-input search" type="text" name="search" placeholder="Search sub category" aria-label="Search" value="{{ search_query }}">
+                                </div>
+                                <div class="col-auto">
+                                    <select class="form-select" name="category">
+                                        <option value="">All Categories</option>
+                                        {% for category in Categorys %}
+                                            <option value="{{ category.name }}" {% if category.name == selected_category %} selected {% endif %}>{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-primary me-1 mb-1" type="submit">Filter</button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        </div>
+                      </div>
+                    <!-- </div> -->
+                  </div>
+                  <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                  <div class="row g-6 mt-3">
+                    {% if request.user.is_authenticated %} {% if perms.products.add_subcategory %} <div class="col-12 col-xl-6" style="max-height: 600px; overflow-y: auto;"> {% if form_errors %} <div class="alert alert-outline-danger d-flex align-items-center" role="alert">
+                      <span class="fas fa-times-circle text-danger fs-3 me-3"></span>
+                      <p class="mb-0 flex-1"> {% for field, error_list in form_errors.items %} {% for error in error_list %} <span>{{ error }}</span> {% endfor %} {% endfor %} </p>
+                      <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div> {% endif %} <form method="post" id="subcategory-form" action="{% url 'subcategory-admin' %}" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
+                        <h4 class="mb-3">Main Category</h4>
+                        <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                          <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.id}}">{{Categorys.name}}</option> {% endfor %}
+                        </select>
+                      </div>
+                      <div class="mb-6">
+                        <h4 class="mb-3">SubCategory Name</h4>
+                        <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
+                      </div>
+                      <!-- <div class="mb-6"><h4 class="mb-3"> SubCategory Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
+                      <div class="mb-6">
+                        <h4 class="mb-3">SubCategory image</h4>
+                        <input class="form-control" type="file" id="img" name="image" accept="image/*">
+                        <!-- <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone"><div class="fallback"><input name="brand_img" type="file" id="subcategory_img"/></div><div class="dz-preview d-flex flex-wrap"><div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;"><img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" /><a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove"><span data-feather="x"></span></a></div></div><div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span><button class="btn btn-link p-0" type="button">Browse from device</button><br /><img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" /></div></div> -->
+                      </div>
+                      <!-- <div class="mb-6"><h4 class="mb-3">Page Title</h4><input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." /></div> -->
+                      <!-- <div class="mb-6"><h4 class="mb-3">Meta keyword</h4><textarea class="tinymce" id="meta_keyword" name="meta_keyword" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
+                      <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description" name="meta_Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div>  -->
+                      <div class="mb-6">
+                        <h4 class="mb-3">Slot Position</h4>
+                        <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" />
+                      </div>
+                      <div class="form-check mb-6">
+                        <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label>
+                        <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" />
+                      </div>
+                      <!-- <div class="form-check mb-6"><label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label><input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /></div> -->
+                      <div class="mb-6">
+                        <button class="btn btn-primary text-sm-start" id="add-subcat" type="submit">Save</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                      </div>
+                    </form>
+                    <!-- <form method="post" id="subcategory-form">
+                                              {% csrf_token %}
+                                              <table class="w-100">
+                                                {{ form.as_table }}
+                                                <tr><td class="p-2" colspan="2"><button class="btn btn-primary text-sm-start" id="add-subcat" type="button">Save</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></td></tr></table></form> -->
+                  </div> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_subcategory %} <div class="col-12 col-xl-6" style="max-height: 600px; overflow-y: auto;"> {% if form_errors %} <div class="alert alert-outline-danger d-flex align-items-center" role="alert">
+                      <span class="fas fa-times-circle text-danger fs-3 me-3"></span>
+                      <p class="mb-0 flex-1"> {% for field, error_list in form_errors.items %} {% for error in error_list %} <span>{{ error }}</span> {% endfor %} {% endfor %} </p>
+                      <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div> {% endif %} <form method="post" id="subcategory-form" action="{% url 'subcategory-admin' %}" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
+                        <h4 class="mb-3">Main Category</h4>
+                        <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                          <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.id}}">{{Categorys.name}}</option> {% endfor %}
+                        </select>
+                      </div>
+                      <div class="mb-6">
+                        <h4 class="mb-3">SubCategory Name</h4>
+                        <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
+                      </div>
+                      <!-- <div class="mb-6"><h4 class="mb-3"> SubCategory Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
+                      <div class="mb-6">
+                        <h4 class="mb-3">SubCategory image</h4>
+                        <input class="form-control" type="file" id="img" name="image" accept="image/*">
+                        <!-- <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone"><div class="fallback"><input name="brand_img" type="file" id="subcategory_img"/></div><div class="dz-preview d-flex flex-wrap"><div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;"><img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" /><a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove"><span data-feather="x"></span></a></div></div><div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span><button class="btn btn-link p-0" type="button">Browse from device</button><br /><img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" /></div></div> -->
+                      </div>
+                      <!-- <div class="mb-6"><h4 class="mb-3">Page Title</h4><input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." /></div> -->
+                      <!-- <div class="mb-6"><h4 class="mb-3">Meta keyword</h4><textarea class="tinymce" id="meta_keyword" name="meta_keyword" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
+                      <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description" name="meta_Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div>  -->
+                      <div class="mb-6">
+                        <h4 class="mb-3">Slot Position</h4>
+                        <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" />
+                      </div>
+                      <div class="form-check mb-6">
+                        <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label>
+                        <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" />
+                      </div>
+                      <!-- <div class="form-check mb-6"><label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label><input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /></div> -->
+                      <div class="mb-6">
+                        <button class="btn btn-primary text-sm-start" id="add-subcat" type="submit">Save</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                      </div>
+                    </form>
+                    <!-- <form method="post" id="subcategory-form">
+                                              {% csrf_token %}
+                                              <table class="w-100">
+                                                {{ form.as_table }}
+                                                <tr><td class="p-2" colspan="2"><button class="btn btn-primary text-sm-start" id="add-subcat" type="button">Save</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></td></tr></table></form> -->
+                  </div> {% endif %} {% endfor %} {% endif %} {% endif %}
+                  {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <div class="col-12 col-xl-6">
+                    <div class="table-responsive scrollbar mx-n1 px-1">
+                      <table class="table fs--1 mb-0">
+                        <thead>
+                          <tr>
+                            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
+                              <div class="form-check mb-0 fs-0">
+                                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
+                              </div>
+                            </th>
+                            <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">Image</th>
+                            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="Main category">Main category</th>
+                            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="subcategory name">NAME</th>
+                            <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th>
+                            <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
+                            <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list" id="products-table-body"> {% for subCategory_value in subCategory_value %} <tr class="position-static">
+                            <td class="fs--1 align-middle">
+                              <div class="form-check mb-0 fs-0">
+                                <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                              </div>
+                            </td>
+                            <td class="align-middle white-space-nowrap py-0">
+                              <div class="">
+                                <img src="{{ MEDIA_PREFIX }}{{subCategory_value.image}}" alt="{{subCategory_value.name}}" width="54px" />
+                              </div>
+                            </td>
+                            <td class="product align-middle ps-4">
+                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.main_Category}}</a>
+                            </td>
+                            <td class="product align-middle ps-4">
+                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.name}}</a>
+                            </td>
+                            <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{subCategory_value.Description}}</td>
+                            <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                              <!-- {{product.active}} --> {% if subCategory_value.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                            </td>
+                            <td class="align-middle white-space-nowrap py-0">
+                              {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                              <div class="modal fade" id="verticallyCentered{{subCategory_value.id}}" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="verticallyCenteredModalLabel">Subcategories Edit</h5>
+                                      <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                        <svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                                          <path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path>
+                                        </svg>
+                                        <!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com -->
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form method="post" action="{% url 'subcategory-admin' subCategory_value.id %}" id="subcategory-update-form" data-subcategory-id="{{ subCategory_value.id }}" enctype="multipart/form-data"> {% csrf_token %} 
+                                        <!-- <input type="hidden" name="subcategory_id" value="{{subCategory_value.id}}"> -->
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">Main Category</h4>
+                                          <!-- <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" selected disabled>select category</option>
+                                                              {% for Categorys in Categorys %}
+                                                              <option value="{{Categorys.name}}">{{Categorys.name}}</option>
+                                                              {% endfor %}
+                                                            </select> -->
+                                          <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                                            <option value="" disabled>select category</option> {% for Categorys in Categorys %} <option value="{{ Categorys.id }}" {% if Categorys.name|lower == subCategory_value.main_Category|lower %}selected{% endif %}>
+                                              {{ Categorys.name }}
+                                            </option> {% endfor %}
+                                          </select>
+                                        </div>
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">SubCategory Name</h4>
+                                          <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." value="{{subCategory_value.name}}" />
+                                        </div>
+                                        <!-- <div class="mb-6"><h4 class="mb-3"> SubCategory Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
+                                        <div class="mb-3">
+                                          <h4 class="mb-3">SubCategory Description</h4>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{subCategory_value.Description}}</textarea>
+                                        </div>
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">SubCategory image</h4> {% if subCategory_value.image %} <img src="{{ MEDIA_URL }}{{ subCategory_value.image.url}}" alt="Category Image" width="50px" />
+                                          <p>Current image: {{ subCategory_value.image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="image" accept="image/*" value="{{subCategory_value.image.name}}">
+                                        </div>
+                                        <!-- <div class="mb-6">
+                                          <h4 class="mb-3">SubCategory image</h4>
+                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
+                                            <div class="fallback">
+                                              <input name="brand_img" type="file" id="subcategory_img" />
+                                            </div> {% if subCategory_value.image %} <div class="d-flex">
+                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
+                                                <img class="dz-image" src="{{ subCategory_value.image.url }}" alt="{{subCategory_value.image}}" data-dz-thumbnail="data-dz-thumbnail" />
+                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove" data-image-id="{{ subCategory_value.id }}">
+                                                  <span data-feather="x"></span>
+                                                </a>
+                                              </div>
+                                            </div> {% endif %} <div class="dz-preview d-flex flex-wrap">
+                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
+                                                <img class="dz-image update-subcategory-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
+                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
+                                                  <span data-feather="x"></span>
+                                                </a>
+                                              </div>
+                                            </div>
+                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
+                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
+                                              <br />
+                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
+                                            </div>
+                                          </div>
+                                        </div> -->
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">Page Title</h4>
+                                          <input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." value="{{subCategory_value.page_Title}}" />
+                                        </div>
+                                        <div class="mb-3">
+                                          <h4 class="mb-3">Meta keyword</h4>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="meta_keyword_update" name="meta_keyword_update" style="height: 100px">{{subCategory_value.Meta_keyword}}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                          <h4 class="mb-3">Meta Description</h4>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="meta_Description_update" name="meta_Description_update" style="height: 100px">{{subCategory_value.Meta_Description}}</textarea>
+                                        </div>
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">Slot Position</h4>
+                                          <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{subCategory_value.Slot_Position}}" />
+                                        </div>
+                                        <div class="form-check mb-6">
+                                          <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if subCategory_value.is_Active == True %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" /> {% endif %}
+                                        </div>
+                                        <div class="form-check mb-6">
+                                          <label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label> {% if subCategory_value.Include_In_Navogation_Menu == True %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /> {% endif %}
+                                        </div>
+                                        <div class="mb-6">
+                                          {% if request.user.is_authenticated %} {% if perms.products.change_subcategory %} <button class="btn btn-primary text-sm-start" id="add-subcat" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_subcategory %} <button class="btn btn-primary text-sm-start" id="add-subcat" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                                          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <!-- <button class="btn btn-primary" type="button">Okay</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button> -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr> {% endfor %} </tbody>
+                      </table>
+                    </div>
+                    <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                      <div class="col-auto d-flex">
+                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p>
+                        <a class="fw-semi-bold" href="#!" data-list-view="*">View all <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                        </a>
+                        <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                        </a>
+                      </div>
+                      <div class="col-auto d-flex">
+                        <button class="page-link" data-list-pagination="prev">
+                          <span class="fas fa-chevron-left"></span>
+                        </button>
+                        <ul class="mb-0 pagination"></ul>
+                        <button class="page-link pe-0" data-list-pagination="next">
+                          <span class="fas fa-chevron-right"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div> {% else %} {% for group in request.user.groups.all %} {% if perms.user.view_subcategory %} <div class="col-12 col-xl-6">
+                    <div class="table-responsive scrollbar mx-n1 px-1">
+                      <table class="table fs--1 mb-0">
+                        <thead>
+                          <tr>
+                            <th class="white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
+                              <div class="form-check mb-0 fs-0">
+                                <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
+                              </div>
+                            </th>
+                            <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">Image</th>
+                            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="Main category">Main category</th>
+                            <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="subcategory name">NAME</th>
+                            <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th>
+                            <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
+                            <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list" id="products-table-body"> {% for subCategory_value in subCategory_value %} <tr class="position-static">
+                            <td class="fs--1 align-middle">
+                              <div class="form-check mb-0 fs-0">
+                                <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                              </div>
+                            </td>
+                            <td class="align-middle white-space-nowrap py-0">
+                              <div class="">
+                                <img src="{{ MEDIA_PREFIX }}{{subCategory_value.image}}" alt="{{subCategory_value.name}}" width="54px" />
+                              </div>
+                            </td>
+                            <td class="product align-middle ps-4">
+                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.main_Category}}</a>
+                            </td>
+                            <td class="product align-middle ps-4">
+                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.name}}</a>
+                            </td>
+                            <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{subCategory_value.Description}}</td>
+                            <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                              <!-- {{product.active}} --> {% if subCategory_value.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                            </td>
+                            <td class="align-middle white-space-nowrap py-0">
+                              {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                              <div class="modal fade" id="verticallyCentered{{subCategory_value.id}}" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" style="display: none;" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="verticallyCenteredModalLabel">Subcategories Edit</h5>
+                                      <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                        <svg class="svg-inline--fa fa-xmark fs--1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="xmark" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                                          <path fill="currentColor" d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"></path>
+                                        </svg>
+                                        <!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com -->
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form method="post" action="{% url 'subcategory-admin' subCategory_value.id %}" id="subcategory-update-form" data-subcategory-id="{{ subCategory_value.id }}" enctype="multipart/form-data"> {% csrf_token %} 
+                                        <!-- <input type="hidden" name="subcategory_id" value="{{subCategory_value.id}}"> -->
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">Main Category</h4>
+                                          <!-- <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" selected disabled>select category</option>
+                                                              {% for Categorys in Categorys %}
+                                                              <option value="{{Categorys.name}}">{{Categorys.name}}</option>
+                                                              {% endfor %}
+                                                            </select> -->
+                                          <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                                            <option value="" disabled>select category</option> {% for Categorys in Categorys %} <option value="{{ Categorys.id }}" {% if Categorys.name|lower == subCategory_value.main_Category|lower %}selected{% endif %}>
+                                              {{ Categorys.name }}
+                                            </option> {% endfor %}
+                                          </select>
+                                        </div>
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">SubCategory Name</h4>
+                                          <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." value="{{subCategory_value.name}}" />
+                                        </div>
+                                        <!-- <div class="mb-6"><h4 class="mb-3"> SubCategory Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
+                                        <div class="mb-3">
+                                          <h4 class="mb-3">SubCategory Description</h4>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{subCategory_value.Description}}</textarea>
+                                        </div>
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">SubCategory image</h4> {% if subCategory_value.image %} <img src="{{ MEDIA_URL }}{{ subCategory_value.image.url}}" alt="Category Image" width="50px" />
+                                          <p>Current image: {{ subCategory_value.image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="image" accept="image/*" value="{{subCategory_value.image.name}}">
+                                        </div>
+                                        <!-- <div class="mb-6">
+                                          <h4 class="mb-3">SubCategory image</h4>
+                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
+                                            <div class="fallback">
+                                              <input name="brand_img" type="file" id="subcategory_img" />
+                                            </div> {% if subCategory_value.image %} <div class="d-flex">
+                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
+                                                <img class="dz-image" src="{{ subCategory_value.image.url }}" alt="{{subCategory_value.image}}" data-dz-thumbnail="data-dz-thumbnail" />
+                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove" data-image-id="{{ subCategory_value.id }}">
+                                                  <span data-feather="x"></span>
+                                                </a>
+                                              </div>
+                                            </div> {% endif %} <div class="dz-preview d-flex flex-wrap">
+                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
+                                                <img class="dz-image update-subcategory-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
+                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
+                                                  <span data-feather="x"></span>
+                                                </a>
+                                              </div>
+                                            </div>
+                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
+                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
+                                              <br />
+                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
+                                            </div>
+                                          </div>
+                                        </div> -->
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">Page Title</h4>
+                                          <input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." value="{{subCategory_value.page_Title}}" />
+                                        </div>
+                                        <div class="mb-3">
+                                          <h4 class="mb-3">Meta keyword</h4>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="meta_keyword_update" name="meta_keyword_update" style="height: 100px">{{subCategory_value.Meta_keyword}}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                          <h4 class="mb-3">Meta Description</h4>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="meta_Description_update" name="meta_Description_update" style="height: 100px">{{subCategory_value.Meta_Description}}</textarea>
+                                        </div>
+                                        <div class="mb-6">
+                                          <h4 class="mb-3">Slot Position</h4>
+                                          <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{subCategory_value.Slot_Position}}" />
+                                        </div>
+                                        <div class="form-check mb-6">
+                                          <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if subCategory_value.is_Active == True %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" /> {% endif %}
+                                        </div>
+                                        <div class="form-check mb-6">
+                                          <label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label> {% if subCategory_value.Include_In_Navogation_Menu == True %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /> {% endif %}
+                                        </div>
+                                        <div class="mb-6">
+                                          {% if request.user.is_authenticated %} {% if perms.products.change_subcategory %} <button class="btn btn-primary text-sm-start" id="add-subcat" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_subcategory %} <button class="btn btn-primary text-sm-start" id="add-subcat" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                                          <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <!-- <button class="btn btn-primary" type="button">Okay</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button> -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr> {% endfor %} </tbody>
+                      </table>
+                    </div>
+                    <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                      <div class="col-auto d-flex">
+                        <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p>
+                        <a class="fw-semi-bold" href="#!" data-list-view="*">View all <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                        </a>
+                        <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                        </a>
+                      </div>
+                      <div class="col-auto d-flex">
+                        <button class="page-link" data-list-pagination="prev">
+                          <span class="fas fa-chevron-left"></span>
+                        </button>
+                        <ul class="mb-0 pagination"></ul>
+                        <button class="page-link pe-0" data-list-pagination="next">
+                          <span class="fas fa-chevron-right"></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div> {% endif %} {% endfor %} {% endif %} {% endif %}
+                  </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <script>
+          // document.addEventListener("DOMContentLoaded", function() {
+          //   // Function to submit a form using Axios
+          //   function submitForm(formId, endpoint) {
+          //       console.log("Form ID:", formId);
+          //       const form = document.getElementById(formId);
+          //       console.log("Form Element:", form);
+          //       // Debugging: Log the form and its fields to the console
+          //       console.log("Form:", form);
+          //       // console.log("Form Fields:", form.elements);
+          //       const formData = new FormData(form);
+          //       var Description = tinymce.get('Description').getContent();
+          //       console.log(Description)
+          //       formData.append('Description', Description);
+
+
+          //       var meta_keyword = tinymce.get('meta_keyword').getContent();
+          //       console.log(meta_keyword)
+          //       formData.append('meta_keyword', meta_keyword);
+
+          //       var meta_Description = tinymce.get('meta_Description').getContent();
+          //       console.log(meta_Description)
+          //       formData.append('meta_Description', meta_Description);
+
+          //       const imageElements = document.querySelectorAll('.dz-image');
+          //       const imageSources = Array.from(imageElements).map(element => element.getAttribute('alt'));
+          //       console.log('print image source')
+          //       console.log(imageSources)
+          //       const image_list =[imageSources]
+          //       console.log(image_list)
+
+          //       // formData.append('file', imageSources);
+          //       formData.append('category_img', image_list);
+
+
+          //       axios.post(endpoint, formData)
+          //           .then(response => {
+          //               // Handle successful response (e.g., display a success message)
+          //               console.log(response.data);
+          //               // Reload the page
+          //               window.location.reload();
+          //           })
+          //           .catch(error => {
+          //               // Handle error (e.g., display an error message)
+          //               console.error(error);
+          //           });
+          //   }
+
+          //   // Attach event listeners to form submissions
+          //   // document.getElementById("add-cate").addEventListener("click", function() {
+          //   //     submitForm("cate-form", "{% url 'create_category' %}");
+          //   // });
+
+          //   document.getElementById("add-subcat").addEventListener("click", function() {
+          //       submitForm("subcategory-form", "{% url 'create_subcategory' %}");
+          //   });
+
+          //   // document.getElementById("add-brand").addEventListener("click", function() {
+          //   //     submitForm("brand-form", "{% url 'create_brand' %}");
+          //   // });
+          // });
+
+
+
+
+          // document.addEventListener('DOMContentLoaded', function () {
+          // document.querySelectorAll('#subcategory-update-form').forEach(form => {
+          //   form.addEventListener('submit', function (e) {
+          //     e.preventDefault();
+          //     // Get form data
+          //     const formData = new FormData(form);
+
+              // var Description = tinymce.get('description').getContent();
+              // console.log(Description)
+              // formData.append('Description', Description);
+
+              // var meta_keyword_update = tinymce.get('meta_keyword_update').getContent();
+              // console.log(meta_keyword_update)
+              // formData.append('meta_keyword_update', meta_keyword_update);
+
+              // var meta_Description_update = tinymce.get('meta_Description_update').getContent();
+              // console.log(meta_Description_update)
+              // formData.append('meta_Description_update', meta_Description_update);
+
+              // const imageElements = document.querySelectorAll('.dz-image');
+              // const imageSources = Array.from(imageElements).map(element => element.getAttribute('alt'));
+              // console.log('print image source')
+              // console.log(imageSources)
+              // const image_list =[imageSources]
+              // console.log(image_list)
+
+              // formData.append('file', imageSources);
+              // formData.append('category_img', image_list);
+
+
+        //         const subcategoryId = form.getAttribute('data-subcategory-id');
+        //         console.log(subcategoryId)
+
+        //         const imageElements = document.querySelectorAll(`[data-subcategory-id="${subcategoryId}"] .update-subcategory-image`);
+        //         // const imageSources = Array.from(imageElements).map(element => element.getAttribute('alt'));
+        //         imageElements.forEach(element => {
+        //         const imageSources = element.getAttribute('alt');
+        //         console.log(imageSources)
+        //         formData.append('subcategory_img', imageSources);
+        //         if (imageSources) {
+        //             console.log('Image source:', imageSources);
+        //         }
+        //     });
+
+              
+        //       // Send a POST request using Axios
+        //       axios.post('update_subcategory', formData)
+        //           .then(function (response) {
+        //               // Handle the success response here
+        //               console.log(response.data);
+        //               if (response.data.success) {
+        //                     // Handle success case, e.g., show a success message
+        //                     alert("Sub Category updated successfully");
+        //                     window.location.reload();
+        //               } else {
+        //                     alert("Sub Category update failed");
+        //               }
+        //               window.location.reload()
+        //           })
+        //           .catch(function (error) {
+        //               // Handle any errors here
+        //               console.error(error);
+        //               alert("An error occurred while updating the Categroy");
+        //           });
+        //   });
+        // });
+        // });
+
+
+
+          document.querySelectorAll('.delete-subcategory').forEach(button => {
+            button.addEventListener('click', function () {
+                const SubcategoryId = this.getAttribute('data-coupon-id');
+                console.log(SubcategoryId)
+
+                if (confirm('Are you sure you want to delete this subcategory?')) {
+                    fetch(`subcategory/${SubcategoryId}/delete/`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                            'Content-Type': 'application/json',
+                        },
+                        // body: JSON.stringify({}),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        // You can also remove the coupon element from the page on success
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                }
+            });
+        });
+
+        // Function to get the CSRF token from cookies
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        </script>
+      </main>   
+
+{% endblock %}

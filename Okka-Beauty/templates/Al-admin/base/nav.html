@@ -1,0 +1,100 @@
+{% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<style>
+  .login-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #4285F4; /* Google Blue */
+      color: #fff;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+</style>
+  <nav class="navbar navbar-top navbar-expand" id="navbarDefault">
+    <div class="collapse navbar-collapse justify-content-between">
+      <div class="navbar-logo">
+
+        <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+        <a class="navbar-brand me-1 me-sm-3" href="{% url 'home' %}">
+          <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center"><img src="{% static 'assets/img/site_images/LOGO.png' %}" alt="phoenix" width="150" />
+              <!-- <p class="logo-text ms-2 d-none d-sm-block">phoenix</p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+      <ul class="navbar-nav navbar-nav-icons flex-row">
+       
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-auto-close="outside"><span data-feather="bell" style="height:20px;width:20px;"></span></a>
+
+          <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu py-0 shadow border border-300 navbar-dropdown-caret" id="navbarDropdownNotfication" aria-labelledby="navbarDropdownNotfication">
+            <div class="card position-relative border-0">
+              <div class="card-header p-2">
+                <div class="d-flex justify-content-between">
+                  <h5 class="text-black mb-0">Notificatons</h5>
+                  <button class="btn btn-link p-0 fs--1 fw-normal" type="button">Mark all as read</button>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="scrollbar-overlay" style="height: 27rem;">
+                  <div class="border-300">
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer p-0 border-top border-0">
+                <div class="my-2 text-center fw-bold fs--2 text-600"><a class="fw-bolder" href="../../../pages/notifications.html">Notification history</a></div>
+              </div>
+            </div>
+          </div>
+        </li> -->
+        <li class="nav-item dropdown px-2"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+          <!-- <div class="avatar avatar-l ">
+            <img class="rounded-circle " src="{% static 'assets/img/team/40x40/57.webp' %}" alt="" />        
+          </div> -->
+          {% if user.is_authenticated %}
+          <!-- <span class="fas fa-user text-primary fs-2"></span> -->
+          <div class="login-icon">{{ request.user.username|first|upper }}</div>
+           <!-- <span class="align-items-center text-center">Profile</span> -->
+           {% else%} 
+           <li class="nav-item"><a class="nav-link px-2" href="{% url 'sign_in' %}" role="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Click to Sign In / Sign Up"><span class="fas fa-user text-primary fs-2"></span></a>
+          </li>
+          {% endif %}
+        </a>
+        <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" aria-labelledby="navbarDropdownUser">
+          <div class="card position-relative border-0">
+            <div class="card-body p-0">
+              <div class="text-center pt-4 pb-3">
+                <div class="avatar avatar-xl ">
+                  {% if user.is_authenticated %} <div class="login-icon">{{ request.user.username|first|upper }}</div>{% endif %}
+
+                </div>
+                <h6 class="mt-2 text-black">{{request.user.username}}</h6>
+              </div>
+              <div class="mb-3 mx-3">
+                <input class="form-control form-control-sm" id="statusUpdateInput" type="text" placeholder="Update your status" />
+              </div>
+            </div>
+
+            <div class="card-footer p-0 border-top">                              
+              <div class="px-3">{% if user.is_authenticated %}<a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{% url 'signup' %}">Logout <span class="me-2 ms-2" data-feather="log-out"> </span></a>{% else %}<a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{% url 'sign_in' %}">Login <span class="me-2 ms-2" data-feather="log-out"> </span></a>{% endif %}</div>
+              <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms</a>&bull;<a class="text-600 ms-1" href="#!">Cookies</a></div>
+            </div>
+          </div>
+        </div>
+      </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- nav profile ,order list -->

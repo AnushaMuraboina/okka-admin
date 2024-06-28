@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+<div class="container pt-5">
+    <div class="row">
+      <div class="tab profile-okka-tab ">
+        <h3 class="profile-account-head"> <strong>MY ACCOUNT</strong></h3>
+        <hr>
+        <button class="tablinks profile-tab-link"><a href="../html/profile.html"> Dashboard</a></button>
+        <button class="tablinks profile-tab-link active" id="defaultOpen"><a
+            href="{% url 'user-order' %}">orders</a></button>
+        <button class="tablinks profile-tab-link"><a href="{% url 'balance' %}"> Gift Card Balance </a></button>
+        <button class="tablinks profile-tab-link "><a href=""> Downloads</a></button>
+        <button class="tablinks profile-tab-link "><a href="{% url 'address' %}"> Addressess</a></button>
+        <button class="tablinks profile-tab-link "><a href="{% url 'warranty_requests' %}"> Request Return</a></button>
+        <button class="tablinks profile-tab-link "><a href="{% url 'edit_account' %}">Account Details</a></button>
+        <button class="tablinks profile-tab-link "><a href="{% url 'wishlist' %}">Wishlist</a></button>
+        <button class="tablinks profile-tab-link "><a href="{% url 'user-order' %}">Logout</a></button>
+      </div>
+
+      <div id="tab-2" class="tabcontent profile-tab-content">
+        <div class="container ">
+          <div class="row">
+
+            <table class="profile-order-table">
+              <thead class="profile-order-body">
+                <tr class="text-left border-bottom ">
+                  <th>ORDER</th>
+                  <th>DATE</th>
+                  <th>STATUS</th>
+                  <th>TOTAL</th>
+                  <th colspan="2"> TRACKING</th>
+                  <th colspan="2" class="order-table-btn">ACTIONS</th>
+                </tr>
+
+              </thead>
+              <tbody>
+
+                <tr class="profile-order-body">
+                  <td data-label="order" class="">#202024</td>
+                  <td data-label="DATE" class="">15/05/2024</td>
+                  <td data-label="STATUS" class="">cancelled</td>
+                  <td data-label="TOTAL" class=""><strong>124.00 <span>AED</span></strong>&nbsp;for i item</td>
+                  <td data-label="TRACKING" class="" colspan="2"></td>
+                  <td data-label="ACTIONS" class="order-table-btn">
+                    
+                    <button class="btn prof-order-button my-2" type="submit">CANCEL</button>
+                  </td>
+                </tr>
+                <tr class="profile-order-body">
+                  <td data-label="order" class="">#202024</td>
+                  <td data-label="DATE" class="">15/05/2024</td>
+                  <td data-label="STATUS" class="">cancelled</td>
+                  <td data-label="TOTAL" class=""><strong>124.00 <span>AED</span></strong>&nbsp;for i item</td>
+                  <td data-label="TRACKING" class="" colspan="2"></td>
+                  <td data-label="ACTIONS" class="order-table-btn">
+                    <button class="btn prof-order-button my-2" type="submit">PAY</button>
+                    <button class="btn prof-order-button my-2" type="submit">CANCEL</button>
+                  </td>
+                </tr>
+                <tr class="profile-order-body">
+                  <td data-label="order" class="">#202024</td>
+                  <td data-label="DATE" class="">15/05/2024</td>
+                  <td data-label="STATUS" class="">cancelled</td>
+                  <td data-label="TOTAL" class=""><strong>124.00 <span>AED</span></strong>&nbsp;for i item</td>
+                  <td data-label="TRACKING" class="" colspan="2"></td>
+                  <td data-label="ACTIONS" class="order-table-btn">
+                    <button class="btn prof-order-button my-2" type="submit">PAY</button>
+                    <button class="btn prof-order-button my-2" type="submit">CANCEL</button>
+                    <button class="btn prof-order-button my-2" type="submit">CANCEL</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+{% endblock %}

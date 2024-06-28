@@ -1,0 +1,25 @@
+.modal-title {
+  font-size: map-get($font-sizes, 1);
+  color: var(--#{$prefix}gray-800);
+}
+
+@include media-breakpoint-up(md) {
+  .modal-md {
+    --#{$prefix}modal-width: 768px;
+  }
+}
+
+.modal-open .navbar-top {
+  .chrome:not(.mobile):not(.iphone):not(.ipad) & {
+    padding-right: calc(map-get($spacers, 4) + 1.0625rem);
+    @include media-breakpoint-up(lg) {
+      padding-right: calc(map-get($spacers, 6) + 1.0625rem);
+    }
+  }
+  .safari:not(.ipad):not(.iphone) & {
+    padding-right: calc(map-get($spacers, 4) + 0.9375rem);
+    @include media-breakpoint-up(lg) {
+      padding-right: calc(map-get($spacers, 6) + 0.9375rem);
+    }
+  }
+}

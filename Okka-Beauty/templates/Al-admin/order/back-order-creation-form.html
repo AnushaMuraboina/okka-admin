@@ -1,0 +1,1454 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<main class="main" id="top">
+    
+      <div class="container-fluid px-0">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
+          <script>
+            var navbarStyle = window.config.config.phoenixNavbarStyle;
+            if (navbarStyle && navbarStyle !== 'transparent') {
+              document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+            }
+          </script>
+          <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+            <!-- scrollbar removed-->
+            <div class="navbar-vertical-content">
+              <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+              
+                <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                  <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                  </div>
+                </a>
+                <!-- more inner pages-->
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                      <li class="collapsed-nav-item-title d-none">Banner Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>  
+                    {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>  
+                  {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                     
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                      <li class="collapsed-nav-item-title d-none">Customer Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                      <li class="collapsed-nav-item-title d-none">Product Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                        <li class="collapsed-nav-item-title d-none">Order Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                        <li class="collapsed-nav-item-title d-none">Coupon
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                        <li class="collapsed-nav-item-title d-none">CSV Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                        <li class="collapsed-nav-item-title d-none">User Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                        <li class="collapsed-nav-item-title d-none">Report
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Order</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Invoice</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Shipping</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Abandoned Cart</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="navbar-vertical-footer">
+            <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+          </div>
+        </nav>
+        {% include 'Al-admin/base/nav.html' %}
+        <div class="content">
+         
+          <div class="mb-9">
+            <div class="row g-3 mb-4">
+             
+            <div id="orderTable" data-list='{"valueNames":["id","name","email","phone","zip","country","state"],"page":10,"pagination":true}'>
+              <div class="mb-4">
+                <div class="row g-3">
+                  <h2 class="title mb-3">Items Ordered</h2>
+                  <div class="col-auto ms-auto">                    
+                    <!-- <a  href="#" class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-export fs--1 me-2"></span>Export</a> -->
+                    <!-- <button class="btn btn-primary"><span class="fas fa-plus me-2"></span>Add Product</button> -->
+                    <button class="btn btn-secondary mb-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="fas fa-plus me-2"></span>Add Product</button>
+                      <div class="offcanvas offcanvas-end w-75 p-5" id="offcanvasRight" tabindex="-1" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header mb-3">
+                          <h5 id="offcanvasRightLabel">Please select products</h5>
+                          <button class="btn-close text-reset" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="bg-light mb-3">
+                          <div class="text-end p-4">
+                            <div class="col-auto">
+                              <!-- <button class="btn btn-phoenix-secondary me-2 mb-2 mb-sm-0" type="button">Discard</button> -->
+                              <button class="btn btn-phoenix-primary me-2 mb-2 mb-sm-0" data-bs-dismiss="offcanvas" type="button">Cancel</button>
+                              <button class="btn btn-primary mb-2 mb-sm-0" id="add-product" type="button">Add Selected products</button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-4">
+                          <div class="row g-3">
+                            <div class="col">
+                              <div class="search-box">
+                                <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                                  <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" />
+                                  <span class="fas fa-search search-box-icon"></span>
+          
+                                </form>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <select class="form-select filter-dropdown" data-filter="category" aria-label="Default select example">
+                                <option selected="" disabled>select category</option>
+                                {% for categories in Categorys %}
+                                <option value="{{categories.name}}">{{categories.name}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>  
+                            <div class="col">
+                              <select class="form-select filter-dropdown" data-filter="subcategory" aria-label="Default select example">
+                                <option selected="" disabled>select Sub category</option>
+                                {% for subCategories in subCategories %}
+                                <option value="{{subCategories.name}}">{{subCategories.name}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>       
+                            <div class="col">
+                              <select class="form-select filter-dropdown" data-filter="brand" aria-label="Default select example">
+                                <option selected="" disabled>select Brand</option>
+                                {% for brand in brand %}
+                                <option value="{{brand.name}}">{{brand.name}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>  
+                            <div class="col">
+                              <select class="form-select filter-dropdown" data-filter="status" aria-label="Default select example">
+                                <option selected="" disabled>select Status</option>                      
+                                <option value="Instock">Instock</option>
+                                <option value="Out of Stock">Out of Stock</option>
+                              </select>
+                            </div>      
+                          </div>
+                        </div>                        
+                        <div class="offcanvas-body">
+                          <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                            <div class="table-responsive scrollbar mx-n1 px-1">                                
+                              <table class="table table-striped fs--1 mb-0">
+                                <thead>
+                                  <tr>
+                                    <th data-sort="entity_id" data-direction="asc" class="table-sortable data-grid-th _descend col-id col-entity_id">
+                                        <span>ID</span>
+                                      </th>
+                                      <th data-sort="name" data-direction="asc" class="table-sortable data-grid-th  col-name" data-sort="product">
+                                        <span>Product</span>
+                                      </th>
+                                      <th data-sort="sku" data-direction="asc" class="table-sortable data-grid-th  col-sku">
+                                        <span>SKU</span>
+                                      </th>
+                                      <th data-sort="price" data-direction="asc" class="table-sortable data-grid-th col-price">
+                                        <span>Price</span>
+                                      </th>
+                                      <th class="data-grid-th col-select no-link col-in_products">
+                                        <span>Select</span>
+                                      </th>
+                                      <th class="data-grid-th no-link col-qty">
+                                        <span>Quantity</span>
+                                      </th>
+                                  </tr>
+                                </thead>
+                                <tbody class="list" id="products-table-body">
+                                    {% for product in product %}
+                                    <tr title="#" class="even _clickable">
+                                      <td class="align-middle white-space-nowrap py-0">
+                                          <div><img src="{{ MEDIA_PREFIX }}{{product.product_Image1}}" alt="" width="53" /></div>
+                                      </td>
+                                      <td class="col-name">
+                                          {{product.product_name}}
+                                      </td>
+                                      <td class="col-sku">{{product.product_sku}}</td>
+                                      <td class="price col-price">{{product.price}}</td>
+                                      <td class="col-select col-in_products">
+                                          <div class="form-check mb-0 fs-0">
+                                              <input class="form-check-input product" type="checkbox" value="{{ product.id }}" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}'>
+                                          </div>
+                                      </td>
+                                      <td class="col-qty">
+                                        <input type="text" name="qty" value="" class="form-control" disabled="">
+                                      </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                              <div class="col-auto d-flex">
+                                <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                              </div>
+                              <div class="col-auto d-flex">
+                                {% if product.has_previous %}
+                                <a class="page-link" href="?page={{ product.previous_page_number }}">previous
+                                  <span class="fas fa-chevron-left"></span>
+                                </a>
+                                {% endif %}
+                                <ul class="mb-0 pagination d-none"></ul>
+                                {% if product.has_next %}
+                                  <a class="page-link pe-0" href="?page={{ product.next_page_number }}">
+                                    <span class="fas fa-chevron-right"></span>Next
+                                  </a>
+                                {% endif %}
+                              </div>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div> 
+              <section id="order-items" class="admin__page-section order-items p-0">
+                <div class="container">            
+                    <div id="order-items_grid">
+                        <div class="admin__table-wrapper">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr class="headings">
+                                        <th class="col-product"><span>Product</span></th>
+                                        <th class="col-price"><span>Price</span></th>
+                                        <th class="col-qty"><span>Qty</span></th>
+                                        <th class="col-subtotal"><span>Subtotal</span></th>
+                                        <th class="col-discount"><span>Discount</span></th>
+                                        <th class="col-row-total"><span>Row Subtotal</span></th>
+                                        <th class="col-action"><span>Action</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list" id="products-table-body1">
+                                    <tr class="even">
+                                        <td class="empty-text ms-2 ps-4" colspan="100">No ordered items</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot class="table-dark" id="products-table-footer">
+                                  <tr></tr>
+                              </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="p-0">
+              <div>
+                <span class="title fs-1 fw-bold">Address Information</span>
+                <hr>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <fieldset>
+                    <legend class="mb-5">
+                      <span>Billing Address</span>
+                    </legend>
+                    <br/>
+                    <fieldset>
+                      <div class="mb-3">
+                        
+                      </div>
+                      <div>
+                        <label>Select from existing customer addresses: </label>
+                        <div>
+                          <select class="form-select" id="address-select" aria-label="Default select example">
+                            <option value="" data-address='{"name":"","email":"","phone":"","address":"","landmark":"","city":"","state":"","zipcode":"","country":""}'>Add New Address</option>
+                            {% for billingaddress in billing_info_details %}
+                            <option value="{{ billingaddress.id }}" data-address='{"id":"{{ billingaddress.id }}" ,"name":"{{billingaddress.name}}","email":"{{billingaddress.email}}","phone":"{{billingaddress.phone}}","address":"{{billingaddress.address}}","landmark":"{{billingaddress.landmark}}","city":"{{billingaddress.city}}","state":"{{billingaddress.state}}","zipcode":"{{billingaddress.zipcode}}","country":"{{billingaddress.country}}"}' {% if billingaddress.default_address == 'True' %}selected{% endif %}>{{billingaddress.name}}-{{billingaddress.address}}-{{billingaddress.landmark}}-{{billingaddress.city}}-{{billingaddress.zipcode}}-{{billingaddress.country}}-{{billingaddress.phone}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <div>
+                      <form method="post" action="" id="update-billingaddress-form">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                          <input type="hidden" id="billing_id" name="billing_address_id" value="{{ billingaddress.id }}">
+                          <div class="col-12">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputName">Full name</label>
+                            <input class="form-control" id="inputName" name="name" type="text" placeholder="Full name" value="{{billingaddress.name}}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputEmail">Email</label>
+                            <input class="form-control" id="inputEmail" name="email" type="email" placeholder="Email" value="{{billingaddress.email}}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputPhone">Phone</label>
+                            <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="+1234567890" value="{{billingaddress.phone}}">
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">Address</label>
+                            <input class="form-control" id="inputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address}}">
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">Landmark</label>
+                            <input class="form-control" id="inputAddress2" type="text" name="landmark" placeholder="Address line 2" value="{{billingaddress.landmark}}">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCity">City</label>
+                            <input class="form-control" id="inputCity" type="text" name="city" placeholder="city" value="{{billingaddress.city}}">
+                            </div>
+                          <div class="col-md-4">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputState">State</label>
+                            <input class="form-control" id="inputState" type="text" name="state" placeholder="state" value="{{billingaddress.state}}">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputZipCode">Zip code</label>
+                            <input class="form-control number-arrows-none" id="inputZipCode" name="zipcode" type="number" placeholder="Zip code" value="{{billingaddress.zipcode}}">
+                          </div>
+                          <div class="col-12 mb-3">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCountry">Country</label>
+                            <input class="form-control" id="inputCountry" type="text" name="country" placeholder="country" value="{{billingaddress.country}}">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-md-6">
+                  <fieldset>
+                    <legend>
+                      <span>Shipping Address</span>
+                    </legend>
+                    <fieldset>
+                      <div class="mb-3">
+                        <input class="form-check-input" id="sameAsbilling" type="checkbox" value="" checked="checked" />
+                        <label class="form-check-label fs-0 fw-normal" for="sameAsbilling">
+                          Same as Billing address
+                        </label>
+                      </div>
+                      <div>
+                        <label>Select from existing customer addresses: </label>
+                        <div>
+                          <select class="form-select" id="ship-address-select" aria-label="Default select example" disabled>
+                            <option value="" ship-data-address='{"name":"","email":"","phone":"","address":"","landmark":"","city":"","state":"","zipcode":"","country":""}'>Add New Address</option>
+                            {% for shippingaddress in shipping_info_details %}
+                            <option value="{{ shippingaddress.id }}" ship-data-address='{"id":"{{ shippingaddress.id }}" ,"name":"{{shippingaddress.name}}","email":"{{shippingaddress.email}}","phone":"{{shippingaddress.phone}}","address":"{{shippingaddress.address}}","landmark":"{{shippingaddress.landmark}}","city":"{{shippingaddress.city}}","state":"{{shippingaddress.state}}","zipcode":"{{shippingaddress.zipcode}}","country":"{{shippingaddress.country}}"}' {% if shippingaddress.default_address == 'True' %}selected{% endif %}>{{ shippingaddress.default_address }}{{shippingaddress.name}}-{{shippingaddress.address}}-{{shippingaddress.landmark}}-{{shippingaddress.city}}-{{shippingaddress.zipcode}}-{{shippingaddress.country}}-{{shippingaddress.phone}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <div>
+                      <form method="post" action="" id="update-shippingaddress-form">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                          <input type="hidden" id="billing_id" name="billing_address_id" value="{{ billingaddress.id }}">
+                          <div class="col-12">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputName">Full name</label>
+                            <input class="form-control" id="shipinputName" name="name" type="text" placeholder="Full name" value="{{billingaddress.name}}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputEmail">Email</label>
+                            <input class="form-control" id="shipinputEmail" name="email" type="email" placeholder="Email" value="{{billingaddress.email}}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputPhone">Phone</label>
+                            <input class="form-control" id="shipinputPhone" name="phone" type="tel" placeholder="+1234567890" value="{{billingaddress.phone}}">
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputAddress1">Address</label>
+                            <input class="form-control" id="shipinputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address}}">
+                          </div>
+                          <div class="col-12">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputAddress2">Landmark</label>
+                            <input class="form-control" id="shipinputAddress2" type="text" name="landmark" placeholder="Address line 2" value="{{billingaddress.landmark}}">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputCity">City</label>
+                            <input class="form-control" id="shipinputCity" type="text" name="city" placeholder="city" value="{{billingaddress.city}}">
+                            </div>
+                          <div class="col-md-4">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputState">State</label>
+                            <input class="form-control" id="shipinputState" type="text" name="state" placeholder="state" value="{{billingaddress.state}}">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputZipCode">Zip code</label>
+                            <input class="form-control number-arrows-none" id="shipinputZipCode" name="zipcode" type="number" placeholder="Zip code" value="{{billingaddress.zipcode}}">
+                          </div>
+                          <div class="col-12 mb-3">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputCountry">Country</label>
+                            <input class="form-control" id="shipinputCountry" type="text" name="country" placeholder="country" value="{{billingaddress.country}}">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </section>
+
+            <section>
+              <div>
+                <span class="fs-1 fw-bold">Order Total</span>
+                <hr>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <p class="h5">Order History</p>
+                  <div class="mb-6 mt-3">
+                    <span class="mb-3"> Order Comments</span>
+                    <textarea class="tinymce" id="orderComments" name="orderComments" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <p class="h5">Order Totals</p>
+                    <div class="card">
+                      <div class="card-body">
+                        <div>
+                          <div class="d-flex justify-content-between">
+                            <p class="text-900 fw-semi-bold">Items subtotal :</p>
+                            <p  class="text-1100 fw-semi-bold">AED <span id="sub_total">0</span></p>
+                          </div>
+                          <div class="d-flex justify-content-between">
+                            <p class="text-900 fw-semi-bold">Shipping Cost :</p>
+                            <p id="ship_cost" class="text-1100 fw-semi-bold">Free Shipping</p>
+                          </div>
+                        </div>
+                        <div class="input-group mb-3" id="coupondiv">
+                          <input class="form-control" id="coupon_val" type="text" placeholder="Coupon code" />
+                          <button id="applybtn" class="btn btn-phoenix-primary bg-primary text-light px-5">Apply</button>
+                        </div>
+                        <p id="coupon_status1" class="text-success fw-bold d-flex justify-content-between">
+                          <span id="coupon_res"></span>                    
+                          <span id="coupon_cutype" style="display: none;">-AED<span id="coupon_status"></span></span>
+                        </p>
+                        <span id="coupon_code" class="d-none"></span>                        
+                        
+                        <div class="d-flex justify-content-between border-y border-dashed py-3 mb-4">
+                          <h4 class="mb-0">Total :</h4>
+                          <h4 class="mb-">AED <span id="total-amount">0</span></h4>
+                        </div>
+                      </div>
+                      <div class="mx-3">
+                        <div class="form-check form-switch">
+
+                          <input class="form-check-input" id="Comments" type="checkbox" checked />
+                        
+                          <label class="form-check-label" for="Comments">Append Comments</label>
+                        </div>
+                        <div class="form-check form-switch">
+                
+                          <input class="form-check-input" id="email_confirm" type="checkbox" checked />
+                        
+                          <label class="form-check-label" for="email_confirm">Email Order Confirmation</label>
+                        </div>
+                      </div>
+                      
+                    </div>
+                </div>
+              </div>
+            </section>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button class="btn btn-primary" id="confirm" type="submit">Confirm Order</button> 
+              <button class="btn btn-primary w-100" id="spin" type="button" style="display: none;">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Order is Process...
+              
+              </button>
+              <!-- <button class="btn btn-secondary" id="cancel" type="clear">Cancel</button>  -->
+            </div>
+            
+            </div>
+          </div>
+      </div>
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+      const checkboxes = document.querySelectorAll(".product");
+      console.log(checkboxes)
+      const addButton = document.getElementById("add-product");
+
+      addButton.addEventListener("click", function () {
+        const selectedValues = Array.from(checkboxes)
+        .filter((checkbox) => checkbox.checked)
+        .map((checkbox) => {
+            const quantityInput = checkbox.closest("tr").querySelector(".col-qty input");
+            return {
+            id: checkbox.value,
+            quantity: quantityInput.value,
+            };
+        });
+        
+        console.log(selectedValues)
+        if (selectedValues.length > 0) {
+          // Make an axios POST request to the server
+          axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
+          axios.post("/Al-admin/order_product_selection", { selectedValues: selectedValues })
+            .then(response => {
+              // Handle the response here
+              const responseData = response.data.product_data;
+              console.log(responseData);
+              const count = response.data.count;
+              const sub_total = response.data.sub_total;
+              const disc_total = response.data.disc_total;
+              const row_total = response.data.row_total;
+              const tableBody = document.querySelector('#products-table-body1');
+              const tableFoot = document.querySelector('#products-table-footer')
+
+                // Clear existing table rows
+                tableBody.innerHTML = '';
+
+                responseData.forEach(item => {
+                    console.log(item)
+                    const row = document.createElement('tr');
+                    row.classList.add('position-static', 'selected-product');
+                    row.setAttribute('data-product-id', item.pk);
+
+                    // Create and append table cells to the row (similar to your HTML structure)
+                   // Adjust the property names based on your data structure
+                  row.innerHTML = `                    
+
+                      <tr>
+                        <td class="col-product">
+                            <span id="order_item_5_title">${item.product_name}</span>
+                            <div class="product-sku-block">
+                            <span>SKU:</span> ${item.product_sku}
+                            </div>
+                        </td>
+                        <td class="col-price">
+                            <span class="price">${item.price}</span>
+                        </td>
+                        <td class="col-qty">
+                            <input name="item qty" class="form-control item-qty" value="${item.quantity}" maxlength="12" onkeyup="updateQuantity(this)">
+                        </td>
+                        <td class="col-subtotal col-price">
+                            <span class="subtotal">${item.subtotal}</span>
+                        </td>
+                        <td class="col-discount col-price">
+                            <span class="Discount">${item.Discount}</span>
+                        </td>
+                        <td class="col-price col-row-subtotal">
+                            <span class="row_total_price">${item.row_total_price}</span>
+                        </td>
+                        <td class="col-actions last">
+                            <select class="form-select" name="item[5][action]">
+                            <option value="">Please select</option>
+                            <option value="remove">Remove</option>
+                            <option value="cart">Move to Shopping Cart</option>
+                            <optgroup label="Move to Wish List">
+                                <option value="wishlist_1"> Vacation Wants </option>
+                                <option value="wishlist_2"> Lose the Muffintop </option>
+                            </optgroup>
+                            </select>
+                        </td>
+                        </tr>
+                  `;
+
+                    tableBody.appendChild(row);         
+
+
+                });
+
+                // Find the <tr> element within the table footer
+                  const tableRow = tableFoot.querySelector('tr');
+
+                  // Update the content of the <tr> element
+                  tableRow.innerHTML = `
+                  <th scope="row">Total ${count} product(s)</th>
+                  <td>Subtotal:</td>
+                  <td></td>
+                  <td class='sub_total'>${sub_total}</td>
+                  <td class='disc_total'>${disc_total}</td>
+                  <td class='row_total'>${row_total}</td>
+                  <td></td>
+                  `;
+                  tableFoot.appendChild(tableRow);
+                // document.getElementById('response-upsell').style.display="block";
+
+                document.getElementById('sub_total').textContent = sub_total;
+                document.getElementById('total-amount').textContent = row_total;
+
+                const offCanvasMenu = document.getElementById('offcanvasRight');
+                offCanvasMenu.classList.remove('show');
+
+            })
+            .catch(error => {
+              console.error("Error:", error);
+            });
+        }
+      });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.filter-dropdown');
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('change', function() {
+                const selectedValue = this.value;
+                const filterType = this.getAttribute('data-filter');
+                const csrfToken = "{{ csrf_token }}";
+
+                axios.post('/Al-admin/filter-data', {
+                    filter_type: filterType,
+                    filter_value: selectedValue
+                }, {
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                .then(response => {
+                  const responseData = response.data;
+                const tableBody = document.querySelector('#products-table-body');
+
+                // Clear existing table rows
+                tableBody.innerHTML = '';
+
+                responseData.forEach(item => {
+                    console.log(item)
+                    const row = document.createElement('tr');
+                    row.classList.add('position-static');
+                    row.setAttribute('data-product-id', item.pk);
+
+                    // Create and append table cells to the row (similar to your HTML structure)
+                   // Adjust the property names based on your data structure
+                  row.innerHTML = `                      
+                        <td class="align-middle white-space-nowrap py-0">
+                            <div>
+                                <img src="{{ MEDIA_PREFIX }}${item.product_Image1}" alt="${item.product_name}" width="53"/>
+                            </div>
+                        </td>
+                        <td class="col-name">
+                            ${item.product_name}
+                        </td>
+                        <td class="col-sku">${item.product_sku}</td>
+                        <td class="price col-price">${item.price}</td>
+                        <td class="col-select col-in_products">
+                        <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input product" type="checkbox" value="${item.pk}" data-bulk-select-row='{"product":"${item.product_name}","productImage":"{{ MEDIA_PREFIX }}${item.product_Image1}","price":"${item.price}","category":"${item.category__name}"}'>
+                        </div>
+                        </td>
+                        <td class="col-qty">
+                            <input type="text" name="qty" value="" class="form-control" disabled="">
+                        </td>
+                  `;
+
+                    tableBody.appendChild(row);
+
+                    
+      
+                  
+                });
+            })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+
+
+    $(document).ready(function() {
+        // Add a change event listener to all checkboxes with the 'product' class
+        $('.form-check-input.product').change(function() {
+            // Get the ID of the checkbox
+            var productId = $(this).val();
+            console.log(productId)
+
+            // Get the corresponding quantity input field
+            var qtyInput = $(this).closest('tr').find('.col-qty input');
+
+            // Check if the checkbox is checked
+            if ($(this).is(':checked')) {
+                // Enable the quantity input field
+                qtyInput.prop('disabled', false);
+                if (qtyInput.val().trim() === '') {
+                    // Set the value of the quantity input field to 1
+                    qtyInput.val(1);
+                }
+            } else {
+                // Disable the quantity input field
+                qtyInput.prop('disabled', true);
+            }
+        });
+        });
+
+        // function updateQuantity(productId, quantity) {
+        //   console.log(productId)
+        //   console.log(quantity)
+
+        // }
+
+
+        // Function to calculate and update subtotal for a specific row
+        function updateQuantity(inputElement) {
+            const row = inputElement.closest('tr'); // Find the parent row
+            const quantity = parseInt(inputElement.value, 10); // Get quantity from input field
+            const priceElement = row.querySelector('.price'); // Find the price element in the same row
+            const subtotalElement = row.querySelector('.subtotal'); // Find the subtotal element in the same row
+            const DiscountElement = row.querySelector('.Discount');
+            const totalElement = row.querySelector('.row_total_price');
+
+
+            // Get price from the price element
+            const price = parseFloat(priceElement.textContent.replace('$', ''));
+            console.log(price)
+
+            // Get discount from the discount element
+            const disc = parseFloat(DiscountElement.textContent.replace('$', ''));
+            console.log(disc)
+
+            // Calculate subtotal
+            const subtotal = quantity * price;
+            console.log(subtotal)
+
+            //Calculate Total
+
+            const total = subtotal + disc;
+            console.log(total)
+
+            // Update subtotal element
+            subtotalElement.textContent = subtotal.toFixed(2);
+            totalElement.textContent = total.toFixed(2);
+            updateTotalForSelectedProducts();
+        }
+
+
+        // Function to update total for all selected products
+        function updateTotalForSelectedProducts() {
+            const selectedProducts = document.querySelectorAll('.selected-product'); // Change this selector to match your selected products
+            let sub_total = 0;
+            let disc = 0;
+            let total = 0;
+
+
+            selectedProducts.forEach(product => {
+                const subtotalElement = product.querySelector('.subtotal');
+                const subtotal = parseFloat(subtotalElement.textContent.replace('$', ''));
+                sub_total += subtotal;
+                console.log(sub_total)
+                const DiscountElement = product.querySelector('.Discount')
+                const Discount = parseFloat(DiscountElement.textContent.replace('$', ''));
+                disc += Discount;
+                console.log(disc)
+                const totalElement = product.querySelector('.row_total_price');
+                const Total_amount = parseFloat(totalElement.textContent.replace('$', ''));
+                total += Total_amount;
+                console.log(total)
+            });
+
+            // Update the total of all selected products wherever you want to display it
+            const subtotalElement = document.querySelector('.sub_total'); // Change this selector
+            subtotalElement.textContent = sub_total.toFixed(2);
+            const DiscountElement = document.querySelector('.disc_total'); // Change this selector
+            DiscountElement.textContent = disc.toFixed(2);
+            const totalElement = document.querySelector('.row_total'); // Change this selector
+            totalElement.textContent = total.toFixed(2);
+
+            document.getElementById('sub_total').textContent = sub_total;
+            document.getElementById('total-amount').textContent = total;
+        }
+
+
+
+        const addressSelect = document.getElementById('address-select');
+        const billingAddressForm = document.getElementById('update-billingaddress-form');
+
+        // Function to update form fields based on selected address data
+        function updateFormFields() {
+            const selectedOption = addressSelect.options[addressSelect.selectedIndex];
+            const addressData = JSON.parse(selectedOption.getAttribute('data-address'));
+
+            // Populate form fields with selected address details
+            document.getElementById('inputName').value = addressData.name;
+            document.getElementById('inputEmail').value = addressData.email;
+            document.getElementById('inputPhone').value = addressData.phone;
+            document.getElementById('inputAddress1').value = addressData.address;
+            document.getElementById('inputAddress2').value = addressData.landmark;
+            document.getElementById('inputCity').value = addressData.city;
+            document.getElementById('inputState').value = addressData.state;
+            document.getElementById('inputZipCode').value = addressData.zipcode;
+            document.getElementById('inputCountry').value = addressData.country;
+
+
+            const sameAsBillingCheckbox = document.getElementById('sameAsbilling');
+            console.log(sameAsBillingCheckbox)
+            const isChecked = sameAsBillingCheckbox.checked;
+
+
+            if (isChecked) {
+              document.getElementById('shipinputName').value = addressData.name;
+              document.getElementById('shipinputEmail').value = addressData.email;
+              document.getElementById('shipinputPhone').value = addressData.phone;
+              document.getElementById('shipinputAddress1').value = addressData.address;
+              document.getElementById('shipinputAddress2').value = addressData.landmark;
+              document.getElementById('shipinputCity').value = addressData.city;
+              document.getElementById('shipinputState').value = addressData.state;
+              document.getElementById('shipinputZipCode').value = addressData.zipcode;
+              document.getElementById('shipinputCountry').value = addressData.country;
+              sameAsBillingCheckbox.value = addressData.id;
+            }else{
+              document.getElementById('shipinputName').value = '';
+              document.getElementById('shipinputEmail').value = '';
+              document.getElementById('shipinputPhone').value = '';
+              document.getElementById('shipinputAddress1').value = '';
+              document.getElementById('shipinputAddress2').value = '';
+              document.getElementById('shipinputCity').value = '';
+              document.getElementById('shipinputState').value = '';
+              document.getElementById('shipinputZipCode').value = '';
+              document.getElementById('shipinputCountry').value = '';
+            }
+
+            // Additional form fields can be updated similarly
+        }
+
+        // Add change event listener to the select dropdown
+        addressSelect.addEventListener('change', updateFormFields);
+
+        // Initial population of form fields based on default selected address
+        updateFormFields();
+
+
+
+        // const sameAsBillingCheckbox = document.getElementById('sameAsbilling');
+        // sameAsBillingCheckbox.addEventListener('change', applyBillingData);
+
+
+        const sameAsBillingCheckbox = document.getElementById('sameAsbilling');
+
+        sameAsBillingCheckbox.addEventListener('change', function () {
+          if (sameAsBillingCheckbox.checked) {
+            // If the checkbox is checked, copy values from Billing Address to Shipping Address
+            document.getElementById('shipinputName').value = document.getElementById('inputName').value;
+            document.getElementById('shipinputEmail').value = document.getElementById('inputEmail').value;
+            document.getElementById('shipinputPhone').value = document.getElementById('inputPhone').value;
+            document.getElementById('shipinputAddress1').value = document.getElementById('inputAddress1').value;
+            document.getElementById('shipinputAddress2').value =  document.getElementById('inputAddress2').value;
+            document.getElementById('shipinputCity').value =  document.getElementById('inputCity').value;
+            document.getElementById('shipinputState').value = document.getElementById('inputState').value;
+            document.getElementById('shipinputZipCode').value = document.getElementById('inputZipCode').value;
+            document.getElementById('shipinputCountry').value = document.getElementById('inputCountry').value;
+          } else {
+            // If the checkbox is unchecked, clear the Shipping Address fields
+            document.getElementById('shipinputName').value = '';
+            document.getElementById('shipinputEmail').value = '';
+            document.getElementById('shipinputPhone').value = '';
+            document.getElementById('shipinputAddress1').value = '';
+            document.getElementById('shipinputAddress2').value = '';
+            document.getElementById('shipinputCity').value =  '';
+            document.getElementById('shipinputState').value = '';
+            document.getElementById('shipinputZipCode').value = '';
+            document.getElementById('shipinputCountry').value = '';
+          }
+        });
+
+
+        const sameascheckbox = document.getElementById('sameAsbilling');
+        const selectElement = document.getElementById('ship-address-select');
+
+        sameascheckbox.addEventListener('change', function () {
+            selectElement.disabled = this.checked;
+        });
+
+
+
+        document.getElementById('confirm').addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default form submission behavior
+
+            const confirmButton = document.getElementById('confirm');
+            const spin = document.getElementById('spin');
+
+            confirmButton.style.display = 'none';
+            spin.style.display = 'block';
+
+            const sameAsbillingCheckbox = document.getElementById('sameAsbilling');
+            const isChecked = sameAsbillingCheckbox.checked;
+            let valueToSend;
+
+            if (isChecked) {
+              valueToSend = parseInt(sameAsbillingCheckbox.value, 10); // or any other value you want to send when it's checked
+            } else {
+
+              let shippining_info = document.getElementById('ship-address-select').value;
+              // billing_info = parseInt(shippining_info, 10);
+              console.log(shippining_info)
+
+              if (shippining_info) {
+                valueToSend = parseInt(shippining_info, 10);
+                console.log(valueToSend)
+              }else{
+                valueToSend = {
+                  name: document.getElementById('shipinputName').value,
+                  email: document.getElementById('shipinputEmail').value,
+                  phone: document.getElementById('shipinputPhone').value,
+                  address: document.getElementById('shipinputAddress1').value,
+                  landmark: document.getElementById('shipinputAddress2').value,
+                  city: document.getElementById('shipinputCity').value,
+                  state: document.getElementById('shipinputState').value,
+                  zipcode: document.getElementById('shipinputZipCode').value,
+                  country: document.getElementById('shipinputCountry').value,
+                };
+              }
+
+              
+            }
+
+            console.log(valueToSend)
+
+            const productRows = document.querySelectorAll('.selected-product');
+
+            const products = [];
+
+            productRows.forEach((row) => {
+              const productId = row.getAttribute('data-product-id');
+              const productName = row.querySelector('.col-product span').textContent;
+              const productPrice = parseFloat(row.querySelector('.col-price .price').textContent);
+              const productQuantity = parseInt(row.querySelector('.col-qty input.item-qty').value);
+              const productSubtotal = parseFloat(row.querySelector('.col-subtotal .subtotal').textContent);
+
+              // Create an object for each product and push it to the 'products' array
+              const product = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                quantity: productQuantity,
+                subtotal: productSubtotal,
+              };
+
+              products.push(product);
+            });
+
+            
+            let billing_info = document.getElementById('address-select').value;
+            billing_info = parseInt(billing_info, 10);
+            console.log(billing_info)
+
+            // Check if an address is selected
+            if (!billing_info) {
+              // If no address is selected, use the form input values
+              billing_info = {
+                name: document.getElementById('inputName').value,
+                email: document.getElementById('inputEmail').value,
+                phone: document.getElementById('inputPhone').value,
+                address: document.getElementById('inputAddress1').value,
+                landmark: document.getElementById('inputAddress2').value,
+                city: document.getElementById('inputCity').value,
+                state: document.getElementById('inputState').value,
+                zipcode: document.getElementById('inputZipCode').value,
+                country: document.getElementById('inputCountry').value,
+              };
+            }
+
+          console.log(billing_info);
+
+
+            const total_amount = document.getElementById('total-amount').textContent;
+            // const tax_amount = document.getElementById('sub_total').textContent;
+            const shipping_cost = document.getElementById('ship_cost').textContent;
+            const amount = document.getElementById('sub_total').textContent;
+            const discount = document.getElementById('coupon_status').textContent;
+            const coupon_code = document.getElementById('coupon_code').textContent;
+
+            const userId = {{user}};
+
+            const checkbox = document.getElementById('email_confirm');
+
+            const Commentscheckbox = document.getElementById('Comments').checked;
+
+
+            var Comments = tinymce.get('orderComments').getContent();
+            console.log(Comments)
+
+            // Get the checked status
+            const email_confirm = checkbox.checked;
+
+            // Send POST request using Axios
+            axios.post('/Al-admin/back_order', {
+              cartItems: products,
+              shipping_info: valueToSend,
+              billing_info: billing_info,
+              total_amount: total_amount,
+              // tax_amount: tax_amount,
+              shipping_cost: shipping_cost,
+              amount: amount,
+              discount: discount,
+              coupon_code: coupon_code,
+              userId:userId,
+              email_confirm:email_confirm,
+              Commentscheckbox:Commentscheckbox,
+              Comments:Comments,
+            })
+              .then(response => {
+                if (response.data.success) {
+                  let order_id = response.data.order_id;
+                  console.log(order_id);
+                  window.location.href = '/Al-admin/sales/order';
+                  // window.location.reload();
+                } else {
+                  alert('Order failed');
+                  window.location.reload();
+                }
+              })
+              .catch(error => {
+                console.error(error);
+              });
+        });
+
+
+        const shipaddressSelect = document.getElementById('ship-address-select');
+        const shippingAddressForm = document.getElementById('update-shippingaddress-form');
+
+        // Function to update form fields based on selected address data
+        function updateShipFormFields() {
+            const shipselectedOption = shipaddressSelect.options[shipaddressSelect.selectedIndex];
+            const shipaddressData = JSON.parse(shipselectedOption.getAttribute('ship-data-address'));
+
+            // Populate form fields with selected address details
+            document.getElementById('shipinputName').value = shipaddressData.name;
+            document.getElementById('shipinputEmail').value = shipaddressData.email;
+            document.getElementById('shipinputPhone').value = shipaddressData.phone;
+            document.getElementById('shipinputAddress1').value = shipaddressData.address;
+            document.getElementById('shipinputAddress2').value = shipaddressData.landmark;
+            document.getElementById('shipinputCity').value = shipaddressData.city;
+            document.getElementById('shipinputState').value = shipaddressData.state;
+            document.getElementById('shipinputZipCode').value = shipaddressData.zipcode;
+            document.getElementById('shipinputCountry').value = shipaddressData.country;
+            
+        }
+
+        // Add change event listener to the select dropdown
+        shipaddressSelect.addEventListener('change', updateShipFormFields);
+
+        // Initial population of form fields based on default selected address
+        updateShipFormFields();
+
+        
+        
+      </script>
+</main>
+
+{% endblock %}

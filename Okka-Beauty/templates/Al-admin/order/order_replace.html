@@ -1,0 +1,992 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+<main class="main" id="top">
+    
+      <div class="container-fluid px-0">
+        <nav class="navbar navbar-vertical navbar-expand-lg">
+          <script>
+            var navbarStyle = window.config.config.phoenixNavbarStyle;
+            if (navbarStyle && navbarStyle !== 'transparent') {
+              document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+            }
+          </script>
+          <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+            <!-- scrollbar removed-->
+            <div class="navbar-vertical-content">
+              <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+              
+                <li class="nav-item"><a class="nav-link " href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
+                  <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
+                  </div>
+                </a>
+                <!-- more inner pages-->
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="image"></span></span><span class="nav-link-text">Banner Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
+                      <li class="collapsed-nav-item-title d-none">Banner Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
+                      <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>  
+                    {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
+                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li>  
+                  {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_offer_banner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'pricebanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Price Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                     
+                  {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner %} <li class="nav-item">
+                    <a class="nav-link " href="{% url 'footerbanner' %}" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center">
+                        <span class="nav-link-text">Footer Banner</span>
+                      </div>
+                    </a>
+                    <!-- more inner pages-->
+                  </li> {% endif %} {% endfor %} {% endif %} {% endif %}      
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#customer" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="customer">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="users"></span></span><span class="nav-link-text">Customer Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="customer">
+                      <li class="collapsed-nav-item-title d-none">Customer Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.user.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'customer' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Customer</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}                  
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+              <li class="nav-item">
+              
+                <div class="nav-item-wrapper">
+                  <a class="nav-link dropdown-indicator label-1" href="#Product" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Product">
+                    <div class="d-flex align-items-center">
+                      <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="shopping-cart"></span></span><span class="nav-link-text">Product Management</span>
+                    </div>
+                  </a>
+                  <div class="parent-wrapper label-1">
+                    <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Product">
+                      <li class="collapsed-nav-item-title d-none">Product Management
+                      </li>
+                      {% if request.user.is_authenticated %} {% if perms.products.view_products %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <li class="nav-item">
+                        <a class="nav-link " href="{% url 'product-list' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Products</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_products %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Add Product</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Sub Categories</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_brand %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Brand</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_attribute %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">Attribute</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Order" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Order">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="truck"></span></span><span class="nav-link-text">Order Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Order">
+                        <li class="collapsed-nav-item-title d-none">Order Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_user_order %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_user_order %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'admin-order' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderdeliveryperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Delivery Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_orderreplacementcomment %} <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'order-replace-page' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Replacement Orders</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+  
+  
+                        {% if request.user.is_authenticated %} {% if perms.checkout.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_replacementcollectperson %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'replacement_person' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Re-Collection Person</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                        <div class="d-flex align-items-center"><span class="nav-link-text">Abandoned cart</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="tag"></span></span><span class="nav-link-text">Coupon</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
+                        <li class="collapsed-nav-item-title d-none">Coupon
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">All Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_couponusage %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon Useage</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">CSV Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="CSV">
+                        <li class="collapsed-nav-item-title d-none">CSV Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.csvdata.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_csv_creation %} <li class="nav-item">
+                          <a class="nav-link" href="3" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Csv Data</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="user-check"></span></span><span class="nav-link-text">User Management</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="User">
+                        <li class="collapsed-nav-item-title d-none">User Management
+                        </li>
+                        {% if request.user.is_authenticated %} {% if perms.auth.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_group %} <li class="nav-item">
+                          <a class="nav-link" href="{% url 'group' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">User Role</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+  
+                <li class="nav-item">
+              
+                  <div class="nav-item-wrapper">
+                    <a class="nav-link dropdown-indicator label-1" href="#Report" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Report">
+                      <div class="d-flex align-items-center">
+                        <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><span data-feather="file-text"></span></span><span class="nav-link-text">Report</span>
+                      </div>
+                    </a>
+                    <div class="parent-wrapper label-1">
+                      <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Report">
+                        <li class="collapsed-nav-item-title d-none">Report
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Order</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_invoice_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Invoice</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_order_shipping_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Shipping</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'generate_coupon_report' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Coupon</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'product-adding' %}" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Abandoned Cart</span>
+                            </div>
+                          </a>
+                          <!-- more inner pages-->
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="navbar-vertical-footer">
+            <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+          </div>
+        </nav>
+        {% include 'Al-admin/base/nav.html' %}
+        <div class="content">
+         
+          <div class="mb-5">
+            <div class="row g-3 mb-4">
+              <div class="col-auto">
+                <h2 class="mb-0">Orders Replacement</h2>
+              </div>
+            </div>
+            <!-- <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">All <span class="text-700 fw-semi-bold">({{all_order_count}})</span></a></li>
+              <li class="nav-item"><a class="nav-link filter-nav" id="payment_status" data-filter="Pending" href="#">payment Pending<span class="text-700 fw-semi-bold">({{payment_Pending_count}})</span></a></li>
+              <li class="nav-item"><a class="nav-link filter-nav" id="order_status" data-filter="Shipped" href="#">Shipping <span class="text-700 fw-semi-bold">({{order_shipped_count}})</span></a></li>
+              <li class="nav-item"><a class="nav-link filter-nav" id="order_status" data-filter="Delivered" href="#">Completed<span class="text-700 fw-semi-bold">({{order_delivered_count}})</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Refunded<span class="text-700 fw-semi-bold">(8)</span></a></li>
+              <li class="nav-item"><a class="nav-link filter-nav" id="order_status" data-filter="Cancelled"href="#">Cancelled<span class="text-700 fw-semi-bold">({{order_cancelled_count}})</span></a></li>
+            </ul> -->
+            <div class="row">
+            <div class="card mt-0 p-3 col me-3">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #FEECDC; border-radius: 50%; text-align: center;">
+                      <!-- <i class="fs-3" data-feather="shopping-cart" style="color: #D03801;"></i> -->
+                      <i data-feather="refresh-cw" style="color: #D03801;"></i>
+                  </span>
+                  
+                <div class="ms-3">
+                  <h4 class="mb-0">Processing</h4>
+                  <p class="text-800 fs-2  fw-bold mb-0">{{processing}}</p>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-0 p-3 col me-3">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #E1EFFE; border-radius: 50%; text-align: center; ">
+                    <span data-feather="user-check" style="color: #3173F3;"></span>  
+                    <!-- <i data-feather="check-circle" style="color: #117C88;"></i> -->
+                    <!-- <i data-feather="refresh-cw" style="color: #3173F3;"></i> -->
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Assign To Agent</h4>
+                  <p class="text-800 fs-2  fw-bold mb-0">{{Assign_agent}}</p>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-0 p-3 col me-3">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #D5F5F6; border-radius: 50%; text-align: center; ">
+                      <i data-feather="check-circle" style="color: #117C88;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Approved</h4>
+                  <p class="text-800 fs-2  fw-bold mb-0">{{Approved}}</p>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-0 p-3 col me-3">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #DEF7EC; border-radius: 50%; text-align: center; ">
+                      <!-- <i data-feather="check" style="color: #1C8765;"></i> -->
+                      <i class="fas fa-shipping-fast" style="color: #1C8765;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Orders Delivered</h4>
+                  <p class="text-800 fs-2 mb-0  fw-bold">{{Delivered}}</p>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-0 p-3 col me-3">
+              <div class="d-flex align-items-center">
+                  <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #ffcccc; border-radius: 50%; text-align: center; ">
+                      <i data-feather="x" style="color: #ff0000;"></i>
+                  </span>
+                <div class="ms-3">
+                  <h4 class="mb-0">Cancelled</h4>
+                  <p class="text-800 fs-2 mb-0  fw-bold">{{Cancelled}}</p>
+                  <a href="#" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
+
+            <div id="orderTable" data-list='{"valueNames":["order","amount","user","payment_status","order_status","delivery_type","date"],"page":10,"pagination":true}'>
+              <div class="mb-4">
+                <div class="row g-3">
+                  <div class="col-auto">
+                    <div class="search-box">
+                      <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
+                        <input class="form-control search-input search" type="search" placeholder="Search orders" aria-label="Search" />
+                        <span class="fas fa-search search-box-icon"></span>
+
+                      </form>
+                    </div>
+                  </div> 
+                  <div class="col-auto scrollbar overflow-hidden-y flex-grow-1">
+                    <div class="btn-group position-static" role="group">
+                      <div class="btn-group position-static text-nowrap" role="group">
+                        <select class="form-select filter-dropdown" data-filter="order_status" aria-label="Default select example">
+                          <option selected="" disabled>Order Status</option>
+                          {% for order_status in order_status %}
+                          <option value="{{order_status.status}}">{{order_status.status}}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      
+                    </div>
+                  </div>
+                 
+                </div>
+              </div>
+              {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                <div class="table-responsive scrollbar mx-n1 px-1">
+                  <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                      <tr>
+                        <th class="white-space-nowrap fs--1 align-middle ps-0" style="width:26px;">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" id="checkbox-bulk-order-select" type="checkbox" data-bulk-select='{"body":"order-table-body"}' />
+                          </div>
+                        </th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="user" style="width:5%;">User</th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order" style="width:5%;">Order Id</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="amount">Amount</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="discprice">Disc price</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="discprice">Tax amount</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="total">Bill amount</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="bill">Bill-to-Name</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="ship">Ship-to-Name</th>
+                        <!-- <th class="sort align-middle ps-8" scope="col" data-sort="customer" style="width:28%; min-width: 250px;">CUSTOMER</th> -->
+                        <th class="sort align-middle text-end" scope="col" data-sort="total">Shipping cost</th>
+                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="payment_type">Payment Method</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="payment_status">Payment Status</th>
+                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="order_status">Ordedr Status</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="date">Ordedr Date</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="Action">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="list" id="order-table-body"> {% for order in order %} <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                        <td class="fs--1 align-middle px-0 py-3">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2453,"total":87,"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"payment_status":{"label":"Complete","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Cash on delivery","date":"Dec 12, 12:56 PM"}' />
+                          </div>
+                        </td>
+                        <td class="order align-middle white-space-nowrap py-2 ps-0">
+                          <a class="fw-semi-bold text-primary" href="{% url 'order-replace-details-page' order_id=order.order_id %}">{{order.user__username}}</a>
+                        </td>
+                        <td class="order align-middle white-space-nowrap py-2 ps-0">{{order.order_id}}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.amount}}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% if disc_price %}AED {{order.disc_price}}{% endif %}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.tax_amount}}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.bill_amount}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.Billing_address__name}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.shipping_address__name}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.shipping_cost}}</td>
+                        <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">{{ order.payment_method__payment_name }}</td>
+                        <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 {% if order.payment_status == 'paid' %} badge-phoenix-success{% elif order.payment_status == 'decline' %}badge-phoenix-danger{% elif order.payment_status == 'canceled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
+                            <span class="badge-label">{{ order.payment_status }}</span>
+                            <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                        </td>
+                        <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 {% if order.order_status__status == 'processing' %} badge-phoenix-success{% elif order.order_status__status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status__status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
+                            <span class="badge-label">{{ order.order_status__status }}</span>
+                            <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                        </td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.order_date}}</td>
+                        <td class="order align-middle white-space-nowrap text-end py-2 ps-0">
+                          <a class="fw-semi-bold text-primary" href="{% url 'order-replace-details-page' order_id=order.order_id %}">View</a>
+                        </td>
+                      </tr> {% endfor %} </tbody>
+                  </table>
+                </div>
+                <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                  <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p>
+                    <a class="fw-semi-bold" href="#!" data-list-view="*">View all <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                    <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                  </div>
+                  <div class="col-auto d-flex">
+                    <button class="page-link" data-list-pagination="prev">
+                      <span class="fas fa-chevron-left"></span>
+                    </button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" data-list-pagination="next">
+                      <span class="fas fa-chevron-right"></span>
+                    </button>
+                  </div>
+                </div>
+              </div> {% else %} {% for group in request.user.groups.all %} {% if perms.user.view_orderreplacementcomment %} <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
+                <div class="table-responsive scrollbar mx-n1 px-1">
+                  <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                      <tr>
+                        <th class="white-space-nowrap fs--1 align-middle ps-0" style="width:26px;">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" id="checkbox-bulk-order-select" type="checkbox" data-bulk-select='{"body":"order-table-body"}' />
+                          </div>
+                        </th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="user" style="width:5%;">User</th>
+                        <th class="sort white-space-nowrap align-middle pe-3" scope="col" data-sort="order" style="width:5%;">Order Id</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="amount">Amount</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="discprice">Disc price</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="discprice">Tax amount</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="total">Bill amount</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="bill">Bill-to-Name</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="ship">Ship-to-Name</th>
+                        <!-- <th class="sort align-middle ps-8" scope="col" data-sort="customer" style="width:28%; min-width: 250px;">CUSTOMER</th> -->
+                        <th class="sort align-middle text-end" scope="col" data-sort="total">Shipping cost</th>
+                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="payment_type">Payment Method</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="payment_status">Payment Status</th>
+                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="order_status">Ordedr Status</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="date">Ordedr Date</th>
+                        <th class="sort align-middle text-end pe-0" scope="col" data-sort="Action">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="list" id="order-table-body"> {% for order in order %} <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                        <td class="fs--1 align-middle px-0 py-3">
+                          <div class="form-check mb-0 fs-0">
+                            <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2453,"total":87,"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"payment_status":{"label":"Complete","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Cash on delivery","date":"Dec 12, 12:56 PM"}' />
+                          </div>
+                        </td>
+                        <td class="order align-middle white-space-nowrap py-2 ps-0">
+                          <a class="fw-semi-bold text-primary" href="{% url 'order-replace-details-page' order_id=order.order_id %}">{{order.user__username}}</a>
+                        </td>
+                        <td class="order align-middle white-space-nowrap py-2 ps-0">{{order.order_id}}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.amount}}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% if disc_price %}AED {{order.disc_price}}{% endif %}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.tax_amount}}</td>
+                        <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.bill_amount}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.Billing_address__name}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.shipping_address__name}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.shipping_cost}}</td>
+                        <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">{{ order.payment_method__payment_name }}</td>
+                        <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 {% if order.payment_status == 'paid' %} badge-phoenix-success{% elif order.payment_status == 'decline' %}badge-phoenix-danger{% elif order.payment_status == 'canceled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
+                            <span class="badge-label">{{ order.payment_status }}</span>
+                            <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                        </td>
+                        <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 {% if order.order_status__status == 'processing' %} badge-phoenix-success{% elif order.order_status__status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status__status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
+                            <span class="badge-label">{{ order.order_status__status }}</span>
+                            <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                        </td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.order_date}}</td>
+                        <td class="order align-middle white-space-nowrap text-end py-2 ps-0">
+                          <a class="fw-semi-bold text-primary" href="{% url 'order-replace-details-page' order_id=order.order_id %}">View</a>
+                        </td>
+                      </tr> {% endfor %} </tbody>
+                  </table>
+                </div>
+                <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                  <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p>
+                    <a class="fw-semi-bold" href="#!" data-list-view="*">View all <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                    <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
+                    </a>
+                  </div>
+                  <div class="col-auto d-flex">
+                    <button class="page-link" data-list-pagination="prev">
+                      <span class="fas fa-chevron-left"></span>
+                    </button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" data-list-pagination="next">
+                      <span class="fas fa-chevron-right"></span>
+                    </button>
+                  </div>
+                </div>
+              </div> {% endif %} {% endfor %} {% endif %} {% endif %}
+            </div>
+          </div>
+      </div>
+      </div>
+      
+      <script>
+         document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.filter-dropdown');
+
+        dropdowns.forEach(dropdown => {
+            dropdown.addEventListener('change', function() {
+                const selectedValue = this.value;
+                const filterType = this.getAttribute('data-filter');
+                const csrfToken = "{{ csrf_token }}";
+
+                axios.post('/Al-admin/order-filter-data', {
+                    filter_type: filterType,
+                    filter_value: selectedValue
+                }, {
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+                })
+                .then(response => {
+                  // const responseData = JSON.parse(response.data);
+                const responseData = response.data
+                const tableBody = document.querySelector('#order-table-body');
+
+                // Clear existing table rows
+                tableBody.innerHTML = '';
+
+                responseData.forEach(item => {
+                    console.log(item)
+                    const row = document.createElement('tr');
+                    row.classList.add('position-static');
+                    row.setAttribute('data-product-id', item.pk);
+
+                    // Determine the CSS classes based on item.order_status__status
+                    let statusClasses;
+                    if (item.order_status__status === 'processing') {
+                        statusClasses = 'badge-phoenix-success';
+                    } else if (item.order_status__status === 'order payment has been decline') {
+                        statusClasses = 'badge-phoenix-danger';
+                    } else if (item.order_status__status === 'Cancelled') {
+                        statusClasses = 'badge-phoenix-danger';
+                    } else {
+                        statusClasses = 'badge-phoenix-warning';
+                    }
+
+                    // Determine the CSS classes based on item.payment_status
+                    let paymentStatusClasses;
+                    if (item.payment_status === 'paid') {
+                        paymentStatusClasses = 'badge-phoenix-success';
+                    } else if (item.payment_status === 'decline') {
+                        paymentStatusClasses = 'badge-phoenix-danger';
+                    } else if (item.payment_status === 'canceled') {
+                        paymentStatusClasses = 'badge-phoenix-danger';
+                    } else {
+                        paymentStatusClasses = 'badge-phoenix-warning';
+                    }
+
+                    // Create and append table cells to the row (similar to your HTML structure)
+                   // Adjust the property names based on your data structure
+                  row.innerHTML = `
+                      <td class="fs--1 align-middle px-0 py-3">
+                        <div class="form-check mb-0 fs-0">
+                          <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2453,"total":87,"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"payment_status":{"label":"Complete","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Cash on delivery","date":"Dec 12, 12:56 PM"}' />
+                        </div>
+                      </td>
+                      <td class="order align-middle white-space-nowrap py-2 ps-0">
+                            <a class="fw-semi-bold text-primary" href="/Al-admin/order-details/${item.order_id}/">${item.user__username}</a>
+                      </td>   
+                      <td class="order align-middle white-space-nowrap py-2 ps-0">${item.order_id}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED ${item.amount}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% if disc_price %}AED ${item.disc_price}{% endif %}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED ${item.tax_amount}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED ${item.bill_amount}</td>   
+                      <td class="total align-middle text-700 text-end py-2">${item.Billing_address__name}</td>
+                      <td class="total align-middle text-700 text-end py-2">${item.shipping_address__name}</td>    
+                      <td class="total align-middle text-700 text-end py-2">${item.shipping_cost}</td>       
+                      <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">${ item.payment_method__payment_name }</td>
+                      <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 ${paymentStatusClasses}">
+                              <span class="badge-label">${item.payment_status}</span>
+                              <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                      </td>
+                      <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 ${statusClasses}">
+                              <span class="badge-label">${item.order_status__status}</span>
+                              <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                      </td>
+                      <td class="total align-middle text-700 text-end py-2">${item.order_date}</td>
+                      <td class="order align-middle white-space-nowrap text-end py-2 ps-0">
+                        <a class="fw-semi-bold text-primary" href="#">View</a>
+                      </td>
+                      
+                      
+                  `;
+
+                    tableBody.appendChild(row);
+                });
+            })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    });
+
+
+  // Assuming you are inside a JavaScript function
+  document.addEventListener('DOMContentLoaded', function() {
+      const navLinks = document.querySelectorAll('.filter-nav');
+
+      navLinks.forEach(navLink => {
+          navLink.addEventListener('click', function(event) {
+              event.preventDefault();
+              const filter_value = this.getAttribute('data-filter');
+              const filter_type = this.id;
+              const csrfToken = "{{ csrf_token }}";
+
+              axios.post('/Al-admin/order-filter-data', {
+                filter_value: filter_value,
+                filter_type : filter_type,
+                }, {
+                    headers: {
+                        'X-CSRFToken': csrfToken
+                    }
+              })
+              .then(response => {
+                  // Handle the response data as needed
+                  const responseData = response.data
+                const tableBody = document.querySelector('#order-table-body');
+
+                // Clear existing table rows
+                tableBody.innerHTML = '';
+
+                responseData.forEach(item => {
+                    console.log(item)
+                    const row = document.createElement('tr');
+                    row.classList.add('position-static');
+                    row.setAttribute('data-product-id', item.pk);
+
+                    // Determine the CSS classes based on item.order_status__status
+                    let statusClasses;
+                    if (item.order_status__status === 'processing') {
+                        statusClasses = 'badge-phoenix-success';
+                    } else if (item.order_status__status === 'order payment has been decline') {
+                        statusClasses = 'badge-phoenix-danger';
+                    } else if (item.order_status__status === 'Cancelled') {
+                        statusClasses = 'badge-phoenix-danger';
+                    } else {
+                        statusClasses = 'badge-phoenix-warning';
+                    }
+
+                    // Determine the CSS classes based on item.payment_status
+                    let paymentStatusClasses;
+                    if (item.payment_status === 'paid') {
+                        paymentStatusClasses = 'badge-phoenix-success';
+                    } else if (item.payment_status === 'decline') {
+                        paymentStatusClasses = 'badge-phoenix-danger';
+                    } else if (item.payment_status === 'canceled') {
+                        paymentStatusClasses = 'badge-phoenix-danger';
+                    } else {
+                        paymentStatusClasses = 'badge-phoenix-warning';
+                    }
+
+                    // Create and append table cells to the row (similar to your HTML structure)
+                   // Adjust the property names based on your data structure
+                  row.innerHTML = `
+                  <td class="fs--1 align-middle px-0 py-3">
+                        <div class="form-check mb-0 fs-0">
+                          <input class="form-check-input" type="checkbox" data-bulk-select-row='{"order":2453,"total":87,"customer":{"avatar":"/team/32.webp","name":"Carry Anna"},"payment_status":{"label":"Complete","type":"badge-phoenix-success","icon":"check"},"fulfilment_status":{"label":"Cancelled","type":"badge-phoenix-secondary","icon":"x"},"delivery_type":"Cash on delivery","date":"Dec 12, 12:56 PM"}' />
+                        </div>
+                      </td>
+                          
+                      <td class="order align-middle white-space-nowrap py-2 ps-0">
+                            <a class="fw-semi-bold text-primary" href="/Al-admin/order-details/${item.order_id}/">${item.user__username}</a>
+                          </td>   
+                      <td class="order align-middle white-space-nowrap py-2 ps-0">${item.order_id}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED ${item.amount}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% if disc_price %}AED ${item.disc_price}{% endif %}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED ${item.tax_amount}</td>
+                      <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED ${item.bill_amount}</td>   
+                      <td class="total align-middle text-700 text-end py-2">${item.Billing_address__name}</td>
+                      <td class="total align-middle text-700 text-end py-2">${item.shipping_address__name}</td>    
+                      <td class="total align-middle text-700 text-end py-2">${item.shipping_cost}</td>       
+                      <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">${ item.payment_method__payment_name }</td>
+                      <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 ${paymentStatusClasses}">
+                              <span class="badge-label">${item.payment_status}</span>
+                              <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                      </td>
+                      <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
+                          <span class="badge badge-phoenix fs--2 ${statusClasses}">
+                              <span class="badge-label">${item.order_status__status}</span>
+                              <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
+                          </span>
+                      </td>
+                      <td class="total align-middle text-700 text-end py-2">${item.order_date}</td>
+                      <td class="order align-middle white-space-nowrap text-end py-2 ps-0">
+                        <a class="fw-semi-bold text-primary" href="#">View</a>
+                      </td>
+                  `;
+
+                    tableBody.appendChild(row);
+                });
+            })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          });
+      });
+  });
+
+
+    </script>
+</main>
+
+{% endblock %}

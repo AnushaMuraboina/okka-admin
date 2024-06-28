@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+{% if whishlist %}
+<div class="container pb-5 pt-3">
+    <div class="row ">
+      <h3 class="wishlist-product-details pb-3 ">Your Products Wishlists </h3>
+      <div id="text-cart-whishlist" style="display:none;background-color: rgb(245,245,245);"
+        class=" text-dark  py-2 mb-3 ">
+        <a href="#" class="px-3 mb-3 text-dark"><i class="fa-solid fa-xmark"></i> &nbsp;Remove </a>
+        <a href="#" class="text-dark"> <i class="fa-solid fa-xmark"></i> &nbsp;select all</a>
+        <a href="#" style="display:none;"> <i class="fa-solid fa-xmark "></i> &nbsp;Deselect all</a>
+      </div>
+      <!-- <div class="my-slider-cart border "> -->
+        {% for item in whishlist %}
+        {% if forloop.counter0|divisibleby:4 %}
+        <div class="row d-flex">
+        {% endif %}
+            <div class="col-12 col-sm-6 col-lg-3 border">
+                <div class="product item product-item-details-1 ">
+                    <div class="whishlist-remover d-flex justify-content-between mx-4 py-3">
+                        <div class="whishlist-text">
+                            <a class="text-dark" href="{% url 'remove_wishlist_item' wishlist_item_id=item.id %}"><i class="fa-solid fa-xmark"></i> &nbsp;Remove</a>
+                        </div>
+                        <input type="checkbox" id="wish-myCheck" onclick="wish_myFunction()">
+                    </div>
+                    <div class="product-image">
+                        <a href="" class="image">
+                            {% if item.product.images.all %}
+                            {% for image in item.product.images.all|slice:":2" %}
+                                {% if forloop.counter == 1 %}
+                                <a href="{% url 'product_detail' item.product.slug %}" class="image">
+                                    <img src="{{ image.image.url }}" class="pic-1">
+                                </a>
+                                {% endif %}
+                                {% if forloop.counter == 2 %}
+                                <a href="{% url 'product_detail' item.product.slug %}" class="image">
+                                    <img src="{{ image.image.url }}" class="pic-2">
+                                </a>
+                                {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            <!-- <img src="../images/3.jpg" class="pic-1">
+                            <img src="../images/4.jpg" class="pic-2"> -->
+                        </a>
+                        {% if item.product.in_stock == 'Outofstock' %}
+                        <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                            out</span></div>
+                        {% endif %}
+                        {% if item.product.in_stock == 'Instock' %}
+                        {% if item.product.sale_price %}
+                        <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+                        {% endif %}
+                        {% endif %}
+                        <ul class="links">
+                            <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                            <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i class="fa fa-heart-o" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="content">
+                        <h3 class="title"><a href="{% url 'product_detail' item.product.slug %}">{{item.product.name}}</a></h3>
+                        <div class="price">{% if item.product.sale_price %}<span><s>{{item.product.regular_price}} AED</s></span>{{item.product.sale_price}} AED{% else %}{{item.product.regular_price}} AED{% endif %}</div>
+                        <!-- <button class="carting"><a href="#">SELECT OPTIONS</a></button> -->
+                        {% if item.product.in_stock == 'Instock' %}
+                            <button id="{{item.product.id}}" class="btn-add_cart ">
+                            <p class="mb-0">ADD TO CART</p>
+                            <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+                            </button>
+                            {% else %}
+                            <button class="btn-add_cart ">
+                            <p class="mb-0">READ MORE</p>
+                            <i class="fa-regular fa-eye addcart-icon text-dark"></i>
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:4 or forloop.last %}
+        </div>
+        {% endif %}
+    {% endfor %}
+    
+      
+      
+      </div>
+    <!-- </div> -->
+    </div>
+    {% else %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 text-center empty-cart-page">
+                <img src="../images/card-2.jpeg" alt="" width="30%" height="auto">
+                <h1 class="py-3 cart-empty-text ">This wishlist is empty.</h1>
+                <p class="pt-2 pb-3 cart-empty-subtext">You don't have any products in the wishlist yet. You will find a lot of interesting products on our "Shop" page.</p>
+                <!-- Removed text-center class from here -->
+                <button class="empty-cart-button m-0">
+                    <p class="mb-0">RETURN TO SHOP</p>
+                </button>
+            </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+
+{% endblock %}

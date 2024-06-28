@@ -1,0 +1,34 @@
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+   
+    <div class="container  ">
+        <h4  class="brands-main-header py-4">BRANDS NAME</h4> 
+        <div class="row brands-caontainer ">
+            <div >
+                <ul class="brands-alphabets ">
+                    {% for initial, brands_chunk in grouped_brands.items %}
+                    <li><a class="btn brands-alpha-names" href="#{{ initial }}">{{ initial }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="container pt-5">
+        <div class="row brands-a-to-z d-flex">
+            {% for initial, brands_chunk in grouped_brands.items %}
+                <div class="col-md-3 col-12 col-sm-6 brands-from-a">
+                    <h3 class="brands-alpha-head" id="{{ initial }}">{{ initial }}</h3>
+                    <ul class="brands-alpha-sublinks">
+                        {% for brand in brands_chunk %}
+                            <li><a href="{% url 'product-brand' brand.slug %}">{{ brand.name }}</a></li> 
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+            </div>
+    </div>
+
+
+
+{% endblock %}
