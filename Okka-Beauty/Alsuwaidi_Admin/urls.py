@@ -18,6 +18,12 @@ urlpatterns = [
    path('create/brand/', views.create_brand, name='create_brand'),
    path('category-admin', views.category_admin, name="category-admin"),
    path('subcategory-admin', views.subcategory_admin, name="subcategory-admin"),
+   
+   path('childsubcategory-admin', views.childsubcategory_admin, name="childsubcategory-admin"),
+   path('childsubcategory-admin/<int:childsubcategory_id>/delete/', views.delete_childsubcategory, name='delete_childsubcategory'),
+   path('childsubcategory-admin-admin/<int:childsubcategory_id>', views.childsubcategory_admin, name='childsubcategory-admin'),
+   
+   
    path('brand-admin', views.brand_admin, name="brand-admin"),
    path('export-xls', views.export_to_xls, name="export-xls"),
    path('download-sample-xls', views.download_sample_xls, name="download-sample-xls"),
