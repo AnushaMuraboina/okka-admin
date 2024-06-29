@@ -855,7 +855,7 @@ def category_admin(request, category_id=None):
         else:
             # If not, create a new instance
             form = CategoryForm(data=request.POST, files=request.FILES)
-        
+        print('form', form)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('category-admin'))
