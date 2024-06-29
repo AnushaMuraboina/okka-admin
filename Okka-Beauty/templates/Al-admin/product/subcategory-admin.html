@@ -494,7 +494,7 @@
               <div class="mb-9">
                 <div class="row g-3 mb-4">
                   <div class="col-auto">
-                    <h2 class="mb-0">Product Subcategories </h2>
+                    <h2 class="mb-0">Sub Category </h2>
                   </div>
                 </div>
                 <!-- <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
@@ -562,11 +562,11 @@
                       <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description" name="meta_Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div>  -->
                       <div class="mb-6">
                         <h4 class="mb-3">Slot Position</h4>
-                        <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" />
+                        <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="0" />
                       </div>
                       <div class="form-check mb-6">
                         <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label>
-                        <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" />
+                        <input class="form-check-input" id="Activestatus" name="active" type="checkbox" />
                       </div>
                       <!-- <div class="form-check mb-6"><label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label><input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /></div> -->
                       <div class="mb-6">
@@ -604,11 +604,11 @@
                       <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description" name="meta_Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div>  -->
                       <div class="mb-6">
                         <h4 class="mb-3">Slot Position</h4>
-                        <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" />
+                        <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="0" />
                       </div>
                       <div class="form-check mb-6">
                         <label class="form-check-label text-900 fs-0" for="Activestatus">Active</label>
-                        <input class="form-check-input" id="Activestatus" name="Active" type="checkbox" />
+                        <input class="form-check-input" id="Activestatus" name="active" type="checkbox" />
                       </div>
                       <!-- <div class="form-check mb-6"><label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label><input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /></div> -->
                       <div class="mb-6">
@@ -649,7 +649,7 @@
                             </td>
                             <td class="align-middle white-space-nowrap py-0">
                               <div class="">
-                                <img src="{{ MEDIA_PREFIX }}{{subCategory_value.image}}" alt="{{subCategory_value.name}}" width="54px" />
+                               {% if subCategory_value.image %} <img src="{{ MEDIA_PREFIX }}{{subCategory_value.image}}" alt="{{subCategory_value.name}}" width="54px" />{% else %}-{% endif %}
                               </div>
                             </td>
                             <td class="product align-middle ps-4">
@@ -658,9 +658,9 @@
                             <td class="product align-middle ps-4">
                               <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.name}}</a>
                             </td>
-                            <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{subCategory_value.Description}}</td>
+                            <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{% if subCategory_value.slot_position %}{{subCategory_value.slot_position}}{% else %}0{% endif %}</td>
                             <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
-                              <!-- {{product.active}} --> {% if subCategory_value.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                              <!-- {{product.active}} --> {% if subCategory_value.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                             </td>
                             <td class="align-middle white-space-nowrap py-0">
                               {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
@@ -699,39 +699,12 @@
                                         <!-- <div class="mb-6"><h4 class="mb-3"> SubCategory Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
                                         <div class="mb-3">
                                           <h4 class="mb-3">SubCategory Description</h4>
-                                          <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{subCategory_value.Description}}</textarea>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{subCategory_value.description}}</textarea>
                                         </div>
                                         <div class="mb-6">
                                           <h4 class="mb-3">SubCategory image</h4> {% if subCategory_value.image %} <img src="{{ MEDIA_URL }}{{ subCategory_value.image.url}}" alt="Category Image" width="50px" />
                                           <p>Current image: {{ subCategory_value.image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="image" accept="image/*" value="{{subCategory_value.image.name}}">
                                         </div>
-                                        <!-- <div class="mb-6">
-                                          <h4 class="mb-3">SubCategory image</h4>
-                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                            <div class="fallback">
-                                              <input name="brand_img" type="file" id="subcategory_img" />
-                                            </div> {% if subCategory_value.image %} <div class="d-flex">
-                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                                <img class="dz-image" src="{{ subCategory_value.image.url }}" alt="{{subCategory_value.image}}" data-dz-thumbnail="data-dz-thumbnail" />
-                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove" data-image-id="{{ subCategory_value.id }}">
-                                                  <span data-feather="x"></span>
-                                                </a>
-                                              </div>
-                                            </div> {% endif %} <div class="dz-preview d-flex flex-wrap">
-                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                                <img class="dz-image update-subcategory-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                  <span data-feather="x"></span>
-                                                </a>
-                                              </div>
-                                            </div>
-                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                              <br />
-                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                            </div>
-                                          </div>
-                                        </div> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">Page Title</h4>
                                           <input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." value="{{subCategory_value.page_Title}}" />
@@ -746,10 +719,10 @@
                                         </div>
                                         <div class="mb-6">
                                           <h4 class="mb-3">Slot Position</h4>
-                                          <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{subCategory_value.Slot_Position}}" />
+                                          <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="{{subCategory_value.slot_position}}" />
                                         </div>
                                         <div class="form-check mb-6">
-                                          <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if subCategory_value.is_Active == True %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" /> {% endif %}
+                                          <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if subCategory_value.active == True %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" /> {% endif %}
                                         </div>
                                         <div class="form-check mb-6">
                                           <label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label> {% if subCategory_value.Include_In_Navogation_Menu == True %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /> {% endif %}
@@ -814,7 +787,7 @@
                             </td>
                             <td class="align-middle white-space-nowrap py-0">
                               <div class="">
-                                <img src="{{ MEDIA_PREFIX }}{{subCategory_value.image}}" alt="{{subCategory_value.name}}" width="54px" />
+                                {% if subCategory_value.image %} <img src="{{ MEDIA_PREFIX }}{{subCategory_value.image}}" alt="{{subCategory_value.name}}" width="54px" />{% else %}-{% endif %}
                               </div>
                             </td>
                             <td class="product align-middle ps-4">
@@ -823,9 +796,9 @@
                             <td class="product align-middle ps-4">
                               <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.name}}</a>
                             </td>
-                            <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{subCategory_value.Description}}</td>
+                            <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{% if subCategory_value.slot_position %}{{subCategory_value.slot_position}}{% else %}0{% endif %}</td>
                             <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
-                              <!-- {{product.active}} --> {% if subCategory_value.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                              <!-- {{product.active}} --> {% if subCategory_value.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                             </td>
                             <td class="align-middle white-space-nowrap py-0">
                               {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{subCategory_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_subcategory %} <button class="btn btn-danger delete-subcategory" data-coupon-id="{{ subCategory_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
@@ -864,7 +837,7 @@
                                         <!-- <div class="mb-6"><h4 class="mb-3"> SubCategory Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
                                         <div class="mb-3">
                                           <h4 class="mb-3">SubCategory Description</h4>
-                                          <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{subCategory_value.Description}}</textarea>
+                                          <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{subCategory_value.description}}</textarea>
                                         </div>
                                         <div class="mb-6">
                                           <h4 class="mb-3">SubCategory image</h4> {% if subCategory_value.image %} <img src="{{ MEDIA_URL }}{{ subCategory_value.image.url}}" alt="Category Image" width="50px" />
@@ -911,10 +884,10 @@
                                         </div>
                                         <div class="mb-6">
                                           <h4 class="mb-3">Slot Position</h4>
-                                          <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{subCategory_value.Slot_Position}}" />
+                                          <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="{{subCategory_value.slot_position}}" />
                                         </div>
                                         <div class="form-check mb-6">
-                                          <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if subCategory_value.is_Active == True %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" /> {% endif %}
+                                          <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if subCategory_value.active == True %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" /> {% endif %}
                                         </div>
                                         <div class="form-check mb-6">
                                           <label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label> {% if subCategory_value.Include_In_Navogation_Menu == True %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /> {% endif %}
