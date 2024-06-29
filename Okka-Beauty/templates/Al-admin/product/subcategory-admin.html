@@ -503,7 +503,7 @@
                   <li class="nav-item"><a class="nav-link" href="#">Drafts <span class="text-700 fw-semi-bold">()</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="#">On discount <span class="text-700 fw-semi-bold">()</span></a></li>
                 </ul> -->
-                <div id="products" data-list='{"valueNames":["Main category","subcategory name","Description"],"page":10,"pagination":true}'>
+                <div id="products" data-list='{"valueNames":["parent_category","name","slot_position","active"],"page":10,"pagination":true}'>
                   <div class="mb-4">
                     <div class="row g-3">
                       <div class="col-auto">
@@ -543,7 +543,7 @@
                       <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div> {% endif %} <form method="post" id="subcategory-form" action="{% url 'subcategory-admin' %}" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
                         <h4 class="mb-3">Main Category</h4>
-                        <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                        <select class="form-select mb-3" id="categorySelect" name="parent_category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
                           <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.id}}">{{Categorys.name}}</option> {% endfor %}
                         </select>
                       </div>
@@ -585,7 +585,7 @@
                       <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div> {% endif %} <form method="post" id="subcategory-form" action="{% url 'subcategory-admin' %}" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
                         <h4 class="mb-3">Main Category</h4>
-                        <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                        <select class="form-select mb-3" id="categorySelect" name="parent_category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
                           <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.id}}">{{Categorys.name}}</option> {% endfor %}
                         </select>
                       </div>
@@ -635,7 +635,8 @@
                             <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">Image</th>
                             <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="Main category">Main category</th>
                             <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="subcategory name">NAME</th>
-                            <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th>
+                            <th class="sort text-center align-middle  ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th>
+                            <!-- <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th> -->
                             <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
                             <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
                           </tr>
@@ -652,7 +653,7 @@
                               </div>
                             </td>
                             <td class="product align-middle ps-4">
-                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.main_Category}}</a>
+                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.parent_category}}</a>
                             </td>
                             <td class="product align-middle ps-4">
                               <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.name}}</a>
@@ -680,13 +681,13 @@
                                         <!-- <input type="hidden" name="subcategory_id" value="{{subCategory_value.id}}"> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">Main Category</h4>
-                                          <!-- <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" selected disabled>select category</option>
+                                          <!-- <select class="form-select mb-3" id="categorySelect" name="parent_category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" selected disabled>select category</option>
                                                               {% for Categorys in Categorys %}
                                                               <option value="{{Categorys.name}}">{{Categorys.name}}</option>
                                                               {% endfor %}
                                                             </select> -->
-                                          <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
-                                            <option value="" disabled>select category</option> {% for Categorys in Categorys %} <option value="{{ Categorys.id }}" {% if Categorys.name|lower == subCategory_value.main_Category|lower %}selected{% endif %}>
+                                          <select class="form-select mb-3" id="categorySelect" name="parent_category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                                            <option value="" disabled>select category</option> {% for Categorys in Categorys %} <option value="{{ Categorys.id }}" {% if Categorys.name|lower == subCategory_value.parent_category|lower %}selected{% endif %}>
                                               {{ Categorys.name }}
                                             </option> {% endfor %}
                                           </select>
@@ -817,7 +818,7 @@
                               </div>
                             </td>
                             <td class="product align-middle ps-4">
-                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.main_Category}}</a>
+                              <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.parent_category}}</a>
                             </td>
                             <td class="product align-middle ps-4">
                               <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{subCategory_value.name}}</a>
@@ -845,13 +846,13 @@
                                         <!-- <input type="hidden" name="subcategory_id" value="{{subCategory_value.id}}"> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">Main Category</h4>
-                                          <!-- <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" selected disabled>select category</option>
+                                          <!-- <select class="form-select mb-3" id="categorySelect" name="parent_category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" selected disabled>select category</option>
                                                               {% for Categorys in Categorys %}
                                                               <option value="{{Categorys.name}}">{{Categorys.name}}</option>
                                                               {% endfor %}
                                                             </select> -->
-                                          <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
-                                            <option value="" disabled>select category</option> {% for Categorys in Categorys %} <option value="{{ Categorys.id }}" {% if Categorys.name|lower == subCategory_value.main_Category|lower %}selected{% endif %}>
+                                          <select class="form-select mb-3" id="categorySelect" name="parent_category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
+                                            <option value="" disabled>select category</option> {% for Categorys in Categorys %} <option value="{{ Categorys.id }}" {% if Categorys.name|lower == subCategory_value.parent_category|lower %}selected{% endif %}>
                                               {{ Categorys.name }}
                                             </option> {% endfor %}
                                           </select>

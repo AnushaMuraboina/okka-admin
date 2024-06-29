@@ -647,8 +647,6 @@
                           {% endfor %}
                       {% endif %}
                   {% endif %}
-
-
                     </div>
                   </div>
                 </div>                
@@ -698,11 +696,25 @@
                           </td>
                           <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.sku}}</td>
                           <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
-                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.categories}}</td>
-                          
-                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.subcategories }}</td>
+                          <!-- <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.categories}}</td> -->
+                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            {% for category in product.categories.all %}
+                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
                           </td>
-                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brands}}</td>
+                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            {% for subcategory in product.subcategories.all %}
+                            {{ subcategory.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                          </td>
+                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            {% for brand in product.brands.all %}
+                            {{ brand.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                          </td>
+                          <!-- <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.subcategories }}</td> -->
+                         
+                          <!-- <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brands}}</td> -->
                           <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock }}</td>
                           <!-- <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td> -->
                           <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.regular_price}}</td>
@@ -771,10 +783,26 @@
                           </td>
                           <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.sku}}</td>
                           <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
-                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.categories}}</td>
-                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.subcategories }}</td>
+                          <!-- <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.categories}}</td>
+                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.subcategories }}</td> -->
+                          <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            {% for category in product.categories.all %}
+                            {{ category.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
                           </td>
-                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brands}}</td>
+                          <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            {% for subcategory in product.subcategories.all %}
+                            {{ subcategory.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                          </td>
+                          <!-- </td> -->
+                          <!-- <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brands}}</td> -->
+                          <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
+                            {% for brand in product.brands.all %}
+                            {{ brand.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                          </td>
+
                           <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock }}</td>
                           <!-- <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td> -->
                           <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.regular_price}}</td>

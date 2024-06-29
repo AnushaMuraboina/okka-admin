@@ -543,11 +543,11 @@
                     
                     <div class="mb-6">
                       <h4 class="mb-3">Slot Position</h4>
-                      <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" />
+                      <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="0" />
                     </div>
                     <div class="form-check mb-6">
                       <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label>
-                      <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" />
+                      <input class="form-check-input" id="Activestatus" name="active" type="checkbox" />
                     </div>
                     <!-- <div class="form-check mb-6"><label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label><input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /></div> -->
                     <div class="mb-6">
@@ -576,11 +576,11 @@
                     
                     <div class="mb-6">
                       <h4 class="mb-3">Slot Position</h4>
-                      <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="0" />
+                      <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="0" />
                     </div>
                     <div class="form-check mb-6">
                       <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label>
-                      <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" />
+                      <input class="form-check-input" id="Activestatus" name="active" type="checkbox" />
                     </div>
                     <!-- <div class="form-check mb-6"><label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label><input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /></div> -->
                     <div class="mb-6">
@@ -604,10 +604,10 @@
                               <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
                             </div>
                           </th>
-                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">Image</th>
+                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">image</th>
                           <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="category name">NAME</th>
-                          
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th>
+                          <th class="sort white-space-nowrap align-middle ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th>
+                          <!-- <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th> -->
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
                         </tr>
@@ -615,7 +615,7 @@
                       <tbody class="list" id="products-table-body"> {% for category_value in category_value %} <tr class="position-static">
                           <td class="fs--1 align-middle">
                             <div class="form-check mb-0 fs-0">
-                              <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                              <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productimage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
                             </div>
                           </td>
                           <td class="align-middle white-space-nowrap py-0">
@@ -627,9 +627,9 @@
                             <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{category_value.name}}</a>
                           </td>
                           
-                          <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{category_value.Description|slice:":50"}}</td>
+                          <!-- <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{category_value.Description|slice:":50"}}</td> -->
                           <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
-                            <!-- {{product.active}} --> {% if category_value.is_Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                            <!-- {{product.active}} --> {% if category_value.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                           </td>
                           <td class="align-middle white-space-nowrap py-0">
                             {% if request.user.is_authenticated %} {% if perms.products.view_category %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{category_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{category_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_category %} <button class="btn btn-danger delete-category" data-coupon-id="{{ category_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_category %} <button class="btn btn-danger delete-category" data-coupon-id="{{ category_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
@@ -652,12 +652,12 @@
                                         <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." value="{{category_value.name}}" />
                                       </div>
                                       <!-- <div class="mb-6"><h4 class="mb-3"> Category Description</h4><textarea class="tinymce" id="description" name="description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' >{{category_value.Description}}</textarea></div> -->
-                                      <div class="mb-3">
+                                      <!-- <div class="mb-3">
                                         <h4 class="mb-3">Category Description</h4>
                                         <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{category_value.Description}}</textarea>
-                                      </div>
+                                      </div> -->
                                       <div class="mb-6">
-                                        <h4 class="mb-3">Category image</h4> {% if category_value.image %} <img src="{{ MEDIA_URL }}{{ category_value.image.url}}" alt="Category Image" width="50px" />
+                                        <h4 class="mb-3">Category image</h4> {% if category_value.image %} <img src="{{ MEDIA_URL }}{{ category_value.image.url}}" alt="Category image" width="50px" />
                                         <p>Current image: {{ category_value.image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="image" accept="image/*" value="{{category_value.image.name}}">
                                       </div>
                                       
@@ -688,7 +688,7 @@
                                           </div>
                                         </div>
                                       </div> -->
-                                      <div class="mb-6">
+                                      <!-- <div class="mb-6">
                                         <h4 class="mb-3">Page Title</h4>
                                         <input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." value="{{category_value.page_Title}}" />
                                       </div>
@@ -699,18 +699,18 @@
                                       <div class="mb-3">
                                         <h4 class="mb-3">Meta Description</h4>
                                         <textarea class="form-control" placeholder="Leave a comment here" id="meta_Description_update" name="meta_Description_update" style="height: 100px">{{category_value.Meta_Description}}</textarea>
-                                      </div>
+                                      </div> -->
                                       <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description_update" name="meta_Description_update" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' >{{category_value.Meta_Description}}</textarea></div>   -->
                                       <div class="mb-6">
                                         <h4 class="mb-3">Slot Position</h4>
-                                        <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{category_value.Slot_Position}}" />
+                                        <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="{{category_value.slot_position}}" />
                                       </div>
                                       <div class="form-check mb-6">
-                                        <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if category_value.is_Active == True %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" /> {% endif %}
+                                        <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if category_value.active == True %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" /> {% endif %}
                                       </div>
-                                      <div class="form-check mb-6">
+                                      <!-- <div class="form-check mb-6">
                                         <label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label> {% if category_value.Include_In_Navogation_Menu == True %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /> {% endif %}
-                                      </div>
+                                      </div> -->
                                       <div class="mb-6">
                                         {% if request.user.is_authenticated %} {% if perms.products.change_category %} <button class="btn btn-primary text-sm-start" id="update-category" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_category %} <button class="btn btn-primary text-sm-start" id="update-category" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                         <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
@@ -755,9 +755,10 @@
                               <input class="form-check-input" id="checkbox-bulk-products-select" type="checkbox" data-bulk-select='{"body":"products-table-body"}' />
                             </div>
                           </th>
-                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">Image</th>
+                          <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">image</th>
                           <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="category name">NAME</th>
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th>
+                          <th class="sort white-space-nowrap align-middle ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th>
+                          <!-- <th class="sort align-middle text-end ps-4" scope="col" data-sort="Description" style="width:150px;">Description</th> -->
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th>
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
                         </tr>
@@ -765,7 +766,7 @@
                       <tbody class="list" id="products-table-body"> {% for category_value in category_value %} <tr class="position-static">
                           <td class="fs--1 align-middle">
                             <div class="form-check mb-0 fs-0">
-                              <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
+                              <input class="form-check-input" type="checkbox" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productimage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}' />
                             </div>
                           </td>
                           <td class="align-middle white-space-nowrap py-0">
@@ -776,9 +777,9 @@
                           <td class="product align-middle ps-4">
                             <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{category_value.name}}</a>
                           </td>
-                          <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{category_value.Description|slice:":50"}}</td>
+                          <!-- <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{category_value.Description|slice:":50"}}</td> -->
                           <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
-                            <!-- {{product.active}} --> {% if category_value.is_Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
+                            <!-- {{product.active}} --> {% if category_value.active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                           </td>
                           <td class="align-middle white-space-nowrap py-0">
                             {% if request.user.is_authenticated %} {% if perms.products.view_category %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{category_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{category_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_category %} <button class="btn btn-danger delete-category" data-coupon-id="{{ category_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_category %} <button class="btn btn-danger delete-category" data-coupon-id="{{ category_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
@@ -801,12 +802,12 @@
                                         <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." value="{{category_value.name}}" />
                                       </div>
                                       <!-- <div class="mb-6"><h4 class="mb-3"> Category Description</h4><textarea class="tinymce" id="description" name="description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' >{{category_value.Description}}</textarea></div> -->
-                                      <div class="mb-3">
+                                      <!-- <div class="mb-3">
                                         <h4 class="mb-3">Category Description</h4>
                                         <textarea class="form-control" placeholder="Leave a comment here" id="description" name="description" style="height: 100px">{{category_value.Description}}</textarea>
-                                      </div>
+                                      </div> -->
                                       <div class="mb-6">
-                                        <h4 class="mb-3">Category image</h4> {% if category_value.image %} <img src="{{ MEDIA_URL }}{{ category_value.image.url}}" alt="Category Image" width="50px" />
+                                        <h4 class="mb-3">Category image</h4> {% if category_value.image %} <img src="{{ MEDIA_URL }}{{ category_value.image.url}}" alt="Category image" width="50px" />
                                         <p>Current image: {{ category_value.image.url }}</p> {% endif %} <input class="form-control" type="file" id="img" name="image" accept="image/*" value="{{category_value.image.name}}">
                                       </div>
                                       
@@ -837,7 +838,7 @@
                                           </div>
                                         </div>
                                       </div> -->
-                                      <div class="mb-6">
+                                      <!-- <div class="mb-6">
                                         <h4 class="mb-3">Page Title</h4>
                                         <input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." value="{{category_value.page_Title}}" />
                                       </div>
@@ -848,14 +849,14 @@
                                       <div class="mb-3">
                                         <h4 class="mb-3">Meta Description</h4>
                                         <textarea class="form-control" placeholder="Leave a comment here" id="meta_Description_update" name="meta_Description_update" style="height: 100px">{{category_value.Meta_Description}}</textarea>
-                                      </div>
+                                      </div> -->
                                       <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description_update" name="meta_Description_update" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' >{{category_value.Meta_Description}}</textarea></div>   -->
                                       <div class="mb-6">
                                         <h4 class="mb-3">Slot Position</h4>
-                                        <input class="form-control mb-5" name="Slot_Position" type="number" placeholder="Write Name here..." value="{{category_value.Slot_Position}}" />
+                                        <input class="form-control mb-5" name="slot_position" type="number" placeholder="Write Name here..." value="{{category_value.slot_position}}" />
                                       </div>
                                       <div class="form-check mb-6">
-                                        <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if category_value.is_Active == True %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="is_Active" type="checkbox" /> {% endif %}
+                                        <label class="form-check-label text-900 fs-0" for="Activestatus">Is Active</label> {% if category_value.active == True %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Activestatus" name="active" type="checkbox" /> {% endif %}
                                       </div>
                                       <div class="form-check mb-6">
                                         <label class="form-check-label text-900 fs-0" for="Navigationstatus">Include In Navogation Menu</label> {% if category_value.Include_In_Navogation_Menu == True %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" checked /> {% else %} <input class="form-check-input" id="Navigationstatus" name="Include_In_Navogation_Menu" type="checkbox" /> {% endif %}
@@ -1001,7 +1002,7 @@
         //         console.log(imageSources)
         //         formData.append('category_img', imageSources);
         //         if (imageSources) {
-        //             console.log('Image source:', imageSources);
+        //             console.log('image source:', imageSources);
         //         }
         //     });
               
@@ -1081,7 +1082,7 @@
         //         axios.post(`/Al-admin/remove-image/${imageId}/`)
         //           .then(response => {
         //             if (response.status === 200) {
-        //               console.log(`Image with ID ${imageId} removed from the server.`);
+        //               console.log(`image with ID ${imageId} removed from the server.`);
         //               imageContainer.remove(); // Remove the image from the DOM
         //             } else {
         //               console.error(`Failed to remove image with ID ${imageId} from the server.`);

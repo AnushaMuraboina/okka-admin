@@ -525,7 +525,7 @@
           <h4 class="mb-3">Product Name</h4>
           <div class="row g-5">
             <div class="col-12 col-xl-8">
-              <input class="form-control mb-5 required-field" name="product_name" type="text" placeholder="Write Name here..." data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Name." value="{{product_data.product_name}}" />
+              <input class="form-control mb-5 required-field" name="name" type="text" placeholder="Write Name here..." data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Name." value="{{product_data.product_name}}" />
               <div class="mb-6">
                 <h4 class="mb-3"> Product Description</h4>
                 <textarea class="tinymce" id="description" name="description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'>{{product_data.description}}</textarea>
@@ -605,10 +605,10 @@
                           <h5 class="mb-2 text-1000">price</h5>
                           <input class="form-control required-field" type="text" name="price" placeholder="AED" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Price." value="{{product_data.price}}" />
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <!-- <div class="col-12 col-lg-6">
                           <h5 class="mb-2 text-1000">Warranty conditions</h5>
                           <input class="form-control" type="text" name="Warranty" placeholder="Warranty" value="{% if product_data.warranty_conditions %}{{product_data.warranty_conditions}}{% endif %}" />
-                        </div>
+                        </div> -->
                         <div class="col-12 col-lg-6">
                           <h5 class="mb-2 text-1000">Weight</h5>
                           <input class="form-control" type="text" name="Weight" placeholder="Weight" value="{% if product_data.weight %}{{ product_data.weight }}{% endif %}" />
@@ -1102,12 +1102,12 @@
                                       <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;"></th>
                                       <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="product">PRODUCT NAME</th>
                                       <th class="sort align-middle text-end ps-4" scope="col" data-sort="price" style="width:200px;">PRODUCT SKU</th>
-                                      <th class="sort align-middle text-end ps-4" scope="col" data-sort="model" style="width:200px;">PRODUCT MODEL</th>
+                                      <!-- <th class="sort align-middle text-end ps-4" scope="col" data-sort="model" style="width:200px;">PRODUCT MODEL</th> -->
                                       <th class="sort align-middle ps-4" scope="col" data-sort="category" style="width:150px;">CATEGORY</th>
                                       <th class="sort align-middle ps-3" scope="col" data-sort="tags" style="width:250px;">SUB CATEGORY</th>
                                       <th class="sort align-middle text-center ps-4" scope="col" style="width:125px;">BRAND</th>
                                       <th class="sort align-middle ps-4" scope="col" data-sort="vendor" style="width:200px;">NO STOCK IN</th>
-                                      <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:200px;">NO STOCK OUT</th>
+                                      <!-- <th class="sort align-middle ps-4" scope="col" data-sort="time" style="width:200px;">NO STOCK OUT</th> -->
                                       <th class="sort text-center align-middle pe-0 ps-4" scope="col">PRICE</th>
                                       <th class="sort text-center align-middle pe-0 ps-4" scope="col">STOCK STATUS</th>
                                     </tr>
@@ -1127,13 +1127,13 @@
                                         <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{product.product_name}}</a>
                                       </td>
                                       <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.product_sku}}</td>
-                                      <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td>
+                                      <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
                                       <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.category}}</td>
                                       <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.sub_category}}</td>
                                       </td>
                                       <td class="brand text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.brand}}</td>
                                       <td class="stackin text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_in}}</td>
-                                      <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td>
+                                      <!-- <td class="stackout text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.number_of_stock_out}}</td> -->
                                       <td class="price text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.price}}</td>
                                       <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">{{product.stock_status}}</td>
                                     </tr> {% endfor %} </tbody>
@@ -1324,10 +1324,10 @@
                           <h5 class="mb-2 text-1000">price</h5>
                           <input class="form-control required-field" type="text" name="price" placeholder="AED" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Price." value="{{product_data.price}}" />
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <!-- <div class="col-12 col-lg-6">
                           <h5 class="mb-2 text-1000">Warranty conditions</h5>
                           <input class="form-control" type="text" name="Warranty" placeholder="Warranty" value="{% if product_data.warranty_conditions %}{{product_data.warranty_conditions}}{% endif %}" />
-                        </div>
+                        </div> -->
                         <div class="col-12 col-lg-6">
                           <h5 class="mb-2 text-1000">Weight</h5>
                           <input class="form-control" type="text" name="Weight" placeholder="Weight" value="{% if product_data.weight %}{{ product_data.weight }}{% endif %}" />
