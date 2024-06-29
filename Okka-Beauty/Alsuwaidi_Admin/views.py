@@ -1055,7 +1055,7 @@ def childsubcategory_admin(request, childsubcategory_id=None):
         childsubcategory_value = childsubcategory_value.filter(Q(name__icontains=search_query) | 
                                                      Q(description__icontains=search_query))
     if category_filter:
-        childsubcategory_value = childsubcategory_value.filter(main_Category__name=category_filter)
+        childsubcategory_value = childsubcategory_value.filter(sub_category__name=category_filter)
 
     user_has_permission = request.user.has_perm('products.view_subcategory')
 
