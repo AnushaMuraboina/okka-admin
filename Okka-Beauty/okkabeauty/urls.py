@@ -32,7 +32,7 @@ urlpatterns = [
     path('', include('newsletter.urls')),
     path('', include('contact.urls')),
     path('', include('checkout.urls')),
-    path('', include('Alsuwaidi_Admin.urls')),
+    path('okka-admin/', include('Alsuwaidi_Admin.urls')),
 ]
 
 

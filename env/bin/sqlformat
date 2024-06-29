@@ -1,4 +1,4 @@
-#!/home/zinavo/Documents/okkabeauty/env/bin/python3
+#!/home/yoga/OkkaBeauty/okka-admin/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from .views import *
 
 urlpatterns = [
-   path('Dashboard', views.Dashboard, name="Dashboard"),
+   path('', views.Dashboard, name="Dashboard"),
    path('product-adding', views.product_adding, name="product-adding"),
    # path('product-admin', views.product_admin, name="product-admin"),   
    path('get-subcategories', views.get_subcategories, name='get-subcategories'),

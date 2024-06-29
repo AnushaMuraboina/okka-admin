@@ -3642,15 +3642,15 @@ def Dashboard(request):
     new_users_data = get_user_model().objects.filter(
         date_joined__date__gte=seven_days_ago.date()
         ).annotate(
-            order_count=Count('Order'),
-            total_order_amount=Sum('Order__bill_amount')
+            order_count=Count('order'),
+            total_order_amount=Sum('order__bill_amount')
         ).values('user_nicename', 'email')
 
     print(new_users_data)
 
     all_users_data = get_user_model().objects.all().annotate(
-            order_count=Count('Order'),
-            total_order_amount=Sum('Order__bill_amount')
+            order_count=Count('order'),
+            total_order_amount=Sum('order__bill_amount')
         ).values('user_nicename', 'email')
 
     print(all_users_data)
