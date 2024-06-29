@@ -115,9 +115,9 @@ WSGI_APPLICATION = "okkabeauty.wsgi.application"
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.mysql',        
-       'NAME': 'okkabeautys',
+       'NAME': 'okkabeauty',
 	    'USER':'root',
-	    'PASSWORD':'Zinavo@123',
+	    'PASSWORD':'Kwjv3bworibg23@',
 	    'PORT':'3306',
        'HOST':'127.0.0.1'
 }
