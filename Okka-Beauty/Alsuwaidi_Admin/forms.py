@@ -83,7 +83,7 @@ class ChildSubCategoryForm(forms.ModelForm):
 class BrandForm(forms.ModelForm):
     class Meta:
         model = Brand
-        fields = '__all__'
+        fields = ['name', 'image', 'active']
 
 
 # class CouponForm(forms.ModelForm):
