@@ -304,3 +304,84 @@ def delete_childsubcategory(request, childsubcategory_id):
             return JsonResponse({'message': str(e)}, status=400)
     else:
         return JsonResponse({'message': 'Invalid request'}, status=400)
+    
+
+
+# Brand ADD, UPDATE, DELETE & SEARCH Function
+
+@login_required
+def brand_admin(request, brand_id=None):
+    if brand_id:
+        # Fetch the category instance if the category_id is provided
+        brand_instance = get_object_or_404(Brand, pk=brand_id)
+    else:
+        brand_instance = None
+    if request.method == 'POST':
+        if  brand_instance:
+           # If a POST request is made with brand_id, update the existing record
+           form = BrandForm(request.POST, request.FILES, instance=brand_instance)
+        else:
+           # Otherwise create a new record
+            form = BrandForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('brand-admin'))
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = BrandForm(instance=brand_instance)
+
+    # Retrieve brand values
+    brand_value = Brand.objects.all()
+
+    # Retrieve search query from request GET parameters
+    search_query = request.GET.get('search', '')
+
+    # Apply search
+    if search_query:
+        brand_value = brand_value.filter(Q(name__icontains=search_query))
+
+    Categorys = ParentCategory.objects.all()
+
+    user_has_permission = request.user.has_perm('products.view_brand')
+
+    # Check group permissions
+    if not user_has_permission:
+        user_groups = request.user.groups.all()
+        for group in user_groups:
+            if group.permissions.filter(codename='view_brand').exists():
+                user_has_permission = True
+                break
+
+    if not user_has_permission:
+        # Return some error or handle permission denial
+        return render(request, 'Al-admin/permission/permission_denied.html')    
+
+    context = {
+        'brand_value': brand_value,
+        'form': form,
+        'Categorys': Categorys,
+        'search_query': search_query,
+    }
+    return render(request, "Al-admin/product/brand-admin.html", context)
+
+
+# Brand Delete Function
+
+@login_required
+def delete_brand(request, brand_id):
+    if request.method == 'POST':
+        try:
+            brand = Brand.objects.get(id=brand_id)
+            print(brand)
+            brand.delete()
+            return JsonResponse({'message': 'Brand deleted successfully'})
+        except Coupon.DoesNotExist:
+            return JsonResponse({'message': 'brand not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request'}, status=400)
+
