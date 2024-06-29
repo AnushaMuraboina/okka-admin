@@ -61,7 +61,7 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = ParentCategory
         # fields = '__all__'
-        fields = ['name', 'image', 'slot_position','active']
+        fields = ['name', 'slot_position','active']
 
 
 class SubCategoryForm(forms.ModelForm):
