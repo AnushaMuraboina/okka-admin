@@ -2569,9 +2569,9 @@ def order_details(request, order_id):
     
     # userorder = get_object_or_404(Order, order_id= order_id)
     
-    invoice = Invoice.objects.get(order_id = order)
-    print(invoice)
-    print('invoice id of order sucess page')
+    # invoice = Invoice.objects.get(order_id = order)
+    # print(invoice)
+    # print('invoice id of order sucess page')
 
     # order_Status = Status.objects.all()
 
@@ -2602,7 +2602,7 @@ def order_details(request, order_id):
         'order_id': order_id,
         'Billing_address':Billing_address,
         'Shipping_address':Shipping_address,
-        'invoice':invoice,
+        # 'invoice':invoice,
         # 'order_Status':order_Status,
         # 'delivery_person_details':delivery_person_details,
         
@@ -2610,9 +2610,16 @@ def order_details(request, order_id):
 
     return render(request, 'Al-admin/order/order_details.html', context)
 
+
+
+# def product_details():
+
+
+
+
+
 @login_required
 def order_replacement_details(request, order_id):
-
     user = request.user
     print(order_id)
     order = Order.objects.get(order_id = order_id)
@@ -3392,7 +3399,7 @@ def back_order(request, product_id=None):
                         'tax':order.tax_amount,
                         'disc_price':order.disc_price,
                         'total':order.bill_amount,
-                        # 'product_details': products.objects.filter(product_name=order_item.product_id),
+                        'product_details': Product.objects.filter(product_name=order_item.product_id),
                         'order_date':order.order_date,
                         # 'site_url':site_url,
                         # 'order_track':order_track,
@@ -3428,7 +3435,7 @@ def back_order(request, product_id=None):
                         'tax':order.tax_amount,
                         'disc_price':order.disc_price,
                         'total':order.bill_amount,
-                        # 'product_details': products.objects.filter(product_name=order_item.product_id),
+                        'product_details': Product.objects.filter(product_name=order_item.product_id),
                         'order_date':order.order_date,
                         # 'site_url':site_url,
                         # 'order_track':order_track,
@@ -3642,15 +3649,15 @@ def Dashboard(request):
     new_users_data = get_user_model().objects.filter(
         date_joined__date__gte=seven_days_ago.date()
         ).annotate(
-            order_count=Count('Order'),
-            total_order_amount=Sum('Order__bill_amount')
+            order_count=Count('order'),
+            total_order_amount=Sum('order__bill_amount')
         ).values('user_nicename', 'email')
 
     print(new_users_data)
 
     all_users_data = get_user_model().objects.all().annotate(
-            order_count=Count('Order'),
-            total_order_amount=Sum('Order__bill_amount')
+            order_count=Count('order'),
+            total_order_amount=Sum('order__bill_amount')
         ).values('user_nicename', 'email')
 
     print(all_users_data)
@@ -3894,25 +3901,39 @@ class CustomerListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset().annotate(
-            total_orders=Count('Order'),
-            total_spent=Sum('Order__bill_amount'),
-            last_order_date=Max('Order__order_date')
+            total_orders=Count('order'),
+            total_spent=Sum('order__bill_amount'),
+            last_order_date=Max('order__order_date')
         )
-
         for customer in queryset:
             default_billing_address = Address.objects.filter(
                 user=customer,
                 address_type='Billing',
-                address_2=True
+
             ).first()
 
             if default_billing_address:
-                customer.billing_city = default_billing_address.city
+                customer.billing_address = default_billing_address
             else:
-                customer.billing_city = None
+                customer.billing_address = None
 
         return queryset
     
+        # for customer in queryset:
+        #     default_billing_address = Address.objects.filter(
+        #         user=customer,
+        #         address_type='Billing',
+        #         # address_2=True
+        #     ).first()
+
+        #     if default_billing_address:
+        #         customer.billing_city = default_billing_address.city
+        #     else:
+        #         customer.billing_city = None
+
+        # return queryset
+
+
     def dispatch(self, request, *args, **kwargs):
         user_has_permission = request.user.has_perm('user.view_user')
 
@@ -3931,6 +3952,14 @@ class CustomerListView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
+def updatebilling(request, id):
+    print(id)
+    if request.method == 'POST':
+        billing_address = request.POST.get('billing_address')
+        print('billing_address', billing_address)
+    return render(request, 'Al-admin/customer/customer_details.html')
+
+
 @login_required
 def customer_details(request, id):
     print(id)
@@ -3939,7 +3968,7 @@ def customer_details(request, id):
     print(user)
 
     # order Get user based
-    order = Order.objects.filter(user = id).order_by('-order_date').values('order_id', 'bill_amount', 'order_status', 'payment_status' , 'payment_method', 'order_date')
+    order = Order.objects.filter(user = id).order_by('-order_date').values('order_id', 'bill_amount', 'order_status', 'payment_status' ,'billing_address','shipping_address', 'payment_method', 'order_date')
     print(order)
 
     order_count = order.count()
@@ -3956,9 +3985,13 @@ def customer_details(request, id):
 
     def_address = None
     try:
-        def_address = Address.objects.values().get(user=id, address_type='Billing', address_2=True)
+        def_address = Address.objects.values().get(
+            user=id,
+            address_type='Billing'
+        )
         print('def_address')
         print(def_address)
+
     except Address.DoesNotExist:
         print("No default billing address found.")
 
@@ -3974,6 +4007,27 @@ def customer_details(request, id):
     }
 
     return render(request, 'Al-admin/customer/customer_details.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required
@@ -5222,7 +5276,7 @@ def export_invoice_csv(request):
         writer.writerow([
             entry['order_date'],
             entry['total_orders'],
-            entry['total_orders'],
+            # entry['total_orders'],
             entry['total_sales'],
             entry['total_paid'],
             entry['total_pending'],

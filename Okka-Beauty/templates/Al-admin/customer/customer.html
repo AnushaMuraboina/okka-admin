@@ -552,7 +552,8 @@
                   <tbody class="list" id="customers-table-body"> {% for customer in customers %} <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                       <td class="fs--1 align-middle ps-0 py-3">
                         <div class="form-check mb-0 fs-0">
-                          <input class="form-check-input" type="checkbox" data-bulk-select-row='{"customer":{name":"{{customer.username}}"},"email":"{{customer.email}}","city":"{{customer.billing_city}}","totalOrders":{{customer.total_orders}},"totalSpent":{{customer.total_spent|default:"0"}},"lastSeen":"34 min ago","lastOrder":"{{ customer.last_order_date }}' />
+                          <input class="form-check-input" type="checkbox" data-bulk-select-row='
+                          "customer":{name":"{{customer.username}}"},"email":"{{customer.email}}","city":"{{customer.city}}","totalOrders":{{customer.total_orders}},"totalSpent":{{customer.total_spent|default:"0"}},"lastSeen":"34 min ago","lastOrder":"{{ customer.last_order_date }}' />
                         </div>
                       </td>
                       <td class="customer align-middle white-space-nowrap pe-5">
@@ -565,7 +566,7 @@
                       </td>
                       <td class="total-orders align-middle white-space-nowrap fw-semi-bold text-center text-1000">{{customer.total_orders}}</td>
                       <td class="total-spent align-middle white-space-nowrap fw-bold text-center ps-3 text-1100">AED {{customer.total_spent|default:"0"}}</td>
-                      <td class="city align-middle white-space-nowrap text-1000 ps-7 text-center">{{customer.billing_city}}</td>
+                      <td class="city align-middle white-space-nowrap text-1000 ps-7 text-center">{{customer.city}}</td>
                       <td class="last-seen align-middle white-space-nowrap text-700 text-center">34 min ago</td>
                       <td class="last-order align-middle white-space-nowrap text-700 text-center">{{ customer.last_order_date }}</td>
                       <td class="action align-middle white-space-nowrap text-700 text-center">
@@ -615,7 +616,8 @@
                   <tbody class="list" id="customers-table-body"> {% for customer in customers %} <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                       <td class="fs--1 align-middle ps-0 py-3">
                         <div class="form-check mb-0 fs-0">
-                          <input class="form-check-input" type="checkbox" data-bulk-select-row='{"customer":{name":"{{customer.username}}"},"email":"{{customer.email}}","city":"{{customer.billing_city}}","totalOrders":{{customer.total_orders}},"totalSpent":{{customer.total_spent|default:"0"}},"lastSeen":"34 min ago","lastOrder":"{{ customer.last_order_date }}' />
+                          <input class="form-check-input" type="checkbox" data-bulk-select-row='
+                          "customer":{name":"{{customer.username}}"},"email":"{{customer.email}}","city":"{{customer.city}}","totalOrders":{{customer.total_orders}},"totalSpent":{{customer.total_spent|default:"0"}},"lastSeen":"34 min ago","lastOrder":"{{ customer.last_order_date }}' />
                         </div>
                       </td>
                       <td class="customer align-middle white-space-nowrap pe-5">
@@ -628,7 +630,7 @@
                       </td>
                       <td class="total-orders align-middle white-space-nowrap fw-semi-bold text-center text-1000">{{customer.total_orders}}</td>
                       <td class="total-spent align-middle white-space-nowrap fw-bold text-center ps-3 text-1100">AED {{customer.total_spent|default:"0"}}</td>
-                      <td class="city align-middle white-space-nowrap text-1000 ps-7 text-center">{{customer.billing_city}}</td>
+                      <td class="city align-middle white-space-nowrap text-1000 ps-7 text-center">{{customer.city}}</td>
                       <td class="last-seen align-middle white-space-nowrap text-700 text-center">34 min ago</td>
                       <td class="last-order align-middle white-space-nowrap text-700 text-center">{{ customer.last_order_date }}</td>
                       <td class="action align-middle white-space-nowrap text-700 text-center">

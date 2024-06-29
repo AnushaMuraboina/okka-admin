@@ -518,7 +518,7 @@
                       <div class="card-body d-flex flex-column justify-content-between pb-3">
                         <div class="row align-items-center g-5 mb-3 text-center text-sm-start">
                           <div class="col-12 col-sm-auto mb-sm-2">
-                            <div class="avatar avatar-5xl"><img class="rounded-circle" src="../../../assets/img/team/15.webp" alt="" /></div>
+                            <div class="avatar avatar-5xl"><img class="rounded-circle" src="../../../static/assets/img/landing_page/Laptop.png" alt="" /></div>
                           </div>
                           <div class="col-12 col-sm-auto flex-1">
                             <h3>{{user.username}}</h3>
@@ -561,10 +561,11 @@
                                 {% csrf_token %}
                                 <!-- <h3 class="mb-5">Billing Info</h3> -->
                                 <div class="row g-4">
-                                  <input type="hidden" id="billing_id" name="billing_info_id" value="{{ def_address.id }}">
+                                  <input type="hidden" id="billing_id" name=" billing_address" value="{{ def_address.id}}">
+                                  {{ def_address.id}}
                                   <div class="col-12">
-                                    <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputName">Full name</label>
-                                    <input class="form-control" id="inputName" name="name" type="text" placeholder="Full name" data-parsley-pattern="^[^\s]+$" data-parsley-pattern-message="☒ username cannot contain spaces." value="{{def_address.name}}"  />
+                                    <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputName">first_name</label>
+                                    <input class="form-control" id="inputName" name="first_name" type="text" placeholder="first_name" data-parsley-pattern="^[^\s]+$" data-parsley-pattern-message="☒ username cannot contain spaces." value="{{def_address.first_name}}"  />
                                   </div>
                                   <div class="col-md-6">
                                     <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputEmail">Email</label>
@@ -575,12 +576,12 @@
                                     <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="+1234567890" data-parsley-pattern="^\+?\d{10,15}$" data-parsley-pattern-message="☒ Please enter a valid phone number." value="{{def_address.phone}}"/>
                                   </div>
                                   <div class="col-12">
-                                    <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">Address</label>
-                                    <input class="form-control" id="inputAddress1" name="address" type="text" placeholder="Address line 1" data-parsley-required="true" data-parsley-required-message="☒ Please enter your address." value="{{def_address.address}}" />
+                                    <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">Address_1</label>
+                                    <input class="form-control" id="inputAddress1" name="address_1" type="text" placeholder="Address line 1" data-parsley-required="true" data-parsley-required-message="☒ Please enter your address." value="{{def_address.address_1}}" />
                                   </div>
                                   <div class="col-12">
-                                    <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">Landmark</label>
-                                    <input class="form-control" id="inputAddress2" type="text" name="landmark" placeholder="Address line 2" data-parsley-required="true" data-parsley-required-message="☒ Please enter a landmark."  value="{{def_address.landmark}}"/>
+                                    <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">Address_2</label>
+                                    <input class="form-control" id="inputAddress2" type="text" name="address_2" placeholder="Address line 2" data-parsley-required="true" data-parsley-required-message="☒ Please enter a landmark."  value="{{def_address.address_2}}"/>
                                   </div>
                                   <div class="col-md-4">
                                     <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCity">City</label>
@@ -589,27 +590,25 @@
                                   </div>
                                   <div class="col-md-4">
                                     <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputState">State</label>
-                                    <input class="form-control" id="inputState" type="text" name="state" placeholder="state" data-parsley-required="true" data-parsley-required-message="☒ Please enter a state." value="{{def_address.state}}">
+                                    <input class="form-control" id="inputState" type="text" name="state_country" placeholder="state" data-parsley-required="true" data-parsley-required-message="☒ Please enter a state." value="{{def_address.state_country }}">
                                     
                                   </div>
                                   <div class="col-md-4">
                                     <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputZipCode">Zip code</label>
-                                    <input class="form-control number-arrows-none" id="inputZipCode" name="zipcode" type="number" placeholder="00000" data-parsley-pattern="^\d{5}$" data-parsley-pattern-message="☒ Please enter a valid ZIP code." value="{{def_address.zipcode}}" />
+                                    <input class="form-control number-arrows-none" id="inputZipCode" name="postcode" type="number" placeholder="00000" data-parsley-pattern="^\d{6}$" data-parsley-pattern-message="☒ Please enter a valid ZIP code." value="{{def_address.postcode}}" />
                                   </div>
                                   <div class="col-md-4 mb-3">
                                     <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCountry">Country</label>
-                                    <input class="form-control" id="inputCountry" type="text" name="country" placeholder="country" data-parsley-required="true" data-parsley-required-message="☒ Please enter a country." value="{{def_address.country}}">
+                                    <input class="form-control" id="inputCountry" type="text" name="Country_Region" placeholder="country" data-parsley-required="true" data-parsley-required-message="☒ Please enter a country." value="{{def_address.Country_Region}}">
                                     
                                   </div>
-                                  <div class="col-md-12 ">
+                                  <!-- <div class="col-md-12 ">
                         
                                     <input class="form-check-input" id="default_address" name="default_address" type="checkbox" checked>
                                     <label class="form-label fs-0 text-1000 ps-0 text-none" for="default_address">Set Default Address</label>
-                                  </div>
+                                  </div> -->
                                   <div class="col-12">
-                                    
                                     <input type="submit" class="btn btn-primary px-8 px-sm-11 me-2" value="Save">
-                                    
                                   </div>
                                 </div>
                               </form>
@@ -618,8 +617,26 @@
                             </div>
                           </div>
                         </div>
+
+
+                        <!-- {% for customer in customers %}
+                        <div>
+                            <p>Name: {{ customer.first_name }} {{ customer.last_name }}</p>
+                            <p>Email: {{ customer.email }}</p>
+                            <p>City: {{ customer.billing_city }}</p>
+                            <p>Billing Address: {{ customer.billing_address.address_1 }}, {{ customer.billing_address.city }}, {{ customer.billing_address.state_country }}, {{ customer.billing_address.Country_Region }}</p>
+                        </div>
+                    {% endfor %} -->
+
+
                         <h5 class="text-800">Address</h5>
-                        <p class="text-800">{{def_address.name}}<br />{{def_address.address}}, {{def_address.landmark}}, {{def_address.city}}<br />{{def_address.state}}, {{def_address.country}} <br/>zipcode: {{def_address.zipcode}}</p>
+                        <p class="text-800">{{def_address.first_name}}<br/>
+                          {{def_address.address_1}},
+                          {{def_address.address_2}},
+                          {{def_address.city}}<br />
+                          {{def_address.state_country}}, 
+                          {{def_address.Country_Region}} <br/>
+                          zipcode: {{def_address.postcode}}</p>
                         <div class="mb-3">
                           <h5 class="text-800">Email</h5><a href="mailto:{{def_address.email}}">{{def_address.email}}</a>
                         </div>
@@ -684,9 +701,9 @@
                           <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="order align-middle white-space-nowrap ps-0"><a class="fw-semi-bold" href="{% url 'order-details' order_id=order.order_id %}">#{{order.order_id}}</a></td>
                             <td class="total align-middle text-end fw-semi-bold pe-7 text-1000">AED {{order.bill_amount}}</td>
-                            <td class="status align-middle white-space-nowrap text-start fw-bold text-700 py-2"><span class="badge badge-phoenix fs--2 {% if order.order_status__status == 'processing' %} badge-phoenix-success{% elif order.order_status__status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status__status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}"><span class="badge-label">{{ order.order_status__status }}</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span></td>
+                            <td class="status align-middle white-space-nowrap text-start fw-bold text-700 py-2"><span class="badge badge-phoenix fs--2 {% if order.order_status == 'processing' %} badge-phoenix-success{% elif order.order_status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}"><span class="badge-label">{{ order.order_status}}</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span></td>
                             <td class="status align-middle white-space-nowrap text-start fw-bold text-700 py-2"><span class="badge badge-phoenix fs--2 {% if order.payment_status == 'paid' %} badge-phoenix-success{% elif order.payment_status == 'decline' %}badge-phoenix-danger{% elif order.payment_status == 'canceled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}"><span class="badge-label">{{ order.payment_status }}</span><span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span></span></td>
-                            <td class="delivery align-middle white-space-nowrap text-900 py-2">{{ order.payment_method__payment_name }}</td>
+                            <td class="delivery align-middle white-space-nowrap text-900 py-2">{{ order.payment_method }}</td>
                             <td class="date align-middle white-space-nowrap text-700 fs--1 ps-4 text-end">{{order.order_date}}</td>
                             <td class="align-middle white-space-nowrap text-end pe-0 ps-5">
                               <div class="font-sans-serif btn-reveal-trigger position-static">
@@ -720,7 +737,7 @@
                       <table class="table fs--1 mb-0">
                         <thead>
                           <tr>
-                            <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:5%;"></th>
+                            <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:5%;">IMAGE</th>
                             <th class="sort white-space-nowrap align-middle" scope="col" style="width:35%; min-width:250px;" data-sort="products">PRODUCTS</th>
                             <th class="sort align-middle text-end" scope="col" data-sort="price" style="width:15%;">PRICE</th>
                             <th class="sort align-middle text-end" scope="col" data-sort="total" style="width:15%;">TOTAL</th>
@@ -730,14 +747,20 @@
                         <tbody class="list" id="customer-wishlist-table-body">
                             {% for item in wish_list %}
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                              <td class="align-middle white-space-nowrap ps-0 py-0">
-                                <div class="border rounded-2 d-inline-block"><img src="{{item.product.product_Image1.url}}" alt="{{item.product.product_name}}" width="53" /></div>
-                              </td>
-                              <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="{% url 'product_details' id=item.product.id sl_category=item.product.category.name|slugify sl_sub_category=item.product.sub_category.name|slugify sl_product_details=item.product.product_name|slugify %}">{{item.product.product_name}}</a></td>
+
+                                    <td class="align-middle white-space-nowrap ps-0 py-0">
+                                        {% if item.product.images.all %}
+                                            {% for image in item.product.images.all|slice:":1" %}
+                                                <img src="{{ image.image.url }}" alt="" width="53" />
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                   
+                              <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="#">{{item.product.name}}</a></td>
                               <!-- <td class="color align-middle white-space-nowrap fs--1 text-900">Pure matte black</td>
                               <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">42</td> -->
-                              <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">AED {{item.product.price}}</td>
-                              <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">AED {{item.product.price}}</td>
+                              <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">AED {{item.product.regular_price }}</td>
+                              <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">AED {{item.product.regular_price}}</td>
                               <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                 <a href="{% url 'remove_wishlist_item' wishlist_item_id=item.id %}"><button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button></a>
                               </td>
@@ -776,7 +799,7 @@
                         <tbody class="list" id="customer-rating-table-body">
                             {% for rating_review in rating_review %}
                           <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                            <td class="product align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="{% url 'product_details' id=rating_review.product.id sl_category=rating_review.product.category.name|slugify sl_sub_category=rating_review.product.sub_category.name|slugify sl_product_details=rating_review.product.product_name|slugify %}">{{rating_review.product.product_name}}</a></td>
+                            <td class="product align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="#">{{rating_review.product.name}}</a></td>
                             <td class="align-middle rating white-space-nowrap fs--2"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa-regular fa-star text-warning-300"></span>
                             </td>
                             <td class="align-middle review" style="min-width:350px;">
@@ -822,7 +845,7 @@
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            const shippingInfoId = formData.get('billing_info_id');
+            const shippingInfoId = formData.get('billing_address');
             const id = document.getElementById('billing_id').value;
             console.log(id)
             

@@ -143,9 +143,9 @@ class Order(models.Model):
             # Send order shipped email
             item_count = OrderItem.objects.filter(order_id=self.id).count()
             print(item_count)
-            invoice_id = Invoice.objects.values_list('invoice_id', flat=True).get(order=self.id)
-            print(invoice_id)
-            email_subject = 'Your Alsuwaidi in  Order #{} of {} item'.format(self.order_id, item_count) 
+            # invoice_id = Invoice.objects.values_list('invoice_id', flat=True).get(order=self.id)
+            # print(invoice_id)
+            # email_subject = 'Your Alsuwaidi in  Order #{} of {} item'.format(self.order_id, item_count) 
 
             # current_site = get_current_site(kwargs.get('request'))
             # site_url = f"http://{current_site.domain}"

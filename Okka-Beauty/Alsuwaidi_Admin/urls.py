@@ -51,6 +51,7 @@ urlpatterns = [
    path('customer-details/<int:id>', views.customer_details, name='customer-details'),
    path('Customer/<int:customerId>/delete/', views.delete_customer, name='delete_customer'),
    path('export-user-data/', views.export_user_data_as_csv, name='export_user_data'),
+   path('update-billing-info/<int:id>/', views.updatebilling, name='updatebilling'),
 
    path('coupon', views.coupon, name='coupon'),
    path('add-coupon', views.addcoupon, name='add-coupon'),
@@ -165,7 +166,6 @@ urlpatterns = [
 #    path('offer-admin', views.offer_admin, name="offer-admin"),
 #    path('offer-update/<int:id>', views.offer_update_view, name="offer-update"),
 #    path('offer-admin/<int:offer_id>/delete/', views.delete_offer, name='delete_offer'),
-
 
 ]
 
