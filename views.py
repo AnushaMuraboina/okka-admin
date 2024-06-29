@@ -174,7 +174,7 @@ def subcategory_admin(request, subcategory_id=None):
         subCategory_value = subCategory_value.filter(Q(name__icontains=search_query) | 
                                                      Q(description__icontains=search_query))
     if category_filter:
-        subCategory_value = subCategory_value.filter(main_Category__name=category_filter)
+        subCategory_value = subCategory_value.filter(parent_category__name=category_filter)
 
     user_has_permission = request.user.has_perm('products.view_subcategory')
 
@@ -211,6 +211,95 @@ def delete_subcategory(request, subcategory_id):
             return JsonResponse({'message': 'Subcategory deleted successfully'})
         except Coupon.DoesNotExist:
             return JsonResponse({'message': 'Subcategory not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
+
+# Child Sub category ADD UPDATE DELETE & SEARCH Function
+
+@login_required
+def childsubcategory_admin(request, childsubcategory_id=None):
+    if childsubcategory_id:
+        # Fetch the subcategory instance if the subcategory_id is provided
+        childsubcategory_instance = get_object_or_404(ChildSubCategory, pk=childsubcategory_id)
+    else:
+        childsubcategory_instance = None
+
+    if request.method == 'POST':
+        if childsubcategory_instance:
+            # If subcategory_instance exists, update it
+            form = ChildSubCategoryForm(request.POST, request.FILES, instance=childsubcategory_instance)
+        else:
+            # If not, create a new instance
+            form = ChildSubCategoryForm(request.POST, request.FILES)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('childsubcategory-admin'))
+        
+        else:
+            print('form not valid ')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        # If it's a GET request, populate the form with existing instance data if available
+        form = ChildSubCategoryForm(instance=childsubcategory_instance)
+
+    subCategory = SubCategory.objects.all()
+    Categorys = ParentCategory.objects.all()
+    childsubcategory_value = ChildSubCategory.objects.all()
+    
+    search_query = request.GET.get('search', '')
+    category_filter = request.GET.get('category', '')
+    
+    if search_query:
+        childsubcategory_value = childsubcategory_value.filter(Q(name__icontains=search_query) | 
+                                                     Q(description__icontains=search_query))
+    if category_filter:
+        childsubcategory_value = childsubcategory_value.filter(sub_category__name=category_filter)
+
+    user_has_permission = request.user.has_perm('products.view_subcategory')
+
+    # Check group permissions
+    if not user_has_permission:
+        user_groups = request.user.groups.all()
+        for group in user_groups:
+            if group.permissions.filter(codename='view_subcategory').exists():
+                user_has_permission = True
+                break
+
+    if not user_has_permission:
+        # Return some error or handle permission denial
+        return render(request, 'Al-admin/permission/permission_denied.html')
+
+    context = {
+        'subCategory': subCategory,
+        'Categorys': Categorys,
+        'form': form,
+        'selected_category': category_filter,
+        'search_query': search_query,
+        'childsubcategory_value':childsubcategory_value,
+    }
+    return render(request, "Al-admin/product/childsubcategory-admin.html", context)
+
+
+
+# Childe Sub Category Delete function
+
+@login_required
+def delete_childsubcategory(request, childsubcategory_id):
+    if request.method == 'POST':
+        try:
+            childsubcategory = ChildSubCategory.objects.get(id=childsubcategory_id)
+            print(childsubcategory)
+            childsubcategory.delete()
+            return JsonResponse({'message': 'category deleted successfully'})
+        except Coupon.DoesNotExist:
+            return JsonResponse({'message': 'category not found'}, status=404)
         except Exception as e:
             return JsonResponse({'message': str(e)}, status=400)
     else:
