@@ -130,3 +130,88 @@ def delete_category(request, category_id):
             return JsonResponse({'message': str(e)}, status=400)
     else:
         return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
+
+# Sub Category Add, Update, Delete And Search Function
+
+@login_required
+def subcategory_admin(request, subcategory_id=None):
+    if subcategory_id:
+        # Fetch the subcategory instance if the subcategory_id is provided
+        subcategory_instance = get_object_or_404(SubCategory, pk=subcategory_id)
+    else:
+        subcategory_instance = None
+
+    if request.method == 'POST':
+        if subcategory_instance:
+            # If subcategory_instance exists, update it
+            form = SubCategoryForm(request.POST, request.FILES, instance=subcategory_instance)
+        else:
+            # If not, create a new instance
+            form = SubCategoryForm(request.POST, request.FILES)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('subcategory-admin'))
+        
+        else:
+            print('form not valid ')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        # If it's a GET request, populate the form with existing instance data if available
+        form = SubCategoryForm(instance=subcategory_instance)
+
+    subCategory_value = SubCategory.objects.all()
+    Categorys = ParentCategory.objects.all()
+    
+    search_query = request.GET.get('search', '')
+    category_filter = request.GET.get('category', '')
+    
+    if search_query:
+        subCategory_value = subCategory_value.filter(Q(name__icontains=search_query) | 
+                                                     Q(description__icontains=search_query))
+    if category_filter:
+        subCategory_value = subCategory_value.filter(main_Category__name=category_filter)
+
+    user_has_permission = request.user.has_perm('products.view_subcategory')
+
+    # Check group permissions
+    if not user_has_permission:
+        user_groups = request.user.groups.all()
+        for group in user_groups:
+            if group.permissions.filter(codename='view_subcategory').exists():
+                user_has_permission = True
+                break
+
+    if not user_has_permission:
+        # Return some error or handle permission denial
+        return render(request, 'Al-admin/permission/permission_denied.html')
+
+    context = {
+        'subCategory_value': subCategory_value,
+        'Categorys': Categorys,
+        'form': form,
+        'selected_category': category_filter,
+        'search_query': search_query,
+    }
+    return render(request, "Al-admin/product/subcategory-admin.html", context)
+
+# Sub Category Delete Function
+
+@login_required
+def delete_subcategory(request, subcategory_id):
+    if request.method == 'POST':
+        try:
+            Sub_category = SubCategory.objects.get(id=subcategory_id)
+            print(Sub_category)
+            Sub_category.delete()
+            return JsonResponse({'message': 'Subcategory deleted successfully'})
+        except Coupon.DoesNotExist:
+            return JsonResponse({'message': 'Subcategory not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request'}, status=400)
