@@ -1262,9 +1262,9 @@ def get_subcategories(request):
         data = json.loads(request.body)
         selected_category = data.get('selectedCategory')
         print(selected_category)
-        subcategories = SubCategory.objects.filter(main_Category__name=selected_category)
+        subcategories = SubCategory.objects.filter(parent_category__name=selected_category)
         print(subcategories)
-        subcategories_data = [{'name': subcategory.name, 'url_key': subcategory.url_Key} for subcategory in subcategories]
+        subcategories_data = [{'name': subcategory.name} for subcategory in subcategories]
         return JsonResponse({'subcategories': subcategories_data})
     
 # category value based brand fetch function

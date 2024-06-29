@@ -34,21 +34,7 @@
                   <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Banner">
                     <li class="collapsed-nav-item-title d-none">Banner Management
                     </li>
-                    <!-- {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner  %}
-                    <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
-                      </div>
-                    </a>
-                  
-                  </li>  
-                  {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_mainbanner  %}
-                  <li class="nav-item"><a class="nav-link " href="{% url 'Buy-Promo-Banner' %}" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center"><span class="nav-link-text">Main Banner</span>
-                    </div>
-                  </a>
-           
-                </li>  
-                {% endif %} {% endfor %} {% endif %} {% endif %} -->
+                    
 
 
                 {% if request.user.is_authenticated %} {% if perms.banners.view_mainbanner %}
@@ -527,6 +513,10 @@
             <div class="col-12 col-xl-8">
               <input class="form-control mb-5 required-field" name="name" type="text" placeholder="Write Name here..." data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Name." value="{{product_data.product_name}}" />
               <div class="mb-6">
+                <h5 class="mb-3 text-1000">product Sku</h5>
+                <input class="form-control required-field" type="text" name="sku" placeholder="SKU" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product SKU." value="{{product_data.product_sku}}" />
+              </div>
+              <div class="mb-6">
                 <h4 class="mb-3"> Product Description</h4>
                 <textarea class="tinymce" id="description" name="description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'>{{product_data.description}}</textarea>
               </div>
@@ -546,30 +536,6 @@
               {% endfor %}
               <input class="form-control mb-1" type="file" id="img" name="file" accept="image/*" multiple required>
               <span class="text-500 mb-3">Select Multiple Image Using Ctrl+ or Shift+ click</span>
-              <!-- <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone" data-parsley-dropzone data-parsley-trigger="change">
-                <div class="fallback">
-                  <input class="required-field" name="file" type="file" id="product_images" multiple="multiple" required />
-                </div>
-                <div class="d-flex"> {% for image in product_images %} <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                    <img class="dz-image" src="{{ image.image.url }}" alt="{{ image.image}}" data-dz-thumbnail="data-dz-thumbnail" />
-                    <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove" data-image-id="{{ image.id }}">
-                      <span data-feather="x"></span>
-                    </a>
-                  </div> {% endfor %} </div>
-                <div class="dz-preview d-flex flex-wrap">
-                  <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                    <img class="dz-image" src="" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                    <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                      <span data-feather="x"></span>
-                    </a>
-                  </div>
-                </div>
-                <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                  <button class="btn btn-link p-0" type="button">Browse from device</button>
-                  <br />
-                  <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                </div>
-              </div> -->
               <h4 class="mb-3">Inventory</h4>
               <div class="row g-0 border-top border-bottom border-300">
                 <div class="col-sm-4">
@@ -584,11 +550,11 @@
                     </a>
                     <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
-                      <span class="d-none d-sm-inline">Product Number</span>
+                      <span class="d-none d-sm-inline">SEO Settings</span>
                     </a>
-                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="attributesTab" data-bs-toggle="tab" data-bs-target="#attributesTabContent" role="tab" aria-controls="attributesTabContent" aria-selected="false">
+                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="attributesTab" data-bs-toggle="tab" data-bs-target="#MeasurementTopContent" role="tab" aria-controls="MeasurementTopContent" aria-selected="false">
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="sliders"></span>
-                      <span class="d-none d-sm-inline">Attributes</span>
+                      <span class="d-none d-sm-inline">Measurement</span>
                     </a>
                   </div>
                 </div>
@@ -598,41 +564,31 @@
                       <h4 class="mb-3 d-sm-none">Pricing</h4>
                       <div class="row g-3">
                         <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">Special price</h5>
-                          <input class="form-control" type="text" name="special_price" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Special Price." placeholder="AED" value="{% if product_data.special_price %}{{product_data.special_price}}{% endif %}" />
+                          <h5 class="mb-2 text-1000">Sale price</h5>
+                          <input class="form-control" type="text" name="sale_price" data-parsley-type="number" required data-parsley-required-message="☒ Please enter sale price." placeholder="AED" value="{% if product_data.sale_price %}{{product_data.sale_price}}{% endif %}" />
                         </div>
                         <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">price</h5>
-                          <input class="form-control required-field" type="text" name="price" placeholder="AED" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Price." value="{{product_data.price}}" />
-                        </div>
-                        <!-- <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">Warranty conditions</h5>
-                          <input class="form-control" type="text" name="Warranty" placeholder="Warranty" value="{% if product_data.warranty_conditions %}{{product_data.warranty_conditions}}{% endif %}" />
-                        </div> -->
-                        <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">Weight</h5>
-                          <input class="form-control" type="text" name="Weight" placeholder="Weight" value="{% if product_data.weight %}{{ product_data.weight }}{% endif %}" />
-                        </div>
+                          <h5 class="mb-2 text-1000">Regular price </h5>
+                          <input class="form-control required-field" type="text" name="regular_price" placeholder="AED" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter regular price." value="{{product_data.regular_price}}" />
+                        </div>                        
                       </div>
                     </div>
                     <div class="tab-pane fade h-100" id="restockTabContent" role="tabpanel" aria-labelledby="restockTab">
-                      <div class="d-flex flex-column h-100">
-                        <h5 class="mb-3 text-1000">Add to Stock</h5>
-                        <div class="row g-3 flex-1 mb-4">
-                          <div class="col-sm-7">
-                            <input class="form-control required-field" type="number" name="stock" placeholder="Quantity" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Available Stock." value="{{product_data.number_of_stock_in}}" />
-                          </div>
-                          <div class="col-sm-7">
-                            <div class="mb-4">
-                              <div class="d-flex flex-wrap mb-2">
-                                <h5 class="mb-0 text-1000 me-2">Stock Status</h5>
-                              </div>
-                              <select class="form-select mb-3 required-field" name="stock_status" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please Select Stock Status.">
-                                <option value="Instock" {% if product_data.stock_status == 'Instock'%} selected {% endif %}>Instock</option>
-                                <option value="Out of Stock" {% if product_data.stock_status == 'Out of Stock'%} selected {% endif %}>Out of Stock</option>
-                              </select>
-                            </div>
-                          </div>
+                      <div class="row g-3">
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-3 text-1000">Add to Stock</h5>
+                          <input class="form-control required-field" type="number" name="stock" placeholder="Quantity" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter Available Stock." value="{{product_data.number_of_stock_in}}" />
+                        </div>
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-3 text-1000 me-2">Stock Status</h5>
+                          <select class="form-select mb-3 required-field" name="stock_status" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please Select Stock Status.">
+                            <option value="Instock" {% if product_data.stock_status == 'Instock'%} selected {% endif %}>Instock</option>
+                            <option value="Out of Stock" {% if product_data.stock_status == 'Out of Stock'%} selected {% endif %}>Out of Stock</option>
+                          </select>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-3 text-1000">Low stock amount </h5>
+                          <input class="form-control required-field" type="number" name="low_stock_amount" placeholder="low stock amount" data-parsley-group="product" data-parsley-type="number" required data-parsley-required-message="☒ Please enter low stock amount." value="{{product_data.low_stock_amount}}" />
                         </div>
                       </div>
                     </div>
@@ -648,103 +604,25 @@
                         </div>
                       </div>
                     </div>
-                    <div class="tab-pane fade" id="attributesTabContent" role="tabpanel" aria-labelledby="attributesTab">
-                      <h5 class="mb-3 text-1000">Attributes</h5>
-                      <div class="mb-5">
-                        <div class="ps-4 align-items-center mb-3">
-                          <!-- <select class="form-select ps-4 attributes" id="organizerMultipleValue" name="attribute" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'><option value="custom product attribute" selected disabled>custom product attribute</option> -->
-                          <!-- Add the options dynamically using the for loop -->
-                          <!-- {% for attribute in attribute %}
-                                <option value="{{attribute.name}}">{{attribute.name}}</option>
-                                {% endfor %} -->
-                          <!-- </select>     -->
-                          <select class="form-select ps-4 attributes" name="attribute" id="Attributes-res" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
-                            <option value="" disabled selected>select Attribute</option> {% for attribute in attribute %} <option value="{{attribute.attribute}}">{{attribute.attribute}}</option> {% endfor %}
-                          </select>
-                          <!-- <button class="btn btn-outline-primary me-1 mb-1 flex-grow-1" type="button" id="addAttributeBtn">Add</button> -->
+                    <div class="tab-pane fade" id="MeasurementTopContent" role="tabpanel" aria-labelledby="attributesTab">
+                      <div class="row g-3">
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-2 text-1000">Weight</h5>
+                          <input class="form-control" type="text" name="weight" placeholder="weight" value="{% if product_data.weight %}{{ product_data.weight }}{% endif %}" />
                         </div>
-                        <!-- <div> -->
-                          <button class="btn btn-primary btn-sm me-1 mb-1 float-end" type="button" id="addAttributeBtn">Add attributes</button>
-                        <button class="btn btn-primary btn-sm me-1 mb-1 float-end" type="button" data-bs-toggle="modal" data-bs-target="#verticallyCentered">Add New</button>
-                        <!-- </div>                         -->
-                        <div class="modal fade" id="verticallyCentered" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="verticallyCenteredModalLabel">New Attribute</h5>
-                                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
-                                  <span class="fas fa-times fs--1"></span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <div class="mb-3 row">
-                                  <label class="col-sm-2 col-form-label" for="inputAttribute">Attribute</label>
-                                  <div class="col-sm-10">
-                                    <input class="form-control" id="inputAttribute" type="text" />
-                                  </div>
-                                </div>
-                                <div class="mb-3 row">
-                                  <label class="col-sm-2 col-form-label" for="inputSlot">Slot Position</label>
-                                  <div class="col-sm-10">
-                                    <input class="form-control" id="inputSlot" type="text" />
-                                  </div>
-                                </div>
-                                <div class="form-check form-switch">
-                                  <input class="form-check-input" id="activeAttr" type="checkbox" checked="" />
-                                  <label class="form-check-label" for="activeAttr">Active</label>
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button class="btn btn-primary" type="button" id="addNewAttributeBtn">Save</button>
-                                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
-                              </div>
-                            </div>
-                          </div>
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-2 text-1000">Length</h5>
+                          <input class="form-control" type="text" name="length" placeholder="length" value="{% if product_data.length %}{{ product_data.weight }}{% endif %}" />
                         </div>
-                      </div>
-                      <div id="selectedAttributeValueSection" style="display: none;margin-top: 100px;">
-                        <!-- <h5 id="selectedAttributeValue" class="text-dark"></h5> -->
-                        <div class="table-responsive scrollbar">
-                          <div id="tablesContainer"></div>
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-2 text-1000">Width</h5>
+                          <input class="form-control" type="text" name="width" placeholder="width" value="{% if product_data.width %}{{ product_data.weight }}{% endif %}" />
                         </div>
-                        <!-- Add Attribute Value Modal -->
-                        <div class="modal fade" id="addAttributeValueModal" tabindex="-1" aria-labelledby="addAttributeValueModalLabel" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="addAttributeValueModalLabel">Add Attribute Value</h5>
-                                <button class="btn p-1" type="button" data-bs-dismiss="modal" aria-label="Close">
-                                  <span class="fas fa-times fs--1"></span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <div class="mb-3 row">
-                                  <label class="col-sm-2 col-form-label" for="attributeValueAttribute">Attribute</label>
-                                  <div class="col-sm-10">
-                                    <input class="form-control" id="attributeValueAttribute" type="text" readonly>
-                                  </div>
-                                </div>
-                                <div class="mb-3 row">
-                                  <label class="col-sm-2 col-form-label" for="inputAttributeValue">Value</label>
-                                  <div class="col-sm-10">
-                                    <input class="form-control" id="inputAttributeValue" type="text" required>
-                                  </div>
-                                </div>
-                                <!-- <div class="mb-3 row"><label class="col-sm-2 col-form-label" for="inputAttributeValueSlot">Slot Position</label><div class="col-sm-10"><input class="form-control" id="inputAttributeValueSlot" type="text" required></div></div> -->
-                                <div class="form-check form-switch">
-                                  <input class="form-check-input" id="activeAttributeValue" type="checkbox" checked>
-                                  <label class="form-check-label" for="activeAttributeValue">Active</label>
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button class="btn btn-primary" type="button" id="addNewAttributeValueBtn">Save</button>
-                                <button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button>
-                              </div>
-                            </div>
-                          </div>
+                        <div class="col-12 col-lg-6">
+                          <h5 class="mb-2 text-1000">Height</h5>
+                          <input class="form-control" type="text" name="height" placeholder="height" value="{% if product_data.height %}{{ product_data.weight }}{% endif %}" />
                         </div>
-                      </div>
-                      <!-- <button class="btn btn-primary btn-sm me-1 mb-1" type="button">Save attributes</button>                       -->
+                      </div>                      
                     </div>
                   </div>
                 </div>
@@ -784,27 +662,6 @@
                                           <h4 class="mb-3"> Category Description</h4>
                                           <textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'></textarea>
                                         </div>
-                                        <!-- <div class="mb-6">
-                                          <h4 class="mb-3">Category image</h4>
-                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                            <div class="fallback">
-                                              <input name="brand_img" type="file" id="category_img" />
-                                            </div>
-                                            <div class="dz-preview d-flex flex-wrap">
-                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                                <img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                  <span data-feather="x"></span>
-                                                </a>
-                                              </div>
-                                            </div>
-                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                              <br />
-                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                            </div>
-                                          </div>
-                                        </div> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">Category image</h4>
                                           <input class="form-control" type="file" id="img" name="image" accept="image/*">
@@ -865,11 +722,6 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-                                      <!-- subcategory_form.html -->
-                                      <!-- <form method="post" id="subcategory-form">
-                                              {% csrf_token %}
-                                              {{ form1.as_p }}
-                                              <button class="btn btn-primary" id="add-subcat" type="button">Save</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></form> -->
                                       <form method="post" id="subcategory-form" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
                                           <h4 class="mb-3">Main Category</h4>
                                           <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
@@ -884,27 +736,6 @@
                                           <h4 class="mb-3"> SubCategory Description</h4>
                                           <textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'></textarea>
                                         </div>
-                                        <!-- <div class="mb-6">
-                                          <h4 class="mb-3">SubCategory image</h4>
-                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                            <div class="fallback">
-                                              <input name="brand_img" type="file" id="subcategory_img" />
-                                            </div>
-                                            <div class="dz-preview d-flex flex-wrap">
-                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                                <img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                  <span data-feather="x"></span>
-                                                </a>
-                                              </div>
-                                            </div>
-                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                              <br />
-                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                            </div>
-                                          </div>
-                                        </div> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">SubCategory image</h4>
                                           <input class="form-control" type="file" id="img" name="image" accept="image/*">
@@ -964,42 +795,11 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <!-- brand_form.html -->
-                                    <!-- <form method="post" id="brand-form">
-                                            {% csrf_token %}
-                                            {{ form2.as_p }}
-                                            <button class="btn btn-primary" id="add-brand" type="button">Save</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></form> -->
                                     <form method="post" id="brand-form" enctype="multipart/form-data"> {% csrf_token %}
-                                      <!-- <div class="mb-6"><h4 class="mb-3">category</h4><select class="form-select mb-3" id="categorySelect" name="category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" disabled selected>select category</option>
-                                                {% for Categorys in Categorys %}
-                                                    <option value="{{ Categorys.name }}" {% if Categorys.name == product_data.category %}selected{% endif %}>{{ Categorys.name }}</option>
-                                                {% endfor %}
-                                            </select></div><div class="mb-6"><h4 class="mb-3">subcategory</h4><select class="form-select mb-3" id="subcategorySelect" name="subcategory" aria-label="subcategory" data-parsley-group="product" required data-parsley-required-message="☒ Please select SubCategory."><option value=""selected disabled>select subcategory</option></select></div>        -->
-                                      <div class="mb-6">
+                                    <div class="mb-6">
                                         <h4 class="mb-3">Brand Name</h4>
                                         <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
                                       </div>
-                                      <!-- <div class="mb-6">
-                                        <h4 class="mb-3">Brand image</h4>
-                                        <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                          <div class="fallback">
-                                            <input name="brand_img" type="file" id="brand_img" />
-                                          </div>
-                                          <div class="dz-preview d-flex flex-wrap">
-                                            <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                              <img class="dz-image" src="../../../assets/img/products/23.png" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                              <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                <span data-feather="x"></span>
-                                              </a>
-                                            </div>
-                                          </div>
-                                          <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                            <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                            <br />
-                                            <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                          </div>
-                                        </div>
-                                      </div> -->
                                       <div class="mb-6">
                                         <h4 class="mb-3">Brand image</h4>
                                         <input class="form-control" type="file" id="img" name="brand_img" accept="image/*">
@@ -1147,22 +947,6 @@
                                   <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
                                   </a>
                                 </div>
-                                <!-- <div class="col-auto d-flex">
-                                      
-                                      {% if product.has_previous %}
-                                      <a class="page-link" href="?page={{ product.previous_page_number }}">previous
-                                        <span class="fas fa-chevron-left"></span></a>
-                                      {% endif %}
-                                      {% for page_num in product.paginator.page_range %}
-                                      <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                                      {% endfor %}
-                                      <ul class="mb-0 pagination d-none"></ul>
-                                      
-                                      {% if product.has_next %}
-                                        <a class="page-link pe-0" href="?page={{ product.next_page_number }}"><span class="fas fa-chevron-right"></span>Next
-                                        </a>
-                                      {% endif %}
-                                    </div> -->
                                 <div class="page_filter" id="page_filter">
                                   <nav class="d-flex justify-content-end" aria-label="Page navigation example"> {% if product.has_previous %} <a class="page-link" href="#" onclick="loadPage(event, {{ product.previous_page_number }})">«</a> {% if product.number > 3 %} <a class="page-link" href="?{{ request.GET.urlencode }}&page=1">1</a> {% if product.number > 4 %} <span class="page-link">...</span> {% endif %} {% endif %} {% endif %} {% for num in product.paginator.page_range %} {% if product.number == num %} <a class="page-link active" href="?page={{ num }}">{{ num }}</a> {% elif num > product.number|add:'-3' and num < product.number|add:'3' %} <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ num }}">{{ num }}</a> {% endif %} {% endfor %} {% if product.has_next %} {% if product.number < product.paginator.num_pages|add:'-3' %} <span class="page-link">...</span>
                                     <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ product.paginator.num_pages }}">{{ product.paginator.num_pages }}</a> {% elif product.number < product.paginator.num_pages|add:'-2' %} <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ product.paginator.num_pages }}">{{ product.paginator.num_pages }}</a> {% endif %} <a class="page-link" href="#" onclick="loadPage(event, {{ product.next_page_number }})">»</a> {% endif %}
@@ -1224,17 +1008,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="accordion-item"><h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                          How long does it take to ship my order?
-      
-                        </button></h2><div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style=""><div class="accordion-body pt-0"><strong>This is the second item's accordion body.</strong>
-                          It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div></div></div> -->
-                <!-- <div class="accordion-item"><h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                          How long does it take to ship my order?
-      
-                        </button></h2><div class="accordion-collapse collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style=""><div class="accordion-body pt-0"><strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div></div></div> -->
               </div>
             </div>
           </div>
@@ -1303,11 +1076,11 @@
                     </a>
                     <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
-                      <span class="d-none d-sm-inline">Product Number</span>
+                      <span class="d-none d-sm-inline">SEO Settings</span>
                     </a>
                     <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="attributesTab" data-bs-toggle="tab" data-bs-target="#attributesTabContent" role="tab" aria-controls="attributesTabContent" aria-selected="false">
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="sliders"></span>
-                      <span class="d-none d-sm-inline">Attributes</span>
+                      <span class="d-none d-sm-inline">Measurement</span>
                     </a>
                   </div>
                 </div>
@@ -1371,12 +1144,6 @@
                       <h5 class="mb-3 text-1000">Attributes</h5>
                       <div class="mb-3">
                         <div class="ps-4 align-items-center mb-3">
-                          <!-- <select class="form-select ps-4 attributes" id="organizerMultipleValue" name="attribute" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'><option value="custom product attribute" selected disabled>custom product attribute</option> -->
-                          <!-- Add the options dynamically using the for loop -->
-                          <!-- {% for attribute in attribute %}
-                                <option value="{{attribute.name}}">{{attribute.name}}</option>
-                                {% endfor %} -->
-                          <!-- </select>     -->
                           <select class="form-select ps-4 attributes" name="attribute" id="Attributes-res" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
                             <option value="" disabled selected>select Attribute</option> {% for attribute in attribute %} <option value="{{attribute.attribute}}">{{attribute.attribute}}</option> {% endfor %}
                           </select>
@@ -1498,27 +1265,6 @@
                                           <h4 class="mb-3"> Category Description</h4>
                                           <textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'></textarea>
                                         </div>
-                                        <!-- <div class="mb-6">
-                                          <h4 class="mb-3">Category image</h4>
-                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                            <div class="fallback">
-                                              <input name="brand_img" type="file" id="category_img" />
-                                            </div>
-                                            <div class="dz-preview d-flex flex-wrap">
-                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                                <img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                  <span data-feather="x"></span>
-                                                </a>
-                                              </div>
-                                            </div>
-                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                              <br />
-                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                            </div>
-                                          </div>
-                                        </div> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">Category image</h4>
                                           <input class="form-control" type="file" id="img" name="image" accept="image/*">
@@ -1579,11 +1325,6 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-                                      <!-- subcategory_form.html -->
-                                      <!-- <form method="post" id="subcategory-form">
-                                              {% csrf_token %}
-                                              {{ form1.as_p }}
-                                              <button class="btn btn-primary" id="add-subcat" type="button">Save</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></form> -->
                                       <form method="post" id="subcategory-form" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
                                           <h4 class="mb-3">Main Category</h4>
                                           <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
@@ -1598,27 +1339,6 @@
                                           <h4 class="mb-3"> SubCategory Description</h4>
                                           <textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'></textarea>
                                         </div>
-                                        <!-- <div class="mb-6">
-                                          <h4 class="mb-3">SubCategory image</h4>
-                                          <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                            <div class="fallback">
-                                              <input name="brand_img" type="file" id="subcategory_img" />
-                                            </div>
-                                            <div class="dz-preview d-flex flex-wrap">
-                                              <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                                <img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                                <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                  <span data-feather="x"></span>
-                                                </a>
-                                              </div>
-                                            </div>
-                                            <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                              <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                              <br />
-                                              <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                            </div>
-                                          </div>
-                                        </div> -->
                                         <div class="mb-6">
                                           <h4 class="mb-3">SubCategory image</h4>
                                           <input class="form-control" type="file" id="img" name="image" accept="image/*">
@@ -1678,42 +1398,12 @@
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    <!-- brand_form.html -->
-                                    <!-- <form method="post" id="brand-form">
-                                            {% csrf_token %}
-                                            {{ form2.as_p }}
-                                            <button class="btn btn-primary" id="add-brand" type="button">Save</button><button class="btn btn-outline-primary" type="button" data-bs-dismiss="modal">Cancel</button></form> -->
                                     <form method="post" id="brand-form" enctype="multipart/form-data"> {% csrf_token %}
-                                      <!-- <div class="mb-6"><h4 class="mb-3">category</h4><select class="form-select mb-3" id="categorySelect" name="category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category."><option value="" disabled selected>select category</option>
-                                                {% for Categorys in Categorys %}
-                                                    <option value="{{ Categorys.name }}" {% if Categorys.name == product_data.category %}selected{% endif %}>{{ Categorys.name }}</option>
-                                                {% endfor %}
-                                            </select></div><div class="mb-6"><h4 class="mb-3">subcategory</h4><select class="form-select mb-3" id="subcategorySelect" name="subcategory" aria-label="subcategory" data-parsley-group="product" required data-parsley-required-message="☒ Please select SubCategory."><option value=""selected disabled>select subcategory</option></select></div>        -->
+                                      </select></div><div class="mb-6"><h4 class="mb-3">subcategory</h4><select class="form-select mb-3" id="subcategorySelect" name="subcategory" aria-label="subcategory" data-parsley-group="product" required data-parsley-required-message="☒ Please select SubCategory."><option value=""selected disabled>select subcategory</option></select></div>        -->
                                       <div class="mb-6">
                                         <h4 class="mb-3">Brand Name</h4>
                                         <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
                                       </div>
-                                      <!-- <div class="mb-6">
-                                        <h4 class="mb-3">Brand image</h4>
-                                        <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone">
-                                          <div class="fallback">
-                                            <input name="brand_img" type="file" id="brand_img" />
-                                          </div>
-                                          <div class="dz-preview d-flex flex-wrap">
-                                            <div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;">
-                                              <img class="dz-image" src="../../../assets/img/products/23.png" alt="..." data-dz-thumbnail="data-dz-thumbnail" />
-                                              <a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove">
-                                                <span data-feather="x"></span>
-                                              </a>
-                                            </div>
-                                          </div>
-                                          <div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span>
-                                            <button class="btn btn-link p-0" type="button">Browse from device</button>
-                                            <br />
-                                            <img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" />
-                                          </div>
-                                        </div>
-                                      </div> -->
                                       <div class="mb-6">
                                         <h4 class="mb-3">Brand image</h4>
                                         <input class="form-control" type="file" id="img" name="brand_img" accept="image/*">
@@ -1861,31 +1551,13 @@
                                   <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less <span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span>
                                   </a>
                                 </div>
-                                <!-- <div class="col-auto d-flex">
-                                      
-                                      {% if product.has_previous %}
-                                      <a class="page-link" href="?page={{ product.previous_page_number }}">previous
-                                        <span class="fas fa-chevron-left"></span></a>
-                                      {% endif %}
-                                      {% for page_num in product.paginator.page_range %}
-                                      <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                                      {% endfor %}
-                                      <ul class="mb-0 pagination d-none"></ul>
-                                      
-                                      {% if product.has_next %}
-                                        <a class="page-link pe-0" href="?page={{ product.next_page_number }}"><span class="fas fa-chevron-right"></span>Next
-                                        </a>
-                                      {% endif %}
-                                    </div> -->
                                 <div class="page_filter" id="page_filter">
                                   <nav class="d-flex justify-content-end" aria-label="Page navigation example"> {% if product.has_previous %} <a class="page-link" href="#" onclick="loadPage(event, {{ product.previous_page_number }})">«</a> {% if product.number > 3 %} <a class="page-link" href="?{{ request.GET.urlencode }}&page=1">1</a> {% if product.number > 4 %} <span class="page-link">...</span> {% endif %} {% endif %} {% endif %} {% for num in product.paginator.page_range %} {% if product.number == num %} <a class="page-link active" href="?page={{ num }}">{{ num }}</a> {% elif num > product.number|add:'-3' and num < product.number|add:'3' %} <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ num }}">{{ num }}</a> {% endif %} {% endfor %} {% if product.has_next %} {% if product.number < product.paginator.num_pages|add:'-3' %} <span class="page-link">...</span>
                                     <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ product.paginator.num_pages }}">{{ product.paginator.num_pages }}</a> {% elif product.number < product.paginator.num_pages|add:'-2' %} <a class="page-link" href="?{{ request.GET.urlencode }}&page={{ product.paginator.num_pages }}">{{ product.paginator.num_pages }}</a> {% endif %} <a class="page-link" href="#" onclick="loadPage(event, {{ product.next_page_number }})">»</a> {% endif %}
                                   </nav>
                                 </div>
                               </div>
-                              <!-- Add the pagination links -->
-                              <!-- <div class="d-flex justify-content-end"><nav aria-label="Page navigation example"><ul class="pagination mb-0"> {% if product.has_previous %} <li class="page-item"><a class="page-link" href="?page={{ product.previous_page_number }}"><span class="fas fa-chevron-left"></span></a></li> {% endif %} {% for page_num in product.paginator.page_range %} <li class="page-item "><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li> {% endfor %} {% if product.has_next %} <li class="page-item"><a class="page-link pe-0" href="?page={{ product.next_page_number }}"><span class="fas fa-chevron-right"></span></a></li> {% endif %} </ul></nav></div> -->
-                            </div>
+                             </div>
                           </div>
                         </div>
                       </div>
@@ -1938,111 +1610,13 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="accordion-item"><h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                          How long does it take to ship my order?
-      
-                        </button></h2><div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style=""><div class="accordion-body pt-0"><strong>This is the second item's accordion body.</strong>
-                          It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div></div></div> -->
-                <!-- <div class="accordion-item"><h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                          How long does it take to ship my order?
-      
-                        </button></h2><div class="accordion-collapse collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style=""><div class="accordion-body pt-0"><strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div></div></div> -->
               </div>
             </div>
           </div>
         </form>
       </div> {% endif %} {% endfor %} {% endif %} {% endif %}
     </div>
-    <!-- <script>
-      $(function () {
-    var form = $('#product-adding');
-    form.parsley();
 
-    form.on('keyup change click', 'input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]', function () {
-        $(this).parsley().validate();
-
-        console.log("Field validation status:", $(this).parsley().isValid());
-
-        var isValid = form.parsley().isValid({ group: 'product' }); // Validate only fields in the "product" group
-        if (!isValid) {
-        console.log("Validation error for field:", this.name, $(this).parsley().getErrorsMessages().join(', '));
-    }
-        // Validate dropzone
-        var dropzoneValid = $('[data-parsley-dropzone]').parsley().validate();
-        console.log("Dropzone validation status:", dropzoneValid);
-
-        var allFieldsFilled = form.find('input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]').toArray().every(function (field) {
-            var $field = $(field);
-            var fieldValue = $field.val();
-
-            // Check if the field value is null or undefined before trimming
-            if (fieldValue != null && fieldValue.trim) {
-                fieldValue = fieldValue.trim();
-            }
-
-            if ($field.is('select')) {
-                console.log(' if condition 2 is work');
-                return fieldValue !== '' && fieldValue !== 'default';
-            }
-
-            return fieldValue !== '';
-        });
-
-        console.log("Form validation status:", isValid);
-        console.log("All fields filled:", allFieldsFilled);
-
-        // Enable the submit button only if all validations pass and at least one image is selected
-        $('#add-product').prop('disabled', !(isValid && allFieldsFilled && dropzoneValid) || !dropzoneValid);
-    });
-});
-
-
-
-      $(function () {
-        var form = $('#product-update');
-        form.parsley();
-
-        form.on('keyup change click', 'input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]', function () {
-          $(this).parsley().validate();
-
-          console.log("Field validation status:", $(this).parsley().isValid());
-
-          var isValid = form.parsley().isValid({ group: 'product' }); // Validate only fields in the "product" group
-          // Validate dropzone
-          var dropzoneValid = $('[data-parsley-dropzone]').parsley().validate();
-          console.log("Dropzone validation status:", dropzoneValid);
-
-          var allFieldsFilled = form.find('input[data-parsley-group="product"], textarea[data-parsley-group="product"], select[data-parsley-group="product"]').toArray().every(function (field) {
-            var $field = $(field);
-            var fieldValue = $field.val();
-
-            // Check if the field value is null or undefined before trimming
-            if (fieldValue != null && fieldValue.trim) {
-                fieldValue = fieldValue.trim();
-                console.log('trim function is work')
-            }
-
-            if ($field.is('select')) {
-              console.log('select feilds if condition is work')
-              return fieldValue !== '' && fieldValue !== 'default';
-              
-            }
-
-            return fieldValue !== '';
-          });
-
-          console.log("Form validation status:", isValid);
-          console.log("All fields filled:", allFieldsFilled);
-
-          // Enable the submit button only if all validations pass and at least one image is selected
-          $('#update-product').prop('disabled', !(isValid && allFieldsFilled && dropzoneValid) || !dropzoneValid);
-        });
-      });
-
-
-    </script> -->
 </section>
 
     <script>
@@ -2151,7 +1725,7 @@
       const selectedCategory = document.getElementById('categorySelect').value;
       console.log(selectedCategory)
       axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-      axios.post('/Al-admin/get-subcategories', data={ selectedCategory: selectedCategory })
+      axios.post('/okka-admin/get-subcategories', data={ selectedCategory: selectedCategory })
       .then(function (response) {
       // Handle the response and update the UI with the retrieved subcategories
       const subcategories = response.data.subcategories;
@@ -2196,7 +1770,7 @@
       const selectedsubCategory = document.getElementById('subcategorySelect').value;
       console.log(selectedsubCategory)
       axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-      axios.post('/Al-admin/get-brand', data={ selectedsubCategory: selectedsubCategory, selectedCategory:selectedCategory })
+      axios.post('/okka-admin/get-brand', data={ selectedsubCategory: selectedsubCategory, selectedCategory:selectedCategory })
       .then(function (response) {
       // Handle the response and update the UI with the retrieved subcategories
       const brand = response.data.brand;
@@ -2244,7 +1818,7 @@
       const selectedsubCategory = document.getElementById('subcategorySelect').value;
       console.log(selectedsubCategory)
       axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-      axios.post('/Al-admin/get-attribute', data={ selectedsubCategory: selectedsubCategory })
+      axios.post('/okka-admin/get-attribute', data={ selectedsubCategory: selectedsubCategory })
       .then(function (response) {
       // Handle the response and update the UI with the retrieved subcategories
       const Attributes = response.data.Attributes;
@@ -2272,68 +1846,7 @@
 
   });
   
-      // const form = document.getElementById('product-adding');
-      // const addButton = document.getElementById('add-product');
-
-      // if(addButton){
-
-      //   addButton.addEventListener('click', function(event) {
-      //   event.preventDefault(); // Prevent default form submission
-
-      //   // Gather form data
-      //   const formData = new FormData(form);
-      //   console.log(formData)
-
-        
-      //   // Get the content of the TinyMCE editor
-      //   // var shortDescriptionContent = tinymce.get('short_description').getContent();
-      //   var description = tinymce.get('description').getContent();
-      //   console.log(description)
-      //   var short_description = tinymce.get('short_description').getContent();
-      //   console.log(short_description)
-      //   // Capture the data from selected checkboxes
-      //   const selectedCheckboxes = document.querySelectorAll('.upsell_selected:checked');
-      //   const upsellData = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-      //   console.log(upsellData);
-
-      //   console.log('Upsell product data:', upsellData);
-      //   // Append description and short_description to the FormData
-      //   formData.append('description', description);
-      //   formData.append('short_description', short_description);
-      //   formData.append('upsell_product', upsellData);
-
-      //   const imageElements = document.querySelectorAll('.dz-image');
-      //   const imageSources = Array.from(imageElements).map(element => element.getAttribute('alt'));
-      //   console.log('print image source')
-      //   console.log(imageSources)
-      //   const image_list =[imageSources]
-      //   console.log(image_list)
-
-      //   // formData.append('file', imageSources);
-      //   formData.append('file', image_list);
-
-      //   // const attributeValue = Array.from(document.querySelectorAll('.attributeValue option:checked'), option => option.value);
-      //   // console.log(attributeValue)
-
-      //   // // formData.append('attributeValue', attributeValue);
-      //   // formData.append('attributeValue', attributeValue);
-              
-      //   // Make a POST request using Axios
-      //   axios.post('/Al-admin/product-adding', formData)
-      //     .then(response => {
-      //       // Handle success (e.g., show a success message)
-      //       console.log('Product added successfully!', response.data);
-      //       // Reload the page
-      //       window.location.reload();
-      //     })
-      //     .catch(error => {
-      //       // Handle error (e.g., show an error message)
-      //       console.error('Error adding product:', error);
-      //     });
-      //   });
-
-      // }
-
+    
 
       const form = document.getElementById('product-adding');
       const addButton = document.getElementById('add-product');
@@ -2378,28 +1891,8 @@
             formData.append('images[]', imageFiles[i]);
           }
 
-          // const imageElements = document.querySelectorAll('.dz-image');
-          // const imageFiles = [];
-
-          // Iterate over each image element to get the associated file
-          // imageElements.forEach(element => {
-          //     const file = element.querySelector('img').file; // Assuming the file reference is stored in the 'file' property of the image element
-          //     console.log(file)
-          //     imageFiles.push(file);
-          // });
-
-          // console.log('Print image files');
-          // console.log(imageFiles);
-          // console.log(file)
-
-          // Create FormData object and append image files
-          // const formData = new FormData();
-          // imageFiles.forEach(file => {
-          //     formData.append('images[]', file);
-          // });
-
           // Make a POST request using Axios
-          axios.post('/Al-admin/product-adding', formData)
+          axios.post('/okka-admin/product-adding', formData)
             .then(response => {
               // Handle success (e.g., show a success message)
               console.log('Product added successfully!', response.data);
@@ -2509,7 +2002,7 @@
         if (selectedValues.length > 0) {
           // Make an axios POST request to the server
           axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-          axios.post("/Al-admin/upsell-selection", { selectedValues: selectedValues })
+          axios.post("/okka-admin/upsell-selection", { selectedValues: selectedValues })
             .then(response => {
               // Handle the response here
               const responseData = response.data;
@@ -2581,7 +2074,7 @@
         if (selectedValues.length > 0) {
           // Make an axios POST request to the server
           axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-          axios.post("/Al-admin/upsell-selection", { selectedValues: selectedValues })
+          axios.post("/okka-admin/upsell-selection", { selectedValues: selectedValues })
             .then(response => {
               // Handle the response here
               const responseData = response.data;
@@ -2634,81 +2127,6 @@
 
  
 
-      
-
-
-    
-
-    // const updateform = document.getElementById('product-update');
-    // const updateButton = document.getElementById('update-product');
-    
-    // if(updateButton){
-
-    //   updateButton.addEventListener('click', function(event) {
-    //     event.preventDefault(); // Prevent default form submission
-
-    //     // Gather form data
-    //     const formData = new FormData(updateform);
-    //     console.log(formData)
-
-        
-    //     // Get the content of the TinyMCE editor
-    //     // var shortDescriptionContent = tinymce.get('short_description').getContent();
-    //     var description = tinymce.get('description').getContent();
-    //     console.log(description)
-    //     var short_description = tinymce.get('short_description').getContent();
-    //     console.log(short_description)
-    //     // Capture the data from selected checkboxes
-    //     const selectedCheckboxes = document.querySelectorAll('.upsell_selected:checked');
-    //     const upsellData = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-    //     console.log(upsellData);
-        
-
-    //     console.log('Upsell product data:', upsellData);
-
-    //     // Append description and short_description to the FormData
-    //     formData.append('description', description);
-    //     formData.append('short_description', short_description);
-    //     formData.append('upsell_product', upsellData);
-
-    //     const imageElements = document.querySelectorAll('.dz-image');
-    //     const imageSources = Array.from(imageElements).map(element => element.getAttribute('alt'));
-    //     console.log('print image source')
-    //     console.log(imageSources)
-    //     const image_list =[imageSources]
-    //     console.log(image_list)
-
-    //     // formData.append('file', imageSources);
-    //     formData.append('file', image_list);
-
-    //     // const attributeValue = Array.from(document.querySelectorAll('.attributeValue option:checked'), option => option.value);
-    //     // console.log(attributeValue)
-
-    //     // // formData.append('attributeValue', attributeValue);
-    //     // formData.append('attributeValue', attributeValue);
-
-    //     // const product_id = '{{ product_id }}';
-
-    //     const product_id = document.getElementById('product-id').value;
-    //     console.log(product_id)
-              
-    //     // Make a POST request using Axios
-    //     axios.post(`/Al-admin/product-update/${product_id}/`, formData)
-    //       .then(response => {
-    //         // Handle success (e.g., show a success message)
-    //         console.log('Product added successfully!', response.data);
-    //         // Reload the page
-    //         // window.location.reload();
-    //         window.location.href = '{% url "product-list" %}';
-    //       })
-    //       .catch(error => {
-    //         // Handle error (e.g., show an error message)
-    //         console.error('Error adding product:', error);
-    //       });
-    //   });
-
-    // }
-
     const updateform = document.getElementById('product-update');
     const updateButton = document.getElementById('update-product');
 
@@ -2744,15 +2162,6 @@
         formData.append('short_description', short_description);
         formData.append('upsell_product', upsellData);
 
-        // const imageElements = document.querySelectorAll('.dz-image');
-        // const imageSources = Array.from(imageElements).map(element => element.getAttribute('alt'));
-        // console.log('print image source');
-        // console.log(imageSources);
-        // const image_list = [imageSources];
-        // console.log(image_list);
-
-        // // formData.append('file', imageSources);
-        // formData.append('file', image_list);
 
         // Get the image files
         const imageFiles = updateform.querySelector('#img').files;
@@ -2768,7 +2177,7 @@
         console.log(product_id);
 
         // Make a POST request using Axios
-        axios.post(`/Al-admin/product-update/${product_id}/`, formData)
+        axios.post(`/okka-admin/product-update/${product_id}/`, formData)
           .then(response => {
             // Handle success (e.g., show a success message)
             console.log('Product updated successfully!', response.data);
@@ -2783,18 +2192,7 @@
 
     }
 
-    // function validateUpdateForm() {
-    //   // Add your validation logic here
-    //   // For example, you can check if required fields are filled
-    //   const requiredFields = document.querySelectorAll('.required-field');
-    //   for (const field of requiredFields) {
-    //     if (!field.value) {
-    //       alert(`Please fill in the ${field.name} field.`);
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // }
+
 
 
 
@@ -2802,108 +2200,10 @@
 
     </script>
 
-    <!-- <script>
-        function fetchSubcategories() {
-            const selectedCategory = document.getElementById('categorySelect').value;
-            console.log(selectedCategory)
-            axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-            axios.post('get-subcategories', data={ selectedCategory: selectedCategory })
-                .then(function (response) {
-                    // Handle the response and update the UI with the retrieved subcategories
-                    const subcategories = response.data.subcategories;
-                    console.log(subcategories)
-                    const subcategorySelect = document.getElementById('subcategorySelect');
-    
-                    // Clear previous options
-                    subcategorySelect.innerHTML = '';
-    
-                    // Add new options based on the retrieved subcategories
-                    subcategories.forEach(function (subcategory) {
-                        const option = document.createElement('option');
-                        option.value = subcategory.url_key;
-                        option.textContent = subcategory.name;
-                        subcategorySelect.appendChild(option);
-                    });
-                })
-                .catch(function (error) {
-                    console.error(error);
-                });
-        }
-    
-        // Call the fetchSubcategories function when the category selection changes
-        document.getElementById('categorySelect').addEventListener('change', fetchSubcategories);
-    </script> -->
+  
     
 
     <script>
-
-
-
-          // document.getElementById('addAttributeBtn').addEventListener('click', function() {
-          //   var selectedAttributes = Array.from(document.querySelector('.attributes').selectedOptions, option => option.value);
-          //   console.log(selectedAttributes)
-
-          //   var tablesContainer = document.getElementById('tablesContainer');
-          //   tablesContainer.innerHTML = '';
-
-          //   selectedAttributes.forEach(function(selectedAttribute) {
-          //     // Create a table element
-          //     const table = document.createElement('table');
-          //     table.className = 'table';
-          //     table.innerHTML = `
-          //       <tbody>
-          //         <tr>
-          //           <td>
-          //             <label>Name:</label><br>
-          //             <strong>${selectedAttribute}</strong>
-          //           </td>
-          //           <td rowspan="3">
-          //             <div class="mb-3">
-          //               <div class="ps-4" style="max-width: 350px;">
-          //                 <label for="organizerMultipleValue">Value(s) :</label>
-          //                 <select class="form-select ps-4 organizerMultipleValue_${selectedAttribute} attributeValue" id="organizerMultipleValue" name="attributeValue" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
-          //                   <option value="" disabled>Select value(s)</option>                                     
-          //                 </select>
-          //               </div>
-          //               <button class="btn btn-phoenix-primary me-1 mb-1 mt-3 select_all_attributes" type="button">Select all</button>
-          //               <button class="btn btn-phoenix-primary me-1 mb-1 mt-3 select_no_attributes" type="button">Select none</button>
-          //               <button class="btn btn-phoenix-primary me-1 mb-1 mt-3 add_new_attribute_value" type="button">Add new</button>
-          //             </div>
-          //           </td>
-          //         </tr>
-          //       </tbody>
-          //     `;
-
-          //     // Append the table to the container
-          //     tablesContainer.appendChild(table);
-          //     console.log(tablesContainer)
-
-          //     // Fetch attribute values for the selected attribute
-          //     axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-          //     axios.post('/Al-admin/Attribute-values', { attribute: [selectedAttribute] })
-          //       .then(function(response) {
-          //         var attributeValues = response.data.attributevalue;
-          //         console.log(attributeValues)
-          //         var selectElement = document.querySelector(`.organizerMultipleValue_${selectedAttribute}`);
-          //         selectElement.innerHTML = '';
-
-          //         if (attributeValues.length > 0) {
-          //           attributeValues.forEach(function(AttributeValue) {
-          //             const option = new Option(AttributeValue.name, AttributeValue.name);
-          //             selectElement.appendChild(option);
-          //           });
-          //         } else {
-          //           const defaultOption = new Option('No values found', '');
-          //           selectElement.appendChild(defaultOption);
-          //         }
-          //         document.getElementById('selectedAttributeValueSection').style.display = 'block';
-          //       })
-          //       .catch(function(error) {
-          //         console.error(error);
-          //       });
-          //   });
-          // });
-
 
 
           document.getElementById('addAttributeBtn').addEventListener('click', function () {
@@ -2948,7 +2248,7 @@
 
                 // Fetch attribute values for the selected attribute
                 axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-                axios.post('/Al-admin/Attribute-values', {
+                axios.post('/okka-admin/Attribute-values', {
                       attribute: [selectedAttribute]
                   })
                   .then(function (response) {
@@ -3012,7 +2312,7 @@
             };
 
             // Send a POST request to your server using Axios
-            axios.post('/Al-admin/add_new_attribute_value', data)
+            axios.post('/okka-admin/add_new_attribute_value', data)
                 .then(function (response) {
                   if (response.data.status === 'success') {
                       // Close the modal
@@ -3064,7 +2364,7 @@
 
                 // Send a POST request with image ID to the server
                 axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-                axios.post(`/Al-admin/remove-image/${imageId}/`)
+                axios.post(`/okka-admin/remove-image/${imageId}/`)
                   .then(response => {
                     if (response.status === 200) {
                       console.log(`Image with ID ${imageId} removed from the server.`);
@@ -3109,7 +2409,7 @@
             };
 
             // Send a POST request to your server using Axios
-            axios.post('/Al-admin/add_new_attribute', data)
+            axios.post('/okka-admin/add_new_attribute', data)
                 .then(function (response) {
                     if (response.data.status === 'success') {
                         // Update the select element with the new list of attribute values
@@ -3163,135 +2463,6 @@
 
 
 
-
-
-
-        // document.getElementById('addAttributeBtn').addEventListener('click', function() {
-        //   var selectedAttributes = Array.from(document.querySelector('.attributes').selectedOptions, option => option.value);
-        //   console.log(selectedAttributes)
-
-        //   var tablesContainer = document.getElementById('tablesContainer');
-        //   tablesContainer.innerHTML = '';
-
-        //   if (selectedAttributes.length > 1) {  // Ensure exactly 2 attributes are selected
-        //     selectedAttributes.forEach(function(selectedAttribute) {
-        //       const table = document.createElement('table');
-        //       table.className = 'table';
-        //       table.innerHTML = `
-        //         <tbody>
-        //           <tr>
-        //             <td>
-        //               <label>Name:</label><br>
-        //               <strong>${selectedAttribute}</strong>
-        //             </td>
-        //             <td rowspan="3">
-        //               <div class="mb-3">
-        //                 <div class="ps-4" style="max-width: 350px;">
-        //                   <label for="organizerMultipleValue">Value(s) :</label>
-        //                   <select class="form-select ps-4" id="organizerMultipleValue2" data-choices="data-choices" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}'>
-        //                     <option value="">Select value(s)</option>                                     
-        //                   </select>
-        //                 </div>
-        //                 <button class="btn btn-phoenix-primary me-1 mb-1 mt-3 select_all_attributes" type="button">Select all</button>
-        //                 <button class="btn btn-phoenix-primary me-1 mb-1 mt-3 select_no_attributes" type="button">Select none</button>
-        //                 <button class="btn btn-phoenix-primary me-1 mb-1 mt-3 add_new_attribute" type="button">Add new</button>
-        //               </div>
-        //             </td>
-        //           </tr>
-        //         </tbody>
-        //       `;
-
-        //       // Append the table to the container
-        //       tablesContainer.appendChild(table);
-        //       console.log(tablesContainer)
-        //     });
-
-        //     // Fetch attribute values for the selected attributes
-        //     axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-        //     axios.post('Attribute-values', { attribute: selectedAttributes })
-        //       .then(function(response) {
-        //         var attributeValues = response.data.attributevalue;
-        //         console.log(attributeValues)
-        //         var selectElement = document.getElementById('organizerMultipleValue2');
-        //         selectElement.innerHTML = '';
-
-        //         if (attributeValues.length > 0) {
-        //           attributeValues.forEach(function(AttributeValue) {
-        //             const option = document.createElement('option');
-        //             option.value = AttributeValue.name;
-        //             option.textContent = AttributeValue.name;
-        //             selectElement.appendChild(option);
-        //           });
-        //           document.getElementById('selectedAttributeValueSection').style.display = 'block';
-        //         } else {
-        //           var defaultOption = document.createElement('option');
-        //           defaultOption.value = '';
-        //           defaultOption.text = 'No values found';
-        //           selectElement.appendChild(defaultOption);
-        //         }
-        //       })
-        //       .catch(function(error) {
-        //         console.error(error);
-        //       });
-        //   } else {
-        //     document.getElementById('selectedAttributesSection').style.display = 'none';
-        //     var selectElement = document.getElementById('organizerMultipleValue2');
-        //     selectElement.innerHTML = '<option value="">Select value(s)</option>';
-        //   }
-        // });
-
-
-        // document.getElementById('addAttributeBtn').addEventListener('click', function() {
-        //     var selectedAttribute = document.getElementById('organizerSingle').value;
-            // document.getElementById('selectedAttributeValue').innerText = selectedAttribute;
-            // document.getElementById('selectedAttributeNameValue').innerText = selectedAttribute;
-        //     // document.getElementById('selectedAttributeValueSection').style.display = 'block';
-
-        //     axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-        //     // Your Axios post request here using the selectedAttribute value
-        //     axios.post('Attribute-values', { attribute: selectedAttribute })
-        //       .then(function(response) {
-        //         var attributeValues = response.data.attributevalue;
-        //         console.log(attributeValues)
-
-        //         var selectElement = document.getElementById('organizerMultipleValue');
-        //         selectElement.innerHTML = '';
-
-        //         if (attributeValues.length > 0) {
-        //           console.log('if condition work1')
-        //           // Add new options based on the retrieved attribute values
-        //           attributeValues.forEach(function(AttributeValue) {
-        //             console.log('attributeValues forEach work')
-        //             console.log(AttributeValue)
-        //             const option = document.createElement('option');
-        //             option.value = AttributeValue.name;
-        //             option.textContent = AttributeValue.name;
-        //             selectElement.appendChild(option);
-        //             console.log(selectElement)
-        //           });
-        //         } else {
-        //           var defaultOption = document.createElement('option');
-        //           defaultOption.value = '';
-        //           defaultOption.text = 'No values found';
-        //           selectElement.appendChild(defaultOption);
-        //         }
-        //       })
-        //       .catch(function(error) {
-        //         console.error(error);
-        //       });
-
-
-        //     document.getElementById('selectedAttributeValueSection').style.display = 'block';
-        //   });
-
-        //   document.querySelector('.select_all_attributes').addEventListener('click', function() {
-        //     var selectElement = document.getElementById('organizerMultipleValue');
-        //     var options = selectElement.options;
-
-        //     for (var i = 0; i < options.length; i++) {
-        //       options[i].selected = true;
-        //     }
-        //   });
 
     </script>
 
