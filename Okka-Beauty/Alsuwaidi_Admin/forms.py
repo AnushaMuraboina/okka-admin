@@ -611,7 +611,7 @@ class UpsellProductForm(forms.ModelForm):
 
     class Meta:
         model = UpsellProduct
-        fields = ['upsell_products', 'active']
+        fields = ['upsell_products']
 
 
 UpsellProductFormSet = inlineformset_factory(Product, UpsellProduct, form=UpsellProductForm, extra=1, can_delete=False)

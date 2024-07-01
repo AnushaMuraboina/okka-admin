@@ -5907,6 +5907,7 @@ def create_product(request, pk=None):
             upsell_formset.instance = product
             upsell_formset.save()
             # Redirect to success page
+            return redirect('product-list')
     else:
         form = ProductForm(instance=product)
         formset = ProductImageFormSet(instance=product)
