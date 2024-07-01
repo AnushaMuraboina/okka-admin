@@ -548,13 +548,14 @@
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="package"></span>
                       <span class="d-none d-sm-inline">Restock</span>
                     </a>
-                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
-                      <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
-                      <span class="d-none d-sm-inline">SEO Settings</span>
-                    </a>
+                    
                     <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="attributesTab" data-bs-toggle="tab" data-bs-target="#MeasurementTopContent" role="tab" aria-controls="MeasurementTopContent" aria-selected="false">
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="sliders"></span>
                       <span class="d-none d-sm-inline">Measurement</span>
+                    </a>
+                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
+                      <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
+                      <span class="d-none d-sm-inline">SEO Settings</span>
                     </a>
                   </div>
                 </div>
@@ -595,12 +596,16 @@
                     <div class="tab-pane fade" id="productsTabContent" role="tabpanel" aria-labelledby="productsTab">
                       <div class="row g-3">
                         <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">product Sku</h5>
-                          <input class="form-control required-field" type="text" name="sku" placeholder="SKU" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product SKU." value="{{product_data.product_sku}}" />
+                          <h5 class="mb-2 text-1000">Title</h5>
+                          <input class="form-control required-field" type="text" name="seo_title" placeholder="SKU" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product SKU." value="{{product_data.seo_title}}" />
                         </div>
                         <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">Model Number</h5>
-                          <input class="form-control required-field" type="text" name="model" placeholder="Model" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Model Number." value="{{product_data.model_number}}" />
+                          <h5 class="mb-2 text-1000">Keyword</h5>
+                          <input class="form-control required-field" type="text" name="seo_keyword" placeholder="Model" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Model Number." value="{{product_data.seo_keyword}}" />
+                        </div>
+                        <div class="col-12 col-lg-12">
+                          <h5 class="mb-2 text-1000">Description</h5>
+                          <textarea class="tinymce" id="description" name="seo_description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}'>{{product_data.seo_description}}</textarea>
                         </div>
                       </div>
                     </div>
@@ -652,7 +657,7 @@
                                     </div>
                                     <div class="modal-body">
                                       <!-- subcategory_form.html -->
-                                      <form method="post" id="cate-form" action="{% url 'create_category' %}" enctype="multipart/form-data">
+                                      <form method="post" id="category-form"  enctype="multipart/form-data">
                                          {% csrf_token %} 
                                          <div class="mb-6">
                                           <h4 class="mb-3">Category Name</h4>
@@ -1074,13 +1079,14 @@
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="package"></span>
                       <span class="d-none d-sm-inline">Restock</span>
                     </a>
-                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
-                      <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
-                      <span class="d-none d-sm-inline">SEO Settings</span>
-                    </a>
+                    
                     <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="attributesTab" data-bs-toggle="tab" data-bs-target="#attributesTabContent" role="tab" aria-controls="attributesTabContent" aria-selected="false">
                       <span class="me-sm-2 fs-4 nav-icons" data-feather="sliders"></span>
                       <span class="d-none d-sm-inline">Measurement</span>
+                    </a>
+                    <a class="nav-link border-end border-end-sm-0 border-bottom-sm border-300 text-center text-sm-start cursor-pointer outline-none d-sm-flex align-items-sm-center" id="productsTab" data-bs-toggle="tab" data-bs-target="#productsTabContent" role="tab" aria-controls="productsTabContent" aria-selected="false">
+                      <span class="me-sm-2 fs-4 nav-icons" data-feather="globe"></span>
+                      <span class="d-none d-sm-inline">SEO Settings</span>
                     </a>
                   </div>
                 </div>
@@ -1131,11 +1137,11 @@
                     <div class="tab-pane fade" id="productsTabContent" role="tabpanel" aria-labelledby="productsTab">
                       <div class="row g-3">
                         <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">product Sku</h5>
+                          <h5 class="mb-2 text-1000">Title</h5>
                           <input class="form-control required-field" type="text" name="sku" placeholder="SKU" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product SKU." value="{{product_data.product_sku}}" />
                         </div>
                         <div class="col-12 col-lg-6">
-                          <h5 class="mb-2 text-1000">Model Number</h5>
+                          <h5 class="mb-2 text-1000">Keyword</h5>
                           <input class="form-control required-field" type="text" name="model" placeholder="Model" data-parsley-group="product" required data-parsley-required-message="☒ Please enter Product Model Number." value="{{product_data.model_number}}" />
                         </div>
                       </div>
@@ -1257,7 +1263,7 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-                                      <form method="post" id="cate-form" action="{% url 'create_category' %}" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
+                                      <form method="post" id="category-form"  enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
                                           <h4 class="mb-3">Category Name</h4>
                                           <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
                                         </div>
@@ -1708,7 +1714,7 @@
 
       // Attach event listeners to form submissions
       document.getElementById("add-cate").addEventListener("click", function() {
-          submitForm("cate-form", "{% url 'create_category' %}");
+          submitForm("category-form", "{% url 'create_category' %}");
       });
 
       document.getElementById("add-subcat").addEventListener("click", function() {
