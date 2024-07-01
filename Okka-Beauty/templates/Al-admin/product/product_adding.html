@@ -1331,7 +1331,7 @@
                                       </button>
                                     </div>
                                     <div class="modal-body">
-                                      <form method="post" id="subcategory-form" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
+                                      <form method="post" id="    " enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
                                           <h4 class="mb-3">Main Category</h4>
                                           <select class="form-select mb-3" id="categorySelect" name="main_Category" aria-label="category" data-parsley-group="product" required data-parsley-required-message="☒ Please select Category.">
                                             <option value="" selected disabled>select category</option> {% for Categorys in Categorys %} <option value="{{Categorys.name}}">{{Categorys.name}}</option> {% endfor %}
@@ -1630,6 +1630,7 @@
       // Function to submit a form using Axios
       function submitForm(formId, endpoint) {
           console.log("Form ID:", formId);
+          console.log(document.getElementById(formId))
           const form = document.getElementById(formId);
           console.log("Form Element:", form);
           // Debugging: Log the form and its fields to the console

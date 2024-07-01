@@ -680,7 +680,7 @@
                           {% endif %}
                         </td>
                         <td class="align-middle white-space-nowrap py-0">
-                          <a href="{% url 'product_update' product.id %}"> <span data-feather="edit"></span> </a> | <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button>
+                          <a href="{% url 'update_product' product.id %}"> <span data-feather="edit"></span> </a> | <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button>
                         </td>
                       </tr>
                       {% endfor %}
@@ -775,7 +775,7 @@
                           </div>
                         </td>
                         <td><img src="{{ MEDIA_PREFIX }}${item.product_Image1}" alt="${item.product_name}" width="53" /></td>
-                        <td class="product"><a class="fw-semi-bold line-clamp-3 mb-0" href="/Al-admin/product-update/${item.pk}/">${item.product_name}</a></td>
+                        <td class="product"><a class="fw-semi-bold line-clamp-3 mb-0" href="/Al-admin/update-product/${item.pk}/">${item.product_name}</a></td>
                         <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">${item.product_sku}</td>
                         <td class="category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.category__name}</td>
                         <td class="sub_category text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">${item.sub_category__name}</td>
@@ -788,7 +788,7 @@
                             ${item.active ? '<i class="fas fa-check-circle text-success"></i>' : '<i class="fa-solid fa-circle-xmark text-danger"></i>'}
                         </td>
                         <td class="align-middle white-space-nowrap py-0">
-                          <a href="/Al-admin/product-update/${item.pk}/"> Edit </a> | 
+                          <a href="/Al-admin/update-product/${item.pk}/"> Edit </a> | 
                             <button class="btn btn-danger delete-product" data-product-id="${item.pk}">Delete</button>
                         </td>
                     `;

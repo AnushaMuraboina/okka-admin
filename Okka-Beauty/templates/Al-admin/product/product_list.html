@@ -692,7 +692,7 @@
                             </div>
                           </td>
                           <td class="product align-middle ps-4">
-                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.name}}</a>
+                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'update_product' product.id %}">{{product.name}}</a>
                           </td>
                           <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.sku}}</td>
                           <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
@@ -724,9 +724,9 @@
                               {% if product.published == True %} <i class="fas fa-check-circle text-success"></i> {% else %} 
                               <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                           </td>
-                          <td class="align-middle white-space-nowrap py-0"> {% if request.user.is_authenticated %} {% if perms.products.view_products %} <a href="{% url 'product_update' product.id %}">
+                          <td class="align-middle white-space-nowrap py-0"> {% if request.user.is_authenticated %} {% if perms.products.view_products %} <a href="{% url 'update_product' product.id %}">
                               <span data-feather="edit"></span>
-                            </a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <a href="{% url 'product_update' product.id %}">
+                            </a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <a href="{% url 'update_product' product.id %}">
                               <span data-feather="edit"></span>
                             </a> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_products %} <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_products %} <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %} </td>
                         </tr> {% endfor %} </tbody>
@@ -779,7 +779,7 @@
                             </div>
                           </td>
                           <td class="product align-middle ps-4">
-                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'product_update' product.id %}">{{product.name}}</a>
+                            <a class="fw-semi-bold line-clamp-3 mb-0" href="{% url 'update_product' product.id %}">{{product.name}}</a>
                           </td>
                           <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.sku}}</td>
                           <!-- <td class="model text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{product.model_number}}</td> -->
@@ -810,9 +810,9 @@
                           <td class="stockstatus text-center white-space-nowrap text-600 fs--1 ps-4 fw-semi-bold">
                             <!-- {{product.active}} --> {% if product.published == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %}
                           </td>
-                          <td class="align-middle white-space-nowrap py-0"> {% if request.user.is_authenticated %} {% if perms.products.view_products %} <a href="{% url 'product_update' product.id %}">
+                          <td class="align-middle white-space-nowrap py-0"> {% if request.user.is_authenticated %} {% if perms.products.view_products %} <a href="{% url 'update_product' product.id %}">
                               <span data-feather="edit"></span>
-                            </a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <a href="{% url 'product_update' product.id %}">
+                            </a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_products %} <a href="{% url 'update_product' product.id %}">
                               <span data-feather="edit"></span>
                             </a> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_products %} <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_products %} <button class="btn btn-danger delete-product" data-product-id="{{ product.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %} </td>
                         </tr> {% endfor %} </tbody>
@@ -927,7 +927,7 @@ clickableCards.forEach(function(card) {
                 console.log(ProductId)
 
                 if (confirm('Are you sure you want to delete this Product?')) {
-                    fetch(`/Al-admin/product/${ProductId}/delete/`, {
+                    fetch(`/okka-admin/product/${ProductId}/delete/`, {
                         method: 'POST',
                         headers: {
                             'X-CSRFToken': getCookie('csrftoken'),

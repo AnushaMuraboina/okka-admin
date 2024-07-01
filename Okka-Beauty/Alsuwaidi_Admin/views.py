@@ -765,20 +765,7 @@ def product_update(request, product_id):
     return render(request, "Al-admin/product/product_adding.html", comtext)
 
 
-@login_required
-def delete_product(request, product_id):
-    if request.method == 'POST':
-        try:
-            product = Product.objects.get(id=product_id)
-            print(product)
-            product.delete()
-            return JsonResponse({'message': 'product deleted successfully'})
-        except Product.DoesNotExist:
-            return JsonResponse({'message': 'product not found'}, status=404)
-        except Exception as e:
-            return JsonResponse({'message': str(e)}, status=400)
-    else:
-        return JsonResponse({'message': 'Invalid request'}, status=400)
+
 
 @login_required
 def remove_image(request, image_id):
@@ -5897,3 +5884,54 @@ def change_permissions(request, user_id):
 #             return JsonResponse({'message': str(e)}, status=400)
 #     else:
 #         return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
+
+
+# Product Add & Update Function
+def create_product(request, pk=None):
+    if pk:
+        product = get_object_or_404(Product, pk=pk)
+    else:
+        product = Product()
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        formset = ProductImageFormSet(request.POST, request.FILES, instance=product)
+        upsell_formset = UpsellProductFormSet(request.POST, instance=product)
+        if form.is_valid() and formset.is_valid() and upsell_formset.is_valid():
+            print('form is valid')
+            product = form.save()
+            formset.instance = product
+            formset.save()
+            upsell_formset.instance = product
+            upsell_formset.save()
+            # Redirect to success page
+    else:
+        form = ProductForm(instance=product)
+        formset = ProductImageFormSet(instance=product)
+        upsell_formset = UpsellProductFormSet(instance=product)
+
+    context = {
+        'form': form,
+        'formset': formset,
+        'upsell_formset': upsell_formset,
+    }
+
+    return render(request, 'Al-admin/product/add_product.html', context)
+
+# Product Delete Function
+@login_required
+def delete_product(request, product_id):
+    if request.method == 'POST':
+        try:
+            product = Product.objects.get(id=product_id)
+            print(product)
+            product.delete()
+            return JsonResponse({'message': 'product deleted successfully'})
+        except Product.DoesNotExist:
+            return JsonResponse({'message': 'product not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request'}, status=400)

@@ -13,6 +13,12 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from product.models import *
+from django.forms import inlineformset_factory
+
+
+from django.forms.widgets import ClearableFileInput
+
+
 User = get_user_model()
 
 class CustomUserCreationForm(forms.ModelForm):
@@ -472,3 +478,140 @@ class OfferForm(forms.ModelForm):
 #         model = Group
 #         fields = ['name', 'permissions']
         
+
+class MultipleFileInput(ClearableFileInput):
+    allow_multiple_selected = True
+
+    def value_from_datadict(self, data, files, name):
+        return files.getlist(name)
+
+
+class ProductForm(forms.ModelForm):
+    categories = forms.ModelMultipleChoiceField(
+        queryset=ParentCategory.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-select',
+            'id': 'organizerMultiple',
+            'multiple': 'multiple',
+            'data-choices': 'data-choices',
+            'data-options': '{"removeItemButton":true,"placeholder":true}'
+        }),
+        label='Categories',
+        required=False
+    )
+    
+    subcategories = forms.ModelMultipleChoiceField(
+        queryset=SubCategory.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-select',
+            'id': 'subcategoriesMultiple',
+            'multiple': 'multiple',
+            'data-choices': 'data-choices',
+            'data-options': '{"removeItemButton":true,"placeholder":true}'
+        }),
+        label='Subcategories',
+        required=False
+    )
+
+    childsubcategories = forms.ModelMultipleChoiceField(
+        queryset=ChildSubCategory.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-select',
+            'id': 'childsubcategoriesMultiple',
+            'multiple': 'multiple',
+            'data-choices': 'data-choices',
+            'data-options': '{"removeItemButton":true,"placeholder":true}'
+        }),
+        label='Child Subcategories',
+        required=False
+    )
+
+    brands = forms.ModelMultipleChoiceField(
+        queryset=Brand.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-select',
+            'id': 'brandsMultiple',
+            'multiple': 'multiple',
+            'data-choices': 'data-choices',
+            'data-options': '{"removeItemButton":true,"placeholder":true}'
+        }),
+        label='Brands',
+        required=False
+    )
+
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-select',
+            'id': 'tagsMultiple',
+            'multiple': 'multiple',
+            'data-choices': 'data-choices',
+            'data-options': '{"removeItemButton":true,"placeholder":true}'
+        }),
+        label='Tags',
+        required=False
+    )
+
+    class Meta:
+        model = Product
+        fields = ['type', 'name', 'sku', 'published', 'short_description', 'description',
+                  'categories', 'subcategories', 'childsubcategories', 'brands', 'tags',
+                  'in_stock', 'stock', 'low_stock_amount', 'sale_price', 'regular_price',
+                  'weight', 'length', 'width', 'height',]
+        widgets = {
+            'type': forms.Select(attrs={'class': 'form-control required-field'}),
+            'name': forms.TextInput(attrs={'class': 'form-control required-field'}),
+            'sku': forms.TextInput(attrs={'class': 'form-control required-field'}),
+            'published': forms.Select(attrs={'class': 'form-control required-field'}),
+            'short_description': forms.Textarea(attrs={'class': 'form-control required-field'}),
+            'description': forms.Textarea(attrs={
+                'class': 'tinymce',
+                'id': 'description',
+                'name': 'description',
+                'data-tinymce': '{"height":"15rem","placeholder":"Write a description here..."}'
+            }),
+            'in_stock': forms.Select(attrs={'class': 'form-control required-field'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'low_stock_amount': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'sale_price': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'regular_price': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'length': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'width': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+            'height': forms.NumberInput(attrs={'class': 'form-control required-field'}),
+        }
+
+class ProductImageForm(forms.ModelForm):
+    class Meta:
+        model = ProductImage
+        fields = ['image']
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control required-field'}),
+        }
+
+ProductImageFormSet = inlineformset_factory(Product, ProductImage, form=ProductImageForm, extra=1, can_delete=False)
+
+
+class MultipleImageUploadForm(forms.Form):
+    images = forms.FileField(widget=MultipleFileInput(attrs={'class': 'form-control required-field'}), required=False)
+
+class UpsellProductForm(forms.ModelForm):
+    upsell_products = forms.ModelMultipleChoiceField(
+        queryset=Product.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-select',
+            'id': 'organizerMultiple',
+            'multiple': 'multiple',
+            'data-choices': 'data-choices',
+            'data-options': '{"removeItemButton":true,"placeholder":true}'
+        }),
+        label='Upsell',
+        required=False  # Make this field optional
+    )
+
+    class Meta:
+        model = UpsellProduct
+        fields = ['upsell_products', 'active']
+
+
+UpsellProductFormSet = inlineformset_factory(Product, UpsellProduct, form=UpsellProductForm, extra=1, can_delete=False)

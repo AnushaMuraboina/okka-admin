@@ -1,0 +1,20 @@
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
+
+<h1>Create Product</h1>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form.as_p }}
+    {% endfor %}
+    {{ upsell_formset.management_form }}
+    {% for form in upsell_formset %}
+        {{ form.as_p }}
+    {% endfor %}
+    <button type="submit">Save</button>
+</form>
+
+
+{% endblock %}

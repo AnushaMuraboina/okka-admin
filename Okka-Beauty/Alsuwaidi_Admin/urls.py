@@ -173,6 +173,13 @@ urlpatterns = [
 #    path('offer-admin/<int:offer_id>/delete/', views.delete_offer, name='delete_offer'),
 
 
+    path('create-product/', views.create_product, name='create_product'),
+    path('update-product/<int:pk>', views.create_product, name='update_product'),
+
+
+
+
+
 ]
 
 if settings.DEBUG:
