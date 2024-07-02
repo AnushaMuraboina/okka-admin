@@ -23,12 +23,12 @@ class Coupon(models.Model):
     exclude_sale_items = models.BooleanField(default=False)
     products = models.ManyToManyField(Product, related_name='coupon_products', blank=True)
     exclude_products = models.ManyToManyField(Product, related_name='excluded_coupon_products', blank=True)
-    product_categories = models.ManyToManyField(ChildSubCategory, related_name='coupon_product_categories', blank=True)
-    exclude_categories = models.ManyToManyField(ChildSubCategory, related_name='excluded_coupon_categories', blank=True)
+    product_categories = models.ManyToManyField(ParentCategory, related_name='coupon_product_categories', blank=True)
+    exclude_categories = models.ManyToManyField(ParentCategory, related_name='excluded_coupon_categories', blank=True)
     allowed_emails = models.TextField(blank=True)
-    usage_limit_per_coupon = models.PositiveIntegerField(default=0)
-    limit_usage_to_x_items = models.PositiveIntegerField(default=0)
-    usage_limit_per_user = models.PositiveIntegerField(default=0)
+    usage_limit_per_coupon = models.PositiveIntegerField(default=0, blank=True, null=True)
+    limit_usage_to_x_items = models.PositiveIntegerField(default=0, blank=True, null=True)
+    usage_limit_per_user = models.PositiveIntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         return self.coupon
