@@ -160,7 +160,7 @@ urlpatterns = [
 
    path('tags_product/', views.tags_product, name='tags_product'),
    path('tags_product/<int:tags_id>/', views.tags_product, name='tags_product'),
-   path('tags_product/<int:tags_id>/delete/', views.delete_tags, name='tags_product'),
+   path('delete_tags/<int:tags_id>/delete/', views.delete_tags, name='delete_tags'),
 
 #    path('robots', views.robots_txt_view, name= 'robots'),  # robots.txt view
 #    path('google-tag-manager', views.google_tag_manager_view, name= 'google_tag_manager'),  # Google Tag Manager view

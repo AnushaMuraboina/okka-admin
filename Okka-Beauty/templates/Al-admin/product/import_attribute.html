@@ -205,6 +205,11 @@
                         </a>
                         <!-- more inner pages-->
                       </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
+
+
+
+                      
                       {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
                         <a class="nav-link active" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
                           <div class="d-flex align-items-center">

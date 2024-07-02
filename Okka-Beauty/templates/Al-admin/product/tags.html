@@ -159,14 +159,14 @@
                           </a>
                           <!-- more inner pages-->
                         </li> {% endif %} {% endfor %} {% endif %} {% endif %}
-                        {% if request.user.is_authenticated %} {% if perms.products.view_tags %} <li class="nav-item">
+                        {% if request.user.is_authenticated %} {% if perms.products.view_category %} <li class="nav-item">
                           <a class="nav-link active" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                               <span class="nav-link-text">Categories</span>
                             </div>
                           </a>
                           <!-- more inner pages-->
-                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_tags %} <li class="nav-item">
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_category %} <li class="nav-item">
                           <a class="nav-link active" href="{% url 'category-admin' %}" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                               <span class="nav-link-text">Categories</span>
@@ -174,22 +174,25 @@
                           </a>
                           <!-- more inner pages-->
                         </li> {% endif %} {% endfor %} {% endif %} {% endif %}
-                        {% if request.user.is_authenticated %} {% if perms.products.view_subtags %} <li class="nav-item">
+                        {% if request.user.is_authenticated %} {% if perms.products.view_subcategory %} <li class="nav-item">
                           <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                               <span class="nav-link-text">Sub Categories</span>
                             </div>
                           </a>
                           <!-- more inner pages-->
-                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subtags %} <li class="nav-item">
+                        </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_subcategory %}
+                         <li class="nav-item">
                           <a class="nav-link" href="{% url 'subcategory-admin' %}" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                               <span class="nav-link-text">Sub Categories</span>
                             </div>
                           </a>
                           <!-- more inner pages-->
-                        </li> {% endif %} {% endfor %} {% endif %} {% endif %}
-                        {% if request.user.is_authenticated %} {% if perms.products.view_brand %} <li class="nav-item">
+                        </li>
+                         {% endif %} {% endfor %} {% endif %} {% endif %}
+                        {% if request.user.is_authenticated %} {% if perms.products.view_brand %} 
+                        <li class="nav-item">
                           <a class="nav-link" href="{% url 'brand-admin' %}" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
                               <span class="nav-link-text">Brand</span>
@@ -204,6 +207,7 @@
                           </a>
                           <!-- more inner pages-->
                         </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+
                         {% if request.user.is_authenticated %} {% if perms.products.view_attribute %} <li class="nav-item">
                           <a class="nav-link" href="{% url 'attribute-admin' %}" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center">
@@ -494,7 +498,7 @@
                 
                 <div class="row g-3 mb-4">
                   <div class="col-auto">
-                    <h2 class="mb-0">Product categories </h2>
+                    <h2 class="mb-0">Product Tags </h2>
                   </div>
                 </div>
           
@@ -519,13 +523,13 @@
                   <div class="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-white border-top border-bottom border-200 position-relative top-1">
                   <div class="row g-6 mt-3">
                     {% if request.user.is_authenticated %} {% if perms.products.add_tags %} <div class="col-12 col-xl-6" style="max-height: 600px; overflow-y: auto;"> {% if form.errors %} <ul> {% for field in form %} {% for error in field.errors %} <li>{{ error }}</li> {% endfor %} {% endfor %} </ul> {% endif %} <form method="post" id="cate-form" action="{% url 'tags_product' %}" enctype="multipart/form-data"> {% csrf_token %} <div class="mb-6">
-                      <h4 class="mb-3">tags Name</h4>
+                      <h4 class="mb-3"> Name</h4>
                       <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
                     </div>
                    
                     <div class="mb-6">
                       <h4 class="mb-3">Description</h4>
-                      <input class="form-control mb-5" name="description" type="text" placeholder="Write description here..." value="0" />
+                      <input class="form-control mb-5" name="description" type="text" placeholder="Write description here..."  />
                     </div>
                 
                     <div class="mb-6">
@@ -543,11 +547,11 @@
                       <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." />
                     </div>
                     <!-- <div class="mb-6"><h4 class="mb-3"> tags Description</h4><textarea class="tinymce" id="Description" name="Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
-                    <div class="mb-6">
+                    <!-- <div class="mb-6">
                       <h4 class="mb-3">tags image</h4>
                       <input class="form-control" type="file" id="img" name="image" accept="image/*">
-                      <!-- <div class="dropzone dropzone-multiple p-0 mb-5" id="my-awesome-dropzone" data-dropzone="data-dropzone"><div class="fallback"><input name="image" type="file" id="tags_img"/></div><div class="dz-preview d-flex flex-wrap"><div class="border bg-white rounded-3 d-flex flex-center position-relative me-2 mb-2" style="height:80px;width:80px;"><img class="dz-image" src="{{ MEDIA_PREFIX }}{{brand_value.brand_img}}" alt="..." data-dz-thumbnail="data-dz-thumbnail" /><a class="dz-remove text-400" href="#!" data-dz-remove="data-dz-remove"><span data-feather="x"></span></a></div></div><div class="dz-message text-600" data-dz-message="data-dz-message"> Drag your photo here <span class="text-800">or</span><button class="btn btn-link p-0" type="button">Browse from device</button><br /><img class="mt-3 me-2" src="/../../../static/assets/img/icons/image-icon.png" width="40" alt="" /></div></div> -->
-                    </div>
+        
+                    </div> -->
                     <!-- <div class="mb-6"><h4 class="mb-3">Page Title</h4><input class="form-control mb-5" name="page_title" type="text" placeholder="Write title here..." /></div> -->
                     <!-- <div class="mb-6"><h4 class="mb-3">Meta keyword</h4><textarea class="tinymce" id="meta_keyword" name="meta_keyword" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div> -->
                     <!-- <div class="mb-6"><h4 class="mb-3">Meta Description</h4><textarea class="tinymce" id="meta_Description" name="meta_Description" data-tinymce='{"height":"15rem","placeholder":"Write a description here..."}' ></textarea></div>   -->
@@ -583,9 +587,9 @@
                             </div>
                           </th>
                           <!-- <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">image</th> -->
-                          <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="tags name">NAME</th>
+                          <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:150px;" data-sort="tags name">Name</th>
                           <!-- <th class="sort white-space-nowrap align-middle ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th> -->
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="description" style="width:150px;">description</th>
+                          <th class="sort align-middle text-center ps-4" scope="col" data-sort="description" style="width:150px;">Description</th>
                           <!-- <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th> -->
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
                         </tr>
@@ -600,12 +604,12 @@
                           <td class="product align-middle ps-4">
                             <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{tags_value.name}}</a>
                           </td>
-                          <td class="product align-middle ps-4">
+                          <td class="product text-center ps-4">
                             <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{tags_value.description}}</a>
                           </td>
                           <!-- <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{tags_value.Description|slice:":50"}}</td> -->
                    
-                          <td class="align-middle white-space-nowrap py-0">
+                          <td class="align-middle white-space-nowrap py-0 text-center">
                             {% if request.user.is_authenticated %} {% if perms.products.view_tags %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{tags_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_tags %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{tags_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_tags %} <button class="btn btn-danger delete-tags" data-coupon-id="{{ tags_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_tags %} <button class="btn btn-danger delete-tags" data-coupon-id="{{ tags_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                             <div class="modal fade" id="verticallyCentered{{tags_value.id}}" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" style="display: none;" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered">
@@ -622,13 +626,13 @@
                                   <div class="modal-body">
                                     <form method="post" action="{% url 'tags_product' tags_value.id %}" id="cate-update-form" data-tags-id="{{ tags_value.id }}" enctype="multipart/form-data"> {% csrf_token %} <input type="hidden" name="tags_id" id="tags-id" value="{{tags_value.id}}">
                                       <div class="mb-6">
-                                        <h4 class="mb-3">tags Name</h4>
+                                        <h4 class="mb-3"> Name</h4>
                                         <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." value="{{tags_value.name}}" />
                                       </div>
 
                                       <div class="mb-6">
-                                        <h4 class="mb-3">description</h4>
-                                        <input class="form-control mb-5" name="description" type="text" placeholder="Write description here..." value="{{tags_value.description}}" />
+                                        <h4 class="mb-3">Description</h4>
+                                        <input class="form-control mb-5 " name="description" type="text" placeholder="Write description here..." value="{{tags_value.description}}" />
                                       </div>
                                     
                                       <div class="mb-6">
@@ -676,9 +680,9 @@
                             </div>
                           </th>
                           <!-- <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:70px;">image</th> -->
-                          <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="tags name">NAME</th>
+                          <th class="sort white-space-nowrap align-middle ps-4" scope="col" style="width:350px;" data-sort="tags name">Name</th>
                           <!-- <th class="sort white-space-nowrap align-middle ps-4" scope="col" data-sort="slot_position" style="width:150px;">slot_position</th> -->
-                          <th class="sort align-middle text-end ps-4" scope="col" data-sort="description" style="width:150px;">description</th>
+                          <th class="sort align-middle text-center ps-4" scope="col" data-sort="description" style="width:150px;">Description</th>
                           <!-- <th class="sort text-center align-middle pe-0 ps-4" scope="col">Active</th> -->
                           <th class="sort text-center align-middle pe-0 ps-4" scope="col">Action</th>
                         </tr>
@@ -694,12 +698,12 @@
                               <img src="{{ MEDIA_PREFIX }}{{tags_value.image}}" alt="{{tags_value.name}}" width="54px" />
                             </div>
                           </td> -->
-                          <td class="product align-middle ps-4">
+                          <td class="product text-center ps-4">
                             <a class="fw-semi-bold line-clamp-3 mb-0" href="#!">{{tags_value.name}}</a>
                           </td>
                           <!-- <td class="sku text-center white-space-nowrap text-end fw-bold text-700 ps-4">{{tags_value.Description|slice:":50"}}</td> -->
                       
-                          <td class="align-middle white-space-nowrap py-0">
+                          <td class="align-middle white-space-nowrap py-0 text-center">
                             {% if request.user.is_authenticated %} {% if perms.products.view_tags %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{tags_value.id}}" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_tags %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered{{tags_value.id}}" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_tags %} <button class="btn btn-danger delete-tags" data-coupon-id="{{ tags_value.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_tags %} <button class="btn btn-danger delete-tags" data-coupon-id="{{ tags_value.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                             <div class="modal fade" id="verticallyCentered{{tags_value.id}}" tabindex="-1" aria-labelledby="verticallyCenteredModalLabel" style="display: none;" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered">
@@ -716,7 +720,7 @@
                                   <div class="modal-body">
                                     <form method="post" action="{% url 'tags_product' tags_value.id %}" id="cate-update-form" data-tags-id="{{ tags_value.id }}" enctype="multipart/form-data"> {% csrf_token %} <input type="hidden" name="tags_id" id="tags-id" value="{{tags_value.id}}">
                                       <div class="mb-6">
-                                        <h4 class="mb-3">tags Name</h4>
+                                        <h4 class="mb-3"> Name</h4>
                                         <input class="form-control mb-5" name="name" type="text" placeholder="Write Name here..." value="{{tags_value.name}}" />
                                       </div>
 <!--                                 
@@ -727,7 +731,7 @@
                                       
                                       
                                       <div class="mb-6">
-                                        <h4 class="mb-3">description</h4>
+                                        <h4 class="mb-3">Description</h4>
                                         <input class="form-control mb-5" name="description" type="text" placeholder="Write description here..." value="{{tags_value.description}}" />
                                       </div>
                                       <!-- <div class="form-check mb-6">
@@ -790,7 +794,7 @@
                 console.log(tagsId)
 
                 if (confirm('Are you sure you want to delete this tags?')) {
-                    fetch(`/tags_product/${tagsId}/delete/`, {
+                    fetch(`/delete_tags/${tagsId}/delete/`, {
                         method: 'POST',
                         headers: {
                             'X-CSRFToken': getCookie('csrftoken'),
