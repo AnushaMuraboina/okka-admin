@@ -369,8 +369,8 @@ def product_adding(request):
         # 'form2':form2,
     }
     
-    # return render(request, "Al-admin/product/product_adding.html", comtext)
-    return render(request, "Al-admin/product/a.html", comtext)
+    return render(request, "Al-admin/product/product_adding.html", comtext)
+    # return render(request, "Al-admin/product/a.html", comtext)
 
 # Upsell function
 
@@ -1075,6 +1075,21 @@ def tags_product(request, tags_id=None):
     return render(request, "Al-admin/product/tags.html", context)
 
 
+@login_required
+def delete_tags(request, tags_id):
+    if request.method == 'POST':
+        try:
+            tags_category= Tag.objects.get(id=tags_id)
+            print(tags_category)
+            tags_category.delete()
+            return JsonResponse({'message': 'tags_category deleted successfully'})
+        except Tag.DoesNotExist:
+            return JsonResponse({'message': 'tags_category not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'message': str(e)}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request'}, status=400)
+    
 
 # def tags_update():
 
