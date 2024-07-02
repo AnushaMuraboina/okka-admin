@@ -563,8 +563,8 @@
                           <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="align-middle white-space-nowrap py-2">
                               <div class="border rounded-2"> 
-                                {% if item.product.images.all %}
-                                {% for image in item.product.images.all|slice:":1" %}
+                                {% if item.product_id.images.all %}
+                                {% for image in item.product_id.images.all|slice:":1" %}
                                 <img  src="{{image.image.url}}" alt="" width="53" />
                                 {% endfor %}
                                 {% endif %}
@@ -685,10 +685,10 @@
                       <div class="d-flex justify-content-between">
                         <h4 class="mb-5">Shipping details</h4>
                         {% if request.user.is_authenticated %} {% if perms.checkout.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" href="#">
-  <span data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" class="uil-pen fs-1"></span>
-</a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" href="#">
-  <span data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" class="uil-pen fs-1"></span>
-</a> {% endif %} {% endfor %} {% endif %} {% endif %}
+                        <span data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" class="uil-pen fs-1"></span>
+                      </a> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_address %} <a class="text-dark" data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" href="#">
+                        <span data-bs-toggle="collapse" data-bs-target="#collapseOne{{Shipping_address.id}}" aria-expanded="false" aria-controls="collapseOne" class="uil-pen fs-1"></span>
+                      </a> {% endif %} {% endfor %} {% endif %} {% endif %}
                       </div>                        
                         <div class="accordion" id="accordionExample">
                           <div class="accordion-item  border-300 border-bottom-0  p-0">
