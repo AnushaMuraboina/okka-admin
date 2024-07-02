@@ -156,6 +156,12 @@ urlpatterns = [
    path('generate-coupon-report', views.generate_coupon_report, name='generate_coupon_report'),
    path('export-coupon-csv', views.export_coupon_csv, name='export_coupon_csv'),
 
+
+
+   path('tags_product/', views.tags_product, name='tags_product'),
+   path('tags_product/<int:tags_id>/', views.tags_product, name='tags_product'),
+   path('tags_product/<int:tags_id>/delete', views.tags_product, name='tags_product'),
+
 #    path('robots', views.robots_txt_view, name= 'robots'),  # robots.txt view
 #    path('google-tag-manager', views.google_tag_manager_view, name= 'google_tag_manager'),  # Google Tag Manager view
 #    path('google-tag-manager/<int:gtm_id>', views.google_tag_manager_view, name= 'google_tag_manager'),  # Google Tag Manager view
@@ -166,6 +172,9 @@ urlpatterns = [
 #    path('offer-admin', views.offer_admin, name="offer-admin"),
 #    path('offer-update/<int:id>', views.offer_update_view, name="offer-update"),
 #    path('offer-admin/<int:offer_id>/delete/', views.delete_offer, name='delete_offer'),
+ 
+
+
 
 ]
 

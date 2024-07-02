@@ -369,7 +369,8 @@ def product_adding(request):
         # 'form2':form2,
     }
     
-    return render(request, "Al-admin/product/product_adding.html", comtext)
+    # return render(request, "Al-admin/product/product_adding.html", comtext)
+    return render(request, "Al-admin/product/a.html", comtext)
 
 # Upsell function
 
@@ -894,6 +895,9 @@ def category_admin(request, category_id=None):
     return render(request, "Al-admin/product/category-admin.html", context)
 
 
+
+
+
 # def subcategory_admin(request):
 #     subCategory_value = subCategory.objects.all()
 #     Categorys = Category.objects.all()
@@ -1011,6 +1015,74 @@ def subcategory_admin(request, subcategory_id=None):
         'search_query': search_query,
     }
     return render(request, "Al-admin/product/subcategory-admin.html", context)
+
+
+
+
+
+
+
+@login_required
+def tags_product(request, tags_id=None):
+    if tags_id:
+        tags_instance = get_object_or_404(Tag, pk=tags_id)
+    else:
+        tags_instance = None
+
+    if request.method == 'POST':
+        if tags_instance:
+            # If category_instance exists, update it
+            form = TagsForms(data=request.POST, files=request.FILES, instance=tags_instance)
+        else:
+            # If not, create a new instance
+            form = TagsForms(data=request.POST, files=request.FILES)
+        
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('tags_product'))
+    else:
+        # If it's a GET request, populate the form with existing instance data if available
+        form = TagsForms(instance=tags_instance)
+
+    tags_value = Tag.objects.all()
+    
+    # Retrieve search query from request GET parameters
+    search_query = request.GET.get('search', '')
+
+    # Apply search
+    if search_query:
+        tags_value = tags_value.filter(name__icontains=search_query)
+
+    user_has_permission = request.user.has_perm('products.view_tags')
+
+    # Check group permissions
+    if not user_has_permission:
+        user_groups = request.user.groups.all()
+        for group in user_groups:
+            if group.permissions.filter(codename='view_tags').exists():
+                user_has_permission = True
+                break
+
+    if not user_has_permission:
+        # Return some error or handle permission denial
+        return render(request, 'Al-admin/permission/permission_denied.html')    
+
+    context = {
+        'tags_value': tags_value,
+        'form': form,
+        'search_query': search_query,
+    }
+    return render(request, "Al-admin/product/tags.html", context)
+
+
+
+# def tags_update():
+
+
+
+
+
+
 
 
 
@@ -3886,8 +3958,6 @@ def product_filter_data(request, category=None):
 
 #     print(customers)
 
-
-
 #     context = {
 #         'customers':customers,
 #     }
@@ -3899,6 +3969,12 @@ class CustomerListView(LoginRequiredMixin, ListView):
     template_name = 'Al-admin/customer/customer.html'
     context_object_name = 'customers'
 
+    # def process_view(self, request, view_func, view_args, view_kwargs):
+    #     assert hasattr(request, 'user')
+    #     if request.user.is_authenticated():
+    #         User.objects.filter(user__id=request.user.id) \
+    #                        .update(last_seen=timezone.now())
+
     def get_queryset(self):
         queryset = super().get_queryset().annotate(
             total_orders=Count('order'),
@@ -3909,13 +3985,14 @@ class CustomerListView(LoginRequiredMixin, ListView):
             default_billing_address = Address.objects.filter(
                 user=customer,
                 address_type='Billing',
-
             ).first()
+            customer.billing_address = default_billing_address
+            customer.last_seen = customer.last_seen if hasattr(customer, 'last_seen') else None
 
-            if default_billing_address:
-                customer.billing_address = default_billing_address
-            else:
-                customer.billing_address = None
+            # if default_billing_address:
+            #     customer.billing_address = default_billing_address
+            # else:
+            #     customer.billing_address = None
 
         return queryset
     
@@ -3944,14 +4021,37 @@ class CustomerListView(LoginRequiredMixin, ListView):
                 if group.permissions.filter(codename='view_user').exists():
                     user_has_permission = True
                     break
-
         if not user_has_permission:
             # Return some error or handle permission denial
             return render(request, 'Al-admin/permission/permission_denied.html')
-
         return super().dispatch(request, *args, **kwargs)
 
 
+
+# @login_required
+# def last_seen_profile(request):
+#     last_seen =request.user.last_seen
+#     print(last_seen)
+#     return render(request, 'Al-admin/customer/last_seen.html', {'last_seen': last_seen})
+
+
+
+# from django.utils.timezone import now
+# from .... import MemberEntity
+
+
+# class LastActivityTraceMiddleware:
+#     def __init__(self, get_response):
+#         self.get_response = get_response
+
+#     def __call__(self, request):
+#         response = self.get_response(request)
+
+#         member: MemberEntity = request.user
+#         if member.is_authenticated:
+#             member.last_login = now()
+#             member.save()
+#         return response
 def updatebilling(request, id):
     print(id)
     if request.method == 'POST':
@@ -3994,7 +4094,6 @@ def customer_details(request, id):
 
     except Address.DoesNotExist:
         print("No default billing address found.")
-
     context = {
         'order':order,
         'wish_list':wish_list,
@@ -4005,7 +4104,6 @@ def customer_details(request, id):
         'user':user,
         'def_address':def_address,
     }
-
     return render(request, 'Al-admin/customer/customer_details.html', context)
 
 

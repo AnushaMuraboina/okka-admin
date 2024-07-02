@@ -49,7 +49,6 @@ class CustomUserCreationForm(forms.ModelForm):
             from_email = 'onlineorders@suwaidillc.ae'  # Update with your email
             to_email = user.email
             send_mail(subject, message, from_email, [to_email])
-
         return user
     
 
@@ -178,11 +177,10 @@ class FooterBannerForm(forms.ModelForm):
 
 
 
-
-
-
-
-
+class TagsForms(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name', 'description']
 
 
 # class CategoryBannerForm(forms.ModelForm):

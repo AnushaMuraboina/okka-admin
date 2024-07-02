@@ -180,6 +180,8 @@ class Tag(models.Model):
         return self.name
     
 
+
+
 class Attribute(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)

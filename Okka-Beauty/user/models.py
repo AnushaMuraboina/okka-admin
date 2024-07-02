@@ -1,9 +1,11 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     user_nicename = models.CharField(max_length=50)
     display_name = models.CharField(max_length=250)
+    last_seen = models.DateTimeField(default=timezone.now)
 
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = []
@@ -19,6 +21,8 @@ class OkdUsers(models.Model):
     user_activation_key = models.CharField(max_length=255)
     user_status = models.IntegerField(default=0)
     display_name = models.CharField(max_length=250)
+
+
 
     class Meta:
         db_table = 'okd_users'
