@@ -437,3 +437,112 @@ def delete_product(request, product_id):
         return JsonResponse({'message': 'Invalid request'}, status=400)
 
 
+#order list Display function
+@login_required
+def order_page(request):
+    order = Order.objects.all().order_by('-order_date').values('user__username', 'amount', 'disc_price', 'tax_amount', 'shipping_cost',  'order_id', 'billing_address__first_name', 'shipping_address__first_name', 'bill_amount', 'order_status', 'payment_status' , 'payment_method', 'order_date')
+    print(order)
+    all_order_count = order.count()
+    print(all_order_count)
+    payment_Pending_count = order.filter(payment_status='Pending').count()
+    print(payment_Pending_count)
+
+    order_delivered_count = order.filter(order_status='Delivered').count()
+    print(order_delivered_count)
+
+    order_cancelled_count = order.filter(order_status='Cancelled').count()
+    print(order_cancelled_count)
+
+    order_shipped_count = order.filter(order_status='Shipped').count()
+    print(order_shipped_count)
+
+    # order_status = Status.objects.all()
+    # print(order_status)
+
+    # payment_type = payment_method.objects.all()
+    # print(payment_type)
+
+
+    user_has_permission = request.user.has_perm('checkout.view_Order')
+
+    # Check group permissions
+    if not user_has_permission:
+        user_groups = request.user.groups.all()
+        for group in user_groups:
+            if group.permissions.filter(codename='view_Order').exists():
+                user_has_permission = True
+                break
+
+    if not user_has_permission:
+        # Return some error or handle permission denial
+        return render(request, 'Al-admin/permission/permission_denied.html')
+
+
+    context = {
+        'order':order,
+        'all_order_count':all_order_count,
+        'payment_Pending_count':payment_Pending_count,
+        'order_delivered_count':order_delivered_count,
+        'order_cancelled_count':order_cancelled_count,
+        'order_shipped_count':order_shipped_count,
+        # 'order_status':order_status,
+        # 'payment_type':payment_type,
+    }
+    return render(request, 'Al-admin/order/order.html', context )
+
+# Order Details Display Page
+@login_required
+def order_details(request, order_id):
+    user = request.user
+    print(order_id)
+    
+    order = Order.objects.get(order_id=order_id)
+    print(order)
+
+    # Retrieve order items
+    order_item = OrderItem.objects.filter(order_id=order.id) 
+
+    # get the OrderItem objects related to the order
+    order_items = order.orderitem_set.all()
+    print(order_items)
+    print(order.billing_address)
+
+    Billing_address = Address.objects.values().filter(id=order.billing_address.id)
+    print(Billing_address)
+
+    Shipping_address = Address.objects.values().filter(id=order.shipping_address.id)
+    print(Shipping_address)
+    
+    invoice = Invoice.objects.get(order_id=order)
+    print(invoice)
+    print('invoice id of order success page')
+    
+    user_has_permission = request.user.has_perm('checkout.view_Order')
+
+    # Check group permissions
+    if not user_has_permission:
+        user_groups = request.user.groups.all()
+        for group in user_groups:
+            if group.permissions.filter(codename='view_Order').exists():
+                user_has_permission = True
+                break
+
+    if not user_has_permission:
+        # Return some error or handle permission denial
+        return render(request, 'Al-admin/permission/permission_denied.html')
+
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'user': user,
+        'order_id': order_id,
+        'Billing_address': Billing_address,
+        'Shipping_address': Shipping_address,
+        'invoice': invoice,
+    }
+
+    return render(request, 'Al-admin/order/order_details.html', context)
+
+
+
+

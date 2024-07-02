@@ -2627,41 +2627,30 @@ def order_replacement_page(request):
 
 @login_required
 def order_details(request, order_id):
-
     user = request.user
     print(order_id)
-    order = Order.objects.get(order_id = order_id)
+    
+    order = Order.objects.get(order_id=order_id)
     print(order)
 
     # Retrieve order items
     order_item = OrderItem.objects.filter(order_id=order.id) 
 
-
     # get the OrderItem objects related to the order
-    order_items = order.OrderItem_set.all()
+    order_items = order.orderitem_set.all()
     print(order_items)
-    print(order.Billing_address)
+    print(order.billing_address)
 
-    Billing_address =  Address.objects.values().filter(id=order.Billing_address.id)
+    Billing_address = Address.objects.values().filter(id=order.billing_address.id)
     print(Billing_address)
 
-    Shipping_address =  Address.objects.values().filter(id=order.shipping_address.id)
+    Shipping_address = Address.objects.values().filter(id=order.shipping_address.id)
     print(Shipping_address)
     
-    # userorder = get_object_or_404(Order, order_id= order_id)
-    
-    invoice = Invoice.objects.get(order_id = order)
+    invoice = Invoice.objects.get(order_id=order)
     print(invoice)
-    print('invoice id of order sucess page')
-
-    # order_Status = Status.objects.all()
-
-    # try:
-    #     delivery_person_details = OrderDeliveryPerson.objects.get(order=order)
-    # except OrderDeliveryPerson.DoesNotExist:
-    #     delivery_person_details = None
-
-        
+    print('invoice id of order success page')
+    
     user_has_permission = request.user.has_perm('checkout.view_Order')
 
     # Check group permissions
@@ -2674,22 +2663,20 @@ def order_details(request, order_id):
 
     if not user_has_permission:
         # Return some error or handle permission denial
-        return render(request, 'Al-admin/permission/permission_denied.html')    
+        return render(request, 'Al-admin/permission/permission_denied.html')
 
     context = {
         'order': order,
-        'order_items':order_items,
+        'order_items': order_items,
         'user': user,
         'order_id': order_id,
-        'Billing_address':Billing_address,
-        'Shipping_address':Shipping_address,
-        'invoice':invoice,
-        # 'order_Status':order_Status,
-        # 'delivery_person_details':delivery_person_details,
-        
+        'Billing_address': Billing_address,
+        'Shipping_address': Shipping_address,
+        'invoice': invoice,
     }
 
     return render(request, 'Al-admin/order/order_details.html', context)
+
 
 @login_required
 def order_replacement_details(request, order_id):
@@ -2706,9 +2693,9 @@ def order_replacement_details(request, order_id):
     # get the OrderItem objects related to the order
     order_items = order.OrderItem_set.all()
     print(order_items)
-    print(order.Billing_address)
+    print(order.billing_address)
 
-    Billing_address =  Address.objects.values().filter(id=order.Billing_address.id)
+    Billing_address =  Address.objects.values().filter(id=order.billing_address.id)
     print(Billing_address)
 
     Shipping_address =  Address.objects.values().filter(id=order.shipping_address.id)
@@ -3038,6 +3025,8 @@ def order_status_update(request):
         print(cancel_status)
         Comment = data.get('Comment')
         print(Comment)
+        trackId = data.get('trackId')
+        print(trackId)
 
         
 
@@ -3063,9 +3052,10 @@ def order_status_update(request):
                 send_not_approved_email(order, Comment)
 
         else:
-            pass
-            # order.order_status = order_status_instance
-            # order.save()
+            # pass
+            order.order_status = order_status
+            order.track_id = trackId
+            order.save()
 
         
 

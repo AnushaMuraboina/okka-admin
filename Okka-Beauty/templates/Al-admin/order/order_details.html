@@ -515,13 +515,13 @@
             <span class="icon">✔</span> <!-- Green success icon -->
             <span id="popup-message-text"></span>
           </div>
-            <nav class="mb-2" aria-label="breadcrumb">
+            <!-- <nav class="mb-2" aria-label="breadcrumb">
               <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="#!">Page 1</a></li>
                 <li class="breadcrumb-item"><a href="#!">Page 2</a></li>
                 <li class="breadcrumb-item active">Default</li>
               </ol>
-            </nav>
+            </nav> -->
             <div class="mb-9">
               <h2 class="mb-0">Order <span>#{{order_id}}</span></h2>
               <!-- <h2 class="mb-0">Payment via <span>{{order.payment_method}}</span></h2> -->
@@ -562,11 +562,17 @@
                           
                           <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="align-middle white-space-nowrap py-2">
-                              <div class="border rounded-2"> <a href="{% url 'product_details' id=item.product_id.id sl_category=item.product_id.category.name|slugify sl_sub_category=item.product_id.sub_category.name|slugify sl_product_details=item.product_id.product_name|slugify %}"> <img  src="{{item.product_id.product_Image1.url}}" alt="" width="53" /></a></div>
+                              <div class="border rounded-2"> 
+                                {% if item.product.images.all %}
+                                {% for image in item.product.images.all|slice:":1" %}
+                                <img  src="{{image.image.url}}" alt="" width="53" />
+                                {% endfor %}
+                                {% endif %}
+                              </div>
                             </td>
-                            <td class="products align-middle py-0"><a class="fw-semi-bold line-clamp-2 mb-0" href="{% url 'product_details' id=item.product_id.id sl_category=item.product_id.category.name|slugify sl_sub_category=item.product_id.sub_category.name|slugify sl_product_details=item.product_id.product_name|slugify %}">{{item.product_name}}</a></td>
+                            <td class="products align-middle py-0"><a class="fw-semi-bold line-clamp-2 mb-0" href="#">{{item.product_name}}</a></td>
                             <td class="price align-middle text-900 fw-semi-bold text-end py-0 ps-4">AED {{item.price}}</td>
-                            <td class="quantity align-middle text-end py-0 ps-4 text-700">{{item.quentity}}</td>
+                            <td class="quantity align-middle text-end py-0 ps-4 text-700">{{item.quantity}}</td>
                             <td class="total align-middle fw-bold text-1000 text-end py-0 ps-4">AED {{item.total}}</td>
                           </tr>
                           {% endfor %}
@@ -650,7 +656,7 @@
                           <div class="col-6 col-sm-12">
                             <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="user" style="stroke-width:2.5;"></span>
                               <h6 class="mb-0">Customer</h6>
-                            </div><a class="fs--1 ms-4" href="#!">{{billingaddress.name}}</a>
+                            </div><a class="fs--1 ms-4" href="#!">{{billingaddress.first_name}} {{billingaddress.last_name}}</a>
                           </div>
                           <div class="col-6 col-sm-12">
                             <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="mail" style="stroke-width:2.5;"></span>
@@ -663,7 +669,7 @@
                             </div>
                             <div class="ms-4">
                               <!-- <p class="text-800 mb-0 fs--1">Shatinon Mekalan</p> -->
-                              <p class="text-800 mb-0 fs--1">{{billingaddress.address}}<br class="d-none d-sm-block" /></p>
+                              <p class="text-800 mb-0 fs--1">{{billingaddress.address_1}}<br class="d-none d-sm-block" /></p>
                             </div>
                           </div>
                           <div class="col-6 col-sm-12">
@@ -756,7 +762,7 @@
                             </div>
                             <div class="ms-4">
                               <!-- <p class="text-800 mb-0 fs--1">Shatinon Mekalan</p> -->
-                              <p class="text-800 mb-0 fs--1">{{Shipping_address.address}}</p>
+                              <p class="text-800 mb-0 fs--1">{{Shipping_address.address_1}}</p>
                             </div>
                           </div>
                           <div class="col-6 col-sm-12">
@@ -768,39 +774,8 @@
                         </div>
                       {% endfor %}
                     </div>
-                    <!-- <div class="col-12 col-sm-4">
-                      <h4 class="mb-5">Other details</h4>
-                      <div class="row g-4 flex-sm-column">
-                        <div class="col-6 col-sm-12">
-                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="shopping-bag" style="stroke-width:2.5;"></span>
-                            <h6 class="mb-0">Gift order</h6>
-                          </div><a class="mb-0 text-800 fs--1 ms-4">Yes</a>
-                        </div>
-                        <div class="col-6 col-sm-12">
-                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="package" style="stroke-width:2.5;">  </span>
-                            <h6 class="mb-0">Wraping</h6>
-                          </div>
-                          <p class="mb-0 text-800 fs--1 ms-4">Magic wrapper</p>
-                        </div>
-                        <div class="col-6 col-sm-12">
-                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="file-text" style="stroke-width:2.5;">  </span>
-                            <h6 class="mb-0">Recipient</h6>
-                          </div>
-                          <p class="mb-0 text-800 fs--1 ms-4">Monjito Shiniga</p>
-                        </div>
-                        <div class="col-6 col-sm-12">
-                          <div class="d-flex align-items-center mb-1"><span class="me-2" data-feather="mail" style="stroke-width:2.5;">  </span>
-                            <h6 class="mb-0">Gift Meaasge</h6>
-                          </div>
-                          <div class="ms-4">
-                            <p class="text-800 fs--1 mb-0">Happy Birthday Shiniga <br />Lots of Love Buga Buga!!</p>
-                            <p class="mb-0 text-800 fs--1">Yours, <br />Mekalan</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
                   </div>
-                  {% if collect_person %}
+                  {% if order.track_id %}
                   <div id="deliveryPersonDetails" class="row gx-4 gy-6 g-xl-7 justify-content-sm-center justify-content-xl-start mt-5">
                   {% else %}
                   <div id="deliveryPersonDetails" class="row gx-4 gy-6 g-xl-7 justify-content-sm-center justify-content-xl-start mt-5" style="display: none;">
@@ -808,21 +783,12 @@
                     <div class="col-md-9 col-lg-8 col-xxl-6">
                       <div class="card mt-3">
                         <div class="card-body">
-                          <h3 class="card-title mb-4 text-primary">Delivery person Dtails</h3>
+                          <h3 class="card-title mb-4 text-primary">Tracking Detail</h3>
 
                           <div class="mb-3">
-                            <label class="form-label" for="asign_name">Name</label>                          
-                            <input class="form-control" id="asign_name" type="text" placeholder="example" value="{{delivery_person_details.delivery_person_name}}" />
-                          </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="asign_number">Mobile Number</label>                          
-                            <input class="form-control" id="asign_number" type="number" placeholder="+971-XX-1234567" value="{{delivery_person_details.contact}}" />
-                          </div>
-                          <!-- <div class="mb-3">
-                            <label class="form-label" for="asign_date">Inspection Date</label>
-                          <input class="form-control datetimepicker flatpickr-input" id="asign_date" type="text" placeholder="yyyy/mm/dd" value="{{collect_person.collect_Date}}"  data-options="{&quot;disableMobile&quot;:true,&quot;dateFormat&quot;:&quot;Y-m-d&quot;}" readonly="readonly">
-                          </div> -->
-                          {% if request.user.is_authenticated %} {% if perms.checkout.add_orderdeliveryperson %} <button class="btn btn-primary w-100 mt-5" id="asign_delivery_person" type="submit">Asign Delivery Person</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.add_orderdeliveryperson %} <button class="btn btn-primary w-100 mt-5" id="asign_delivery_person" type="submit">Asign Delivery Person</button> {% endif %} {% endfor %} {% endif %} {% endif %}
+                            <label class="form-label" for="trackId">Tracking ID</label>                          
+                            <input class="form-control" id="trackId" type="text" placeholder="123" value="{% if order.track_id %}{{order.track_id}}{% else %}{% endif %}" />
+                          </div>                          
                         </div>
                       </div>
                     </div>
@@ -870,12 +836,15 @@
                           <h3 class="card-title mb-4">Order Status</h3>
                           <h6 class="mb-2">Order status</h6>
                           <select class="form-select mb-4" aria-label="order status" name="order_status" id="order_status" onchange="toggleDeliveryPersonDetails()">
-                            {%for status in order_Status %}
-                            <option value="{{status.status}}"{% if status.status|lower == order.order_status|lower %}selected{% endif %}>{{status.status}}</option>
-                            <p>status.status: {{ status.status }} / order.order_status: {{ order.order_status }}</p>
-                            {% endfor %}
+                            <option value="processing" {% if order.order_status == 'processing' %} selected {% endif %}>processing</option>
+                            <option value="Confirmed" {% if order.order_status == 'Confirmed' %} selected {% endif %}>Confirmed</option>
+                            <option value="Shipped" {% if order.order_status == 'Shipped' %} selected {% endif %}>Shipped</option>
+                            <option value="Delivered" {% if order.order_status == 'Delivered' %} selected {% endif %}>Delivered</option>
+                            <option value="Cancelled" {% if order.order_status == 'Cancelled' %} selected {% endif %}>Cancelled</option>
+                            <option value="on-hold" {% if order.order_status == 'on-hold' %} selected {% endif %}>on-hold</option>
+ 
                           </select>
-                          {% if order.order_status.status == 'Cancelled' %}
+                          {% if order.order_status == 'Cancelled' %}
                           <h6 class="mb-2">Cancel status</h6>
                           <select class="form-select mb-4" aria-label="cancel status" name="cancel_status" id="cancel_status" onchange="toggleCancelComment()">
                             <option value="" selected>Select Cancel Status</option>
@@ -1060,23 +1029,23 @@
         const cancel_status = document.getElementById('cancel_status')?.value;
         console.log(cancel_status);
         order_id ="{{order_id}}"
-        const name = document.getElementById('asign_name').value;
-        console.log(name);
-        const number = document.getElementById('asign_number').value;
-        console.log(number);
+        const trackId = document.getElementById('trackId').value;
+        console.log(trackId);
+        // const number = document.getElementById('asign_number').value;
+        // console.log(number);
         const Comment = document.getElementById('NotApprovedComment')?.value;
         console.log(Comment)
         const csrfToken = "{{ csrf_token }}";
 
         // Here, you can make an axios post request with the 'order_status' value
         // Replace 'your_endpoint_url' with the actual URL where you want to send the request
-        axios.post('/Al-admin/order-status-update', {
+        axios.post('/okka-admin/order-status-update', {
           order_status: order_status,
           cancel_status: cancel_status,
           Comment:Comment,
           order_id:order_id,
-          name:name,
-          number:number,
+          trackId:trackId,
+          // number:number,
          },
           {
           headers: {
@@ -1113,41 +1082,41 @@
     }
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('asign_delivery_person').addEventListener('click', function(event){
-        event.preventDefault();
+    // document.addEventListener('DOMContentLoaded', function() {
+    //   document.getElementById('asign_delivery_person').addEventListener('click', function(event){
+    //     event.preventDefault();
 
-        const name = document.getElementById('asign_name').value;
-        console.log(name);
-        const number = document.getElementById('asign_number').value;
-        console.log(number);
-        order_id ="{{order_id}}"
-        const csrfToken = "{{ csrf_token }}";
+    //     const name = document.getElementById('asign_name').value;
+    //     console.log(name);
+    //     const number = document.getElementById('asign_number').value;
+    //     console.log(number);
+    //     order_id ="{{order_id}}"
+    //     const csrfToken = "{{ csrf_token }}";
 
-        // Here, you can make an axios post request with the 'order_status' value
-        // Replace 'your_endpoint_url' with the actual URL where you want to send the request
-        axios.post('/Al-admin/delivery_person_asign', {
-          name:name,
-          number:number,
-          order_id:order_id,
-         },
-          {
-          headers: {
-            'X-CSRFToken': csrfToken
-          }
-        })
-          .then(function(response) {
-            console.log(response.data);
-            displayPopupMessage("Delivery Person assigned successfully.", 5000, true);
-            // Handle the response as needed
-            // window.location.reload()
-          })
-          .catch(function(error) {
-            console.error(error);
-            // Handle errors if necessary
-          });
-      });
-    });
+    //     // Here, you can make an axios post request with the 'order_status' value
+    //     // Replace 'your_endpoint_url' with the actual URL where you want to send the request
+    //     axios.post('/Al-admin/delivery_person_asign', {
+    //       name:name,
+    //       number:number,
+    //       order_id:order_id,
+    //      },
+    //       {
+    //       headers: {
+    //         'X-CSRFToken': csrfToken
+    //       }
+    //     })
+    //       .then(function(response) {
+    //         console.log(response.data);
+    //         displayPopupMessage("Delivery Person assigned successfully.", 5000, true);
+    //         // Handle the response as needed
+    //         // window.location.reload()
+    //       })
+    //       .catch(function(error) {
+    //         console.error(error);
+    //         // Handle errors if necessary
+    //       });
+    //   });
+    // });
 
 
     </script>

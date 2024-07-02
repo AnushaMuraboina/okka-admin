@@ -79,6 +79,7 @@ class Order(models.Model):
     active = models.BooleanField(default=True)
     order_processed = models.BooleanField(default=False)
     order_notes = models.TextField(blank=True)
+    track_id = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"Order ID: {self.order_id}"
@@ -183,7 +184,7 @@ class Order(models.Model):
             email = EmailMultiAlternatives(
                 email_subject, 
                 body=safe_email_body, 
-                from_email='onlineorders@suwaidillc.ae', 
+                from_email='settings.ADMIN_EMAIL', 
                 to=[self.user.email],
             )   
             email.attach_alternative(safe_email_body, "text/html")
@@ -216,7 +217,7 @@ class Order(models.Model):
             admin_email = EmailMultiAlternatives(
                 admin_subject,
                 safe_admin_email_body,
-                from_email='onlineorders@suwaidillc.ae',
+                from_email='settings.ADMIN_EMAIL',
                 to=[admin_email],
                 cc=cc_email,
             )
@@ -272,14 +273,14 @@ class Order(models.Model):
                 # 'site_url': site_url,
                 # 'order_track': order_track,
                 # 'order_invoice': order_invoice,
-                'order_page':order_page,
+                # 'order_page':order_page,
                 # 'delivery_person_details': delivery_person,
             })
             safe_email_body = mark_safe(email_body)
             email = EmailMultiAlternatives(
                 email_subject,
                 body=safe_email_body,
-                from_email='onlineorders@suwaidillc.ae',
+                from_email= settings.ADMIN_EMAIL,
                 to=[self.user.email],
             )
             email.attach_alternative(safe_email_body, "text/html")
@@ -304,7 +305,7 @@ class Order(models.Model):
             email = EmailMultiAlternatives(
                 email_subject,
                 body=safe_email_body,
-                from_email='onlineorders@suwaidillc.ae',
+                from_email='settings.ADMIN_EMAIL',
                 to=[self.user.email],
             )
             email.attach_alternative(safe_email_body, "text/html")
