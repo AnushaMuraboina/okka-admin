@@ -2989,13 +2989,13 @@ def collect_person_asign(request):
 def send_not_approved_email(order, Comment):
     email_subject = ''
     email_body = None
-    to_email = [Order.user.email]  # Default to user's email
+    to_email = [order.user.email]  # Default to user's email
 
     email_subject = 'Order Cancel Not Approved By Admin'
     email_body = render_to_string('order_cancel_notapproved_email.html', {
         'order': order,
-        'user': Order.user ,
-        'order_id': Order.order_id,
+        'user': order.user ,
+        'order_id': order.order_id,
         'reason': Comment,
         # Include other necessary variables for the email body
     })
@@ -3005,7 +3005,7 @@ def send_not_approved_email(order, Comment):
         email = EmailMultiAlternatives(
             email_subject,
             body=safe_email_body,
-            from_email='onlineorders@suwaidillc.ae',
+            from_email=settings.ADMIN_EMAIL,
             to=to_email,
         )
         email.attach_alternative(safe_email_body, "text/html")

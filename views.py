@@ -543,6 +543,81 @@ def order_details(request, order_id):
 
     return render(request, 'Al-admin/order/order_details.html', context)
 
+# Order Status Update & Track Id Update function With cancellation not approved mail function
+
+@login_required
+def order_status_update(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        order_status = data.get('order_status')
+        print(order_status)
+        order_id = data.get('order_id')
+        print(order_id)
+        cancel_status = data.get('cancel_status')
+        print(cancel_status)
+        Comment = data.get('Comment')
+        print(Comment)
+        trackId = data.get('trackId')
+        print(trackId)
+
+       
+        # Assuming you have an order object that you want to update
+        order = Order.objects.get(order_id=order_id)  
+
+
+        # Update the order status
+        if order_status =='Cancelled':
+            print('order status is Cancelled')
+            order.cancel_status = cancel_status
+            order.save()
+
+            # Check if the cancel_status is 'NotApproved', then send the email
+            if cancel_status.lower() == 'notapproved':
+                send_not_approved_email(order, Comment)
+
+        else:
+            # pass
+            order.order_status = order_status
+            order.track_id = trackId
+            order.save()
+
+        
+
+
+        # Return a response, e.g., a success message or updated order details
+        response_data = {'message': 'Order status updated successfully', 'order_status': order_status}
+        return JsonResponse(response_data)
+    else:
+        return HttpResponseBadRequest('Invalid request method')
+
+# Not Approved Mail Function
+@login_required
+def send_not_approved_email(order, Comment):
+    email_subject = ''
+    email_body = None
+    to_email = [order.user.email]  # Default to user's email
+
+    email_subject = 'Order Cancel Not Approved By Admin'
+    email_body = render_to_string('order_cancel_notapproved_email.html', {
+        'order': order,
+        'user': order.user ,
+        'order_id': order.order_id,
+        'reason': Comment,
+        # Include other necessary variables for the email body
+    })
+
+    if email_subject and email_body:
+        safe_email_body = mark_safe(email_body)
+        email = EmailMultiAlternatives(
+            email_subject,
+            body=safe_email_body,
+            from_email=settings.ADMIN_EMAIL,
+            to=to_email,
+        )
+        email.attach_alternative(safe_email_body, "text/html")
+        email.send()
+        print(f"Email sent for Order {Order.order_id} with status {Order.cancel_status}")
+
 
 
 

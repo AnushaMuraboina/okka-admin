@@ -55,6 +55,11 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
     ]
+    CANCEL_STATUS_CHOICES = (
+        ('processing', 'processing'),
+        ('Approved', 'Approved'),
+        ('NotApproved', 'NotApproved'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_id = models.CharField(max_length=100, unique=True)
     products = models.ManyToManyField(Product, through='OrderItem')
@@ -75,7 +80,8 @@ class Order(models.Model):
     shipment_date = models.DateField(blank=True, null=True)
     delivery_date = models.DateField(blank=True, null=True)
     cancel_date = models.DateField(blank=True, null=True)
-    cancel_status = models.BooleanField(default=False)
+    # cancel_status = models.BooleanField(default=False)
+    cancel_status = models.CharField(max_length=20, choices=CANCEL_STATUS_CHOICES)
     active = models.BooleanField(default=True)
     order_processed = models.BooleanField(default=False)
     order_notes = models.TextField(blank=True)
@@ -184,7 +190,7 @@ class Order(models.Model):
             email = EmailMultiAlternatives(
                 email_subject, 
                 body=safe_email_body, 
-                from_email='settings.ADMIN_EMAIL', 
+                from_email=settings.ADMIN_EMAIL, 
                 to=[self.user.email],
             )   
             email.attach_alternative(safe_email_body, "text/html")
@@ -217,7 +223,7 @@ class Order(models.Model):
             admin_email = EmailMultiAlternatives(
                 admin_subject,
                 safe_admin_email_body,
-                from_email='settings.ADMIN_EMAIL',
+                from_email=settings.ADMIN_EMAIL,
                 to=[admin_email],
                 cc=cc_email,
             )
@@ -305,7 +311,7 @@ class Order(models.Model):
             email = EmailMultiAlternatives(
                 email_subject,
                 body=safe_email_body,
-                from_email='settings.ADMIN_EMAIL',
+                from_email=settings.ADMIN_EMAIL,
                 to=[self.user.email],
             )
             email.attach_alternative(safe_email_body, "text/html")
