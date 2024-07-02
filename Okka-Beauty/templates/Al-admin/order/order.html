@@ -745,10 +745,10 @@
                         <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% if disc_price %}AED {{order.disc_price}}{% endif %}</td>
                         <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.tax_amount}}</td>
                         <td class="date align-middle fw-semi-bold text-end py-2 text-1000">AED {{order.bill_amount}}</td>
-                        <td class="total align-middle text-700 text-end py-2">{{order.Billing_address__name}}</td>
-                        <td class="total align-middle text-700 text-end py-2">{{order.shipping_address__name}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.billing_address__first_name}}</td>
+                        <td class="total align-middle text-700 text-end py-2">{{order.shipping_address__first_name}}</td>
                         <td class="total align-middle text-700 text-end py-2">{{order.shipping_cost}}</td>
-                        <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">{{ order.payment_method__payment_name }}</td>
+                        <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">{{ order.payment_method }}</td>
                         <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
                           <span class="badge badge-phoenix fs--2 {% if order.payment_status == 'paid' %} badge-phoenix-success{% elif order.payment_status == 'decline' %}badge-phoenix-danger{% elif order.payment_status == 'canceled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
                             <span class="badge-label">{{ order.payment_status }}</span>
@@ -756,8 +756,8 @@
                           </span>
                         </td>
                         <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
-                          <span class="badge badge-phoenix fs--2 {% if order.order_status__status == 'processing' %} badge-phoenix-success{% elif order.order_status__status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status__status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
-                            <span class="badge-label">{{ order.order_status__status }}</span>
+                          <span class="badge badge-phoenix fs--2 {% if order.order_status == 'processing' %} badge-phoenix-success{% elif order.order_status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
+                            <span class="badge-label">{{ order.order_status }}</span>
                             <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
                           </span>
                         </td>
@@ -838,8 +838,8 @@
                           </span>
                         </td>
                         <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
-                          <span class="badge badge-phoenix fs--2 {% if order.order_status__status == 'processing' %} badge-phoenix-success{% elif order.order_status__status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status__status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
-                            <span class="badge-label">{{ order.order_status__status }}</span>
+                          <span class="badge badge-phoenix fs--2 {% if order.order_status == 'processing' %} badge-phoenix-success{% elif order.order_status == 'order payment has been decline' %}badge-phoenix-danger{% elif order.order_status == 'Cancelled' %}badge-phoenix-danger{% else %}badge-phoenix-warning{% endif %}">
+                            <span class="badge-label">{{ order.order_status }}</span>
                             <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
                           </span>
                         </td>
@@ -947,13 +947,13 @@
                     row.classList.add('position-static');
                     row.setAttribute('data-product-id', item.pk);
 
-                    // Determine the CSS classes based on item.order_status__status
+                    // Determine the CSS classes based on item.order_status
                     let statusClasses;
-                    if (item.order_status__status === 'processing') {
+                    if (item.order_status === 'processing') {
                         statusClasses = 'badge-phoenix-success';
-                    } else if (item.order_status__status === 'order payment has been decline') {
+                    } else if (item.order_status === 'order payment has been decline') {
                         statusClasses = 'badge-phoenix-danger';
-                    } else if (item.order_status__status === 'Cancelled') {
+                    } else if (item.order_status === 'Cancelled') {
                         statusClasses = 'badge-phoenix-danger';
                     } else {
                         statusClasses = 'badge-phoenix-warning';
@@ -999,7 +999,7 @@
                       </td>
                       <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
                           <span class="badge badge-phoenix fs--2 ${statusClasses}">
-                              <span class="badge-label">${item.order_status__status}</span>
+                              <span class="badge-label">${item.order_status}</span>
                               <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
                           </span>
                       </td>
@@ -1055,13 +1055,13 @@
                     row.classList.add('position-static');
                     row.setAttribute('data-product-id', item.pk);
 
-                    // Determine the CSS classes based on item.order_status__status
+                    // Determine the CSS classes based on item.order_status
                     let statusClasses;
-                    if (item.order_status__status === 'processing') {
+                    if (item.order_status === 'processing') {
                         statusClasses = 'badge-phoenix-success';
-                    } else if (item.order_status__status === 'order payment has been decline') {
+                    } else if (item.order_status === 'order payment has been decline') {
                         statusClasses = 'badge-phoenix-danger';
-                    } else if (item.order_status__status === 'Cancelled') {
+                    } else if (item.order_status === 'Cancelled') {
                         statusClasses = 'badge-phoenix-danger';
                     } else {
                         statusClasses = 'badge-phoenix-warning';
@@ -1108,7 +1108,7 @@
                       </td>
                       <td class="status align-middle white-space-nowrap text-end fw-bold text-700 py-2">
                           <span class="badge badge-phoenix fs--2 ${statusClasses}">
-                              <span class="badge-label">${item.order_status__status}</span>
+                              <span class="badge-label">${item.order_status}</span>
                               <span class="ms-1" data-feather="check" style="height:12.8px;width:12.8px;"></span>
                           </span>
                       </td>

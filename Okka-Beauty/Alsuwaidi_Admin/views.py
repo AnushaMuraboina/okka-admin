@@ -2517,7 +2517,7 @@ def update_product(request):
 
 @login_required
 def order_page(request):
-    order = Order.objects.all().order_by('-order_date').values('user__username', 'amount', 'disc_price', 'tax_amount', 'shipping_cost',  'order_id', 'billing_address', 'shipping_address', 'bill_amount', 'order_status', 'payment_status' , 'payment_method', 'order_date')
+    order = Order.objects.all().order_by('-order_date').values('user__username', 'amount', 'disc_price', 'tax_amount', 'shipping_cost',  'order_id', 'billing_address__first_name', 'shipping_address__first_name', 'bill_amount', 'order_status', 'payment_status' , 'payment_method', 'order_date')
     print(order)
     all_order_count = order.count()
     print(all_order_count)
