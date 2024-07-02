@@ -26,6 +26,10 @@ from datetime import datetime, timedelta
 from datetime import date
 
 
+from user.forms import *
+from user.models import *
+
+
 from django.db.models import Count, Sum , Max, Case, When, F, Value, IntegerField
 from django.db.models.functions import TruncMonth, TruncDate
 
@@ -118,8 +122,6 @@ def export_user_data_as_csv(request):
             })
 
     return response
-
-
 
 
 @login_required
@@ -2648,10 +2650,10 @@ def order_details(request, order_id):
     print(order_items)
     print(order.Billing_address)
 
-    Billing_address =  Address.objects.values().filter(id=order.Billing_address.id)
+    Billing_address =Address.objects.values().filter(id=order.billing_address.id)
     print(Billing_address)
 
-    Shipping_address =  Address.objects.values().filter(id=order.shipping_address.id)
+    Shipping_address =Address.objects.values().filter(id=order.shipping_address.id)
     print(Shipping_address)
     
     # userorder = get_object_or_404(Order, order_id= order_id)
@@ -2715,16 +2717,15 @@ def order_replacement_details(request, order_id):
     # Retrieve order items
     order_item = OrderItem.objects.filter(order_id=order.id) 
 
-
     # get the OrderItem objects related to the order
     order_items = order.OrderItem_set.all()
     print(order_items)
-    print(order.Billing_address)
+    # print(order.Billing_address)
 
-    Billing_address =  Address.objects.values().filter(id=order.Billing_address.id)
+    Billing_address = Address.objects.values().filter(id=order.Billing_address.id)
     print(Billing_address)
 
-    Shipping_address =  Address.objects.values().filter(id=order.shipping_address.id)
+    Shipping_address = Address.objects.values().filter(id=order.shipping_address.id)
     print(Shipping_address)
     
     # userorder = get_object_or_404(Order, order_id= order_id)
@@ -3105,17 +3106,14 @@ def order_status_update(request):
 
 @login_required
 def back_order_user(request):
-
     user = get_user_model().objects.all()
     print(user)
-    addresses = Address.objects.filter(user__in=user, address_2=True, address_type='Billing')
-
+    addresses = Address.objects.filter(user__in=user,  address_type='Billing')
     context = {
-
         'user':user,
         'addresses':addresses,
     }
-
+    print(context)
     return render(request, 'Al-admin/order/back_order.html', context)
 
 
@@ -3126,9 +3124,9 @@ def back_order_form(request, id):
 
     print(user)
 
-    billing_info_details = list(Address.objects.filter(user=user, address_type='Billing').values('id', 'user', 'first_name', 'email', 'phone', 'address_1', 'address_2', 'city', 'postcode', 'Country_Region', 'address_type'))
+    billing_info_details = list(Address.objects.filter(user=user, address_type='Billing').values('id', 'user', 'first_name', 'email', 'phone', 'address_1', 'address_2', 'city', 'postcode','state_country', 'Country_Region', 'address_type'))
     print('billing_info_details', billing_info_details)
-
+    
     shipping_info_details = Address.objects.filter(user=user, address_type='Shipping').values()
     print('shipping_info_details', shipping_info_details)
 
@@ -3194,10 +3192,12 @@ def order_product_selection(request):
 
         for item in selected_values:
             id_value = item.get('id')
+            print(id_value)
             quantity = item.get('quantity')
+            print(quantity)
         
-            order_product = Product.objects.values('pk','name', 'sku',  'regular_price', 'sale_price').filter(id__in=id_value)
-
+            order_product = Product.objects.values('pk','name', 'sku',  'regular_price', 'sale_price').filter(id=id_value)
+            print(order_product)
             # Create a dictionary for each product and include quantity
             for product in order_product:
                 price = product['regular_price']
@@ -3226,13 +3226,13 @@ def order_product_selection(request):
 
                 product_data.append({
                     'pk': product['pk'],
-                    'product_name': product['name'],
-                    'product_sku': product['sku'],
+                    'name': product['name'],
+                    'sku': product['sku'],
                     # 'product_Image1': product['product_Image1'],
-                    'price': product['regular_price'],
+                    'regular_price': product['regular_price'],
                     'quantity': quantity,
                     'subtotal':subtotal,
-                    'Discount':discount,
+                    'Discount':disc_total,
                     'row_total_price': row_total_price,
                     
                 })
@@ -3262,7 +3262,6 @@ def back_order(request, product_id=None):
 
     if request.method == 'POST':
 
-        
         data = json.loads(request.body)
         user_id =data.get('userId')
         print(user_id)
@@ -3344,18 +3343,18 @@ def back_order(request, product_id=None):
                     # Create a new billing address
                     billing_address = Address.objects.create(
                         user=user,
-                        name=billing_info['first_name'],
+                        first_name=billing_info['first_name'],
                         email=billing_info['email'],
                         phone=billing_info['phone'],
                         address_1=billing_info['address_1'],
                         address_2=billing_info['address_2'],
                         # landmark=billing_info['landmark'],
                         city=billing_info['city'],
-                        state=billing_info[' state_country'],
+                        state_country=billing_info['state_country'],
                         postcode=billing_info['postcode'],
                         Country_Region =billing_info['Country_Region'],
                         address_type = 'Billing',
-                        Active = True,
+                        # active = True,
                     )
                 print(billing_address)
 
@@ -3366,31 +3365,31 @@ def back_order(request, product_id=None):
                     # Create a new billing address
                     shipping_address = Address.objects.create(
                         user=user,
-                        name=shipping_info['first_name'],
+                        first_name=shipping_info['first_name'],
                         email=shipping_info['email'],
                         phone=shipping_info['phone'],
                         address_1=billing_info['address_1'],
                         address_2=billing_info['address_2'],
                         city=shipping_info['city'],
-                        state=shipping_info[' state_country'],
+                        state_country =shipping_info['state_country'],
                         postcode=shipping_info['postcode'],
                         Country_Region =shipping_info['Country_Region '],
                         address_type = 'Shipping',
-                        Active = True,
+                        # active = True,
                     )
                 print(shipping_address)
 
                 order = Order.objects.create(
                     user=user,
-                    Billing_address_id=billing_info,
-                    shipping_address_id=shipping_info,
+                    billing_address=billing_address,
+                    shipping_address=shipping_address,
                     # amount=amount,
-                    disc_price=discount,
+                    disc_price=0.00,
                     # tax_amount = tax_amount,
                     bill_amount=total_amount,
-                    shipping_cost=shipping_cost,
-                    payment_method_id=1,
-                    order_status_id=2,
+                    shipping_cost=0.00,
+                    payment_method='Pending',
+                    order_status='processing',
 
                )
                 print("order store")
@@ -3414,11 +3413,11 @@ def back_order(request, product_id=None):
 
                     order_item = OrderItem.objects.create(
 
-                    order_id=order,
+                    order_id=order.id,
                     product_id=product,
                     product_name=name,
                     price=product.regular_price,
-                    quentity=quantity,
+                    quantity=quantity,
                     # disc_price=0,
                     total=total
                     )
@@ -3460,8 +3459,8 @@ def back_order(request, product_id=None):
                     # site_url = f"https://{current_site.domain}"
                     # print(site_url)
                     
-                    track_url = reverse('order_tracking', kwargs={'order_id': order_id})
-                    invoice_url = reverse('download_invoice', kwargs={'order_id': order.id, 'invoice_id': invoice_id})
+                    # track_url = reverse('order_tracking', kwargs={'order_id': order_id})
+                    # invoice_url = reverse('download_invoice', kwargs={'order_id': order.id, 'invoice_id': invoice_id})
 
                     # order_track = f"{site_url}{track_url}"
                     # order_invoice = f"{site_url}{invoice_url}"
@@ -3479,14 +3478,14 @@ def back_order(request, product_id=None):
                         'order_item':OrderItem.objects.filter(order_id=order.id),
                         'user': user,
                         'order_id': order_item.order_id,
-                        'shippingaddress': Address.objects.get(id=order.shipping_address_id),
-                        'billingaddress': Address.objects.get(id=order.Billing_address_id),
-                        # 'payment': payment_method.objects.values_list('payment_name', flat=True).get(id=order.payment_method_id),
+                        'shippingaddress': Address.objects.get(id=order.shipping_address.id),
+                        'billingaddress': Address.objects.get(id=order.billing_address.id),
+                        # 'payment': payment_method.objects.values_list('payment_name', flat=True).get(id=order.payment_method),
                         'iteam_total': order.amount,
                         'tax':order.tax_amount,
                         'disc_price':order.disc_price,
                         'total':order.bill_amount,
-                        'product_details': Product.objects.filter(product_name=order_item.product_id),
+                        'product_details': Product.objects.filter(name=order_item.product_id),
                         'order_date':order.order_date,
                         # 'site_url':site_url,
                         # 'order_track':order_track,
@@ -3515,14 +3514,14 @@ def back_order(request, product_id=None):
                         'order_item':OrderItem.objects.filter(order_id=order.id),
                         'user': user,
                         'order_id': order_item.order_id,
-                        'shippingaddress': Address.objects.get(id=order.shipping_address_id),
-                        'billingaddress': Address.objects.get(id=order.Billing_address_id),
-                        # 'payment': payment_method.objects.values_list('payment_name', flat=True).get(id=order.payment_method_id),
+                        'shippingaddress': Address.objects.get(id=order.shipping_address),
+                        'billingaddress': Address.objects.get(id=order.billing_address),
+                        # 'payment': payment_method.objects.values_list('payment_name', flat=True).get(id=order.payment_method),
                         'iteam_total': order.amount,
                         'tax':order.tax_amount,
                         'disc_price':order.disc_price,
                         'total':order.bill_amount,
-                        'product_details': Product.objects.filter(product_name=order_item.product_id),
+                        'product_details': Product.objects.filter(name=order_item.product_id),
                         'order_date':order.order_date,
                         # 'site_url':site_url,
                         # 'order_track':order_track,

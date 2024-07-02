@@ -487,13 +487,15 @@
             <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
           </div>
         </nav>
+        
+        
         {% include 'Al-admin/base/nav.html' %}
         <div class="content">
          
           <div class="mb-9">
             <div class="row g-3 mb-4">
              
-            <div id="orderTable" data-list='{"valueNames":["id","name","email","phone","zip","country","state"],"page":10,"pagination":true}'>
+            <div id="orderTable" data-list='{"valueNames":["id","first_name ","email","phone","postcode","Country_Region","state_country"],"page":10,"pagination":true}'>
               <div class="mb-4">
                 <div class="row g-3">
                   <h2 class="title mb-3">Items Ordered</h2>
@@ -565,16 +567,16 @@
                               <table class="table table-striped fs--1 mb-0">
                                 <thead>
                                   <tr>
-                                    <th data-sort="entity_id" data-direction="asc" class="table-sortable data-grid-th _descend col-id col-entity_id">
+                                    <!-- <th data-sort="entity_id" data-direction="asc" class="table-sortable data-grid-th _descend col-id col-entity_id">
                                         <span>ID</span>
-                                      </th>
+                                      </th> -->
                                       <th data-sort="name" data-direction="asc" class="table-sortable data-grid-th  col-name" data-sort="product">
                                         <span>Product</span>
                                       </th>
                                       <th data-sort="sku" data-direction="asc" class="table-sortable data-grid-th  col-sku">
                                         <span>SKU</span>
                                       </th>
-                                      <th data-sort="price" data-direction="asc" class="table-sortable data-grid-th col-price">
+                                      <th data-sort="regular_price" data-direction="asc" class="table-sortable data-grid-th col-price">
                                         <span>Price</span>
                                       </th>
                                       <th class="data-grid-th col-select no-link col-in_products">
@@ -588,14 +590,14 @@
                                 <tbody class="list" id="products-table-body">
                                     {% for product in product %}
                                     <tr title="#" class="even _clickable">
-                                      <td class="align-middle white-space-nowrap py-0">
-                                          <div><img src="{{ MEDIA_PREFIX }}{{product.product_Image1}}" alt="" width="53" /></div>
-                                      </td>
+                                      <!-- <td class="align-middle white-space-nowrap py-0">
+                                          <div><img src="{{ MEDIA_PREFIX }}{{product.image}}" alt="" width="53" /></div>
+                                      </td> -->
                                       <td class="col-name">
-                                          {{product.product_name}}
+                                          {{product.name}}
                                       </td>
-                                      <td class="col-sku">{{product.product_sku}}</td>
-                                      <td class="price col-price">{{product.price}}</td>
+                                      <td class="col-sku">{{product.sku}}</td>
+                                      <td class="price col-price">{{product.regular_price}}</td>
                                       <td class="col-select col-in_products">
                                           <div class="form-check mb-0 fs-0">
                                               <input class="form-check-input product" type="checkbox" value="{{ product.id }}" data-bulk-select-row='{"product":"Fitbit Sense Advanced Smartwatch with Tools for Heart Health, Stress Management & Skin Temperature Trends, Carbon/Graphite, One Size (S & L Bands...","productImage":"/products/1.png","price":"$39","category":"Plants","tags":["Health","Exercise","Discipline","Lifestyle","Fitness"],"star":false,"vendor":"Blue Olive Plant sellers. Inc","publishedOn":"Nov 12, 10:45 PM"}'>
@@ -683,9 +685,9 @@
                         <label>Select from existing customer addresses: </label>
                         <div>
                           <select class="form-select" id="address-select" aria-label="Default select example">
-                            <option value="" data-address='{"name":"","email":"","phone":"","address":"","landmark":"","city":"","state":"","zipcode":"","country":""}'>Add New Address</option>
+                            <option value="" data-address='{"first_name":"","email":"","phone":"","address":"","address_2":"","city":"","state_country":"","postcode":"","Country_Region":""}'>Add New Address</option>
                             {% for billingaddress in billing_info_details %}
-                            <option value="{{ billingaddress.id }}" data-address='{"id":"{{ billingaddress.id }}" ,"name":"{{billingaddress.name}}","email":"{{billingaddress.email}}","phone":"{{billingaddress.phone}}","address":"{{billingaddress.address}}","landmark":"{{billingaddress.landmark}}","city":"{{billingaddress.city}}","state":"{{billingaddress.state}}","zipcode":"{{billingaddress.zipcode}}","country":"{{billingaddress.country}}"}' {% if billingaddress.default_address == 'True' %}selected{% endif %}>{{billingaddress.name}}-{{billingaddress.address}}-{{billingaddress.landmark}}-{{billingaddress.city}}-{{billingaddress.zipcode}}-{{billingaddress.country}}-{{billingaddress.phone}}</option>
+                            <option value="{{ billingaddress.id }}" data-address='{"id":"{{ billingaddress.id }}" ,"first_name":"{{billingaddress.first_name}}","email":"{{billingaddress.email}}","phone":"{{billingaddress.phone}}","address_1":"{{billingaddress.address_1}}","address_2":"{{billingaddress.address_2}}","city":"{{billingaddress.city}}","state_country":"{{billingaddress.state_country}}","postcode":"{{billingaddress.postcode}}","Country_Region":"{{billingaddress.Country_Region}}"}' {% if billingaddress.default_address == 'True' %}selected{% endif %}>{{billingaddress.first_name}}-{{billingaddress.address_1}}-{{billingaddress.address_2}}-{{billingaddress.city}}-{{billingaddress.postcode}}-{{billingaddress.state_country}}-{{billingaddress.Country_Region}}-{{billingaddress.phone}}</option>
                             {% endfor %}
                           </select>
                         </div>
@@ -697,8 +699,8 @@
                         <div class="row g-4">
                           <input type="hidden" id="billing_id" name="billing_address_id" value="{{ billingaddress.id }}">
                           <div class="col-12">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputName">Full name</label>
-                            <input class="form-control" id="inputName" name="name" type="text" placeholder="Full name" value="{{billingaddress.name}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputfirst_name">First name</label>
+                            <input class="form-control" id="inputfirst_name" name="first_name" type="text" placeholder="First name" value="{{billingaddress.first_name}}">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputEmail">Email</label>
@@ -709,28 +711,28 @@
                             <input class="form-control" id="inputPhone" name="phone" type="tel" placeholder="+1234567890" value="{{billingaddress.phone}}">
                           </div>
                           <div class="col-12">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">Address</label>
-                            <input class="form-control" id="inputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress1">address_1</label>
+                            <input class="form-control" id="inputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address_1}}">
                           </div>
                           <div class="col-12">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">Landmark</label>
-                            <input class="form-control" id="inputAddress2" type="text" name="landmark" placeholder="Address line 2" value="{{billingaddress.landmark}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputAddress2">address_2</label>
+                            <input class="form-control" id="inputAddress2" type="text" name="address_2" placeholder="Address line 2" value="{{billingaddress.address_2}}">
                           </div>
                           <div class="col-md-4">
                             <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCity">City</label>
                             <input class="form-control" id="inputCity" type="text" name="city" placeholder="city" value="{{billingaddress.city}}">
                             </div>
                           <div class="col-md-4">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputState">State</label>
-                            <input class="form-control" id="inputState" type="text" name="state" placeholder="state" value="{{billingaddress.state}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputstate_country">state_country</label>
+                            <input class="form-control" id="inputstate_country" type="text" name="state_country" placeholder="state_country" value="{{billingaddress.state_country}}">
                           </div>
                           <div class="col-md-4">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputZipCode">Zip code</label>
-                            <input class="form-control number-arrows-none" id="inputZipCode" name="zipcode" type="number" placeholder="Zip code" value="{{billingaddress.zipcode}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputpostcode">Zip code</label>
+                            <input class="form-control number-arrows-none" id="inputpostcode" name="postcode" type="number" placeholder="Zip code" value="{{billingaddress.postcode}}">
                           </div>
                           <div class="col-12 mb-3">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCountry">Country</label>
-                            <input class="form-control" id="inputCountry" type="text" name="country" placeholder="country" value="{{billingaddress.country}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="inputCountry_Region">Country_Region</label>
+                            <input class="form-control" id="inputCountry_Region" type="text" name="Country_Region" placeholder="Country_Region" value="{{billingaddress.Country_Region}}">
                           </div>
                         </div>
                       </form>
@@ -753,9 +755,9 @@
                         <label>Select from existing customer addresses: </label>
                         <div>
                           <select class="form-select" id="ship-address-select" aria-label="Default select example" disabled>
-                            <option value="" ship-data-address='{"name":"","email":"","phone":"","address":"","landmark":"","city":"","state":"","zipcode":"","country":""}'>Add New Address</option>
+                            <option value="" ship-data-address='{"first_name":"","email":"","phone":"","address_1":"","address_2":"","city":"","state_country":"","postcode":"","Country_Region":""}'>Add New Address</option>
                             {% for shippingaddress in shipping_info_details %}
-                            <option value="{{ shippingaddress.id }}" ship-data-address='{"id":"{{ shippingaddress.id }}" ,"name":"{{shippingaddress.name}}","email":"{{shippingaddress.email}}","phone":"{{shippingaddress.phone}}","address":"{{shippingaddress.address}}","landmark":"{{shippingaddress.landmark}}","city":"{{shippingaddress.city}}","state":"{{shippingaddress.state}}","zipcode":"{{shippingaddress.zipcode}}","country":"{{shippingaddress.country}}"}' {% if shippingaddress.default_address == 'True' %}selected{% endif %}>{{ shippingaddress.default_address }}{{shippingaddress.name}}-{{shippingaddress.address}}-{{shippingaddress.landmark}}-{{shippingaddress.city}}-{{shippingaddress.zipcode}}-{{shippingaddress.country}}-{{shippingaddress.phone}}</option>
+                            <option value="{{ shippingaddress.id }}" ship-data-address='{"id":"{{ shippingaddress.id }}" ,"first_name":"{{shippingaddress.first_name}}","email":"{{shippingaddress.email}}","phone":"{{shippingaddress.phone}}","address_1":"{{shippingaddress.address_1}}","address_2":"{{shippingaddress.address_2}}","city":"{{shippingaddress.city}}","state_country":"{{shippingaddress.state_country}}","postcode":"{{shippingaddress.postcode}}","Country_Region":"{{shippingaddress.Country_Region}}"}' {% if shippingaddress.default_address == 'True' %}selected{% endif %}>{{ shippingaddress.default_address }}{{shippingaddress.first_name}}-{{shippingaddress.address_1}}-{{shippingaddress.address_2}}-{{shippingaddress.city}}-{{shippingaddress.postcode}}-{{shippingaddress.state_country}}-{{shippingaddress.Country_Region}}-{{shippingaddress.phone}}</option>
                             {% endfor %}
                           </select>
                         </div>
@@ -767,8 +769,8 @@
                         <div class="row g-4">
                           <input type="hidden" id="billing_id" name="billing_address_id" value="{{ billingaddress.id }}">
                           <div class="col-12">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputName">Full name</label>
-                            <input class="form-control" id="shipinputName" name="name" type="text" placeholder="Full name" value="{{billingaddress.name}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputfirst_name ">First name</label>
+                            <input class="form-control" id="shipinputfirst_name " name="first_name" type="text" placeholder="First name" value="{{billingaddress.first_name}}">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputEmail">Email</label>
@@ -779,28 +781,28 @@
                             <input class="form-control" id="shipinputPhone" name="phone" type="tel" placeholder="+1234567890" value="{{billingaddress.phone}}">
                           </div>
                           <div class="col-12">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputAddress1">Address</label>
-                            <input class="form-control" id="shipinputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputAddress1">address_1</label>
+                            <input class="form-control" id="shipinputAddress1" name="address" type="text" placeholder="Address line 1" value="{{billingaddress.address_1}}">
                           </div>
                           <div class="col-12">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputAddress2">Landmark</label>
-                            <input class="form-control" id="shipinputAddress2" type="text" name="landmark" placeholder="Address line 2" value="{{billingaddress.landmark}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputAddress2">address_2</label>
+                            <input class="form-control" id="shipinputAddress2" type="text" name="address_2" placeholder="Address line 2" value="{{billingaddress.address_2}}">
                           </div>
                           <div class="col-md-4">
                             <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputCity">City</label>
                             <input class="form-control" id="shipinputCity" type="text" name="city" placeholder="city" value="{{billingaddress.city}}">
                             </div>
                           <div class="col-md-4">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputState">State</label>
-                            <input class="form-control" id="shipinputState" type="text" name="state" placeholder="state" value="{{billingaddress.state}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputstate_country">state_country</label>
+                            <input class="form-control" id="shipinputstate_country" type="text" name="state_country" placeholder="state_country" value="{{billingaddress.state_country}}">
                           </div>
                           <div class="col-md-4">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputZipCode">Zip code</label>
-                            <input class="form-control number-arrows-none" id="shipinputZipCode" name="zipcode" type="number" placeholder="Zip code" value="{{billingaddress.zipcode}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputpostcode">Zip code</label>
+                            <input class="form-control number-arrows-none" id="shipinputpostcode" name="postcode" type="number" placeholder="Zip code" value="{{billingaddress.postcode}}">
                           </div>
                           <div class="col-12 mb-3">
-                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputCountry">Country</label>
-                            <input class="form-control" id="shipinputCountry" type="text" name="country" placeholder="country" value="{{billingaddress.country}}">
+                            <label class="form-label fs-0 text-1000 ps-0 text-none" for="shipinputCountry_Region">Country</label>
+                            <input class="form-control" id="shipinputCountry_Region" type="text" name="Country_Region" placeholder="Country_Region" value="{{billingaddress.Country_Region}}">
                           </div>
                         </div>
                       </form>
@@ -829,7 +831,7 @@
                       <div class="card-body">
                         <div>
                           <div class="d-flex justify-content-between">
-                            <p class="text-900 fw-semi-bold">Items subtotal :</p>
+                            <p class="text-900 fw-semi-bold">Items subtotal:</p>
                             <p  class="text-1100 fw-semi-bold">AED <span id="sub_total">0</span></p>
                           </div>
                           <div class="d-flex justify-content-between">
@@ -891,6 +893,7 @@
       const checkboxes = document.querySelectorAll(".product");
       console.log(checkboxes)
       const addButton = document.getElementById("add-product");
+      console.log(addButton)
 
       addButton.addEventListener("click", function () {
         const selectedValues = Array.from(checkboxes)
@@ -907,15 +910,18 @@
         if (selectedValues.length > 0) {
           // Make an axios POST request to the server
           axios.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token }}';
-          axios.post("/Al-admin/order_product_selection", { selectedValues: selectedValues })
+          axios.post("/order_product_selection", { selectedValues: selectedValues })
             .then(response => {
               // Handle the response here
               const responseData = response.data.product_data;
               console.log(responseData);
               const count = response.data.count;
               const sub_total = response.data.sub_total;
+              console.log(sub_total)
               const disc_total = response.data.disc_total;
+              console.log(disc_total)
               const row_total = response.data.row_total;
+              console.log(row_total)
               const tableBody = document.querySelector('#products-table-body1');
               const tableFoot = document.querySelector('#products-table-footer')
 
@@ -934,13 +940,13 @@
 
                       <tr>
                         <td class="col-product">
-                            <span id="order_item_5_title">${item.product_name}</span>
+                            <span id="order_item_5_title">${item.name}</span>
                             <div class="product-sku-block">
-                            <span>SKU:</span> ${item.product_sku}
+                            <span>SKU:</span> ${item.sku}
                             </div>
                         </td>
                         <td class="col-price">
-                            <span class="price">${item.price}</span>
+                            <span class="price">${item.regular_price}</span>
                         </td>
                         <td class="col-qty">
                             <input name="item qty" class="form-control item-qty" value="${item.quantity}" maxlength="12" onkeyup="updateQuantity(this)">
@@ -979,7 +985,7 @@
                   // Update the content of the <tr> element
                   tableRow.innerHTML = `
                   <th scope="row">Total ${count} product(s)</th>
-                  <td>Subtotal:</td>
+                  <td></td>
                   <td></td>
                   <td class='sub_total'>${sub_total}</td>
                   <td class='disc_total'>${disc_total}</td>
@@ -1039,17 +1045,17 @@
                   row.innerHTML = `                      
                         <td class="align-middle white-space-nowrap py-0">
                             <div>
-                                <img src="{{ MEDIA_PREFIX }}${item.product_Image1}" alt="${item.product_name}" width="53"/>
+                                <img src="{{ MEDIA_PREFIX }}${item.product_Image1}" alt="${item.name}" width="53"/>
                             </div>
                         </td>
                         <td class="col-name">
-                            ${item.product_name}
+                            ${item.name}
                         </td>
-                        <td class="col-sku">${item.product_sku}</td>
-                        <td class="price col-price">${item.price}</td>
+                        <td class="col-sku">${item.sku}</td>
+                        <td class="price col-price">${item.regular_price}</td>
                         <td class="col-select col-in_products">
                         <div class="form-check mb-0 fs-0">
-                            <input class="form-check-input product" type="checkbox" value="${item.pk}" data-bulk-select-row='{"product":"${item.product_name}","productImage":"{{ MEDIA_PREFIX }}${item.product_Image1}","price":"${item.price}","category":"${item.category__name}"}'>
+                            <input class="form-check-input product" type="checkbox" value="${item.pk}" data-bulk-select-row='{"product":"${item.name}","productImage":"{{ MEDIA_PREFIX }}${item.Image1}","price":"${item.regular_price}","category":"${item.category__name}"}'>
                         </div>
                         </td>
                         <td class="col-qty">
@@ -1059,9 +1065,6 @@
 
                     tableBody.appendChild(row);
 
-                    
-      
-                  
                 });
             })
                 .catch(error => {
@@ -1145,7 +1148,6 @@
             let disc = 0;
             let total = 0;
 
-
             selectedProducts.forEach(product => {
                 const subtotalElement = product.querySelector('.subtotal');
                 const subtotal = parseFloat(subtotalElement.textContent.replace('$', ''));
@@ -1173,8 +1175,6 @@
             document.getElementById('total-amount').textContent = total;
         }
 
-
-
         const addressSelect = document.getElementById('address-select');
         const billingAddressForm = document.getElementById('update-billingaddress-form');
 
@@ -1182,17 +1182,18 @@
         function updateFormFields() {
             const selectedOption = addressSelect.options[addressSelect.selectedIndex];
             const addressData = JSON.parse(selectedOption.getAttribute('data-address'));
+            console.log(addressData)
 
             // Populate form fields with selected address details
-            document.getElementById('inputName').value = addressData.name;
+            document.getElementById('inputfirst_name').value = addressData.first_name;
             document.getElementById('inputEmail').value = addressData.email;
             document.getElementById('inputPhone').value = addressData.phone;
-            document.getElementById('inputAddress1').value = addressData.address;
-            document.getElementById('inputAddress2').value = addressData.landmark;
+            document.getElementById('inputAddress1').value = addressData.address_1;
+            document.getElementById('inputAddress2').value = addressData.address_2;
             document.getElementById('inputCity').value = addressData.city;
-            document.getElementById('inputState').value = addressData.state;
-            document.getElementById('inputZipCode').value = addressData.zipcode;
-            document.getElementById('inputCountry').value = addressData.country;
+            document.getElementById('inputstate_country').value = addressData.state_country;
+            document.getElementById('inputpostcode').value = addressData.postcode;
+            document.getElementById('inputCountry_Region').value = addressData.Country_Region;
 
 
             const sameAsBillingCheckbox = document.getElementById('sameAsbilling');
@@ -1201,26 +1202,26 @@
 
 
             if (isChecked) {
-              document.getElementById('shipinputName').value = addressData.name;
+              document.getElementById('shipinputfirst_name ').value = addressData.first_name;
               document.getElementById('shipinputEmail').value = addressData.email;
               document.getElementById('shipinputPhone').value = addressData.phone;
-              document.getElementById('shipinputAddress1').value = addressData.address;
-              document.getElementById('shipinputAddress2').value = addressData.landmark;
+              document.getElementById('shipinputAddress1').value = addressData.address_1;
+              document.getElementById('shipinputAddress2').value = addressData.address_2;
               document.getElementById('shipinputCity').value = addressData.city;
-              document.getElementById('shipinputState').value = addressData.state;
-              document.getElementById('shipinputZipCode').value = addressData.zipcode;
-              document.getElementById('shipinputCountry').value = addressData.country;
+              document.getElementById('shipinputstate_country').value = addressData.state_country;
+              document.getElementById('shipinputpostcode').value = addressData.postcode;
+              document.getElementById('shipinputCountry_Region').value = addressData.Country_Region;
               sameAsBillingCheckbox.value = addressData.id;
             }else{
-              document.getElementById('shipinputName').value = '';
+              document.getElementById('shipinputfirst_name ').value = '';
               document.getElementById('shipinputEmail').value = '';
               document.getElementById('shipinputPhone').value = '';
               document.getElementById('shipinputAddress1').value = '';
               document.getElementById('shipinputAddress2').value = '';
               document.getElementById('shipinputCity').value = '';
-              document.getElementById('shipinputState').value = '';
-              document.getElementById('shipinputZipCode').value = '';
-              document.getElementById('shipinputCountry').value = '';
+              document.getElementById('shipinputstate_country').value = '';
+              document.getElementById('shipinputpostcode').value = '';
+              document.getElementById('shipinputCountry_Region').value = '';
             }
 
             // Additional form fields can be updated similarly
@@ -1233,39 +1234,36 @@
         updateFormFields();
 
 
-
         // const sameAsBillingCheckbox = document.getElementById('sameAsbilling');
         // sameAsBillingCheckbox.addEventListener('change', applyBillingData);
-
 
         const sameAsBillingCheckbox = document.getElementById('sameAsbilling');
 
         sameAsBillingCheckbox.addEventListener('change', function () {
           if (sameAsBillingCheckbox.checked) {
             // If the checkbox is checked, copy values from Billing Address to Shipping Address
-            document.getElementById('shipinputName').value = document.getElementById('inputName').value;
+            document.getElementById('shipinputfirst_name ').value = document.getElementById('inputfirst_name ').value;
             document.getElementById('shipinputEmail').value = document.getElementById('inputEmail').value;
             document.getElementById('shipinputPhone').value = document.getElementById('inputPhone').value;
             document.getElementById('shipinputAddress1').value = document.getElementById('inputAddress1').value;
             document.getElementById('shipinputAddress2').value =  document.getElementById('inputAddress2').value;
             document.getElementById('shipinputCity').value =  document.getElementById('inputCity').value;
-            document.getElementById('shipinputState').value = document.getElementById('inputState').value;
-            document.getElementById('shipinputZipCode').value = document.getElementById('inputZipCode').value;
-            document.getElementById('shipinputCountry').value = document.getElementById('inputCountry').value;
+            document.getElementById('shipinputstate_country').value = document.getElementById('inputstate_country').value;
+            document.getElementById('shipinputpostcode').value = document.getElementById('inputpostcode').value;
+            document.getElementById('shipinputCountry_Region').value = document.getElementById('inputCountry_Region').value;
           } else {
             // If the checkbox is unchecked, clear the Shipping Address fields
-            document.getElementById('shipinputName').value = '';
+            document.getElementById('shipinputfirst_name ').value = '';
             document.getElementById('shipinputEmail').value = '';
             document.getElementById('shipinputPhone').value = '';
             document.getElementById('shipinputAddress1').value = '';
             document.getElementById('shipinputAddress2').value = '';
             document.getElementById('shipinputCity').value =  '';
-            document.getElementById('shipinputState').value = '';
-            document.getElementById('shipinputZipCode').value = '';
-            document.getElementById('shipinputCountry').value = '';
+            document.getElementById('shipinputstate_country').value = '';
+            document.getElementById('shipinputpostcode').value = '';
+            document.getElementById('shipinputCountry_Region').value = '';
           }
         });
-
 
         const sameascheckbox = document.getElementById('sameAsbilling');
         const selectElement = document.getElementById('ship-address-select');
@@ -1273,8 +1271,6 @@
         sameascheckbox.addEventListener('change', function () {
             selectElement.disabled = this.checked;
         });
-
-
 
         document.getElementById('confirm').addEventListener('click', function(event) {
             event.preventDefault();  // Prevent default form submission behavior
@@ -1302,15 +1298,15 @@
                 console.log(valueToSend)
               }else{
                 valueToSend = {
-                  name: document.getElementById('shipinputName').value,
+                  first_name: document.getElementById('shipinputfirst_name').value,
                   email: document.getElementById('shipinputEmail').value,
                   phone: document.getElementById('shipinputPhone').value,
-                  address: document.getElementById('shipinputAddress1').value,
-                  landmark: document.getElementById('shipinputAddress2').value,
+                  address_1: document.getElementById('shipinputAddress1').value,
+                  address_2: document.getElementById('shipinputAddress2').value,
                   city: document.getElementById('shipinputCity').value,
-                  state: document.getElementById('shipinputState').value,
-                  zipcode: document.getElementById('shipinputZipCode').value,
-                  country: document.getElementById('shipinputCountry').value,
+                  state_country: document.getElementById('shipinputstate_country').value,
+                  postcode: document.getElementById('shipinputpostcode').value,
+                  Country_Region: document.getElementById('shipinputCountry_Region').value,
                 };
               }
 
@@ -1351,20 +1347,19 @@
             if (!billing_info) {
               // If no address is selected, use the form input values
               billing_info = {
-                name: document.getElementById('inputName').value,
+                first_name: document.getElementById('inputfirst_name').value,
                 email: document.getElementById('inputEmail').value,
                 phone: document.getElementById('inputPhone').value,
-                address: document.getElementById('inputAddress1').value,
-                landmark: document.getElementById('inputAddress2').value,
+                address_1: document.getElementById('inputAddress1').value,
+                address_2: document.getElementById('inputAddress2').value,
                 city: document.getElementById('inputCity').value,
-                state: document.getElementById('inputState').value,
-                zipcode: document.getElementById('inputZipCode').value,
-                country: document.getElementById('inputCountry').value,
+                state_country: document.getElementById('inputstate_country').value,
+                postcode: document.getElementById('inputpostcode').value,
+                Country_Region: document.getElementById('inputCountry_Region').value,
               };
             }
 
           console.log(billing_info);
-
 
             const total_amount = document.getElementById('total-amount').textContent;
             // const tax_amount = document.getElementById('sub_total').textContent;
@@ -1387,7 +1382,7 @@
             const email_confirm = checkbox.checked;
 
             // Send POST request using Axios
-            axios.post('/Al-admin/back_order', {
+            axios.post('/back_order', {
               cartItems: products,
               shipping_info: valueToSend,
               billing_info: billing_info,
@@ -1418,7 +1413,6 @@
               });
         });
 
-
         const shipaddressSelect = document.getElementById('ship-address-select');
         const shippingAddressForm = document.getElementById('update-shippingaddress-form');
 
@@ -1428,15 +1422,15 @@
             const shipaddressData = JSON.parse(shipselectedOption.getAttribute('ship-data-address'));
 
             // Populate form fields with selected address details
-            document.getElementById('shipinputName').value = shipaddressData.name;
+            document.getElementById('shipinputfirst_name').value = shipaddressData.first_name ;
             document.getElementById('shipinputEmail').value = shipaddressData.email;
             document.getElementById('shipinputPhone').value = shipaddressData.phone;
-            document.getElementById('shipinputAddress1').value = shipaddressData.address;
-            document.getElementById('shipinputAddress2').value = shipaddressData.landmark;
+            document.getElementById('shipinputAddress1').value = shipaddressData.address_1;
+            document.getElementById('shipinputAddress2').value = shipaddressData.address_2;
             document.getElementById('shipinputCity').value = shipaddressData.city;
-            document.getElementById('shipinputState').value = shipaddressData.state;
-            document.getElementById('shipinputZipCode').value = shipaddressData.zipcode;
-            document.getElementById('shipinputCountry').value = shipaddressData.country;
+            document.getElementById('shipinputstate_country').value = shipaddressData.state_country;
+            document.getElementById('shipinputpostcode').value = shipaddressData.postcode;
+            document.getElementById('shipinputCountry_Region').value = shipaddressData.Country_Region;
             
         }
 

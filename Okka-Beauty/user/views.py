@@ -23,6 +23,7 @@ from rating.models import *
 # Create your views here.
 
 # User Register Function
+
 def register_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)

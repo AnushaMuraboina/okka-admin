@@ -504,7 +504,7 @@
               <!-- <li class="nav-item"><a class="nav-link" href="#">Refunded<span class="text-700 fw-semi-bold">(8)</span></a></li> -->
               <li class="nav-item"><a class="nav-link filter-nav" id="order_status" data-filter="Cancelled"href="#">Cancelled<span class="text-700 fw-semi-bold">({{order_cancelled_count}})</span></a></li>
             </ul>
-            <div id="orderTable" data-list='{"valueNames":["id","name","email","phone","zip","country","state"],"page":10,"pagination":true}'>
+            <div id="orderTable" data-list='{"valueNames":["id","name","email","phone","postcode","Country_Region","state_country"],"page":10,"pagination":true}'>
               <div class="mb-4">
                 <div class="row g-3">
                   <div class="col-auto">
@@ -522,7 +522,7 @@
                         <select class="form-select filter-dropdown" data-filter="order_status" aria-label="Default select example">
                           <option selected="" disabled>Order Status</option>
                           {% for order_status in order_status %}
-                          <option value="{{order_status.status}}">{{order_status.status}}</option>
+                          <option value="{{order_status.order_status}}">{{order_status.order_status}}</option>
                           {% endfor %}
                         </select>
                       </div>
@@ -539,7 +539,7 @@
                         <select class="form-select filter-dropdown" data-filter="payment_type" aria-label="Default select example">
                           <option selected="" disabled>Payment Type</option>
                           {% for payment_type in payment_type %}
-                          <option value="{{payment_type.payment_name}}">{{payment_type.payment_name}}</option>
+                          <option value="{{payment_type.payment_method}}">{{payment_type.payment_method}}</option>
                           {% endfor %}
                         </select>
                       </div>
@@ -565,14 +565,15 @@
                         <th class="sort align-middle text-end pe-0" scope="col" data-sort="name">Name</th>
                         <th class="sort align-middle text-end pe-0" scope="col" data-sort="email">E-mail</th>
                         <th class="sort align-middle text-end pe-0" scope="col" data-sort="phone">Phone</th>
-                        <th class="sort align-middle text-end" scope="col" data-sort="zip">Zip/Post code</th>
-                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="country" >Country</th>
-                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="state" >State</th>
+                        <th class="sort align-middle text-end" scope="col" data-sort="postcode">Zip/Post code</th>
+                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="Country_Region" >Country</th>
+                        <th class="sort align-middle text-end pe-3" scope="col" data-sort="state_country" >State</th>
                       </tr>
                     </thead>
+
                     <tbody class="list" id="user-table-body">                      
                       {% for user in user %}
-                                            
+                 
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static clickable" data-href="{% url 'sales/back-order-form' user.id %}" style="cursor: pointer;">
                           <td class="fs--1 align-middle px-0 py-3">
                             <div class="form-check mb-0 fs-0">
@@ -581,17 +582,33 @@
                           </td>
                           
                           <td class="order align-middle white-space-nowrap py-2 ps-0">
-                            <a class="fw-semi-bold text-primary" href="#">#{{user.id}}</a>
-                          </td>                          
-                          <td class="total align-middle text-700 text-end py-2">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing' and address.default_address %}{{user.username}}{% else %}  {% endif %}{% endfor %}</td>
-                          <td class="total align-middle text-700 text-end py-2">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing' and address.default_address %}{{user.email}}{% else %}  {% endif %}{% endfor %}</td>
-                          <td class="total align-middle text-700 text-end py-2">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing' and address.default_address %}{{address.phone}}{% else %}  {% endif %}{% endfor %}</td>
-                          <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing' and address.default_address %}{{address.zipcode}}{% else %}  {% endif %}{% endfor %}</td>    
-                          <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing' and address.default_address %}{{address.country}}{% else %}  {% endif %}{% endfor %}</td>                           
-                           <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing' and address.default_address %}{{address.state}}{% else %}  {% endif %}{% endfor %}</td>                          
+                            <a class="fw-semi-bold text-primary" href="#">{{user.id}}</a>
+                          </td>  
+                          <!-- <td class="order align-middle white-space-nowrap py-2 ps-0">
+                            <a class="fw-semi-bold text-primary" href="#">{{user.username}}</a>
+                          </td>     
+                          <td class="order align-middle white-space-nowrap py-2 ps-0">
+                            <a class="fw-semi-bold text-primary" href="#">{{user.email}}</a>
+                          </td>                          -->
+                          <td class="total align-middle text-700 text-end py-2">
+                            {% for address in addresses %}
+                            {% if user == address.user and address.address_type == 'Billing' %}
+                            {{user.username}}
+                            {% else %}  {% endif %}{% endfor %}
+                          </td>
+
+                          <td class="total align-middle text-700 text-end py-2">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing'  %}{{user.email}}{% else %}  {% endif %}{% endfor %}</td>
+                          <td class="total align-middle text-700 text-end py-2">
+                            {% for address in addresses %}
+                            {% if user == address.user and address.address_type == 'Billing'  %}
+                            {{address.phone}}{% else %}  {% endif %}{% endfor %}
+                          </td>
+                          <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing'  %}{{address.postcode}}{% else %}  {% endif %}{% endfor %}</td>    
+                          <td class="date align-middle fw-semi-bold text-end py-2 text-1000">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing'%}{{address.Country_Region}}{% else %}  {% endif %}{% endfor %}</td>                           
+                           <td class="delivery align-middle white-space-nowrap text-end text-900 py-2">{% for address in addresses %}{% if user == address.user and address.address_type == 'Billing'  %}{{address.state_country }}{% else %}  {% endif %}{% endfor %}</td>                          
                         </tr>                        
                         {% endfor %}
-                          
+
                     </tbody>
                   </table>
                 </div>
@@ -611,6 +628,8 @@
       </div>
       </div>
 
+
+      
 
     <script>
       // Get all clickable rows

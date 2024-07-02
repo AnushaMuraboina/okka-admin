@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import *
+from  user.views import *
 
 urlpatterns = [
    path('Dashboard', views.Dashboard, name="Dashboard"),
@@ -161,6 +162,12 @@ urlpatterns = [
    path('tags_product/', views.tags_product, name='tags_product'),
    path('tags_product/<int:tags_id>/', views.tags_product, name='tags_product'),
    path('delete_tags/<int:tags_id>/delete/', views.delete_tags, name='delete_tags'),
+
+
+#    path('signup/', views.register_view, name='signup'),
+#    path('login/', views.login_view, name='login'),
+#    path('logout/', views.sign_out, name ="logout"),
+
 
 #    path('robots', views.robots_txt_view, name= 'robots'),  # robots.txt view
 #    path('google-tag-manager', views.google_tag_manager_view, name= 'google_tag_manager'),  # Google Tag Manager view

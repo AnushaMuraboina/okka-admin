@@ -673,7 +673,7 @@
                         <select class="form-select filter-dropdown" data-filter="order_status" aria-label="Default select example">
                           <option selected="" disabled>Order Status</option>
                           {% for order_status in order_status %}
-                          <option value="{{order_status.status}}">{{order_status.status}}</option>
+                          <option value="{{order_status.order_status}}">{{order_status.order_status}}</option>
                           {% endfor %}
                         </select>
                       </div>
@@ -690,7 +690,7 @@
                         <select class="form-select filter-dropdown" data-filter="payment_type" aria-label="Default select example">
                           <option selected="" disabled>Payment Type</option>
                           {% for payment_type in payment_type %}
-                          <option value="{{payment_type.payment_name}}">{{payment_type.payment_name}}</option>
+                          <option value="{{payment_type.payment_method}}">{{payment_type.payment_method}}</option>
                           {% endfor %}
                         </select>
                       </div>
