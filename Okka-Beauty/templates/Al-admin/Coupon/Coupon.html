@@ -565,10 +565,10 @@
                                         <input class="form-control datetimepicker flatpickr-input" name="valid-to" id="datetimepicker" type="text" placeholder="dd/mm/yyyy hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;dateFormat&quot;:&quot;d/m/y H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly">
                                     </div>
     
-                                    <div class="form-check form-switch mb-3">
+                                    <!-- <div class="form-check form-switch mb-3">
                                         <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" checked="" />                                  
                                         <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
-                                    </div>
+                                    </div> -->
     
                                     <button class="btn btn-primary w-100" type="submit">Save</button>
                                 </form>            
@@ -594,7 +594,7 @@
                                 <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="brand name">Discount</th>
                                 <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Valid from</th>
                                 <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Valid to</th>
-                                <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Active</th>
+                                <!-- <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Active</th> -->
                                 <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Action</th>
                               </tr>
                             </thead>
@@ -608,7 +608,7 @@
                                 <td class="align-middle text-center white-space-nowrap py-0">{{ Coupons.discount|floatformat:0 }}%</td>
                                 <td class="align-middle text-center white-space-nowrap py-0">{{ Coupons.valid_from|date:"d/m/Y H:i" }}</td>
                                 <td class="align-middle text-center white-space-nowrap py-0">{{ Coupons.valid_to|date:"d/m/Y H:i" }}</td>
-                                <td class="text-center white-space-nowrap fw-bold text-700 ps-4">{% if Coupons.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td>
+                                <!-- <td class="text-center white-space-nowrap fw-bold text-700 ps-4">{% if Coupons.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td> -->
                                 <td class="align-middle text-center white-space-nowrap py-0">
                                   <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#verticallyCentered">Vertically centered modal</button> -->
                                   {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_coupon %} <button class="btn btn-danger delete-coupon" data-coupon-id="{{ Coupons.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_coupon %} <button class="btn btn-danger delete-coupon" data-coupon-id="{{ Coupons.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
@@ -642,8 +642,8 @@
                                               <label class="input-group-text" for="datetimepicker">Valid To</label>
                                               <input class="form-control datetimepicker flatpickr-input" name="valid-to" id="datetimepicker" type="text" placeholder="dd/mm/yyyy hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;dateFormat&quot;:&quot;d/m/y H:i&quot;,&quot;disableMobile&quot;:true}" value="{{ Coupons.valid_to|date:"d/m/Y H:i" }}" readonly="readonly">
                                             </div>
-                                            <div class="form-check form-switch mb-3"> {% if Coupons.Active == True %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" checked="" /> {% else %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" /> {% endif %} <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
-                                            </div>
+                                            <!-- <div class="form-check form-switch mb-3"> {% if Coupons.Active == True %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" checked="" /> {% else %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" /> {% endif %} <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
+                                            </div> -->
                                             {% if request.user.is_authenticated %} {% if perms.products.change_coupon %} <button class="btn btn-primary w-100" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_coupon %} <button class="btn btn-primary w-100" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                           </form>
                                         </div>
@@ -690,7 +690,7 @@
                                 <th class="sort white-space-nowrap text-center align-middle ps-4" scope="col" data-sort="brand name">Discount</th>
                                 <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Valid from</th>
                                 <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Valid to</th>
-                                <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Active</th>
+                                <!-- <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Active</th> -->
                                 <th class="sort align-middle text-center text-middle ps-4" scope="col" data-sort="Status">Action</th>
                               </tr>
                             </thead>
@@ -704,7 +704,7 @@
                                 <td class="align-middle text-center white-space-nowrap py-0">{{ Coupons.discount|floatformat:0 }}%</td>
                                 <td class="align-middle text-center white-space-nowrap py-0">{{ Coupons.valid_from|date:"d/m/Y H:i" }}</td>
                                 <td class="align-middle text-center white-space-nowrap py-0">{{ Coupons.valid_to|date:"d/m/Y H:i" }}</td>
-                                <td class="text-center white-space-nowrap fw-bold text-700 ps-4">{% if Coupons.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td>
+                                <!-- <td class="text-center white-space-nowrap fw-bold text-700 ps-4">{% if Coupons.Active == True %} <i class="fas fa-check-circle text-success"></i> {% else %} <i class="fa-solid fa-circle-xmark text-danger"></i> {% endif %} </td> -->
                                 <td class="align-middle text-center white-space-nowrap py-0">
                                   <!-- <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#verticallyCentered">Vertically centered modal</button> -->
                                   {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered" data-feather="edit"></span> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <span data-bs-toggle="modal" data-bs-target="#verticallyCentered" data-feather="edit"></span> {% endif %} {% endfor %} {% endif %} {% endif %} | {% if request.user.is_authenticated %} {% if perms.products.delete_coupon %} <button class="btn btn-danger delete-coupon" data-coupon-id="{{ Coupons.id }}">Delete</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.delete_coupon %} <button class="btn btn-danger delete-coupon" data-coupon-id="{{ Coupons.id }}">Delete</button> {% endif %} {% endfor %} {% endif %} {% endif %}
@@ -738,8 +738,8 @@
                                               <label class="input-group-text" for="datetimepicker">Valid To</label>
                                               <input class="form-control datetimepicker flatpickr-input" name="valid-to" id="datetimepicker" type="text" placeholder="dd/mm/yyyy hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;dateFormat&quot;:&quot;d/m/y H:i&quot;,&quot;disableMobile&quot;:true}" value="{{ Coupons.valid_to|date:"d/m/Y H:i" }}" readonly="readonly">
                                             </div>
-                                            <div class="form-check form-switch mb-3"> {% if Coupons.Active == True %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" checked="" /> {% else %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" /> {% endif %} <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
-                                            </div>
+                                            <!-- <div class="form-check form-switch mb-3"> {% if Coupons.Active == True %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" checked="" /> {% else %} <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" /> {% endif %} <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
+                                            </div> -->
                                             {% if request.user.is_authenticated %} {% if perms.products.change_coupon %} <button class="btn btn-primary w-100" type="submit">Save</button> {% else %} {% for group in request.user.groups.all %} {% if perms.group.change_coupon %} <button class="btn btn-primary w-100" type="submit">Save</button> {% endif %} {% endfor %} {% endif %} {% endif %}
                                           </form>
                                         </div>
@@ -808,10 +808,10 @@
                                     <input class="form-control datetimepicker flatpickr-input" name="valid-to" id="datetimepicker" type="text" placeholder="dd/mm/yyyy hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;dateFormat&quot;:&quot;d/m/y H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly">
                                 </div>
 
-                                <div class="form-check form-switch mb-3">
+                                <!-- <div class="form-check form-switch mb-3">
                                     <input class="form-check-input" name="active" id="flexSwitchCheckChecked" type="checkbox" checked="" />                                  
                                     <label class="form-check-label" for="flexSwitchCheckChecked">Active</label>
-                                </div>
+                                </div> -->
 
                                 <button class="btn btn-primary w-100" type="submit">Save</button>
                             </form>            

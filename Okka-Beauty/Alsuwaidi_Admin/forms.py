@@ -105,10 +105,15 @@ class BrandForm(forms.ModelForm):
 
 
 
-# class CouponForm(forms.ModelForm):
-#     class Meta:
-#         model = Coupon
-#         fields = ['code', 'discount', 'valid_from', 'valid_to', 'Active']
+class CouponForm(forms.ModelForm):
+    class Meta:
+        model = Coupon
+        fields = ['coupon','description','allow_free_shipping', 'discount_type', 
+                  'coupon_start_date', 'coupon_end_date','minimum_spend','maximum_spend',
+                  'individual_use_only','exclude_sale_items','products','exclude_products','product_categories',
+                  'product_categories','exclude_categories','usage_limit_per_coupon','limit_usage_to_x_items',
+                  'usage_limit_per_user'
+                  ]
 
 
 # class mainbanner Form(forms.ModelForm):

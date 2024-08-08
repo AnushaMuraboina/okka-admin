@@ -4185,16 +4185,62 @@ def coupon(request):
 @login_required
 def addcoupon(request):
     if request.method == 'POST':
-        code = request.POST.get('coupon')
-        print(code)
+        coupon = request.POST.get('coupon')
+        print(coupon)
+
         discount = request.POST.get('discount_type')
         print(discount)
+
         valid_from_str = request.POST.get('coupon_start_date')
         print(valid_from_str)
+
         valid_to_str = request.POST.get('coupon_end_date')
         print(valid_to_str)
-        active = request.POST.get('active')
-        print(active)
+
+        allow_free_shipping = request.POST.get('allow_free_shipping')
+        print(allow_free_shipping)
+
+        minimum_spend= request.POST.get('minimum_spend')
+        print(minimum_spend)
+
+        maximum_spend= request.POST.get('maximum_spend')
+        print(maximum_spend)
+
+        individual_use_only= request.POST.get('individual_use_only')
+        print(individual_use_only)   
+
+        exclude_sale_items= request.POST.get('exclude_sale_items')
+        print(exclude_sale_items)
+
+        products= request.POST.get('products')
+        print(products)
+
+        exclude_products= request.POST.get('exclude_products')
+        print(exclude_products)
+
+        product_categories= request.POST.get('product_categories')
+        print(product_categories)
+
+        exclude_categories = request.POST.get('exclude_categories ')
+        print(exclude_categories )
+
+        usage_limit_per_coupon = request.POST.get('usage_limit_per_coupon ')
+        print(usage_limit_per_coupon)
+
+        usage_limit_per_coupon = request.POST.get('usage_limit_per_coupon ')
+        print(usage_limit_per_coupon)
+
+        usage_limit_per_coupon = request.POST.get(' usage_limit_per_coupon')
+        print(usage_limit_per_coupon)
+
+        usage_limit_per_user= request.POST.get('usage_limit_per_user ')
+        print(usage_limit_per_user)
+
+
+
+
+        # active = request.POST.get('active')
+        # print(active)
         
 
         try:
@@ -4202,15 +4248,15 @@ def addcoupon(request):
             valid_from = datetime.strptime(valid_from_str, '%d/%m/%y %H:%M')
             valid_to = datetime.strptime(valid_to_str, '%d/%m/%y %H:%M')
 
-            if active =='on':
-                Active = True
-            else:
-                Active = False
+            # if active =='on':
+            #     Active = True
+            # else:
+            #     Active = False
 
             # Create a new Coupon instance and save it
-            coupon = Coupon(code=code, discount=discount, valid_from=valid_from, valid_to=valid_to, Active=Active)
+            coupon = Coupon(coupon=coupon, discount=discount, valid_from=valid_from, valid_to=valid_to)
             coupon.save()
-
+# , Active=Active
             return JsonResponse({'message': 'Coupon added successfully'})
         except ValueError:
             return JsonResponse({'error': 'Invalid date or time format'})
@@ -4247,16 +4293,16 @@ def update_coupon(request):
         print('coupon update form post a value')
         coupon_id = request.POST.get('coupon_id')
         print(coupon_id)
-        code = request.POST.get('coupon')
-        print(code)
+        coupon = request.POST.get('coupon')
+        print(coupon)
         discount = request.POST.get('discount_type')
         print(discount)
         valid_from_str = request.POST.get('coupon_start_date')
         print(valid_from_str)
         valid_to_str = request.POST.get('coupon_end_date')
         print(valid_to_str)
-        active = request.POST.get('active')
-        print(active)
+        # active = request.POST.get('active')
+        # print(active)
 
         
         try:
@@ -4269,13 +4315,13 @@ def update_coupon(request):
             valid_from = datetime.strptime(valid_from_str, '%d/%m/%y %H:%M')
             valid_to = datetime.strptime(valid_to_str, '%d/%m/%y %H:%M')
 
-            if active =='on':
-                Active = True
-            else:
-                Active = False
+            # if active =='on':
+            #     Active = True
+            # else:
+            #     Active = False
 
             # Update the coupon fields
-            coupon.coupon = code
+            coupon.coupon = coupon
             coupon.discount_type = discount
             coupon.coupon_start_date = valid_from
             coupon.coupon_end_date = valid_to
@@ -4313,7 +4359,6 @@ def export_out_of_stock_to_excel(request):
 
     writer = csv.writer(response)
     writer.writerow(['Product SKU', 'Stock In Quantity'])
-
     out_of_stock_products = Product.objects.filter(in_stock='Out of Stock')
 
     for product in out_of_stock_products:
@@ -4321,7 +4366,6 @@ def export_out_of_stock_to_excel(request):
             product.sku,
             product.stock
         ])
-
     return response
 
 @login_required
@@ -5969,3 +6013,133 @@ def change_permissions(request, user_id):
 #             return JsonResponse({'message': str(e)}, status=400)
 #     else:
 #         return JsonResponse({'message': 'Invalid request'}, status=400)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from django.shortcuts import render, redirect
+# from django.http import JsonResponse, HttpResponse
+# from django.contrib.auth.decorators import login_required
+# from .models import Coupon, CouponUsage, Product
+# from datetime import datetime
+# import csv
+
+# @login_required
+# def coupon(request):
+#     if not request.user.has_perm('products.view_coupon'):
+#         user_groups = request.user.groups.all()
+#         if any(group.permissions.filter(codename='view_coupon').exists() for group in user_groups):
+#             pass
+#         else:
+#             return render(request, 'Al-admin/permission/permission_denied.html')
+
+#     coupons = Coupon.objects.all()
+#     context = {'Coupons': coupons}
+#     return render(request, 'Al-admin/Coupon/Coupon.html', context)
+
+# @login_required
+# def addcoupon(request):
+#     if request.method == 'POST':
+#         try:
+#             coupon_data = {
+#                 'coupon': request.POST.get('coupon'),
+#                 'discount': request.POST.get('discount_type'),
+#                 'valid_from': datetime.strptime(request.POST.get('coupon_start_date'), '%d/%m/%y %H:%M'),
+#                 'valid_to': datetime.strptime(request.POST.get('coupon_end_date'), '%d/%m/%y %H:%M'),
+#                 'allow_free_shipping': request.POST.get('allow_free_shipping') == 'on',
+#                 'minimum_spend': request.POST.get('minimum_spend'),
+#                 'maximum_spend': request.POST.get('maximum_spend'),
+#                 'individual_use_only': request.POST.get('individual_use_only') == 'on',
+#                 'exclude_sale_items': request.POST.get('exclude_sale_items') == 'on',
+#                 'products': request.POST.get('products'),
+#                 'exclude_products': request.POST.get('exclude_products'),
+#                 'product_categories': request.POST.get('product_categories'),
+#                 'exclude_categories': request.POST.get('exclude_categories'),
+#                 'usage_limit_per_coupon': request.POST.get('usage_limit_per_coupon'),
+#                 'usage_limit_per_user': request.POST.get('usage_limit_per_user'),
+#             }
+#             coupon = Coupon(**coupon_data)
+#             coupon.save()
+#             return JsonResponse({'message': 'Coupon added successfully'})
+#         except ValueError:
+#             return JsonResponse({'error': 'Invalid date or time format'})
+#     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+# @login_required
+# def couponUsage(request):
+#     if not request.user.has_perm('checkout.view_couponusage'):
+#         user_groups = request.user.groups.all()
+#         if any(group.permissions.filter(codename='view_couponusage').exists() for group in user_groups):
+#             pass
+#         else:
+#             return render(request, 'Al-admin/permission/permission_denied.html')
+
+#     coupon_usage = CouponUsage.objects.all()
+#     context = {'coupon_usage': coupon_usage}
+#     return render(request, 'Al-admin/Coupon/Couponusage.html', context)
+
+# @login_required
+# def update_coupon(request):
+#     if request.method == 'POST':
+#         try:
+#             coupon_id = request.POST.get('coupon_id')
+#             coupon = Coupon.objects.get(id=coupon_id)
+
+#             coupon.coupon = request.POST.get('coupon')
+#             coupon.discount_type = request.POST.get('discount_type')
+#             coupon.valid_from = datetime.strptime(request.POST.get('coupon_start_date'), '%d/%m/%y %H:%M')
+#             coupon.valid_to = datetime.strptime(request.POST.get('coupon_end_date'), '%d/%m/%y %H:%M')
+#             # Handle other fields as needed
+
+#             coupon.save()
+#             return JsonResponse({'message': 'Coupon updated successfully'})
+#         except Coupon.DoesNotExist:
+#             return JsonResponse({'error': 'Coupon not found'}, status=404)
+#         except ValueError:
+#             return JsonResponse({'error': 'Invalid date or time format'})
+#     return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+# @login_required
+# def delete_coupon(request, coupon_id):
+#     if request.method == 'POST':
+#         try:
+#             coupon = Coupon.objects.get(id=coupon_id)
+#             coupon.delete()
+#             return JsonResponse({'message': 'Coupon deleted successfully'})
+#         except Coupon.DoesNotExist:
+#             return JsonResponse({'message': 'Coupon not found'}, status=404)
+#         except Exception as e:
+#             return JsonResponse({'message': str(e)}, status=400)
+#     return JsonResponse({'message': 'Invalid request'}, status=400)
+
+# @login_required
+# def export_out_of_stock_to_excel(request):
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="out_of_stock_products.csv"'
+
+#     writer = csv.writer(response)
+#     writer.writerow(['Product SKU', 'Stock In Quantity'])
+
+#     out_of_stock_products = Product.objects.filter(stock='Out of Stock')
+
+#     for product in out_of_stock_products:
+#         writer.writerow([product.sku, product.stock])
+
+#     return response
