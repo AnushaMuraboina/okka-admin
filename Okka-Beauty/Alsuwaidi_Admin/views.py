@@ -4227,22 +4227,14 @@ def addcoupon(request):
         usage_limit_per_coupon = request.POST.get('usage_limit_per_coupon ')
         print(usage_limit_per_coupon)
 
-        usage_limit_per_coupon = request.POST.get('usage_limit_per_coupon ')
-        print(usage_limit_per_coupon)
-
-        usage_limit_per_coupon = request.POST.get(' usage_limit_per_coupon')
-        print(usage_limit_per_coupon)
 
         usage_limit_per_user= request.POST.get('usage_limit_per_user ')
         print(usage_limit_per_user)
 
 
-
-
         # active = request.POST.get('active')
         # print(active)
         
-
         try:
             # Parse the date and time strings into datetime objects
             valid_from = datetime.strptime(valid_from_str, '%d/%m/%y %H:%M')
@@ -4254,7 +4246,11 @@ def addcoupon(request):
             #     Active = False
 
             # Create a new Coupon instance and save it
-            coupon = Coupon(coupon=coupon, discount=discount, valid_from=valid_from, valid_to=valid_to)
+            coupon = Coupon(coupon=coupon, discount=discount, valid_from=valid_from, valid_to=valid_to ,
+                        allow_free_shipping=allow_free_shipping,minimum_spend=minimum_spend,maximum_spend=maximum_spend,
+                        individual_use_only=individual_use_only  ,exclude_sale_items=exclude_sale_items ,products=products,
+                        exclude_products=exclude_products , product_categories= product_categories ,exclude_categories=exclude_categories,
+                        usage_limit_per_coupon=usage_limit_per_coupon ,usage_limit_per_user=usage_limit_per_user)
             coupon.save()
 # , Active=Active
             return JsonResponse({'message': 'Coupon added successfully'})
