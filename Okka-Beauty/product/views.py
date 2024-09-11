@@ -134,9 +134,7 @@ def product_cat_sort_value(request):
                     products = products.filter(brands=brand)
                 except Brand.DoesNotExist:
                     pass
-
         print(f"Filtered products query count: {products.count()}")
-
         if sort_value == 'Low to High':
             products = products.order_by('regular_price')
         elif sort_value == 'High to Low':
@@ -342,3 +340,71 @@ class ProductListView(ListView):
         queryset = Product.objects.filter(categories=category, published='Published').order_by('regular_price')
         print(queryset)
         return queryset
+    
+
+
+
+# from django.shortcuts import render
+# from .models import Product
+
+# def product_list(request):
+#     product_count = request.GET.get('count')
+#     # products=Product.objects.all()[:product_count] 
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         return JsonResponse("jfdytruytruy")
+#     if product_count:
+#          product_count = int(product_count)
+#          print(type(product_count))
+#          products=Product.objects.all()[:product_count] 
+#     else:
+#         products=Product.objects.all()
+#     context = {
+#         'products': products,
+#         'selected_count': product_count,
+#     }
+#     print(context)
+#     return render(request, 'products/product_list.html', context)
+
+          
+    # return render(request, 'products/productslist.html', context)
+    # return render(request, 'products/product_list.html', context)
+
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from .models import Product
+
+def product_list(request):
+    product_count = request.GET.get('count')
+    selected_value = request.GET.get('counts')
+    # product_filter= Product.objects.filter( products)
+    product_filter = Product.objects.filter(selected_value)
+    if product_count:
+        product_count = int(product_count)
+        products = Product.objects.all()[:product_count]
+        
+    else:
+        products = Product.objects.all()
+    
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('products/productslist.html', {'products': products})
+        return JsonResponse({'html': html})
+    
+    context = {
+        'products': products,
+        'selected_count': product_count,
+    }
+    return render(request, 'products/product_list.html', context)
+
+
+
+
+ # Check if this is an AJAX request
+    # if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+    #   return render(request, 'products/product_list.html', context)
+# defaultly dispaly the all products when i will means dispaly that produs
+# # 2nd method sectiom 
+    # product_count = int(request.GET.get('count',0))
+    # if product_count == 0:
+    #    products=Product.objects.all()
+    # else:
+    #    products=Product.objects.all()[:product_count] 

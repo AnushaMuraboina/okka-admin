@@ -1,0 +1,90 @@
+
+
+<div class="container">
+    <div class="row   grid-display-row">
+      {% for product in products %}
+      <div class="grid-display-column " id="product-list-container">
+  
+        <div class="product item">
+  
+          <div class="product-image">
+            <a href="" class="image">
+              <!-- <img src="../images/3.jpg" class="pic-1">
+                <img src="../images/4.jpg" class="pic-2"> -->
+              {% if product.images.all %}
+              {% for image in product.images.all|slice:":2" %}
+              {% if forloop.counter == 1 %}
+              <a href="{% url 'product_detail' product.slug %}" class="image">
+                <img src="{{ image.image.url }}" class="pic-1">
+              </a>
+              {% endif %}
+              {% if forloop.counter == 2 %}
+              <a href="{% url 'product_detail' product.slug %}" class="image">
+                <img src="{{ image.image.url }}" class="pic-2">
+              </a>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            </a>
+            {% if product.in_stock == 'Outofstock' %}
+            <div class="product-labels-care labels-rounded-care"><span class="out-of-stock-care product-label">Sold
+                out</span></div>
+            {% endif %}
+            {% if product.in_stock == 'Instock' %}
+            {% if product.sale_price %}
+            <div class="product-labels labels-rounded"><span class="onsale product-label">-50%</span></div>
+            {% endif %}
+            {% endif %}
+            <ul class="links">
+              <li><span data-bs-toggle="modal" data-bs-target="#productModal-{{product.id}}">
+                  <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </a>
+                </span>
+              </li>
+  
+              <li><button id="{{ product.id }}" class="btn wishlist" data-bs-toggle="tooltip" data-bs-placement="left"
+                  title="Add to wishlist">
+                  <i class="fa fa-heart-o" aria-hidden="true"></i>
+                </button>
+              </li>
+  
+              <!-- <li><a href="" data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left"><i
+                      class="fa fa-heart-o" aria-hidden="true"></i> </a></li> -->
+            </ul>
+          </div>
+          <div class="content">
+            <h3 class="title"><a href="{% url 'product_detail' product.slug %}">{{product.name}}</a></h3>
+            <div class="price">{% if product.sale_price %}<span><s>{{product.regular_price}}
+                  AED</s></span>{{product.sale_price}} AED{% else %}{{product.regular_price}} AED{% endif %}</div>
+            <!-- <button class="carting " data-bs-toggle="offcanvas" data-bs-target="#demo"><a href="#">SELECT
+                  OPTIONS</a> </button> -->
+            {% if product.in_stock == 'Instock' %}
+            <button id="{{product.id}}" class="btn-add_cart ">
+              <p class="mb-0">ADD TO CART</p>
+              <i class="fa-solid fa-cart-shopping addcart-icon"></i>
+            </button>
+            {% else %}
+            <button class="btn-add_cart ">
+              <p class="mb-0">READ MORE</p>
+              <i class="fa-regular fa-eye addcart-icon text-dark"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="container py-5">
+        <div class="row">
+          <div class="col-12 col-md-6 col-lg-3 mx-auto">
+            <div class="d-grid gap-2 show-load-more-btn-head">
+              <button class="btn border show-load-more-button" type="button">LOAD MORE PRODUCTS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+

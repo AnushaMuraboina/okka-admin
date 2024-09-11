@@ -1,5 +1,5 @@
-{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load
-static %}
+{% extends 'base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %}
+{% load static %}
 
 <div class="container">
   <div class="row">
@@ -31,10 +31,12 @@ static %}
           <i class="fa-solid fa-arrows-up-down"></i>
         </button>
 
+
+
         <div class="collapse navbar-collapse   ms-auto" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item show-images-numbers ">
-              <ul class="d-flex pb-2">
+              <!-- <ul class="d-flex pb-2">
                 <p class="pt-2">show:</p>
                 <li>
                   <a class="nav-link text-dark" href="#">
@@ -49,7 +51,58 @@ static %}
                     <span class="show-images-counting">9</span>
                     <span class="show-images-verti-line"></span>
                   </a></li>
+              </ul> -->
+              <ul class="d-flex pb-2">
+                <p class="pt-2">Show:</p>
+                <li>
+                  <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
+                    onclick="updateProductLists(2)" id="show-product-image">
+                    <span class="show-images-counting">2</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link show-product-images  text-dark" href="javascript:void(0);"
+                    onclick="updateProductLists(5)" id="show-product-image">
+                    <span class="show-images-counting">5</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link show-product-images  text-dark" href="javascript:void(0);"
+                    onclick="updateProductLists(7)" id="show-product-image">
+                    <span class="show-images-counting">7</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
               </ul>
+
+              <!-- <ul class="d-flex pb-2">
+                <p class="pt-2">Show:</p>
+                <li>
+                  <a class="nav-link  text-dark {% if selected_count == 2 %}active{% endif %}" href="?count=2"
+                    id="show-product-image"></a>
+                  <a class="nav-link  text-dark {% if selected_count == 2 %}active{% endif %}" href="?count=2"
+                    id="show-product-image">
+                    <span class="show-images-counting">2</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark {% if selected_count == 5 %}active{% endif %}" href="?count=5"
+                    id="show-product-image">
+                    <span class="show-images-counting">5</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link text-dark {% if selected_count == 7 %}active{% endif %}" href="?count=7"
+                    id="show-product-image">
+                    <span class="show-images-counting">7</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+              </ul> -->
             </li>
             <li class="nav-item d-flex show-image-grid   px-3" id="grid-btnContainer">
               <button class="nav-link  mb-2  grid-image-btn " onclick="gridViewTwo()"><svg
@@ -65,14 +118,11 @@ static %}
                     d="M4 2v2H2V2zm1 12v-2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m5 10v-2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1M9 2v2H7V2zm5 0v2h-2V2zM4 7v2H2V7zm5 0v2H7V7zm5 0h-2v2h2zM4 12v2H2v-2zm5 0v2H7v-2zm5 0v2h-2v-2zM12 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm-1 6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z" />
                 </svg></button>
               <button class="nav-link  mb-2  grid-image-btn  " onclick="gridViewFour()">
-
-
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-grid-4x4-gap" viewBox="0 0 16 16">
                   <path
                     d="M1 1h2v2H1V1zm4 0h2v2H5V1zm4 0h2v2H9V1zm4 0h2v2h-2V1zM1 5h2v2H1V5zm4 0h2v2H5V5zm4 0h2v2H9V5zm4 0h2v2h-2V5zM1 9h2v2H1V9zm4 0h2v2H5V9zm4 0h2v2H9V9zm4 0h2v2h-2V9zM1 13h2v2H1v-2zm4 0h2v2H5v-2zm4 0h2v2H9v-2zm4 0h2v2h-2v-2z" />
                 </svg>
-
               </button>
             </li>
             <li class="nav-item">
@@ -84,7 +134,6 @@ static %}
                 <option data-id="{{data_id}}" value="Low to High">Sort by price: Low To High </option>
                 <option data-id="{{data_id}}" value="High to Low">Sort by price: High To Low </option>
               </select>
-
             </li>
           </ul>
         </div>
@@ -124,7 +173,7 @@ static %}
 <div class="container">
   <div class="row   grid-display-row">
     {% for product in products %}
-    <div class="grid-display-column ">
+    <div class="grid-display-column " id="product-list-container">
 
       <div class="product item">
 
@@ -209,6 +258,8 @@ static %}
 
 
 
+
+
 {% for product in products %}
 <div class="modal fade" id="productModal-{{product.id}}" tabindex="-1" aria-labelledby="productModalLabel"
   aria-hidden="true">
@@ -237,11 +288,14 @@ static %}
           <!-- Product details -->
           <h2 class="product-details-heading">{{product.name}}</h2>
           <p class="product-details-subhead">eve <span class="text-dark">solo</span></p>
-          <p class="product-details-amount">{% if product.sale_price
-            %}<span><s>Rs.{{product.regular_price}}</s></span>Rs.{{product.sale_price}}{% else
-            %}Rs.{{product.regular_price}}{% endif %}</p>
+          {% if product.sale_price %}
+          <p class="product-details-amount">
+            <span><s>Rs.{{product.regular_price}}</s></span>
+            Rs.{{product.sale_price}}{% else %}Rs.{{product.regular_price}}
+          </p>
+          {% endif %}
           <p class="product-details-para">{{product.description}}.</p>
-          <div class="d-flex">
+          <!-- <div class="d-flex">
             <button class="btn cartpage_minuicon" type="button" data-type="minus"
               onclick="updateQuantity({{product.id}},-1)">-</button <input type="text" min="1"
               class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ product.id }}"
@@ -249,7 +303,7 @@ static %}
             <input type="hidden" id="stock_value-{{ product.id }}" value="{{product.stock}}">
             <button class="btn cartpage_plusicon" type="button" id="{{ product.id }}" data-type="plus"
               onclick="updateQuantity({{product.id}}, 1)">+</button>
-          </div>
+          </div> -->
           <!-- Product colors -->
           <div class="product-colors">colors:
             <!-- <p>Colors:</p> -->
@@ -335,8 +389,6 @@ static %}
 </script>
 
 <script>
-
-  // Function to update the product list
   function updateProductList(products) {
     console.log('Product Update function work');
     const productListContainer = document.querySelector('.grid-display-row');
@@ -425,8 +477,6 @@ static %}
 
 
 
-
-
   document.addEventListener('click', function (event) {
     if (event.target.classList.contains('btn-add_cart')) {
       event.preventDefault();
@@ -486,5 +536,151 @@ static %}
 
 
 </script>
+<!-- <ul class="d-flex pb-2">
+  <p class="pt-2">Show:</p>
+  <li>
+    <a class="nav-link text-dark" href="javascript:void(0);" onclick="updateProductList(2)" id="show-product-image">
+      <span class="show-images-counting">2</span>
+      <span class="show-images-verti-line"></span>
+    </a>
+  </li>
+  <li>
+    <a class="nav-link text-dark" href="javascript:void(0);" onclick="updateProductList(5)" id="show-product-image">
+      <span class="show-images-counting">5</span>
+      <span class="show-images-verti-line"></span>
+    </a>
+  </li>
+  <li>
+    <a class="nav-link text-dark" href="javascript:void(0);" onclick="updateProductList(7)" id="show-product-image">
+      <span class="show-images-counting">7</span>
+      <span class="show-images-verti-line"></span>
+    </a>
+  </li>
+</ul> -->
 
+
+
+
+<!-- <ul class="d-flex pb-2">
+        <p class="pt-2">Show:</p>
+        <li>
+            <a class="nav-link text-dark" href="#" onclick="updateProductList(2)">2</a>
+        </li>
+        <li>
+            <a class="nav-link text-dark" href="#" onclick="updateProductList(5)">5</a>
+        </li>
+        <li>
+            <a class="nav-link text-dark" href="#" onclick="updateProductList(7)">7</a>
+        </li>
+    </ul>
+
+
+
+<script>
+  function updateProductLists(count) {
+    axios.get(`/product_list/?count=${count}`, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+      .then(function (response) {
+        // Update the product list content
+        document.getElementById('product-list-container').innerHTML = response.data;
+      })
+      .catch(function (error) {
+        console.error('Error fetching products:', error);
+      });
+  }
+</script>
+
+-->
+
+<script>
+  function updateProductLists(count) {
+    axios.get(`/product_list/?count=${count}`, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+      .then(function (response) {
+        document.querySelector('.grid-display-row').innerHTML = response.data.html;
+        document.getElementById('.sort').innerHTML = response.data.html;
+        // links = [
+        let  showLinks = document.querySelectorAll('.show-product-images');
+
+        console.log(showLinks)
+        // links.forEach(function (link) {
+          showLinks.forEach(function(link) {
+          if (link.href.includes(`count=${count}`)) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      })
+      .catch(function (error) {
+        console.error('Error fetching product list:', error);
+      });
+  } 
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function updateProductLists(count, sortValue) {
+  axios.get(`/product_list/?count=${count}&sort_value=${sortValue}`, {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+    .then(function (response) {
+      document.querySelector('.grid-display-row').innerHTML = response.data.html;
+      document.getElementById('sort').innerHTML = response.data.html;
+
+      // Update the active state of product count links
+      let showLinks = document.querySelectorAll('.show-product-images');
+      showLinks.forEach(function(link) {
+        if (link.href.includes(`count=${count}`)) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    })
+    .catch(function (error) {
+      console.error('Error fetching product list:', error);
+    });
+}
+
+// const sortDropdown = document.getElementById('sort');
+
+// Event listener for sorting
+sortDropdown.addEventListener('change', () => {
+  const selectedValue = sortDropdown.value;
+  const selectedOption = sortDropdown.options[sortDropdown.selectedIndex];
+  const data_id = selectedOption.getAttribute('data-id');
+  console.log('Selected sort value:', selectedValue);
+  const count = document.querySelector('.active-count').dataset.count || 9; 
+  updateProductLists(count, selectedValue);
+});
+
+// Event listener for changing the count of products to display
+document.querySelectorAll('.show-product-images').forEach(link => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const count = link.getAttribute('data-count');
+    const sortValue = sortDropdown.value; // Get the current sort value
+    updateProductLists(count, sortValue);
+  });
+});
+
+</script>
 {% endblock %}

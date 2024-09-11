@@ -13,6 +13,8 @@ urlpatterns = [
    path('product/sort-value', views.product_cat_sort_value, name='product_cat_sort_value'),
    path('product/<slug:slug>/', views.product_details, name="product_detail"),
    path('get-product-data/', views.get_product_data, name='get_product_data'),
+   path('product_list/', views.product_list, name='product_list'),
+   
 ]
 
 
