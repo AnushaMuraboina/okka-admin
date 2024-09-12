@@ -143,9 +143,7 @@ def product_cat_sort_value(request):
             products = products.order_by('-created_at')
         elif sort_value == 'Popularity':
             products = products.order_by('-popularity')
-
         filtered_products = []
-
         for product in products:
             product_data = {
                 'name': product.name,
@@ -375,9 +373,14 @@ class ProductListView(ListView):
 
 # def product_list(request):
 #     product_count = request.GET.get('count')
-#     selected_value = request.GET.get('counts')
-#     # product_filter= Product.objects.filter( products)
-#     product_filter = Product.objects.filter(selected_value)
+#     sort_value = request.GET.get('sort_value')
+#     if sort_value == 'low-to-high':
+#         products = products.order_by('regular_price')
+#         print(products)
+#     elif sort_value == 'high-to-low':
+#         products = products.order_by('-regular_price')
+#     # selected_value = request.GET.get('counts')
+#     # product_filter= Product.objects.filter( Products__regular_price)
 #     if product_count:
 #         product_count = int(product_count)
 #         products = Product.objects.all()[:product_count]
@@ -392,28 +395,189 @@ class ProductListView(ListView):
 #     context = {
 #         'products': products,
 #         'selected_count': product_count,
+#         'sort_value': sort_value,
 #     }
 #     return render(request, 'products/product_list.html', context)
 
 
 
+
+
+# from django.http import JsonResponse
+# from django.template.loader import render_to_string
+# from .models import Product
+
+# def product_list(request):
+#     product_count = request.GET.get('count')
+#     sort_value = request.GET.get('sort_value')
+    
+#     # category = ParentCategory.objects.get(name='skincare')
+#     # print(category)
+#     category = ParentCategory.objects.get(name='skincare')
+#     # print(category)
+#     # products = products.filter(categories=category)
+#     # category_filtered = True
+#     # except ParentCategory.DoesNotExist:
+#     # pass
+
+#     if category:
+#         products=Product.objects.all(categories=category)
+#     products = Product.objects.all( )
+#     # products_value=Product.objects.filter()
+#     if sort_value == 'Low to High':
+#         products = products.order_by('regular_price')
+#     elif sort_value == 'High to Low':
+#         products = products.order_by('-regular_price')
+#     if product_count:
+#         product_count = int(product_count)
+#         products = products[:product_count]
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         html = render_to_string('products/productslist.html', {'products': products})
+#         return JsonResponse({'html': html})
+
+#     context = {
+#         'products': products,
+#         'selected_count': product_count,
+#         'sort_value': sort_value,
+#     }
+#     return render(request, 'products/product_list.html', context) 
+
+# from django.http import JsonResponse
+# from django.template.loader import render_to_string
+# from django.shortcuts import render
+# from .models import Product, ParentCategory
+
+# def product_list(request):
+#     product_count = request.GET.get('count')
+#     sort_values = request.GET.get('sort_values' ,'low to high')
+#     try:
+#         category = ParentCategory.objects.get(name='accessories')
+#     except ParentCategory.DoesNotExist:
+#         category = None
+
+#     if category:
+#         products = Product.objects.filter(categories=category)
+#         print(products)
+#         # products1=products.order_by('regular_price')
+#         # print(products1)
+
+#     else:
+#         products = Product.objects.all()
+#         print('products give me', products)
+
+#     if sort_values == 'Low to High':
+#         products = products.order_by('regular_price')
+#     elif sort_values == 'High to Low':
+#         products = products.order_by('-regular_price')
+
+#     if product_count:
+#         try:
+#             product_count = int(product_count)
+#             products = products[:product_count]
+#         except ValueError:
+#             pass  
+
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         html = render_to_string('products/productslist.html', {'products': products})
+#         return JsonResponse({'html': html})
+
+#     context = {
+#         'products': products,
+#         'selected_count': product_count,
+#         'sort_values': sort_values,
+#     }
+#     return render(request, 'products/product_list.html', context)
+
+# from django.http import JsonResponse
+# from django.template.loader import render_to_string
+# from django.shortcuts import render
+# from .models import Product, ParentCategory
+
+# def product_list(request):
+#     product_count = request.GET.get('count')
+#     sort_values = request.GET.get('sort_values')
+
+#     try:
+#         category = ParentCategory.objects.get(name='accessories')
+#     except ParentCategory.DoesNotExist:
+#         category = None
+#     if category:
+#         products = Product.objects.filter(categories=category)
+#     else:
+#         products = Product.objects.all()
+#     if sort_values == 'Low to High':
+#         products = products.order_by('regular_price').first()
+#     elif sort_values == 'High to Low':
+#         products = products.order_by('-regular_price')
+
+#     if product_count:
+        
+#         try:
+#             product_count = int(product_count)
+#             products = products[:product_count].first()
+
+#         except ValueError:
+#             pass  
+
+#     # if product_count:
+#     #     try:
+#     #         product_count = int(product_count)
+#     #         if product_count == 1:
+#     #             product = products.first()  
+#     #             products = [product] if product else []  
+#     #         else:
+#     #             products = products[:product_count]  
+#     #     except ValueError:
+#     #         products = products.all()  
+
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         html = render_to_string('products/productslist.html', {'products': products})
+#         return JsonResponse({'html': html})
+
+#     context = {
+#         'products': products,
+#         'selected_count': product_count,
+#         'sort_values': sort_values,
+#     }
+#     return render(request, 'products/product_list.html', context)
+
+
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from .models import Product
+from django.shortcuts import render
+from .models import Product, ParentCategory
 
 def product_list(request):
     product_count = request.GET.get('count')
-    sort_value = request.GET.get('sort_value')
+    sort_values = request.GET.get('sort_values')
 
-    products = Product.objects.all()
-    if sort_value == 'low-to-high':
-        products = products.order_by('price')
-    elif sort_value == 'high-to-low':
-        products = products.order_by('-price')
+    try:
+        category = ParentCategory.objects.get(name='accessories')
+    except ParentCategory.DoesNotExist:
+        category = None
+    
+    # Filter products based on category
+    if category:
+        products = Product.objects.filter(categories=category)
+    else:
+        products = Product.objects.all()
+
+    # Sort products based on the sort_values parameter
+    if sort_values == 'Low to High':
+        products = products.order_by('regular_price')
+    elif sort_values == 'High to Low':
+        products = products.order_by('-regular_price')
+
+    # Apply product_count if provided
     if product_count:
-        product_count = int(product_count)
-        products = products[:product_count]
+        try:
+            product_count = int(product_count)
+            if product_count > 0:
+                products = products[:product_count]
+        except ValueError:
+            pass 
 
+    # Render the response
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         html = render_to_string('products/productslist.html', {'products': products})
         return JsonResponse({'html': html})
@@ -421,9 +585,42 @@ def product_list(request):
     context = {
         'products': products,
         'selected_count': product_count,
-        'sort_value': sort_value,
+        'sort_values': sort_values,
     }
     return render(request, 'products/product_list.html', context)
+
+
+
+
+# i wnat category  based count products diplay on my page
+
+# from django.http import JsonResponse
+# from django.template.loader import render_to_string
+# from .models import Product
+
+# def product_list(request):
+#     product_count = request.GET.get('count')
+#     sort_value = request.GET.get('sort_value')
+
+#     products = Product.objects.all()
+#     if sort_value == 'low-to-high':
+#         products = products.order_by('price')
+#     elif sort_value == 'high-to-low':
+#         products = products.order_by('-price')
+#     if product_count:
+#         product_count = int(product_count)
+#         products = products[:product_count]
+
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         html = render_to_string('products/productslist.html', {'products': products})
+#         return JsonResponse({'html': html})
+
+#     context = {
+#         'products': products,
+#         'selected_count': product_count,
+#         'sort_value': sort_value,
+#     }
+#     return render(request, 'products/product_list.html', context)
 
 
 # # 2nd method sectiom 

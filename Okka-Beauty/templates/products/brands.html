@@ -39,91 +39,117 @@
 
 
 
-
-
-
-
-
-
-
-<!-- 
-
-from django.http import JsonResponse
+<!-- from django.http import JsonResponse
 from django.template.loader import render_to_string
-from .models import Product
+from django.shortcuts import render
+from .models import Product, ParentCategory
 
 def product_list(request):
     product_count = request.GET.get('count')
-    sort_value = request.GET.get('sort_value')
+    sort_values = request.GET.get('sort_value')  # Adjust to match query parameter
 
-    # Default product query
-    products = Product.objects.all()
+    try:
+        category = ParentCategory.objects.get(name='accessories')
+    except ParentCategory.DoesNotExist:
+        category = None
 
-    # Apply sorting
-    if sort_value == 'low-to-high':
-        products = products.order_by('price')
-    elif sort_value == 'high-to-low':
-        products = products.order_by('-price')
+    if category:
+        products = Product.objects.filter(categories=category)
+    else:
+        products = Product.objects.all()
 
-    # Apply product count limit
+    if sort_values == 'Low to High':
+        products = products.order_by('regular_price')
+    elif sort_values == 'High to Low':
+        products = products.order_by('-regular_price')
+    elif sort_values == 'Alphabetical':
+        products = products.order_by('name')
+    elif sort_values == 'Popularity':
+        products = products.order_by('-popularity')  # Assuming there's a popularity field
+    elif sort_values == 'average rating':
+        products = products.order_by('-average_rating')  # Assuming there's an average_rating field
+    elif sort_values == 'latest':
+        products = products.order_by('-created_at')  # Assuming there's a created_at field
+
     if product_count:
-        product_count = int(product_count)
-        products = products[:product_count]
+        try:
+            product_count = int(product_count)
+            products = products[:product_count]
+        except ValueError:
+            pass
 
-    # If it's an AJAX request, return the rendered HTML for the products
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        html = render_to_string('products/productslist.html', {'products': products})
+        html = render_to_string('products/product_list_partial.html', {'products': products})
         return JsonResponse({'html': html})
-    
-    # For non-AJAX requests, render the full page
+
     context = {
         'products': products,
         'selected_count': product_count,
-        'sort_value': sort_value,
+        'sort_values': sort_values,
     }
     return render(request, 'products/product_list.html', context) -->
     <!-- <script>
-        function updateProductLists(count, sortValue) {
-          // Send both count and sort_value in the AJAX request
-          axios.get(`/product_list/?count=${count}&sort_value=${sortValue}`, {
+        function updateProductLists(count, sort_value) {
+          axios.get(`/product_list/?count=${count}&sort_value=${sort_value}`, {  // Adjust query parameter name
             headers: {
               'X-Requested-With': 'XMLHttpRequest'
             }
           })
-          .then(function (response) {
-            // Update the product list dynamically
-            document.querySelector('.grid-display-row').innerHTML = response.data.html;
-      
-            // Update the active state of product count links
-            let showLinks = document.querySelectorAll('.show-product-images');
-            showLinks.forEach(function(link) {
-              if (link.href.includes(`count=${count}`)) {
-                link.classList.add('active');
-              } else {
-                link.classList.remove('active');
-              }
+            .then(function (response) {
+              document.querySelector('.grid-display-row').innerHTML = response.data.html;
+              
+              // Update active class for the sort options
+              let showLinks = document.querySelectorAll('.show-product-images');
+              showLinks.forEach(function (link) {
+                if (link.href.includes(`count=${count}`) && link.href.includes(`sort_value=${sort_value}`)) {
+                  link.classList.add('active');
+                } else {
+                  link.classList.remove('active');
+                }
+              });
+            })
+            .catch(function (error) {
+              console.error('Error fetching product list:', error);
             });
-          })
-          .catch(function (error) {
-            console.error('Error fetching product list:', error);
-          });
-        }
-      
-        // Add event listeners for count and sort option changes
-        document.getElementById('sort').addEventListener('change', function() {
-          const sortValue = this.value; // Get the selected sort value
-          const count = document.querySelector('.show-product-images.active').dataset.count; // Get the current count
-          updateProductLists(count, sortValue); // Update with both count and sort value
-        });
-      
-        // Event listeners for count buttons/links
-        document.querySelectorAll('.show-product-images').forEach(function(link) {
-          link.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent default link behavior
-            const count = this.dataset.count; // Get the selected count
-            const sortValue = document.getElementById('sort').value; // Get the current sort value
-            updateProductLists(count, sortValue); // Update with both count and sort value
-          });
-        });
+        } 
       </script>
        -->
+<!-- 
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Product List</h1>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#" onclick="updateProductLists(10, 'Low to High'); return false;">Sort by Low to High</a></li>
+                <li><a href="#" onclick="updateProductLists(10, 'High to Low'); return false;">Sort by High to Low</a></li>
+                <li><a href="#" onclick="updateProductLists(10, 'Alphabetical'); return false;">Sort Alphabetically</a></li>
+                <li><a href="#" onclick="updateProductLists(10, 'Popularity'); return false;">Sort by Popularity</a></li>
+                <li><a href="#" onclick="updateProductLists(10, 'average rating'); return false;">Sort by Average Rating</a></li>
+                <li><a href="#" onclick="updateProductLists(10, 'latest'); return false;">Sort by Latest</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <div class="grid-display-row">
+                <!-- Product list will be dynamically loaded here -->
+                <!-- Initial content can be here or loaded via AJAX -->
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2024 Your Company</p>
+        </footer>
+    </div>
+ -->

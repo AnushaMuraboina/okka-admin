@@ -56,7 +56,34 @@
                 <p class="pt-2">Show:</p>
                 <li>
                   <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
-                    onclick="updateProductLists(2)" id="show-product-image">
+                    onclick="updateProductLists(2, getSortOrder())">
+                    <span class="show-images-counting">2</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
+                    onclick="updateProductLists(5, getSortOrder())">
+                    <span class="show-images-counting">5</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
+                    onclick="updateProductLists(7, getSortOrder())">
+                    <span class="show-images-counting">7</span>
+                    <span class="show-images-verti-line"></span>
+                  </a>
+                </li>
+              </ul>
+              <a href="#"  selected  onclick="updateProductLists(100, 'Low to High')" class="sort-links ">Sort Low to High</a><br>
+              <a href="#"  selected  onclick="updateProductLists(100, 'High to Low')" class="sort-links ">Sort High to Low</a>
+              
+              <!-- <ul class="d-flex pb-2">
+                <p class="pt-2">Show:</p>
+                <li>
+                  <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
+                    onclick="updateProductLists(2)" id="show-product-image" >
                     <span class="show-images-counting">2</span>
                     <span class="show-images-verti-line"></span>
                   </a>
@@ -71,12 +98,15 @@
                 <li>
                   <a class="nav-link show-product-images  text-dark" href="javascript:void(0);"
                     onclick="updateProductLists(7)" id="show-product-image">
+
                     <span class="show-images-counting">7</span>
                     <span class="show-images-verti-line"></span>
                   </a>
                 </li>
               </ul>
-
+              <a href="#" onclick="updateProductLists(100, 'Low to High')" class="sort-links" >Sort Low to High</a><br>
+              <a href="#" onclick="updateProductLists(100,'High to Low')" class="sort-links">Sort High to Low</a>
+                 -->
               <!-- <ul class="d-flex pb-2">
                 <p class="pt-2">Show:</p>
                 <li>
@@ -126,15 +156,30 @@
               </button>
             </li>
             <li class="nav-item">
-              <select class="form-select show-form-select" aria-label="Default select example" id="sort">
+
+           <!-- <a href="#" onclick="updateProductLists(100, 'Low to High')" class="sort-links" >Sort Low to High</a><br>
+           <a href="#" onclick="updateProductLists(100,'High to Low')" class="sort-links">Sort High to Low</a>
+              -->
+              
+
+              <!-- <select class="form-select show-form-select" aria-label="Default select example" id="sort"
+                name="sort_values">
                 <option data-id="{{data_id}}" value="Alphabetical" selected> sort by name:Alphabetical order</option>
                 <option data-id="{{data_id}}" value="Popularity">Sort by Popularity</option>
                 <option data-id="{{data_id}}" value="average rating">Sort by average rating</option>
                 <option data-id="{{data_id}}" value="latest">Sort by latest</option>
-                <option data-id="{{data_id}}" value="Low to High">Sort by price: Low To High </option>
+                <option data-id="{{data_id}}" value="Low to High" >Sort by price: Low To High </option>
                 <option data-id="{{data_id}}" value="High to Low">Sort by price: High To Low </option>
+         
               </select>
-            </li>
+            </li> -->
+            
+            <!-- <label for="sort">Sort by:</label>
+             <select id="sort" name="sort_value" onchange="updateProductLists()">
+             <option value="default" {% if sort_value == 'default' %}selected{% endif %}>Default</option>
+             <option value="low-to-high" {% if sort_value == 'low-to-high' %}selected{% endif %}>Price: Low to High</option>
+               <option value="high-to-low" {% if sort_value == 'high-to-low' %}selected{% endif %}>Price: High to Low</option>
+    </select> -->
           </ul>
         </div>
       </div>
@@ -539,23 +584,24 @@
 
 
 
-
+<!-- 
 <script>
-  function updateProductLists(count) {
-    axios.get(`/product_list/?count=${count}`, {
+  function updateProductLists(count, sort_values) {
+    // axios.get(`/product_list/?count=${count}&sort_value=${sort_value}`, {
+      axios.get(`/product_list/?count=${count}&sort_values=${sort_values}`, {
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       }
     })
       .then(function (response) {
         document.querySelector('.grid-display-row').innerHTML = response.data.html;
-        document.getElementById('.sort').innerHTML = response.data.html;
+        console.log(sort_value)
         // links = [
-        let  showLinks = document.querySelectorAll('.show-product-images');
+        let showLinks = document.querySelectorAll('.show-product-images');
 
         console.log(showLinks)
         // links.forEach(function (link) {
-          showLinks.forEach(function(link) {
+        showLinks.forEach(function (link) {
           if (link.href.includes(`count=${count}`)) {
             link.classList.add('active');
           } else {
@@ -567,44 +613,195 @@
         console.error('Error fetching product list:', error);
       });
   } 
-</script>
-
-
-
-
+</script> -->
 
 <!-- 
-
 <script>
-  function updateProductLists(count, sortValue) {
-  axios.get(`/product_list/?count=${count}&sort_value=${sortValue}`, {
-    headers: {
-      'X-Requested-With': 'XMLHttpRequest'
-    }
-  })
+  function updateProductLists(count, sort_values) {
+    axios.get(`/product_list/?count=${count}&sort_values=${sort_values}`, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
     .then(function (response) {
       document.querySelector('.grid-display-row').innerHTML = response.data.html;
-      document.getElementById('sort').innerHTML = response.data.html;
 
-      let showLinks = document.querySelectorAll('.show-product-images');
-      showLinks.forEach(function(link) {
-        if (link.href.includes(`count=${count}`)) {
+      const showLinks = document.querySelectorAll('.show-product-images');
+      showLinks.forEach(function (link) {
+        if (link.href.includes(`count=${count}`) && link.href.includes(`sort_values=${sort_values}`)) {
           link.classList.add('active');
         } else {
           link.classList.remove('active');
         }
       });
     })
+
     .catch(function (error) {
       console.error('Error fetching product list:', error);
     });
-}
-    <label for="sort">Sort by:</label>
-    <select id="sort" name="sort_value" onchange="updateProductLists()">
-        <option value="default" {% if sort_value == 'default' %}selected{% endif %}>Default</option>
-        <option value="low-to-high" {% if sort_value == 'low-to-high' %}selected{% endif %}>Price: Low to High</option>
-        <option value="high-to-low" {% if sort_value == 'high-to-low' %}selected{% endif %}>Price: High to Low</option>
-    </select>
+  }
+</script> -->
 
-</script>  -->
+
+
+
+<script>
+//   function getSortOrder() {
+//   const activeSortLink = document.querySelector('.sort-links.active');
+//   if (activeSortLink) {
+//     const sortText = activeSortLink.textContent.trim();
+//     if (sortText === 'Low to High') {
+//       return 'Low to High';
+//     } else if (sortText === 'High to Low') {
+//       return 'High to Low';
+//     }
+//   }
+//   return 'High to Low'; 
+// }
+
+// function getSortOrder() {
+
+//   const activeSortLink = document.querySelector('.sort-links.active');
+//   return activeSortLink ? activeSortLink.textContent.trim() : 'Low to High';
+// }
+
+// function getCount() {
+//   // Get the current count from active count link
+//   const activeCountLink = document.querySelector('.show-product-images.active');
+//   return activeCountLink ? activeCountLink.querySelector('.show-images-counting').textContent : 100;
+// }
+
+function getSortOrder() {
+  const activeSortLink = document.querySelector('.sort-links.active');
+  if (activeSortLink) {
+    const sortText = activeSortLink.textContent.trim();
+    console.log('Active sort link text:', sortText);
+    if (sortText == 'Low to High') {
+      return 'Low to High';
+    } else if (sortText =='High to Low') {
+      return 'High to Low';
+    }
+  }
+  return 'High to Low'; 
+}
+
+function updateProductLists(count, sort_values) {
+  axios.get(`/product_list/?count=${count}&sort_values=${sort_values}`, {
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  })
+  .then(function (response) {
+    document.querySelector('.grid-display-row').innerHTML = response.data.html;
+
+    // Update the 'active' class on count and sort links
+    document.querySelectorAll('.show-product-images').forEach(function (link) {
+      const linkCount = link.querySelector('.show-images-counting').textContent;
+      if (linkCount == count) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+
+    document.querySelectorAll('.sort-links').forEach(function (link) {
+      if (link.textContent.trim() == sort_values) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  })
+  .catch(function (error) {
+    console.error('Error fetching product list:', error);
+  });
+}
+
+
+
+
+  //   function updateProductLists(count, sort_value) {
+  //   axios.get(`/product_list/?count=${count}&sort_value=${sort_value}`, {
+  //     headers: {
+  //       'X-Requested-With': 'XMLHttpRequest'
+  //     }
+  //   })
+  //     .then(function (response) {
+  //       document.querySelector('.grid-display-row').innerHTML = response.data.html;
+  //       document.getElementById('sort').innerHTML = response.data.html;
+
+  //       let showLinks = document.querySelectorAll('.show-product-images');
+  //       showLinks.forEach(function(link) {
+  //         if (link.href.includes(`count=${count}`)) {
+  //           link.classList.add('active');
+  //         } else {
+  //           link.classList.remove('active');
+  //         }
+  //       });
+  //     })
+  //     .catch(function (error) {
+  //       console.error('Error fetching product list:', error);
+  //     });
+  // }
+  // <label for="sort">Sort by:</label>
+  // <select id="sort" name="sort_value" onchange="updateProductLists()">
+  //     <option value="default" {% if sort_value == 'default' %}selected{% endif %}>Default</option>
+  //     <option value="low-to-high" {% if sort_value == 'low-to-high' %}selected{% endif %}>Price: Low to High</option>
+  //     <option value="high-to-low" {% if sort_value == 'high-to-low' %}selected{% endif %}>Price: High to Low</option>
+  // </select>
+
+</script>
 {% endblock %}
+
+
+
+
+
+
+<!-- <script>
+        function updateProductLists(count, sortValue) {
+          // Send both count and sort_value in the AJAX request
+          axios.get(`/product_list/?count=${count}&sort_value=${sortValue}`, {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(function (response) {
+            // Update the product list dynamically
+            document.querySelector('.grid-display-row').innerHTML = response.data.html;
+      
+            // Update the active state of product count links
+            let showLinks = document.querySelectorAll('.show-product-images');
+            showLinks.forEach(function(link) {
+              if (link.href.includes(`count=${count}`)) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          })
+          .catch(function (error) {
+            console.error('Error fetching product list:', error);
+          });
+        }
+      
+        // Add event listeners for count and sort option changes
+        document.getElementById('sort').addEventListener('change', function() {
+          const sortValue = this.value; // Get the selected sort value
+          const count = document.querySelector('.show-product-images.active').dataset.count; // Get the current count
+          updateProductLists(count, sortValue); // Update with both count and sort value
+        });
+      
+        // Event listeners for count buttons/links
+        document.querySelectorAll('.show-product-images').forEach(function(link) {
+          link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            const count = this.dataset.count; // Get the selected count
+            const sortValue = document.getElementById('sort').value; // Get the current sort value
+            updateProductLists(count, sortValue); // Update with both count and sort value
+          });
+        });
+      </script>
+       -->
+
+    
