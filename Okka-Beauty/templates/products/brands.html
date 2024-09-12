@@ -32,3 +32,98 @@
 
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from .models import Product
+
+def product_list(request):
+    product_count = request.GET.get('count')
+    sort_value = request.GET.get('sort_value')
+
+    # Default product query
+    products = Product.objects.all()
+
+    # Apply sorting
+    if sort_value == 'low-to-high':
+        products = products.order_by('price')
+    elif sort_value == 'high-to-low':
+        products = products.order_by('-price')
+
+    # Apply product count limit
+    if product_count:
+        product_count = int(product_count)
+        products = products[:product_count]
+
+    # If it's an AJAX request, return the rendered HTML for the products
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('products/productslist.html', {'products': products})
+        return JsonResponse({'html': html})
+    
+    # For non-AJAX requests, render the full page
+    context = {
+        'products': products,
+        'selected_count': product_count,
+        'sort_value': sort_value,
+    }
+    return render(request, 'products/product_list.html', context) -->
+    <!-- <script>
+        function updateProductLists(count, sortValue) {
+          // Send both count and sort_value in the AJAX request
+          axios.get(`/product_list/?count=${count}&sort_value=${sortValue}`, {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(function (response) {
+            // Update the product list dynamically
+            document.querySelector('.grid-display-row').innerHTML = response.data.html;
+      
+            // Update the active state of product count links
+            let showLinks = document.querySelectorAll('.show-product-images');
+            showLinks.forEach(function(link) {
+              if (link.href.includes(`count=${count}`)) {
+                link.classList.add('active');
+              } else {
+                link.classList.remove('active');
+              }
+            });
+          })
+          .catch(function (error) {
+            console.error('Error fetching product list:', error);
+          });
+        }
+      
+        // Add event listeners for count and sort option changes
+        document.getElementById('sort').addEventListener('change', function() {
+          const sortValue = this.value; // Get the selected sort value
+          const count = document.querySelector('.show-product-images.active').dataset.count; // Get the current count
+          updateProductLists(count, sortValue); // Update with both count and sort value
+        });
+      
+        // Event listeners for count buttons/links
+        document.querySelectorAll('.show-product-images').forEach(function(link) {
+          link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            const count = this.dataset.count; // Get the selected count
+            const sortValue = document.getElementById('sort').value; // Get the current sort value
+            updateProductLists(count, sortValue); // Update with both count and sort value
+          });
+        });
+      </script>
+       -->

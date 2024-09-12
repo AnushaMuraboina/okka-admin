@@ -536,64 +536,9 @@
 
 
 </script>
-<!-- <ul class="d-flex pb-2">
-  <p class="pt-2">Show:</p>
-  <li>
-    <a class="nav-link text-dark" href="javascript:void(0);" onclick="updateProductList(2)" id="show-product-image">
-      <span class="show-images-counting">2</span>
-      <span class="show-images-verti-line"></span>
-    </a>
-  </li>
-  <li>
-    <a class="nav-link text-dark" href="javascript:void(0);" onclick="updateProductList(5)" id="show-product-image">
-      <span class="show-images-counting">5</span>
-      <span class="show-images-verti-line"></span>
-    </a>
-  </li>
-  <li>
-    <a class="nav-link text-dark" href="javascript:void(0);" onclick="updateProductList(7)" id="show-product-image">
-      <span class="show-images-counting">7</span>
-      <span class="show-images-verti-line"></span>
-    </a>
-  </li>
-</ul> -->
 
 
 
-
-<!-- <ul class="d-flex pb-2">
-        <p class="pt-2">Show:</p>
-        <li>
-            <a class="nav-link text-dark" href="#" onclick="updateProductList(2)">2</a>
-        </li>
-        <li>
-            <a class="nav-link text-dark" href="#" onclick="updateProductList(5)">5</a>
-        </li>
-        <li>
-            <a class="nav-link text-dark" href="#" onclick="updateProductList(7)">7</a>
-        </li>
-    </ul>
-
-
-
-<script>
-  function updateProductLists(count) {
-    axios.get(`/product_list/?count=${count}`, {
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      }
-    })
-      .then(function (response) {
-        // Update the product list content
-        document.getElementById('product-list-container').innerHTML = response.data;
-      })
-      .catch(function (error) {
-        console.error('Error fetching products:', error);
-      });
-  }
-</script>
-
--->
 
 <script>
   function updateProductLists(count) {
@@ -628,11 +573,7 @@
 
 
 
-
-
-
-
-
+<!-- 
 
 <script>
   function updateProductLists(count, sortValue) {
@@ -645,7 +586,6 @@
       document.querySelector('.grid-display-row').innerHTML = response.data.html;
       document.getElementById('sort').innerHTML = response.data.html;
 
-      // Update the active state of product count links
       let showLinks = document.querySelectorAll('.show-product-images');
       showLinks.forEach(function(link) {
         if (link.href.includes(`count=${count}`)) {
@@ -659,28 +599,12 @@
       console.error('Error fetching product list:', error);
     });
 }
+    <label for="sort">Sort by:</label>
+    <select id="sort" name="sort_value" onchange="updateProductLists()">
+        <option value="default" {% if sort_value == 'default' %}selected{% endif %}>Default</option>
+        <option value="low-to-high" {% if sort_value == 'low-to-high' %}selected{% endif %}>Price: Low to High</option>
+        <option value="high-to-low" {% if sort_value == 'high-to-low' %}selected{% endif %}>Price: High to Low</option>
+    </select>
 
-// const sortDropdown = document.getElementById('sort');
-
-// Event listener for sorting
-sortDropdown.addEventListener('change', () => {
-  const selectedValue = sortDropdown.value;
-  const selectedOption = sortDropdown.options[sortDropdown.selectedIndex];
-  const data_id = selectedOption.getAttribute('data-id');
-  console.log('Selected sort value:', selectedValue);
-  const count = document.querySelector('.active-count').dataset.count || 9; 
-  updateProductLists(count, selectedValue);
-});
-
-// Event listener for changing the count of products to display
-document.querySelectorAll('.show-product-images').forEach(link => {
-  link.addEventListener('click', (event) => {
-    event.preventDefault();
-    const count = link.getAttribute('data-count');
-    const sortValue = sortDropdown.value; // Get the current sort value
-    updateProductLists(count, sortValue);
-  });
-});
-
-</script>
+</script>  -->
 {% endblock %}

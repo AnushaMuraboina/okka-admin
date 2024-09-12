@@ -369,39 +369,63 @@ class ProductListView(ListView):
     # return render(request, 'products/productslist.html', context)
     # return render(request, 'products/product_list.html', context)
 
+# from django.http import JsonResponse
+# from django.template.loader import render_to_string
+# from .models import Product
+
+# def product_list(request):
+#     product_count = request.GET.get('count')
+#     selected_value = request.GET.get('counts')
+#     # product_filter= Product.objects.filter( products)
+#     product_filter = Product.objects.filter(selected_value)
+#     if product_count:
+#         product_count = int(product_count)
+#         products = Product.objects.all()[:product_count]
+        
+#     else:
+#         products = Product.objects.all()
+    
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         html = render_to_string('products/productslist.html', {'products': products})
+#         return JsonResponse({'html': html})
+    
+#     context = {
+#         'products': products,
+#         'selected_count': product_count,
+#     }
+#     return render(request, 'products/product_list.html', context)
+
+
+
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from .models import Product
 
 def product_list(request):
     product_count = request.GET.get('count')
-    selected_value = request.GET.get('counts')
-    # product_filter= Product.objects.filter( products)
-    product_filter = Product.objects.filter(selected_value)
+    sort_value = request.GET.get('sort_value')
+
+    products = Product.objects.all()
+    if sort_value == 'low-to-high':
+        products = products.order_by('price')
+    elif sort_value == 'high-to-low':
+        products = products.order_by('-price')
     if product_count:
         product_count = int(product_count)
-        products = Product.objects.all()[:product_count]
-        
-    else:
-        products = Product.objects.all()
-    
+        products = products[:product_count]
+
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         html = render_to_string('products/productslist.html', {'products': products})
         return JsonResponse({'html': html})
-    
+
     context = {
         'products': products,
         'selected_count': product_count,
+        'sort_value': sort_value,
     }
     return render(request, 'products/product_list.html', context)
 
 
-
-
- # Check if this is an AJAX request
-    # if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-    #   return render(request, 'products/product_list.html', context)
-# defaultly dispaly the all products when i will means dispaly that produs
 # # 2nd method sectiom 
     # product_count = int(request.GET.get('count',0))
     # if product_count == 0:
