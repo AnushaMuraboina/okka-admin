@@ -1,5 +1,23 @@
 {% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
 {% get_media_prefix as MEDIA_PREFIX %}
+
+<style>
+  @media screen and (max-width: 1200px) {
+    .dash-prod-order-sec1 {
+      display: grid;
+      grid-template: 100px / auto auto;
+      
+    }
+  }
+
+@media screen and (max-width: 850px) {
+  .dash-prod-order-sec1 {
+  display: grid;
+  grid-template: 100px /  auto;
+ 
+}
+}
+</style>
 <main class="main" id="top">
     
       <div class="container-fluid px-0">
@@ -491,7 +509,7 @@
         <div class="content">
          
           <div class="mb-5">
-            <div class="row g-3 mb-4">
+            <div class="row g-3 mb-4 ">
               <div class="col-auto">
                 <h2 class="mb-0">Orders Replacement</h2>
               </div>
@@ -504,8 +522,8 @@
               <li class="nav-item"><a class="nav-link" href="#">Refunded<span class="text-700 fw-semi-bold">(8)</span></a></li>
               <li class="nav-item"><a class="nav-link filter-nav" id="order_status" data-filter="Cancelled"href="#">Cancelled<span class="text-700 fw-semi-bold">({{order_cancelled_count}})</span></a></li>
             </ul> -->
-            <div class="row">
-            <div class="card mt-0 p-3 col me-3">
+            <div class="row  dash-prod-order-sec1">
+            <div class="card mt-0 p-3 col me-3 mb-2">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #FEECDC; border-radius: 50%; text-align: center;">
                       <!-- <i class="fs-3" data-feather="shopping-cart" style="color: #D03801;"></i> -->
@@ -520,7 +538,7 @@
               </div>
             </div>
 
-            <div class="card mt-0 p-3 col me-3">
+            <div class="card mt-0 p-3 col me-3 mb-2">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #E1EFFE; border-radius: 50%; text-align: center; ">
                     <span data-feather="user-check" style="color: #3173F3;"></span>  
@@ -534,7 +552,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mt-0 p-3 col me-3">
+            <div class="card mt-0 p-3 col me-3 mb-2">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #D5F5F6; border-radius: 50%; text-align: center; ">
                       <i data-feather="check-circle" style="color: #117C88;"></i>
@@ -546,7 +564,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mt-0 p-3 col me-3">
+            <div class="card mt-0 p-3 col me-3 mb-2">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #DEF7EC; border-radius: 50%; text-align: center; ">
                       <!-- <i data-feather="check" style="color: #1C8765;"></i> -->
@@ -559,7 +577,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mt-0 p-3 col me-3">
+            <div class="card mt-0 p-3 col me-3 mb-2">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #ffcccc; border-radius: 50%; text-align: center; ">
                       <i data-feather="x" style="color: #ff0000;"></i>
@@ -573,7 +591,6 @@
             </div>
             </div>
             </div>
-
             <div id="orderTable" data-list='{"valueNames":["order","amount","user","payment_status","order_status","delivery_type","date"],"page":10,"pagination":true}'>
               <div class="mb-4">
                 <div class="row g-3">
@@ -582,7 +599,6 @@
                       <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
                         <input class="form-control search-input search" type="search" placeholder="Search orders" aria-label="Search" />
                         <span class="fas fa-search search-box-icon"></span>
-
                       </form>
                     </div>
                   </div> 

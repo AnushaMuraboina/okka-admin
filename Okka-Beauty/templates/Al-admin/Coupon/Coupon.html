@@ -1,5 +1,5 @@
-{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {%
-load static %}
+{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} 
+{% load static %}
 {% get_media_prefix as MEDIA_PREFIX %}
 <style>
   #popup-message {
@@ -320,7 +320,7 @@ load static %}
                             <span class="nav-link-text">Delivery Person</span>
                           </div>
                         </a>
-                        <!-- more inner pages-->
+                     
                       </li> {% else %} {% for group in request.user.groups.all %} {% if
                       perms.group.view_orderdeliveryperson %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'delivery_person' %}" data-bs-toggle="" aria-expanded="false">
@@ -328,7 +328,7 @@ load static %}
                             <span class="nav-link-text">Delivery Person</span>
                           </div>
                         </a>
-                        <!-- more inner pages-->
+                        
                       </li> {% endif %} {% endfor %} {% endif %} {% endif %}
 
                       {% if request.user.is_authenticated %} {% if perms.checkout.view_orderreplacementcomment %} <li

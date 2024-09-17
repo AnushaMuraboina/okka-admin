@@ -4799,70 +4799,70 @@ def delete_buypromo(request, banner_id):
 
 
 
-# # TRENDING BANNER
-@login_required
-def Trending_Banner(request, banner_id=None):
-    # Check if banner_id is provided, if so, get the instance of the banner
-    if banner_id:
-        banner_instance = get_object_or_404(TrendingBrand, pk=banner_id)
-    else:
-        banner_instance = None
+# # # TRENDING BANNER
+# @login_required
+# def Trending_Banner(request, banner_id=None):
+#     # Check if banner_id is provided, if so, get the instance of the banner
+#     if banner_id:
+#         banner_instance = get_object_or_404(TrendingBrand, pk=banner_id)
+#     else:
+#         banner_instance = None
 
-    if request.method == 'POST':
-        # If banner_instance exists, pass it to the form to update the existing banner
-        form =TrendingBannerForm(data=request.POST, files=request.FILES, instance=banner_instance)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('trendingbanner'))
-    else:
-        # If banner_instance exists, initialize the form with its instance
-        form = TrendingBannerForm(instance=banner_instance)
+#     if request.method == 'POST':
+#         # If banner_instance exists, pass it to the form to update the existing banner
+#         form =TrendingBannerForm(data=request.POST, files=request.FILES, instance=banner_instance)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect(reverse('trendingbanner'))
+#     else:
+#         # If banner_instance exists, initialize the form with its instance
+#         form = TrendingBannerForm(instance=banner_instance)
 
-    banners = TrendingBrand.objects.all()
+#     banners = TrendingBrand.objects.all()
     
-    # Retrieve search query from request GET parameters
-    search_query = request.GET.get('search', '')
+#     # Retrieve search query from request GET parameters
+#     search_query = request.GET.get('search', '')
 
-    # Apply search
-    if search_query:
-        banners = banners.filter(banner_url__icontains=search_query)
+#     # Apply search
+#     if search_query:
+#         banners = banners.filter(banner_url__icontains=search_query)
 
 
-    user_has_permission = request.user.has_perm('banners.view_trendingbanner')
+#     user_has_permission = request.user.has_perm('banners.view_trendingbanner')
 
-    # Check group permissions
-    if not user_has_permission:
-        user_groups = request.user.groups.all()
-        for group in user_groups:
-            if group.permissions.filter(codename='view_trendingbanner').exists():
-                user_has_permission = True
-                break
+#     # Check group permissions
+#     if not user_has_permission:
+#         user_groups = request.user.groups.all()
+#         for group in user_groups:
+#             if group.permissions.filter(codename='view_trendingbanner').exists():
+#                 user_has_permission = True
+#                 break
 
-    if not user_has_permission:
-        # Return some error or handle permission denial
-        return render(request, 'Al-admin/permission/permission_denied.html')    
+#     if not user_has_permission:
+#         # Return some error or handle permission denial
+#         return render(request, 'Al-admin/permission/permission_denied.html')    
 
-    context = {
-        'banners': banners,
-        'form': form,
-        'search_query': search_query,
-    }
-    return render(request, "Al-admin/banner/buy_promo_banner.html", context)
+#     context = {
+#         'banners': banners,
+#         'form': form,
+#         'search_query': search_query,
+#     }
+#     return render(request, "Al-admin/banner/buy_promo_banner.html", context)
 
-@login_required
-def delete_buypromo(request, banner_id):
-    if request.method == 'POST':
-        try:
-            buypromo = TrendingBrand.objects.get(id=banner_id)
-            print(buypromo)
-            buypromo.delete()
-            return JsonResponse({'message': 'trending banner deleted successfully'})
-        except Coupon.DoesNotExist:
-            return JsonResponse({'message': 'trending banner not found'}, status=404)
-        except Exception as e:
-            return JsonResponse({'message': str(e)}, status=400)
-    else:
-        return JsonResponse({'message': 'Invalid request'}, status=400)
+# @login_required
+# def delete_buypromo(request, banner_id):
+#     if request.method == 'POST':
+#         try:
+#             buypromo = TrendingBrand.objects.get(id=banner_id)
+#             print(buypromo)
+#             buypromo.delete()
+#             return JsonResponse({'message': 'trending banner deleted successfully'})
+#         except Coupon.DoesNotExist:
+#             return JsonResponse({'message': 'trending banner not found'}, status=404)
+#         except Exception as e:
+#             return JsonResponse({'message': str(e)}, status=400)
+#     else:
+#         return JsonResponse({'message': 'Invalid request'}, status=400)
     
 
 # PRICE BANNER
@@ -5438,9 +5438,6 @@ def export_invoice_csv(request):
     
     return response
 
-
-
-
 def generate_order_report(request):
     if request.method == 'POST':
         start_date = request.POST.get('start_date')
@@ -5465,8 +5462,8 @@ def generate_order_report(request):
 
         # status = Status.objects.all()
 
-        # context = {'orders': daily_report, 'start_date': start_date, 'end_date': end_date, 'order_status': order_status, 'status':status}
-        # return render(request, 'Al-admin/Report/generate_order_report.html', context)
+        context = {'orders': daily_report, 'start_date': start_date, 'end_date': end_date, 'order_status': order_status}
+        return render(request, 'Al-admin/Report/generate_order_report.html', context)
     
     # status = Status.objects.all()
 

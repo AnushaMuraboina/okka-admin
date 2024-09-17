@@ -6,6 +6,28 @@
     background-color: #3874FF;
     color: #fff;
 }
+
+
+@media screen and (max-width: 1200px) {
+    .dash-prod-sec1 {
+      /* display: flex;
+      flex-direction: column; */
+      display: grid;
+      grid-template: 100px / auto auto;
+    }
+    .dash-board-prod-sec2{
+      width: 100% !important;
+    }
+  }
+
+@media screen and (max-width: 850px) {
+
+  .dash-prod-sec1 {
+  display: grid;
+  grid-template: 100px /  auto;
+ 
+}
+}
 </style>
 <main class="main" id="top">
     
@@ -512,8 +534,8 @@
                 <li class="nav-item"><a class="nav-link" href="#">On discount <span class="text-700 fw-semi-bold">()</span></a></li>
               </ul> -->
   
-              <div class="row">
-              <div class="card mt-0 p-3 col me-3">
+              <div class="row dash-prod-sec1">
+              <div class="card mt-0 p-3 col me-3 mb-2">
                 <div class="d-flex align-items-center">
                     <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #FEECDC; border-radius: 50%; text-align: center;">
                         <i class="fs-3" data-feather="shopping-cart" style="color: #D03801;"></i>
@@ -527,7 +549,7 @@
                 </div>
               </div>
   
-              <div class="card mt-0 p-3 col me-3 clickable-card" id="publish" data-category="True">
+              <div class="card mt-0 p-3 col me-3 mb-2 clickable-card" id="publish" data-category="True">
                 <div class="d-flex align-items-center">
                     <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #E1EFFE; border-radius: 50%; text-align: center; ">
                         <i data-feather="bell" style="color: #3173F3;"></i>
@@ -539,7 +561,7 @@
                   </div>
                 </div>
               </div>
-              <div class="card mt-0 p-3 col me-3 clickable-card" id="unpublish" data-category="False">
+              <div class="card mt-0 p-3 col me-3 mb-2 clickable-card" id="unpublish" data-category="False">
                 <div class="d-flex align-items-center">
                     <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #D5F5F6; border-radius: 50%; text-align: center; ">
                         <i data-feather="truck" style="color: #117C88;"></i>
@@ -563,7 +585,7 @@
                   </div>
                 </div>
               </div> -->
-              <div class="card mt-0 p-3 col me-3 clickable-out" id="outOfStock" data-category="Out of Stock">
+              <div class="card mt-0 p-3 col me-3 mb-2 clickable-out" id="outOfStock" data-category="Out of Stock">
                 <div class="d-flex align-items-center">
                     <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #ffcccc; border-radius: 50%; text-align: center; ">
                         <i data-feather="x" style="color: #ff0000;"></i>
@@ -591,10 +613,10 @@
                         </form>
                       </div>
                     </div> -->
-                    <div class="col-auto">
+                    <div class="col-auto dash-board-prod-sec2">
                         <form class="row g-3" method="get">
                             <!-- {{ filter.form.as_div }} -->
-                            <div class="col-auto">
+                            <div class="col-auto dash-board-prod-sec2">
                                 <div class="custom-form-container">
                                     {{ filter.form.search }}
                                 </div>
@@ -604,19 +626,19 @@
                                     <input class="form-control search-input search" type="search" placeholder="Search products" aria-label="Search" name="{{ filter.form.search.name }}" value="{{ filter.form.search.value }}">
                                 </div>
                             </div> -->
-                            <div class="col-auto">
+                            <div class="col-auto dash-board-prod-sec2">
                                 {{ filter.form.categories }}          
                             </div> 
-                            <div class="col-auto">
+                            <div class="col-auto dash-board-prod-sec2">
                                 {{ filter.form.subcategories  }}          
                             </div>  
-                            <div class="col-auto">
+                            <div class="col-auto dash-board-prod-sec2">
                                 {{ filter.form.brands }}          
                             </div>  
-                            <div class="col-auto">
+                            <div class="col-auto dash-board-prod-sec2">
                                 {{ filter.form.in_stock }}          
                             </div>  
-                            <div class="col-auto">
+                            <div class="col-auto dash-board-prod-sec2">
                                 <button class="btn btn-primary border-300 px-3" type="submit">Filter</button>
                             </div>                            
                         </form>   

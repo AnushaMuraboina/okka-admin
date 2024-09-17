@@ -137,10 +137,10 @@ class mainBannerForm(forms.ModelForm):
         fields = ['banner_image','alt_text','url','slot_position','active']
 
 
-class TrendingBannerForm(forms.ModelForm):
-    class Meta:
-        model = TrendingBrand
-        fields = ['brand ', 'url ','alt_text','Slot_Position', 'active ']
+# class TrendingBannerForm(forms.ModelForm):
+#     class Meta:
+#         model = TrendingBrand
+#         fields = ['brand ', 'url ','alt_text','Slot_Position', 'active ']
 
 class PriceBannerForm(forms.ModelForm):
     Category = forms.ModelChoiceField(

@@ -1,4 +1,32 @@
 {% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+
+
+<style>
+  @media screen and (max-width: 1200px) {
+    .dash-flex-sales {
+     width: 100% !important;
+    }
+  .dashboard-casrds-sec2{
+    display: flex;
+    flex-direction: column;
+  }
+  canvas#salesChart {
+    height: 0px;
+}
+  .dashboard-casrds-sec1 {
+  display: grid;
+  grid-template: 200px / auto auto;
+  /* grid-template-columns: auto 1fr; */
+}
+}
+@media screen and (max-width: 850px) {
+  .dashboard-casrds-sec1 {
+  display: grid;
+  grid-template: 200px /  auto;
+
+}
+}
+</style>
 <main class="main" id="top">
     <div class="container-fluid px-0">
       <nav class="navbar navbar-vertical navbar-expand-lg">
@@ -12,16 +40,13 @@
           <!-- scrollbar removed-->
           <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
-            
               <li class="nav-item"><a class="nav-link active" href="{% url 'Dashboard' %}" data-bs-toggle="" aria-expanded="false">
                 <div class="d-flex align-items-center gap-2"><span data-feather="codesandbox"></span><span class="nav-link-text">Dashboard</span>
                 </div>
               </a>
               <!-- more inner pages-->
             </li>
-
             <li class="nav-item">
-            
               <div class="nav-item-wrapper">
                 <a class="nav-link dropdown-indicator label-1" href="#Banner" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Banner">
                   <div class="d-flex align-items-center">
@@ -311,10 +336,7 @@
                   </div>
                 </div>
               </li>
-
-
               <li class="nav-item">
-            
                 <div class="nav-item-wrapper">
                   <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
                     <div class="d-flex align-items-center">
@@ -477,6 +499,7 @@
           <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
         </div>
       </nav>
+
       {% include 'Al-admin/base/nav.html' %}
       <div class="content">
         <div class="pb-5">
@@ -485,7 +508,8 @@
               <div class="mb-8">
                 <h2 class="mb-2">Dashboard</h2>                
               </div>
-              <div class="row align-items-center g-4">
+              <div class="row align-items-center g-4 dashboard-casrds-sec1 ">
+                <!-- <div class=" dashborad-contents "> -->
                 <div class="card col me-3  p-5 text-white" style="background-color: #0694A2;">
                   <div class="align-items-center">
                     <div class="text-center">
@@ -517,12 +541,11 @@
                           <div class="px-1 mt-3">Cash : AED {{week_cash_on_delivery_total}}</div>
                           <div class="px-1 mt-3">Card : AED {{week_payment_total}}</div>
                           <!-- <div class="px-1 mt-3">Credit : AED 0.00</div> -->
-                          
                       </div>          
                     </div>
                   </div>
-                  <div class="card col me-3  p-5 text-white" style="background-color: #3F83F8; max-height: 217px;">
-                    <div class="align-items-center p-5">
+                  <div class="card col me-3  p-5 text-white" style="background-color: #3F83F8; ">
+                    <div class="align-items-center " style="padding: 20px;">
                       <div class="text-center">
                           <!-- <span class="fas fa-layer-group fs-1"></span> -->
                           <span class="text-white mb-2" data-feather="shopping-cart" style="height: 30px; width: 30px;"></span>
@@ -538,8 +561,8 @@
                       </div>           -->
                     </div>
                   </div>
-                  <div class="card col   p-5 text-white" style="background-color: #0E9F6E; max-height: 217px;">
-                    <div class="align-items-center p-5">
+                  <div class="card col   p-5 text-white" style="background-color: #0E9F6E; ">
+                    <div class="align-items-center " style="padding: 20px;">
                       <div class="text-center">
                           <!-- <span class="fas fa-layer-group fs-1"></span> -->
                           <span class="text-white mb-2" data-feather="credit-card" style="height: 30px; width: 30px;"></span>
@@ -555,6 +578,7 @@
                       </div>           -->
                     </div>
                   </div>
+                <!-- </div> -->
                   <hr class="bg-200  mt-4" />
               <div class="card mt-0 p-3 col me-3">
                 <div class="d-flex align-items-center">
@@ -631,10 +655,11 @@
                 </div>
               </div> -->
               </div>
-              
 
-              <div class="row align-items-center g-4 mt-3">
-                <div class="col-6">
+           
+
+              <div class="row align-items-center g-4 mt-3 dashboard-casrds-sec2">
+                <div class="col-6 dash-flex-sales ">
                     <ul class="nav nav-underline" id="myTab" role="tablist">
                         <li class="nav-item"><a class="nav-link active" id="Sales-tab" data-bs-toggle="tab" href="#tab-Sales" role="tab" aria-controls="tab-Sales" aria-selected="true">Sales</a></li>
                         <li class="nav-item"><a class="nav-link" id="Orders-tab" data-bs-toggle="tab" href="#tab-Orders" role="tab" aria-controls="tab-Orders" aria-selected="false">Orders</a></li>
@@ -674,7 +699,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6 ">
+                <div class="col-6 dash-flex-sales">
                     
                   <ul class="nav nav-underline" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation"><a class="nav-link active" id="seller-tab" data-bs-toggle="tab" href="#tab-seller" role="tab" aria-controls="tab-seller" aria-selected="false" tabindex="-1">Best Sellers</a></li>

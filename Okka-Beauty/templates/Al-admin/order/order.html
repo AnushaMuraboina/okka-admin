@@ -1,7 +1,23 @@
 {% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
 {% get_media_prefix as MEDIA_PREFIX %}
+
+<style>
+@media screen and (max-width: 1200px) {
+    .orders-cards-sec {
+      display: grid;
+      grid-template: 100px / auto auto;
+      /* grid-template-columns: auto 1fr; */
+    }
+  }
+
+  @media screen and (max-width: 850px) {
+    .orders-cards-sec {
+      display: grid;
+      grid-template: 100px / auto;
+    }
+  }
+</style>
 <main class="main" id="top">
-    
       <div class="container-fluid px-0">
         <nav class="navbar navbar-vertical navbar-expand-lg">
           <script>
@@ -588,8 +604,8 @@
               <li class="nav-item"><a class="nav-link" href="#">Refunded<span class="text-700 fw-semi-bold">(8)</span></a></li>
               <li class="nav-item"><a class="nav-link filter-nav" id="order_status" data-filter="Cancelled"href="#">Cancelled<span class="text-700 fw-semi-bold">({{order_cancelled_count}})</span></a></li>
             </ul> -->
-            <div class="row">
-            <div class="card mt-0 p-3 col me-3">
+            <div class="row orders-cards-sec">
+            <div class="card mt-0 p-3 col me-3 mb-2">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #FEECDC; border-radius: 50%; text-align: center;">
                       <i class="fs-3" data-feather="shopping-cart" style="color: #D03801;"></i>
@@ -603,7 +619,7 @@
               </div>
             </div>
 
-            <div class="card mt-0 p-3 col me-3 clickable-card" id="payOrder" data-category="Pending">
+            <div class="card mt-0 p-3 col me-3  mb-2 clickable-card" id="payOrder" data-category="Pending">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #E1EFFE; border-radius: 50%; text-align: center; ">
                     <span class="fas fa-bell fs-1" style="color: #3173F3;"></span>  
@@ -616,7 +632,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mt-0 p-3 col me-3 clickable-card" id="shipOrder" data-category="Shipped">
+            <div class="card mt-0 p-3 col me-3 mb-2 clickable-card" id="shipOrder" data-category="Shipped">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #D5F5F6; border-radius: 50%; text-align: center; ">
                       <i data-feather="truck" style="color: #117C88;"></i>
@@ -628,7 +644,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mt-0 p-3 col me-3 clickable-card" id="deliveredOrder"  data-category="Delivered">
+            <div class="card mt-0 p-3 col me-3 mb-2 clickable-card" id="deliveredOrder"  data-category="Delivered">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #DEF7EC; border-radius: 50%; text-align: center; ">
                       <i data-feather="check" style="color: #1C8765;"></i>
@@ -640,7 +656,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mt-0 p-3 col me-3 clickable-card" id="cancelledOrder"  data-category="Cancelled">
+            <div class="card mt-0 p-3 col me-3 mb-2 clickable-card" id="cancelledOrder"  data-category="Cancelled">
               <div class="d-flex align-items-center">
                   <span class="text-white mb-2 d-inline-block p-3 fw-bolder" style="height: 50px; width: 50px; background-color: #ffcccc; border-radius: 50%; text-align: center; ">
                       <i data-feather="x" style="color: #ff0000;"></i>

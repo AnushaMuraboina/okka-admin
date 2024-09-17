@@ -320,7 +320,6 @@
 
 
               <li class="nav-item">
-            
                 <div class="nav-item-wrapper">
                   <a class="nav-link dropdown-indicator label-1" href="#Coupon" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="Coupon">
                     <div class="d-flex align-items-center">
@@ -329,23 +328,28 @@
                   </a>
                   <div class="parent-wrapper label-1">
                     <ul class="nav collapse parent show" data-bs-parent="#navbarVerticalCollapse" id="Coupon">
-                      <li class="collapsed-nav-item-title d-none">Coupon
+                      <li class="collapsed-nav-item-title d-none">Coupon</li>
+                      {% if request.user.is_authenticated %}
+                       {% if perms.products.view_coupon %} 
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
+                      </li> 
+                      {% else %}
+                       {% for group in request.user.groups.all %} {% if perms.group.view_coupon %}
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                            <span class="nav-link-text">All Coupon</span>
+                          </div>
+                        </a>
+                        <!-- more inner pages-->
                       </li>
-                      {% if request.user.is_authenticated %} {% if perms.products.view_coupon %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
-                          <div class="d-flex align-items-center">
-                            <span class="nav-link-text">All Coupon</span>
-                          </div>
-                        </a>
-                        <!-- more inner pages-->
-                      </li> {% else %} {% for group in request.user.groups.all %} {% if perms.group.view_coupon %} <li class="nav-item">
-                        <a class="nav-link" href="{% url 'coupon' %}" data-bs-toggle="" aria-expanded="false">
-                          <div class="d-flex align-items-center">
-                            <span class="nav-link-text">All Coupon</span>
-                          </div>
-                        </a>
-                        <!-- more inner pages-->
-                      </li> {% endif %} {% endfor %} {% endif %} {% endif %}
+                       {% endif %} {% endfor %} {% endif %} {% endif %}
                       {% if request.user.is_authenticated %} {% if perms.products.view_couponusage %} <li class="nav-item">
                         <a class="nav-link" href="{% url 'couponUseage' %}" data-bs-toggle="" aria-expanded="false">
                           <div class="d-flex align-items-center">
@@ -367,7 +371,6 @@
               </li>
 
               <li class="nav-item">
-            
                 <div class="nav-item-wrapper">
                   <a class="nav-link dropdown-indicator label-1" href="#CSV" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="CSV">
                     <div class="d-flex align-items-center">
@@ -397,9 +400,7 @@
                   </div>
                 </div>
               </li>
-
               <li class="nav-item">
-            
                 <div class="nav-item-wrapper">
                   <a class="nav-link dropdown-indicator label-1" href="#User" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="User">
                     <div class="d-flex align-items-center">

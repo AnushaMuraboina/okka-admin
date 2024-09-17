@@ -84,7 +84,7 @@
       <h1 class="text-center skin-routine-head">SKIN ROUTINE</h1>
       <div class="my-slider-1">
         {% for skinroutine in skin_routine %}
-          <img src="{{skinroutine.image.url}}" alt="" class="slider-image-link1" onclick="window.location.href='{% url 'product-subcategory' skinroutine.parent_category.slug skinroutine.slug %}'" />
+          <!-- <img src="{{skinroutine.image.url}}" alt="" class="slider-image-link1" onclick="window.location.href='{% url 'product-subcategory' skinroutine.parent_category.slug skinroutine.slug %}'" /> -->
         {% endfor %}
       </div>
     </div>
@@ -187,7 +187,7 @@
             <ul class="links">
               <li>
                 <span>
-                  <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left" onclick="showProductModal({{ beautynew.id }})">
+                  <!-- <a data-bs-toggle="tooltip" data-bs-placement="left" title="Tooltip on left" onclick="showProductModal({{ beautynew.id }})"> -->
                     <i class="fa fa-search" aria-hidden="true"></i>
                   </a>
                 </span>
@@ -343,10 +343,10 @@
             <p class="product-details-amount">{% if fashionnew.sale_price %}<span><s>Rs.{{fashionnew.regular_price}}</s></span>Rs.{{fashionnew.sale_price}}{% else %}Rs.{{fashionnew.regular_price}}{% endif %}</p>
             <p class="product-details-para">{{fashionnew.description}}.</p>
             <div class="d-flex">
-              <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ fashionnew.id }}, -1)">-</button>
+              <!-- <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ fashionnew.id }}, -1)">-</button> -->
               <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ fashionnew.id }}" data-product-id="{{ fashionnew.id }}" />
               <input type="hidden" id="stock_value-{{ fashionnew.id }}" value="{{fashionnew.stock}}">
-              <button class="btn cartpage_plusicon" type="button" id="{{ fashionnew.id }}" data-type="plus" onclick="updateQuantity({{ fashionnew.id }}, 1)">+</button>
+              <!-- <button class="btn cartpage_plusicon" type="button" id="{{ fashionnew.id }}" data-type="plus" onclick="updateQuantity({{ fashionnew.id }}, 1)">+</button> -->
             </div>
             <!-- Product colors -->
             <div class="product-colors">colors:
@@ -540,10 +540,10 @@
             <p class="product-details-amount">{% if beautybestseller.sale_price %}<span><s>Rs.{{beautybestseller.regular_price}}</s></span>Rs.{{beautybestseller.sale_price}}{% else %}Rs.{{beautybestseller.regular_price}}{% endif %}</p>
             <p class="product-details-para">{{beautybestseller.description}}.</p>
             <div class="d-flex">
-              <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ beautybestseller.id }}, -1)">-</button>
+              <!-- <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ beautybestseller.id }}, -1)">-</button> -->
               <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ beautybestseller.id }}" data-product-id="{{ beautybestseller.id }}" />
               <input type="hidden" id="stock_value-{{ beautybestseller.id }}" value="{{beautybestseller.stock}}">
-              <button class="btn cartpage_plusicon" type="button" id="{{ beautybestseller.id }}" data-type="plus" onclick="updateQuantity({{ beautybestseller.id }}, 1)">+</button>
+              <!-- <button class="btn cartpage_plusicon" type="button" id="{{ beautybestseller.id }}" data-type="plus" onclick="updateQuantity({{ beautybestseller.id }}, 1)">+</button> -->
             </div>
             <!-- Product colors -->
             <div class="product-colors">colors:
@@ -695,10 +695,10 @@
             <p class="product-details-amount">{% if fashionbestseller.sale_price %}<span><s>Rs.{{fashionbestseller.regular_price}}</s></span>Rs.{{fashionbestseller.sale_price}}{% else %}Rs.{{fashionbestseller.regular_price}}{% endif %}</p>
             <p class="product-details-para">{{fashionbestseller.description}}.</p>
             <div class="d-flex">
-              <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ fashionbestseller.id }}, -1)">-</button>
+              <!-- <button class="btn cartpage_minuicon" type="button" data-type="minus" onclick="updateQuantity({{ fashionbestseller.id }}, -1)">-</button> -->
               <input type="text" min="1" class="form-control text-center pb-2  cartpage-counting" value="1" id="quantity-input-{{ fashionbestseller.id }}" data-product-id="{{ fashionbestseller.id }}" />
               <input type="hidden" id="stock_value-{{ fashionbestseller.id }}" value="{{fashionbestseller.stock}}">
-              <button class="btn cartpage_plusicon" type="button" id="{{ fashionbestseller.id }}" data-type="plus" onclick="updateQuantity({{ fashionbestseller.id }}, 1)">+</button>
+              <!-- <button class="btn cartpage_plusicon" type="button" id="{{ fashionbestseller.id }}" data-type="plus" onclick="updateQuantity({{ fashionbestseller.id }}, 1)">+</button> -->
             </div>
             <!-- Product colors -->
             <div class="product-colors">colors:
@@ -758,7 +758,7 @@
   <div class="container py-5">
     <div class="row">
       <a href="{{footbanner.url}}" target="_blank">
-        <img src="{{footbanner.banner_image.url}}" alt="{{footbanner.alt_text}}">
+        <img src="{{footbanner.banner_image.url}}" alt="{{footbanner.alt_text}}" width="100%" height="auto">
       </a>
     </div>
   </div>
@@ -2283,7 +2283,4 @@ $(document).ready(function() {
     });
 });
 </script>
-    
-
-
-  {% endblock %}
+{% endblock %}
