@@ -6136,3 +6136,13 @@ def change_permissions(request, user_id):
 #         writer.writerow([product.sku, product.stock])
 
 #     return response
+
+
+
+
+
+
+
+
+def overview(request):
+    return render(request, 'Al-admin/Dashboard/overview.html')

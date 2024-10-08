@@ -183,6 +183,9 @@ urlpatterns = [
 
 
 
+path('overview/', views.overview, name="overview"),
+
+
 ]
 
 if settings.DEBUG:
