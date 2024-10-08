@@ -56,29 +56,29 @@
                 <p class="pt-2">Show:</p>
                 <li>
                   <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
-                    onclick="updateProductLists(2, getSortOrder())">
+                    onclick="updateProductLists(2)">
                     <span class="show-images-counting">2</span>
                     <span class="show-images-verti-line"></span>
                   </a>
                 </li>
                 <li>
                   <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
-                    onclick="updateProductLists(5, getSortOrder())">
+                    onclick="updateProductLists(5)">
                     <span class="show-images-counting">5</span>
                     <span class="show-images-verti-line"></span>
                   </a>
                 </li>
                 <li>
                   <a class="nav-link show-product-images text-dark" href="javascript:void(0);"
-                    onclick="updateProductLists(7, getSortOrder())">
+                    onclick="updateProductLists(7)">
                     <span class="show-images-counting">7</span>
                     <span class="show-images-verti-line"></span>
                   </a>
                 </li>
               </ul>
-              <a href="#"  selected  onclick="updateProductLists(100, 'Low to High')" class="sort-links ">Sort Low to High</a><br>
+              <!-- <a href="#"  selected  onclick="updateProductLists(100, 'Low to High')" class="sort-links ">Sort Low to High</a><br>
               <a href="#"  selected  onclick="updateProductLists(100, 'High to Low')" class="sort-links ">Sort High to Low</a>
-              
+               -->
               <!-- <ul class="d-flex pb-2">
                 <p class="pt-2">Show:</p>
                 <li>
@@ -162,7 +162,7 @@
               -->
               
 
-              <!-- <select class="form-select show-form-select" aria-label="Default select example" id="sort"
+              <select class="form-select show-form-select" aria-label="Default select example" id="sort"
                 name="sort_values">
                 <option data-id="{{data_id}}" value="Alphabetical" selected> sort by name:Alphabetical order</option>
                 <option data-id="{{data_id}}" value="Popularity">Sort by Popularity</option>
@@ -170,9 +170,8 @@
                 <option data-id="{{data_id}}" value="latest">Sort by latest</option>
                 <option data-id="{{data_id}}" value="Low to High" >Sort by price: Low To High </option>
                 <option data-id="{{data_id}}" value="High to Low">Sort by price: High To Low </option>
-         
               </select>
-            </li> -->
+            </li>
             
             <!-- <label for="sort">Sort by:</label>
              <select id="sort" name="sort_value" onchange="updateProductLists()">
@@ -671,22 +670,55 @@
 //   return activeCountLink ? activeCountLink.querySelector('.show-images-counting').textContent : 100;
 // }
 
-function getSortOrder() {
-  const activeSortLink = document.querySelector('.sort-links.active');
-  if (activeSortLink) {
-    const sortText = activeSortLink.textContent.trim();
-    console.log('Active sort link text:', sortText);
-    if (sortText == 'Low to High') {
-      return 'Low to High';
-    } else if (sortText =='High to Low') {
-      return 'High to Low';
-    }
-  }
-  return 'High to Low'; 
-}
+// function getSortOrder() {
+//   const activeSortLink = document.querySelector('.sort-links.active');
+//   if (activeSortLink) {
+//     const sortText = activeSortLink.textContent.trim();
+//     console.log('Active sort link text:', sortText);
+//     if (sortText == 'Low to High') {
+//       return 'Low to High';
+//     } else if (sortText =='High to Low') {
+//       return 'High to Low';
+//     }
+//   }
+//   return 'High to Low'; 
+// }
 
-function updateProductLists(count, sort_values) {
-  axios.get(`/product_list/?count=${count}&sort_values=${sort_values}`, {
+// function updateProductLists(count, sort_values) {
+//   axios.get(`/product_list/?count=${count}&sort_values=${sort_values}`, {
+//     headers: {
+//       'X-Requested-With': 'XMLHttpRequest'
+//     }
+//   })
+//   .then(function (response) {
+//     document.querySelector('.grid-display-row').innerHTML = response.data.html;
+
+//     // Update the 'active' class on count and sort links
+//     document.querySelectorAll('.show-product-images').forEach(function (link) {
+//       const linkCount = link.querySelector('.show-images-counting').textContent;
+//       if (linkCount == count) {
+//         link.classList.add('active');
+//       } else {
+//         link.classList.remove('active');
+//       }
+//     });
+
+//     document.querySelectorAll('.sort-links').forEach(function (link) {
+//       if (link.textContent.trim() == sort_values) {
+//         link.classList.add('active');
+//       } else {
+//         link.classList.remove('active');
+//       }
+//     });
+//   })
+//   .catch(function (error) {
+//     console.error('Error fetching product list:', error);
+//   });
+// }
+
+
+function updateProductLists(count) {
+  axios.get(`/product_list/?count=${count}`, {
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
     }
@@ -694,18 +726,10 @@ function updateProductLists(count, sort_values) {
   .then(function (response) {
     document.querySelector('.grid-display-row').innerHTML = response.data.html;
 
-    // Update the 'active' class on count and sort links
+    // Update the 'active' class on count links
     document.querySelectorAll('.show-product-images').forEach(function (link) {
       const linkCount = link.querySelector('.show-images-counting').textContent;
       if (linkCount == count) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
-
-    document.querySelectorAll('.sort-links').forEach(function (link) {
-      if (link.textContent.trim() == sort_values) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -716,8 +740,6 @@ function updateProductLists(count, sort_values) {
     console.error('Error fetching product list:', error);
   });
 }
-
-
 
 
   //   function updateProductLists(count, sort_value) {
