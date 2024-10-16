@@ -6136,3 +6136,32 @@ def change_permissions(request, user_id):
 #         writer.writerow([product.sku, product.stock])
 
 #     return response
+
+
+
+
+
+def analytics_view(request):
+    from_date = request.GET.get('from_date', datetime.now().replace(day=1))
+    to_date = request.GET.get('to_date', datetime.now())
+    
+    # category_sales = category_wise_sales_data(from_date, to_date)
+    # print(category_sales)
+    # top_products = top_products_sold_out(from_date, to_date)
+    # print(top_products)
+    # sales_orders = sales_and_orders_data(from_date, to_date)
+    # sales_orders = sales_and_orders_chart_view(from_date, to_date)
+    # print('sales_orders', sales_orders)
+    # performance = performance_analytics(from_date, to_date)
+    # print("performance", performance)
+    
+    # Pass data to template
+    # context = {
+    #     'category_sales': category_sales,
+    #     'top_products': top_products,
+    #     'sales_orders': sales_orders,
+    #     'performance': performance,
+    #     'from_date': from_date,
+    #     'to_date': to_date,
+    # }
+    return render(request, 'deko-admin/analytics/overview.html')
