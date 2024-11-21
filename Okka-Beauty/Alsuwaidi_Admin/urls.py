@@ -111,7 +111,7 @@ urlpatterns = [
    path('Buy-Promo-Banner', views.mainpage_Banner, name='Buy-Promo-Banner'),
    path('Buy-Promo-Banner/<int:banner_id>/', views.mainpage_Banner, name='Buy-Promo-Banner'),
    path('mainpage_Banner/<int:banner_id>/delete/', views.delete_buypromo, name='delete_buypromo'),
-   path("overview", views.analytics_view,name="analytics_view"),
+#    path("overview", views.analytics_view,name="analytics_view"),
 
 #    path('trendingbanner', views.Trending_Banner, name='trendingbanner'),
 #    path('trendingbanner/<int:banner_id>/', views.Trending_Banner, name='trendingbanner'),
@@ -181,7 +181,7 @@ urlpatterns = [
 #    path('offer-admin/<int:offer_id>/delete/', views.delete_offer, name='delete_offer'),
  
 
-
+    # path("overview", views.analytics_view,name="analytics_view"),
 
 ]
 

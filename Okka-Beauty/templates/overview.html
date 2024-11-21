@@ -1,4 +1,5 @@
-{% extends 'Al-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% extends 'deko-admin/base/base.html' %} {% load static %}{% block title %}my webpage{% endblock %} {% block body %} {% load static %}
+{% get_media_prefix as MEDIA_PREFIX %}
 <style>
     div#dateRangeContainer {
         position: absolute;
@@ -31,7 +32,7 @@
 </style>
 <main class="main" id="top">
     <div class="container-fluid px-0">
-  
+      {% include 'deko-admin/base/side_nav.html' %}
       <div class="content">
     
     
